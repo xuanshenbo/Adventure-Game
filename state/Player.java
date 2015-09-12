@@ -6,8 +6,8 @@ package state;
 
 public class Player {
 
-	Position position; // Position of the player in the world
-	ID id; // unique identifier of the player
+	private Position position; // Position of the player in the world
+	private final ID id; // unique identifier of the player
 
 	public Player(Position p, ID id){
 		this.position  = p;

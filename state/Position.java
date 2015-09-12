@@ -7,7 +7,6 @@ package state;
 
 public class Position {
 
-
 	private int areaX;
 	private int areaY;
 	private int tileX;
@@ -19,6 +18,7 @@ public class Position {
 		this.tileX = tx;
 		this.tileY = ty;
 	}
+
 	public int getAreaX() {
 		return areaX;
 	}

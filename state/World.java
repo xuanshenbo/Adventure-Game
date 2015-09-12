@@ -6,7 +6,7 @@ package state;
 
 public class World {
 
-	Area[][] world; // the main world made up of areas
+	private final Area[][] world; // the main world made up of areas
 
 	public World(){
 		world = new Area[5][5];
