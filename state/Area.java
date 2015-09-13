@@ -1,31 +1,34 @@
 /**
- * This is an area of the game
+ * This is the world class that holds a 2d array of tiles.
  */
 
 package state;
 
-import java.util.Random;
+import logic.Generator;
 
 public class Area {
 
-	private final Tile[][] area; // the area that is made up of individual tiles
-	private Type type;
+	public enum AreaType {OUTSIDE, BUILDING, CAVE}
 
-	public enum Type {CAVE, ROOM, OUTSIDE}
+	private final AreaType type; // the type of area this is and determines the ground texture
+	private final Tile[][] world; // the main world made up of areas
 
-	public Area(Type t){
-		this.type = t;
-		area = new Tile[10][10];
-		for(int row = 0; row< area.length; row++){
-			for(int col = 0; col< area[0].length; col++){
-				int rand =  new Random().nextInt(19);
-				if(rand > 18){
-					area[row][col] = new Tile(Tile.Type.TREE);
-				}else{
-					area[row][col] = new Tile(Tile.Type.GRASS);
-				}
-			}
-		}
+
+
+	public Area(int height, int width, AreaType t){
+		type = t;
+		world = new Tile[height][width];
 	}
 
+	public AreaType getType() {
+		return type;
+	}
+
+	public Tile[][] getWorld() {
+		return world;
+	}
+
+	public void generateWorld(Generator g){
+
+	}
 }
