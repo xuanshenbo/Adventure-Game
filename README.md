@@ -18,3 +18,5 @@ where ```./``` means current directory and autopush.sh is an excutable
 and then type your comment message, it pushes your commit for you automatically.
 
 Sweet!
+
+
