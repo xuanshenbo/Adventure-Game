@@ -6,17 +6,24 @@ package state;
 
 import java.util.ArrayList;
 
+import renderer.Renderer;
+
 public class GameState {
 
-	private ArrayList<Player> Players = new ArrayList<Player>(); // list of players in the game
-	private World world; // The game world
+	private ArrayList<Player> PlayerList = new ArrayList<Player>(); // list of players in the game
+	private Area world; // The game world
+	private Renderer renderer;
 
-	public GameState(World w){
+	public GameState(Area w, Renderer r){
 		this.world = w;
+		this.renderer = r;
 	}
 
 	public void addPlayer(Player p){
-		Players.add(p);
+		PlayerList.add(p);
 	}
 
+	public Area getWorld(){
+		return world;
+	}
 }

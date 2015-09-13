@@ -38,4 +38,8 @@ public class Player {
 			return false;
 		return true;
 	}
+
+	public Position getPosition() {
+		return position;
+	}
 }

@@ -6,12 +6,19 @@ package state;
 
 public class Tile {
 
-	public enum Type {GRASS, TREE}
+	public enum TileType {TREE}
 
-	private Type type;
+	private TileType type;
 
-	public Tile(Type t) {
+	public Tile(TileType t) {
 		this.type = t;
 	}
 
+	public TileType getType() {
+		return type;
+	}
+
+	public void setType(TileType type) {
+		this.type = type;
+	}
 }

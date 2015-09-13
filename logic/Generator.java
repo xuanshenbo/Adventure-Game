@@ -2,10 +2,10 @@ package logic;
 
 public class Generator {
 
-	public int rooms;
+	public int trees;
 
-	public Generator(int r){
-		this.rooms = r;
+	public Generator(int trees){
+		this.trees = trees;
 	}
 
 }
