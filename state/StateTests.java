@@ -4,8 +4,8 @@ import org.junit.Test;
 import logic.Generator;
 
 public class StateTests {
-	
-	
+
+
 	/**
 	 * Testing the dealing
 	 */

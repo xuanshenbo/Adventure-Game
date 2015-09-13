@@ -1,6 +1,9 @@
 # Adventure-Game
 
-autopush.sh usage:
+1. [autopush.sh usage] (#autopush)
+2. [Print Tool] (#print)
+
+#1. autopush.sh usage: <a id="autopush"></a>
 
 What this script does is rather than having to type:
 ```
@@ -19,13 +22,15 @@ and then type your comment message, it pushes your commit for you automatically.
 
 Sweet!
 
-PRINT TOOL
+#2. PRINT TOOL: <a id="print"></a>
 
 This is a simple class that I made that makes it easier to put print statements into your code and allows a lot more information to be recived by them
 
 You have to import
 
+```
 import static utilities.PrintTool.p;
+```
 
 from here you now have access to three methods
 
