@@ -11,6 +11,9 @@ import java.awt.event.KeyListener;
  */
 public class Player extends Thread implements KeyListener {
 
+	public Player(){
+
+	}
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
