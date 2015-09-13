@@ -11,7 +11,7 @@ What this script does is rather than having to type:
 
 All you need to do is type:
 ```
-./autopush.sh
+% ./autopush.sh
 ```
 where ```./``` means current directory and autopush.sh is an excutable
 
