@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -17,6 +18,11 @@ import javax.swing.JOptionPane;
 public class GameFrame extends JFrame{
 	private int frameWidth = 800;
 	private int frameHeight = 800;
+
+	private int mapSize = 400;
+
+	public final int buttonPaddingHorizontal = 20;	//public as needs to be accessed from ButtonPanel
+	private final int buttonPaddingVertical = 50;
 
 	/**
 	 * The constructor sets up the KeyListener using the KeyboardFocusManager
@@ -52,64 +58,95 @@ public class GameFrame extends JFrame{
 		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		manager.addKeyEventDispatcher(new MyDispatcher());
 
-		add(new MenuBar());
-		add(new ButtonPanel());
+
 
 		pack();
-		setSize(new Dimension(frameWidth, frameHeight));	//should use setPreferredSize??
-
 		setVisible(true);
 	}
 
 	private void setUpLayout() {
 		GridBagConstraints c = new GridBagConstraints();
-		                //natural height, maximum width
-		                c.fill = GridBagConstraints.HORIZONTAL;
+		//natural height, maximum width
+		c.fill = GridBagConstraints.HORIZONTAL;
 
-
-		//button = new JButton("Button 1");
-
-		                   c.weightx = 0.5;
-
+		c = new GridBagConstraints();
+		c.ipady = 0;       //reset to default
+		JButton time = new JButton("The time/position panel");
+		c.insets = new Insets(0,buttonPaddingHorizontal,0,buttonPaddingHorizontal);  //padding on sides
+		c.weightx = 0.5;
+		c.anchor = GridBagConstraints.PAGE_START;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
-		c.gridy = 0;
-		//pane.add(button, c); add panel which shows the time, position, map button?
+		c.gridy = 3;
+		c.gridwidth = 1;   //1 column wide
+		c.gridheight = 1; //1 row high
+		add(time, c); //add panel which shows the time, position, map button?
 
-		//button = new JButton("Button 2");
+		c = new GridBagConstraints();
+		c.ipady = 0;       //reset to default
+		JButton team = new JButton("The Team panel");
+		c.insets = new Insets(0,buttonPaddingHorizontal,0,buttonPaddingHorizontal);  //padding on sides
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1;
+		c.gridwidth = 1;   //1 column wide
+		c.gridx = 3;
+		c.gridy = 3; //same row as time/position panel
+		add(team, c); //add panel which shows the Team members. Should we implement team??
+
+		c = new GridBagConstraints();
+		c.ipady = 0;       //reset to default
+		JButton profile = new JButton("The Player Profile Panel");
+		c.insets = new Insets(0,buttonPaddingHorizontal,0,buttonPaddingHorizontal);  //padding on sides
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0.5;
-		c.gridx = 1;
-		c.gridy = 0;
-		//pane.add(button, c); add panel which shows the Team members?? Should we implement team??
+		c.gridwidth = 1;   //1 column wide
+		c.gridx = 6;
+		c.gridy = 3;
+		add(profile, c); //add panel which shows current player picture, and stats
 
-		//button = new JButton("Button 3");
+		c = new GridBagConstraints();
+		c.ipady = 0;       //reset to default
+		JButton map = new JButton("The Game Map panel");
+		c.insets = new Insets(buttonPaddingVertical,0,buttonPaddingVertical,0);  //padding on top and bottom
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0.5;
-		c.gridx = 2;
-		c.gridy = 0;
-		//pane.add(button, c);add panel which shows current player picture, and stats
-
-		//button = new JButton("Long-Named Button 4");
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.ipady = 40;      //make this component tall
+		c.ipady = mapSize;      //make this component tall
 		c.weightx = 0.0;
-		c.gridwidth = 3;
+		c.gridwidth = 9;
+		c.gridheight = 6;
 		c.gridx = 0;
-		c.gridy = 1;
-		//pane.add(button, c);
+		c.gridy = 5;
+		add(map, c); //add main board panel showing map
 
-		//button = new JButton("5");
+		GridBagConstraints c1 = new GridBagConstraints();
+		c1.ipady = 0;       //reset to default
+		ButtonPanel buttons = new ButtonPanel(this);
+
+		c1.fill = GridBagConstraints.HORIZONTAL;
+		c1.ipady = 0;       //reset to default
+		c1.weighty = 1.0;   //request any extra vertical space
+		c1.anchor = GridBagConstraints.PAGE_END; //bottom of space
+		//c1.insets = new Insets(10,0,0,0);  //top padding
+		c1.gridx = 6;       //aligned with team panel
+		//c1.gridwidth = 6;   //6 columns wide
+		c1.gridy = 10;       //10th row
+		add(buttons, c1);
+
+		c = new GridBagConstraints();
+		c.ipady = 0;       //reset to default
+		MenuBar menu = new MenuBar();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.ipady = 0;       //reset to default
-		c.weighty = 1.0;   //request any extra vertical space
-		c.anchor = GridBagConstraints.PAGE_END; //bottom of space
-		c.insets = new Insets(10,0,0,0);  //top padding
-		c.gridx = 1;       //aligned with button 2
-		c.gridwidth = 2;   //2 columns wide
-		c.gridy = 2;       //third row
-		//pane.add(button, c);
 
+		//c.weighty = 0.5;	//request any extra vertical space
+		//c.ipadx = 2;
+		c.anchor = GridBagConstraints.PAGE_START; //top of space
+		//c.insets = new Insets(10,0,0,0);  //top padding
+		c.gridx = 0;       //aligned with button 1
+
+		c.gridwidth = 9;   //6 columns wide
+		c.gridheight = 1; //1 row high?
+		c.gridy = 2;       //third row
+		add(menu, c);
 
 	}
 

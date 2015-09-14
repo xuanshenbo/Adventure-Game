@@ -1,10 +1,12 @@
 package GUI;
 
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -22,13 +24,15 @@ public class ButtonPanel extends JPanel {
 	private JButton inventory;
 	private JButton team;
 	private JButton exchange;
+	private GameFrame containerFrame;
 	//private StrategyInterpreter buttonInterpreter;
 	/**
 	 * The constructor stores the button interpreter to a field
+	 * @param container
 	 */
-	public ButtonPanel(){ //TODO make it take a StrategyInterpreter
+	public ButtonPanel(GameFrame container){ //TODO make it take a StrategyInterpreter
 		//buttonInterpreter = b;
-
+		containerFrame = container;
 		//make buttons layout top to bottom
 		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS);
 		setLayout(boxLayout);
@@ -40,9 +44,10 @@ public class ButtonPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e){
-				//notify interpreter
+				//call addDisplayPanel on GameFrame, and get info from model from there?
 			}
 		});
+
 
 		team = new JButton("Team");
 		team.setMnemonic(KeyEvent.VK_T);
@@ -55,6 +60,7 @@ public class ButtonPanel extends JPanel {
 			}
 		});
 
+
 		exchange = new JButton("Exchange");
 		exchange.setMnemonic(KeyEvent.VK_E);
 		exchange.setToolTipText("Exchange an item");
@@ -66,8 +72,12 @@ public class ButtonPanel extends JPanel {
 			}
 		});
 
+		add(Box.createRigidArea(new Dimension(containerFrame.buttonPaddingHorizontal,0))); //pad between buttons
 		add(inventory);
+		add(Box.createRigidArea(new Dimension(containerFrame.buttonPaddingHorizontal,0))); //pad between buttons
 		add(team);
+		add(Box.createRigidArea(new Dimension(containerFrame.buttonPaddingHorizontal,0))); //pad between buttons
 		add(exchange);
+
 }
 }
