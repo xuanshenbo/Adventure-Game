@@ -1,18 +1,23 @@
 # Adventure-Game
 
-1. [autopush.sh usage] (#autopush)
+1. [shell scripts usage] (#autopush)
 2. [Print Tool] (#print)
 
 #1. autopush.sh usage: <a id="autopush"></a>
 
 What this script does is rather than having to type:
 ```
+% git pull https://github.com/xuanshenbo/Adventure-Game
 % git add .
 % git commit -m "comment message"
 % git push
 ```
 
 All you need to do is type:
+```
+% ./gitpull.sh
+```
+which pulls the repo and then:
 ```
 % ./autopush.sh
 ```
