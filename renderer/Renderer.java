@@ -8,4 +8,9 @@ public class Renderer {
 
 	}
 
+	public void repaint() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

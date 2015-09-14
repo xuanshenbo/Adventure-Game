@@ -4,14 +4,20 @@
 
 package state;
 
+import static utilities.PrintTool.p;
+
 public class Tile {
 
 	public enum TileType {TREE}
+	private char id;
 
 	private TileType type;
 
 	public Tile(TileType t) {
 		this.type = t;
+		if(t == TileType.TREE){
+			id = 'T';
+		}
 	}
 
 	public TileType getType() {
@@ -20,5 +26,10 @@ public class Tile {
 
 	public void setType(TileType type) {
 		this.type = type;
+	}
+	
+	@Override
+	public String toString(){
+		return Character.toString(id);
 	}
 }

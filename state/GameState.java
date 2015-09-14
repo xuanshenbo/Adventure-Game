@@ -25,7 +25,6 @@ public class GameState {
 	}
 
 	public Area getWorld(){
-		p("help");
 		return world;
 	}
 }

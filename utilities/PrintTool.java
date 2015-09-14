@@ -8,6 +8,9 @@ package utilities;
 public class PrintTool {
 
 	private static boolean debugging = true;
+
+
+
 	public static void p(String s){
 		if(debugging){
 			StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
@@ -15,7 +18,7 @@ public class PrintTool {
 					stackTraceElements[2].getMethodName()+"() line:"+stackTraceElements[2].getLineNumber()+": "+s);
 		}
 	}
-	
+
 	public static void p(){
 		if(debugging){
 		StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
@@ -23,7 +26,7 @@ public class PrintTool {
 				stackTraceElements[2].getMethodName()+" line:"+stackTraceElements[2].getLineNumber()+" I MADE IT HERE");
 		}
 	}
-		
+
 		public static void p(Object o){
 		if(debugging){
 			StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
