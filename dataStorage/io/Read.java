@@ -16,6 +16,7 @@ import java.io.Writer;
  * @author Shenbo Xuan 300259386
  *
  */
+
 /*
  * These methods are mainly borrowed from the open source library Apache Commons
  * https://commons.apache.org/

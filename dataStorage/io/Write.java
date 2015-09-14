@@ -7,8 +7,19 @@ import java.io.OutputStream;
 
 /**
  * Provides some static methods for writing things into a file.
+ *
  * @author Shenbo Xuan 300259386
  *
+ */
+
+/*
+ * These methods are mainly borrowed from the open source library Apache Commons
+ * https://commons.apache.org/
+ *
+ * The reason why I use these methods rather than the Java standard library ways
+ * to write things into files is becasuse after a bunch of testing, it turns out
+ * that when writing a huge string into an XML file, neither BufferedWriter nor
+ * PrintWriter can do the job properly, i.e. they lose information.
  */
 public class Write {
 
