@@ -33,6 +33,9 @@ public class Read {
 	 */
 	private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;
 
+	// Just so no one can accidently create a Read object
+	private Read() {}
+
 	/**
 	 * Reads the contents of a file into a String. The file is always closed.
 	 *

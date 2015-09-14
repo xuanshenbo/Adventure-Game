@@ -23,6 +23,9 @@ import java.io.OutputStream;
  */
 public class Write {
 
+	// Just so no one can accidently create a Write object
+	private Write() {}
+
 	/**
 	 * Writes a String to a file creating the file if it does not exist.
 	 *
