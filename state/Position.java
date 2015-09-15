@@ -9,14 +9,10 @@ public class Position {
 
 	private int areaX;
 	private int areaY;
-	private int tileX;
-	private int tileY;
 
-	public Position(int ax, int ay, int tx, int ty){
+	public Position(int ax, int ay){
 		this.areaX = ax;
 		this.areaY = ay;
-		this.tileX = tx;
-		this.tileY = ty;
 	}
 
 	public int getAreaX() {
@@ -35,20 +31,29 @@ public class Position {
 		this.areaY = areaY;
 	}
 
-	public int getTileX() {
-		return tileX;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + areaX;
+		result = prime * result + areaY;
+		return result;
 	}
 
-	public void setTileX(int tileX) {
-		this.tileX = tileX;
-	}
-
-	public int getTileY() {
-		return tileY;
-	}
-
-	public void setTileY(int tileY) {
-		this.tileY = tileY;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Position other = (Position) obj;
+		if (areaX != other.areaX)
+			return false;
+		if (areaY != other.areaY)
+			return false;
+		return true;
 	}
 
 }

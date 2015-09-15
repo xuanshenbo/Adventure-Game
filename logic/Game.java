@@ -10,7 +10,7 @@ public class Game {
 	}
 	
 	public static void main(String[] args){
-		Generator g = new Generator(10,1);
+		Generator g = new Generator(10,2);
 		Area a = new Area(20, 20, AreaType.OUTSIDE);
 		a.generateWorld(g);	
 		a.printArea();

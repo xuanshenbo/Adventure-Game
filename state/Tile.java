@@ -8,7 +8,7 @@ import static utilities.PrintTool.p;
 
 public class Tile {
 
-	public enum TileType {TREE}
+	public enum TileType {TREE, BUILDING}
 	private char id;
 
 	private TileType type;
@@ -17,6 +17,8 @@ public class Tile {
 		this.type = t;
 		if(t == TileType.TREE){
 			id = 'T';
+		}else if(t == TileType.BUILDING){
+			id= 'B';
 		}
 	}
 

@@ -37,16 +37,8 @@ public class Area {
 
 	public void generateWorld(Generator g){
 		g.fillArea(area);
-//		for(int row=0; row < area.length; row++){
-//			for(int col=0; col < area[0].length; col++){
-//				//generate trees
-//				if(new Random().nextInt(g.treeRatio()) == g.treeRatio()-1){
-//					area[row][col] = new Tile(TileType.TREE);
-//				}
-//			}
-//		}
 	}
-	
+
 	public void printArea(){
 		for(int row = 0; row < area.length; row++){
 			for(int col = 0; col < area[0].length; col++){
