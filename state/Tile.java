@@ -8,18 +8,24 @@ import static utilities.PrintTool.p;
 
 public class Tile {
 
-	public enum TileType {TREE, BUILDING}
+	public enum TileType {
+		TREE('T'),
+		BUILDING('B'),
+		DOOR('D'),
+		CAVE('C'),
+		CAVEENTRANCE('c'),
+		CHEST('O');
+		public final char id;
+		private TileType(char c){
+			id = c;
+		}		
+	}
 	private char id;
 
 	private TileType type;
 
 	public Tile(TileType t) {
 		this.type = t;
-		if(t == TileType.TREE){
-			id = 'T';
-		}else if(t == TileType.BUILDING){
-			id= 'B';
-		}
 	}
 
 	public TileType getType() {
@@ -32,6 +38,6 @@ public class Tile {
 	
 	@Override
 	public String toString(){
-		return Character.toString(id);
+		return Character.toString(type.id);
 	}
 }

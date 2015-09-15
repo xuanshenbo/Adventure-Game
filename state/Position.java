@@ -30,6 +30,11 @@ public class Position {
 	public void setAreaY(int areaY) {
 		this.areaY = areaY;
 	}
+	
+	@Override
+	public String toString(){
+		return "X: "+areaX+" Y: "+areaY;
+	}
 
 	@Override
 	public int hashCode() {
