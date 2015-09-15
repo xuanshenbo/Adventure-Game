@@ -7,5 +7,7 @@ package control;
  *
  */
 public class Server extends Thread{
+	public Server(){
 
+	}
 }

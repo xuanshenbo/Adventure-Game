@@ -2,6 +2,8 @@ package control;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 
 /**
  * A simple controller to send user actions to the server and receive notifications from the server.
@@ -9,9 +11,11 @@ import java.awt.event.KeyListener;
  * @author yanlong
  *
  */
-public class Player extends Thread implements KeyListener {
-
-	public Player(){
+public class Client extends Thread implements KeyListener {
+	private DataOutputStream output;
+	private DataInputStream input;
+	
+	public Client(){
 
 	}
 	@Override
