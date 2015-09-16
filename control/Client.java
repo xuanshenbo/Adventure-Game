@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.net.Socket;
 
 /**
  * A simple controller to send user actions to the server and receive notifications from the server.
@@ -14,9 +15,10 @@ import java.io.DataOutputStream;
 public class Client extends Thread implements KeyListener {
 	private DataOutputStream output;
 	private DataInputStream input;
-	
-	public Client(){
+	private final Socket socket;
 
+	public Client(Socket s){
+		socket = s;
 	}
 	@Override
 	public void keyTyped(KeyEvent e) {
