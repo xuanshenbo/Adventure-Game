@@ -59,11 +59,11 @@ public class Generator {
 		for(int count = 0; count < buildings; count++){
 			boolean placed = false;
 			while(!placed){
-				int randomRow = new Random().nextInt(area.length-6)+1;
+				int randomRow = new Random().nextInt(area.length-4)+1;
 				int randomCol = new Random().nextInt(area[0].length-6)+1;
 				boolean placeClear = true;
 				//check if the random place is open for a building
-				for(int row = randomRow; row < randomRow+5; row++){
+				for(int row = randomRow; row < randomRow+3; row++){
 					for(int col = randomCol; col < randomCol+5; col++){
 						if(invalidPosition[row][col]){
 							placeClear = false;
@@ -74,20 +74,20 @@ public class Generator {
 				}
 				//place the building down
 				if(placeClear){
-					for(int row = randomRow; row < randomRow+5; row++){
+					for(int row = randomRow; row < randomRow+3; row++){
 						for(int col = randomCol; col < randomCol+5; col++){
 							area[row][col] = new Tile(TileType.BUILDING);
 						}
 					}
 					//Create a boarder around the building so that no buildings can be side by side.
-					for(int row = randomRow-1; row < randomRow+6; row++){
+					for(int row = randomRow-1; row < randomRow+4; row++){
 						for(int col = randomCol-1; col < randomCol+6; col++){
 							invalidPosition[row][col] = true;
 						}
 					}
 					//place the door and create the new area
-					area[randomRow+2][randomCol+4] = new Tile(TileType.DOOR);
-					area[randomRow+2][randomCol+5] = null;
+					area[randomRow+2][randomCol+2] = new Tile(TileType.DOOR);
+					area[randomRow+3][randomCol+2] = null;
 					Area building = new Area(5, 5, AreaType.BUILDING, new Position(randomRow+2, randomCol+4));
 					children.add(building);
 					placed = true;
@@ -125,7 +125,7 @@ public class Generator {
 							invalidPosition[row][col] = true;
 						}
 					}
-					//place the door and create the new area
+					//place the entrace and create the new area
 					area[randomRow+1][randomCol+1] = new Tile(TileType.CAVEENTRANCE);
 					Area building = new Area(5, 10, AreaType.CAVE, new Position(randomRow+1, randomCol+1));
 					children.add(building);

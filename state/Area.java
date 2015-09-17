@@ -22,6 +22,7 @@ public class Area {
 		CAVE('R');
 		
 		public final char id;
+		
 		private AreaType(char c){
 			id = c;
 		}	
@@ -31,7 +32,7 @@ public class Area {
 	private final AreaType type; // the type of area this is and determines the ground texture
 	private final Tile[][] area; // the array of tiles that make up the area
 	private Position entrance; // the position on the parent of the entrance to this area
-	private ArrayList<Area> children = new ArrayList<Area>();
+	private ArrayList<Area> internalAreas = new ArrayList<Area>();
 
 	public Area(int height, int width, AreaType t, Position p){
 		type = t;
@@ -56,7 +57,7 @@ public class Area {
 	}
 
 	public void generateWorld(Generator g){
-		g.fillArea(area, children);
+		g.fillArea(area, internalAreas);
 	}
 
 	public void printArea(){
@@ -71,9 +72,18 @@ public class Area {
 			System.out.println("");
 		}
 		System.out.println("");
-		for(Area a: children){
+		for(Area a: internalAreas){
 			System.out.println(a.getEntrance());
 			a.printArea();
+		}
+	}
+	
+	public void printTile(Position p){
+		Tile t = area[p.getAreaY()][p.getAreaX()];
+		if(t == null){
+			System.out.print(type.id);
+		}else{
+			System.out.print(area[p.getAreaY()][p.getAreaX()]);
 		}
 	}
 }

@@ -14,6 +14,10 @@ public class Player {
 		this.id = id;
 	}
 
+	public Position getPosition() {
+		return position;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -39,7 +43,11 @@ public class Player {
 		return true;
 	}
 
-	public Position getPosition() {
-		return position;
+	public ID getId() {
+		return id;
+	}
+	
+	public String toString(){
+		return id.toString();
 	}
 }
