@@ -2,8 +2,11 @@ package control;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 
 /**
@@ -13,12 +16,17 @@ import java.net.Socket;
  *
  */
 public class Client extends Thread implements KeyListener {
-	private DataOutputStream output;
+	private BufferedWriter output;
 	private DataInputStream input;
 	private final Socket socket;
 
 	public Client(Socket s){
 		socket = s;
+		try {
+			output = new BufferedWriter(new OutputStreamWriter(new DataOutputStream(s.getOutputStream())));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	@Override
 	public void keyTyped(KeyEvent e) {
