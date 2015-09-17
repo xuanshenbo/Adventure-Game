@@ -5,16 +5,17 @@
 
 package control;
 
-import logic.StartGame;
+import logic.Game;
+import logic.Main;
 import renderer.Renderer;
 
 public class ClockThread extends Thread{
 
 	final int delay; // the delay between pulses.
-	final StartGame game;
+	final Game game;
 	final Renderer renderer;
 
-	public ClockThread(int d, StartGame g, Renderer r){
+	public ClockThread(int d, Game g, Renderer r){
 		this.delay = d;
 		this.game = g;
 		this.renderer = r;

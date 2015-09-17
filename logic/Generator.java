@@ -1,12 +1,12 @@
 /**
  * This creates a random world, taking in some parameters and randomly
  * placing these object in the world.
- * 
+ *
  * The arguments that are passed in on creation are:
  * int trees: this is the ratio of trees in the world.
  * int buildings: this is the amount of 5 by 5 buildings
  * int caves: this is the amount of caves that are 5*10 with a 2*2 entrance
- * 
+ *
  * MAJOR BUG: will infinite loop out if it cannot fit the object in the map
  */
 package logic;
@@ -39,36 +39,45 @@ public class Generator {
 	public int treeRatio(){
 		return trees;
 	}
-	
+
 	public int numberOfBuildings(){
 		return buildings;
 	}
-	
-	public void fillArea(Tile[][] area, ArrayList<Area> children){
-		for(int row=1; row < area.length-1; row++){
-			for(int col=1; col < area[0].length-1; col++){
+
+	public void fillArea(Area area, ArrayList<Area> children){
+
+		Tile[][] areaArray = area.getArray();
+		
+		for(int row=0; row < areaArray.length; row++){
+			for(int col=0; col < areaArray[0].length; col++){
+				areaArray[row][col] = new Tile(TileType.GRASS);
+			}
+		}
+
+		for(int row=1; row < areaArray.length-1; row++){
+			for(int col=1; col < areaArray[0].length-1; col++){
 				//generate trees
 				if(new Random().nextInt(trees) == trees-1){
-					area[row][col] = new Tile(TileType.TREE);
+					areaArray[row][col] = new Tile(TileType.TREE);
 				}
 			}
 		}
-		boolean[][] invalidPosition = new boolean[area.length][area[0].length];
+		boolean[][] invalidPosition = new boolean[areaArray.length][areaArray[0].length];
 
-		//place the buildings		
+		//place the buildings
 		for(int count = 0; count < buildings; count++){
 			boolean placed = false;
 			while(!placed){
-				int randomRow = new Random().nextInt(area.length-4)+1;
-				int randomCol = new Random().nextInt(area[0].length-6)+1;
+				int randomRow = new Random().nextInt(areaArray.length-4)+1;
+				int randomCol = new Random().nextInt(areaArray[0].length-6)+1;
 				boolean placeClear = true;
 				//check if the random place is open for a building
 				for(int row = randomRow; row < randomRow+3; row++){
 					for(int col = randomCol; col < randomCol+5; col++){
 						if(invalidPosition[row][col]){
 							placeClear = false;
-							row = row+area.length;
-							col = col+area[0].length;
+							row = row+areaArray.length;
+							col = col+areaArray[0].length;
 						}
 					}
 				}
@@ -76,7 +85,7 @@ public class Generator {
 				if(placeClear){
 					for(int row = randomRow; row < randomRow+3; row++){
 						for(int col = randomCol; col < randomCol+5; col++){
-							area[row][col] = new Tile(TileType.BUILDING);
+							areaArray[row][col] = new Tile(TileType.BUILDING);
 						}
 					}
 					//Create a boarder around the building so that no buildings can be side by side.
@@ -86,37 +95,36 @@ public class Generator {
 						}
 					}
 					//place the door and create the new area
-					area[randomRow+2][randomCol+2] = new Tile(TileType.DOOR);
-					area[randomRow+3][randomCol+2] = null;
-					Area building = new Area(5, 5, AreaType.BUILDING, new Position(randomRow+2, randomCol+4));
+					areaArray[randomRow+2][randomCol+2] = new Tile(TileType.DOOR);
+					areaArray[randomRow+3][randomCol+2] = new Tile(TileType.GRASS);
+					Area building = new Area(5, 5, AreaType.BUILDING, new Position(randomRow+2, randomCol+2, area));
 					children.add(building);
 					placed = true;
 				}
-			}			
+			}
 		}
 		//place the caves
 		for(int count = 0; count < caves; count++){
 			boolean placed = false;
 			while(!placed){
-				int randomRow = new Random().nextInt(area.length-3)+1;
-				int randomCol = new Random().nextInt(area[0].length-3)+1;
+				int randomRow = new Random().nextInt(areaArray.length-3)+1;
+				int randomCol = new Random().nextInt(areaArray[0].length-3)+1;
 				boolean placeClear = true;
 				//check if the random place is open for a cave
 				for(int row = randomRow; row < randomRow+2; row++){
 					for(int col = randomCol; col < randomCol+2; col++){
 						if(invalidPosition[row][col]){
 							placeClear = false;
-							row = row+area.length;
-							col = col+area[0].length;
+							row = row+areaArray.length;
+							col = col+areaArray[0].length;
 						}
 					}
 				}
-				
-				//place the building down
+				//place the cave entrance down
 				if(placeClear){
 					for(int row = randomRow; row < randomRow+2; row++){
 						for(int col = randomCol; col < randomCol+2; col++){
-							area[row][col] = new Tile(TileType.CAVE);
+							areaArray[row][col] = new Tile(TileType.CAVE);
 						}
 					}
 					//Create a boarder around the building so that no buildings can be side by side.
@@ -125,30 +133,30 @@ public class Generator {
 							invalidPosition[row][col] = true;
 						}
 					}
-					//place the entrace and create the new area
-					area[randomRow+1][randomCol+1] = new Tile(TileType.CAVEENTRANCE);
-					Area building = new Area(5, 10, AreaType.CAVE, new Position(randomRow+1, randomCol+1));
-					children.add(building);
+					//place the entrance and create the new area
+					areaArray[randomRow+1][randomCol+1] = new Tile(TileType.CAVEENTRANCE);
+					Area cave = new Area(5, 10, AreaType.CAVE, new Position(randomRow+1, randomCol+1, area));
+					children.add(cave);
 					placed = true;
 				}
 			}
 		}
-		
+
 		//place the chests
 		for(int count = 0; count < chests; count++){
-			
+
 			boolean placed = false;
 			while(!placed){
-				int randomRow = new Random().nextInt(area.length-2)+1;
-				int randomCol = new Random().nextInt(area[0].length-2)+1;
-				
+				int randomRow = new Random().nextInt(areaArray.length-2)+1;
+				int randomCol = new Random().nextInt(areaArray[0].length-2)+1;
+
 				if(!invalidPosition[randomRow][randomCol]){
-					area[randomRow][randomCol] = new Tile(TileType.CHEST);					
+					areaArray[randomRow][randomCol] = new Tile(TileType.CHEST);
 					invalidPosition[randomRow][randomCol] = true;
 					placed = true;
-					
+
 				}
-				
+
 			}
 		}
 	}

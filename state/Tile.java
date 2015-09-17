@@ -14,7 +14,11 @@ public class Tile {
 		DOOR('D'),
 		CAVE('C'),
 		CAVEENTRANCE('c'),
-		CHEST('O');
+		CHEST('O'),
+		GRASS('G'),
+		ROCK('R'),
+		WOOD('W');
+		
 		public final char id;
 		private TileType(char c){
 			id = c;

@@ -38,14 +38,28 @@ public class Area {
 		type = t;
 		area = new Tile[height][width];
 		entrance = p;
+		
+		for(int row = 0; row < area.length; row++){
+			for(int col = 0; col < area[0].length; col++)
+				if(t.equals(AreaType.CAVE)){
+					area[row][col] = new Tile(TileType.ROCK);
+				}else if(t.equals(AreaType.BUILDING)){
+					area[row][col] = new Tile(TileType.WOOD);
+				}
+		}
+		
 	}
 
 	public AreaType getType() {
 		return type;
 	}
 
-	public Tile[][] getArea() {
+	public Tile[][] getArray() {
 		return area;
+	}
+	
+	public ArrayList<Area> getInternalAreas(){
+		return internalAreas;
 	}
 
 	public Position getEntrance() {
@@ -57,7 +71,7 @@ public class Area {
 	}
 
 	public void generateWorld(Generator g){
-		g.fillArea(area, internalAreas);
+		g.fillArea(this, internalAreas);
 	}
 
 	public void printArea(){
@@ -79,11 +93,11 @@ public class Area {
 	}
 	
 	public void printTile(Position p){
-		Tile t = area[p.getAreaY()][p.getAreaX()];
+		Tile t = area[p.getY()][p.getX()];
 		if(t == null){
 			System.out.print(type.id);
 		}else{
-			System.out.print(area[p.getAreaY()][p.getAreaX()]);
+			System.out.print(area[p.getY()][p.getX()]);
 		}
 	}
 }

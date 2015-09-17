@@ -7,41 +7,47 @@ package state;
 
 public class Position {
 
-	private int areaX;
-	private int areaY;
+	private Area a;
+	private int x;
+	private int y;
 
-	public Position(int ax, int ay){
-		this.areaX = ax;
-		this.areaY = ay;
+	public Position(int x, int y, Area a){
+		this.x = x;
+		this.y = y;
+		this.a = a;
 	}
 
-	public int getAreaX() {
-		return areaX;
+	public int getX() {
+		return x;
 	}
 
-	public void setAreaX(int areaX) {
-		this.areaX = areaX;
+	public void setX(int x) {
+		this.x = x;
 	}
 
-	public int getAreaY() {
-		return areaY;
+	public int getY() {
+		return y;
 	}
 
-	public void setAreaY(int areaY) {
-		this.areaY = areaY;
+	public void setY(int areaY) {
+		this.y = areaY;
 	}
-	
+
+	public Area getArea() {
+		return a;
+	}
+
 	@Override
 	public String toString(){
-		return "X: "+areaX+" Y: "+areaY;
+		return "X:"+x+" Y:"+y;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + areaX;
-		result = prime * result + areaY;
+		result = prime * result + x;
+		result = prime * result + y;
 		return result;
 	}
 
@@ -54,9 +60,9 @@ public class Position {
 		if (getClass() != obj.getClass())
 			return false;
 		Position other = (Position) obj;
-		if (areaX != other.areaX)
+		if (x != other.x)
 			return false;
-		if (areaY != other.areaY)
+		if (y != other.y)
 			return false;
 		return true;
 	}
