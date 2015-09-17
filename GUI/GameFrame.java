@@ -53,14 +53,12 @@ public class GameFrame extends JFrame{
 			}
 		});
 
-		setLocationRelativeTo(null);//set the frame at the center of the screen TODO fix this so it does actually center it on screen
 
 		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		manager.addKeyEventDispatcher(new MyDispatcher());
 
-
-
 		pack();
+		setLocationRelativeTo(null);	//set the frame at the center of the screen
 		setVisible(true);
 	}
 
@@ -82,6 +80,8 @@ public class GameFrame extends JFrame{
 		c.gridheight = 1; //1 row high
 		add(time, c); //add panel which shows the time, position, map button?
 
+		//implement team panel later?
+		/*
 		c = new GridBagConstraints();
 		c.ipady = 0;       //reset to default
 		JButton team = new JButton("The Team panel");
@@ -92,10 +92,12 @@ public class GameFrame extends JFrame{
 		c.gridx = 3;
 		c.gridy = 3; //same row as time/position panel
 		add(team, c); //add panel which shows the Team members. Should we implement team??
+		*/
 
 		c = new GridBagConstraints();
 		c.ipady = 0;       //reset to default
-		JButton profile = new JButton("The Player Profile Panel");
+		//JButton profile = new JButton("The Player Profile Panel");
+		UserProfilePanel profile = new UserProfilePanel();
 		c.insets = new Insets(0,buttonPaddingHorizontal,0,buttonPaddingHorizontal);  //padding on sides
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0.5;
