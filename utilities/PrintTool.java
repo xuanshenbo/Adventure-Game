@@ -30,8 +30,12 @@ public class PrintTool {
 		public static void p(Object o){
 		if(debugging){
 			StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-			System.out.println(stackTraceElements[2].getClassName()+"."+
+			if(o == null){
+				System.out.println("NULL");
+			}else{
+				System.out.println(stackTraceElements[2].getClassName()+"."+
 					stackTraceElements[2].getMethodName()+"() line:"+stackTraceElements[2].getLineNumber()+": "+o.toString());
+			}
 		}
 	}
 }

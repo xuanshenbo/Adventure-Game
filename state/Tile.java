@@ -18,13 +18,12 @@ public class Tile {
 		GRASS('G'),
 		ROCK('R'),
 		WOOD('W');
-		
+
 		public final char id;
 		private TileType(char c){
 			id = c;
-		}		
+		}
 	}
-	private char id;
 
 	private TileType type;
 
@@ -39,9 +38,31 @@ public class Tile {
 	public void setType(TileType type) {
 		this.type = type;
 	}
-	
+
 	@Override
 	public String toString(){
 		return Character.toString(type.id);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Tile other = (Tile) obj;
+		if (type != other.type)
+			return false;
+		return true;
 	}
 }

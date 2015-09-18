@@ -46,6 +46,7 @@ public class Position {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((a == null) ? 0 : a.hashCode());
 		result = prime * result + x;
 		result = prime * result + y;
 		return result;
@@ -60,6 +61,11 @@ public class Position {
 		if (getClass() != obj.getClass())
 			return false;
 		Position other = (Position) obj;
+		if (a == null) {
+			if (other.a != null)
+				return false;
+		} else if (!a.equals(other.a))
+			return false;
 		if (x != other.x)
 			return false;
 		if (y != other.y)

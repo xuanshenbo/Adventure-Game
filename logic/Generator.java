@@ -47,7 +47,7 @@ public class Generator {
 	public void fillArea(Area area, ArrayList<Area> children){
 
 		Tile[][] areaArray = area.getArray();
-		
+
 		for(int row=0; row < areaArray.length; row++){
 			for(int col=0; col < areaArray[0].length; col++){
 				areaArray[row][col] = new Tile(TileType.GRASS);
@@ -98,6 +98,8 @@ public class Generator {
 					areaArray[randomRow+2][randomCol+2] = new Tile(TileType.DOOR);
 					areaArray[randomRow+3][randomCol+2] = new Tile(TileType.GRASS);
 					Area building = new Area(5, 5, AreaType.BUILDING, new Position(randomRow+2, randomCol+2, area));
+					building.setExitPosition(new Position(4, 2, building));
+					building.getArray()[4][2] = new Tile(TileType.DOOR);
 					children.add(building);
 					placed = true;
 				}
