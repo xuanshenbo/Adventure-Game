@@ -1,25 +1,27 @@
 package renderer;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
+import state.Tile;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-
-import state.Area;
+import javax.swing.*;
+import java.awt.*;
 
 public class Renderer extends JPanel{
 	
 	private int width,height;
-	private Image boardImg;
-	
-	public Renderer(int width, int height){
+	private Tile[][] area;
+	private double squareHeight;
+	private double squareWidth;
+	private AvatarImages avatarImages;
+
+	public Renderer(int width, int height, Tile[][] area){
 		
 		this.width = width;
 		this.height = height;
+		this.area = area;
+
+		this.avatarImages = new AvatarImages("resource/image/map/assassin.png");
+
+		setWidthHeight(width, height);
 		Dimension size = new Dimension(width, height);
 
 //		boardImg = new ImageIcon("Images/Board.jpg").getImage();
@@ -28,12 +30,22 @@ public class Renderer extends JPanel{
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		setVisible(true);
 	}
+
+	public void setWidthHeight(int w, int h){
+//		if(w != width || h != height){
+			width = w;
+			height = h;
+			squareWidth = w/24.0;
+			squareHeight = h/25.0;
+//			return true;
+//		}
+//		return false;
+	}
 	
 	public void paintComponent(Graphics g) {
 		//clear this panel
 		this.removeAll();
 		//draw the game board
-			g.drawImage(boardImg, 0, 0, width, height, null);
 	}
 
 }
