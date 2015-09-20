@@ -1,6 +1,9 @@
 package GUI;
 
+import interpreter.*;
+
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -18,6 +21,10 @@ public class GameFrame extends JFrame{
 	private final int buttonPaddingVertical = 50;
 
 	private PlayerInfo player = new PlayerInfo("Donald Duck", Avatar.DONALD_DUCK);
+
+	private StrategyInterpreter keyInterpreter;
+
+
 
 	/**
 	 * The constructor sets up the KeyListener using the KeyboardFocusManager
@@ -171,7 +178,7 @@ public class GameFrame extends JFrame{
 				switch( e.getKeyCode()) {
 				case KeyEvent.VK_UP:
 					showDialog("UP!");
-					//notify interpreter?
+					keyInterpreter.notify("UP"); //implement for all key presses
 					break;
 				case KeyEvent.VK_DOWN:
 					showDialog("DOWN!");
@@ -206,10 +213,6 @@ public class GameFrame extends JFrame{
 
 	}
 
-	public static void main(String[] args){
-		new GameFrame("Adventure Game");
-	}
-
 	public void addInventoryPanel() {
 		// TODO Auto-generated method stub
 
@@ -220,4 +223,11 @@ public class GameFrame extends JFrame{
 		return null;
 	}
 
+	public StrategyInterpreter getKeyInterpreter() {
+		return keyInterpreter;
+	}
+
+	public void setKeyInterpreter(StrategyInterpreter keyInterpreter) {
+		this.keyInterpreter = keyInterpreter;
+	}
 }

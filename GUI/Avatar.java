@@ -7,8 +7,6 @@ package GUI;
  */
 public enum Avatar{
 		DONALD_DUCK;
-
-
 		/**
 		 * Works out which integer the avatar String corresponds to.
 		 * @return an integer corresponding to the avatar to draw on screen

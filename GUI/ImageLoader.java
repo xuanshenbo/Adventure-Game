@@ -12,7 +12,7 @@ public class ImageLoader {
 	 */
 	public static Image loadImage(String filename) {
 		try {
-			Image img = ImageIO.read(new File("images/"+filename));
+			Image img = ImageIO.read(new File("src/images/"+filename));
 			return img;
 		} catch (IOException e) {
 			// we've encountered an error loading the image. There's not much we
