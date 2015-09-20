@@ -18,6 +18,11 @@ public class Player {
 		return position;
 	}
 
+	public void setPosition(Position newPosition) {
+		position = newPosition;
+		
+	}
+
 	public int getId() {
 		return id;
 	}
