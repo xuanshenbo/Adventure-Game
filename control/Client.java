@@ -57,10 +57,31 @@ public class Client extends Thread implements KeyListener {
 			output.write(1);
 			char[] message = new char[1024];
 			input.read(message);
-			for(int i=0;i<message.length;i++){
-				System.out.print(message[i]);
+			int i = 0;
+			String rowString = "";
+			String colString = "";
+			while(message[i] != 'x'){
+				rowString = rowString+message[i];
+				i++;
 			}
-			System.out.println();
+			i++;
+			while(message[i] != 'x'){
+				colString = colString+message[i];
+				i++;
+			}
+			i++;
+			int rowInt = Integer.valueOf(rowString);
+			int colInt = Integer.valueOf(colString);
+			
+			char[][] map = new char[rowInt][colInt];
+			for(int row=0; row<rowInt; row++){
+				for(int col=0; col<colInt; col++){
+					map[row][col] = message[i];
+					System.out.print(message[i]);
+					i++;
+				}
+				System.out.println("");
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

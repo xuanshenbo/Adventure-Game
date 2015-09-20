@@ -21,10 +21,10 @@ public class Game{
 
 	public Game(GameState state) {
 		this.gameState = state;
-		while(true){
-			int direction = Input.getInputBetween(1,4);
-			move(gameState.getPlayer(1), direction);
-		}
+//		while(true){
+//			int direction = Input.getInputBetween(1,4);
+//			move(gameState.getPlayer(1), direction);
+//		}
 	}
 
 
@@ -150,6 +150,11 @@ public class Game{
 
 	public void clockTick() {
 		// TODO Auto-generated method stub
+	}
+
+
+	public GameState getState() {
+		 return gameState;
 	}
 
 

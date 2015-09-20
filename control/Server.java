@@ -12,6 +12,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static utilities.PrintTool.p;
 
 /**
  * The following acts as the server for the whole multiplayer game. It receives user events from the player and propagates updated
@@ -25,6 +26,9 @@ public class Server extends Thread{
 	private final static Logger errorLogger = Logger.getLogger("errors");
 	private InetAddress address;
 	private ServerSocket server;
+	private char[] map;
+	private int mapRow;
+	private int mapCol;
 
 	public Server() {
 		//System.out.println(Server.class.getClassLoader().getResource("requests"));
@@ -46,6 +50,18 @@ public class Server extends Thread{
 		return address;
 	}
 
+	public void updateMap(char[][] m){
+		mapRow = m.length;
+		mapCol = m[0].length;
+		map = new char[mapRow*mapCol];
+		int index = 0;
+		for(int row=0; row<mapRow;row++){
+			for(int col=0; col<mapCol;col++){
+				map[index++] = m[row][col];
+			}
+		}
+	}
+
 	public void run(){
 		ExecutorService pool = Executors.newFixedThreadPool(50);
 			while (true) {
@@ -61,7 +77,7 @@ public class Server extends Thread{
 			}
 
 	}
-	private static class DaytimeTask implements Callable<Void> {
+	private class DaytimeTask implements Callable<Void> {
 		private Socket connection;
 		DaytimeTask(Socket connection) {
 			this.connection = connection;
@@ -73,16 +89,14 @@ public class Server extends Thread{
 				// write the log entry first in case the client disconnects
 				auditLogger.info(now + " " + connection.getRemoteSocketAddress());
 				Writer out = new OutputStreamWriter(connection.getOutputStream());
-				/*
-				 * test char 2D array
-				 */
-				char[][] bobotest = new char[50][50];
-				for(int i=0; i<bobotest.length;i++){
-					for(int j=0; i<bobotest[0].length;j++){
-
-					}
-				}
-				out.write("boboxuan" +"\r\n");
+				//out.write("boboxuan" +"\r\n");
+				p("mapRow"+String.format("%s",mapRow).charAt(0)+String.format("%s",mapRow).charAt(1));
+				p("colRow"+(char)('0' + mapCol));
+				out.write(String.valueOf(mapRow));
+				out.write('x');
+				out.write(String.valueOf(mapCol));
+				out.write('x');
+				out.write(map);
 				out.flush();
 			} catch (IOException ex) {
 				// client disconnected; ignore;
