@@ -22,6 +22,7 @@ public class Client extends Thread implements KeyListener {
 	private OutputStreamWriter output;
 	private InputStreamReader input;
 	private final Socket socket;
+	private char[][] map;
 
 	public Client(Socket s){
 		socket = s;
@@ -72,8 +73,8 @@ public class Client extends Thread implements KeyListener {
 			i++;
 			int rowInt = Integer.valueOf(rowString);
 			int colInt = Integer.valueOf(colString);
-			
-			char[][] map = new char[rowInt][colInt];
+
+			map = new char[rowInt][colInt];
 			for(int row=0; row<rowInt; row++){
 				for(int col=0; col<colInt; col++){
 					map[row][col] = message[i];
@@ -87,6 +88,10 @@ public class Client extends Thread implements KeyListener {
 			e.printStackTrace();
 		}
 
+	}
+
+	public char[][] getMap(){
+		return map;
 	}
 
 }
