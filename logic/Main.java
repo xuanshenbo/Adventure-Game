@@ -38,7 +38,7 @@ public class Main {
 	}
 
 	public static void main(String[] args){
-		Main g = new Main(20, 2, 1, 5, 10, 20, 4);
+		Main g = new Main(20, 0, 0, 15, 20, 20, 4);
 	}
 
 
