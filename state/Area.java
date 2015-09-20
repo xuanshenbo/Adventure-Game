@@ -60,6 +60,16 @@ public class Area {
 		return area;
 	}
 
+	public char[][] getCharArray(){
+		char[][] charArray = new char[area.length][area[0].length];
+		for(int row=0; row<charArray.length; row++){
+			for(int col=0; col<charArray[0].length; col++){
+				charArray[row][col] = area[row][col].getType().id;
+			}
+		}
+		return charArray;
+	}
+
 	public ArrayList<Area> getInternalAreas(){
 		return internalAreas;
 	}

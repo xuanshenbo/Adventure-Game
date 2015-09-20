@@ -27,7 +27,7 @@ public class Server extends Thread{
 	private ServerSocket server;
 
 	public Server() {
-
+		//System.out.println(Server.class.getClassLoader().getResource("requests"));
 		try{
 			server = new ServerSocket(PORT);
 			address = server.getInetAddress();
@@ -73,6 +73,15 @@ public class Server extends Thread{
 				// write the log entry first in case the client disconnects
 				auditLogger.info(now + " " + connection.getRemoteSocketAddress());
 				Writer out = new OutputStreamWriter(connection.getOutputStream());
+				/*
+				 * test char 2D array
+				 */
+				char[][] bobotest = new char[50][50];
+				for(int i=0; i<bobotest.length;i++){
+					for(int j=0; i<bobotest[0].length;j++){
+
+					}
+				}
 				out.write("boboxuan" +"\r\n");
 				out.flush();
 			} catch (IOException ex) {
