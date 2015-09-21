@@ -5,9 +5,6 @@
 package state;
 
 import java.util.ArrayList;
-import static utilities.PrintTool.p;
-
-import renderer.Renderer;
 
 public class GameState {
 

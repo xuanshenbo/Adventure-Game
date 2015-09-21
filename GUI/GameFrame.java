@@ -1,9 +1,10 @@
 package GUI;
 
-import interpreter.*;
+import interpreter.StrategyInterpreter;
+import renderer.GameRenderer;
+import renderer.testRenderer;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -15,7 +16,7 @@ public class GameFrame extends JFrame{
 	private int frameWidth = 800;
 	private int frameHeight = 800;
 
-	private Dimension mapSize = new Dimension(1000, 600);
+	private Dimension mapSize = new Dimension(750, 400);
 
 	public final int buttonPaddingHorizontal = 50;	//public as needs to be accessed from ButtonPanel
 	private final int buttonPaddingVertical = 50;
@@ -32,6 +33,7 @@ public class GameFrame extends JFrame{
 	 */
 	public GameFrame(String title) {
 		super(title);
+
 		setLayout(new GridBagLayout());
 		setUpLayout();
 
@@ -45,11 +47,10 @@ public class GameFrame extends JFrame{
 			@Override
 			public void windowClosing(WindowEvent we) {
 
-				String ObjButtons[] = {"Yes","No"};
-				int PromptResult = JOptionPane.showOptionDialog(null,"Are you sure you want to exit?","CluedoGame",
-						JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE,null,ObjButtons,ObjButtons[1]);
-				if(PromptResult==JOptionPane.YES_OPTION)
-				{
+				String ObjButtons[] = {"Yes", "No"};
+				int PromptResult = JOptionPane.showOptionDialog(null, "Are you sure you want to exit?", "CluedoGame",
+						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
+				if (PromptResult == JOptionPane.YES_OPTION) {
 					System.exit(0);
 				}
 			}
@@ -129,20 +130,20 @@ public class GameFrame extends JFrame{
 		add(buttons, c1);
 	}
 
-	private void addGameMapPanel() {
-		GridBagConstraints c;
-		c = new GridBagConstraints();
-		JButton map = new JButton("The Game Map panel");
-		c.insets = new Insets(buttonPaddingVertical,0,buttonPaddingVertical,0);  //padding on top and bottom
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.ipady = mapSize.height;      //specify height
-		c.ipadx = mapSize.width; //specify width
-		c.gridwidth = 9;
-		c.gridheight = 6;
-		c.gridx = 0;
-		c.gridy = 5;
-		add(map, c); //add main board panel showing map
-	}
+//	private void addGameMapPanel() {
+//		GridBagConstraints c;
+//		c = new GridBagConstraints();
+//		JButton map = new JButton("The Game Map panel");
+//		c.insets = new Insets(buttonPaddingVertical,0,buttonPaddingVertical,0);  //padding on top and bottom
+//		c.fill = GridBagConstraints.HORIZONTAL;
+//		c.ipady = mapSize.height;      //specify height
+//		c.ipadx = mapSize.width; //specify width
+//		c.gridwidth = 9;
+//		c.gridheight = 6;
+//		c.gridx = 0;
+//		c.gridy = 5;
+//		add(map, c); //add main board panel showing map
+//	}
 
 	private void addPlayerProfilePanel() {
 		GridBagConstraints c;
@@ -230,4 +231,26 @@ public class GameFrame extends JFrame{
 	public void setKeyInterpreter(StrategyInterpreter keyInterpreter) {
 		this.keyInterpreter = keyInterpreter;
 	}
+
+
+	//add by Lucas for debugging purpose
+	private void addGameMapPanel() {
+		GridBagConstraints c;
+		c = new GridBagConstraints();
+
+		//data for testing
+		testRenderer data = new testRenderer(20, 0, 0, 15, 20, 20, 4);
+
+		GameRenderer map = new GameRenderer(mapSize.width, mapSize.height, data.getArea().getArray(), data.getPlayers());
+		c.insets = new Insets(buttonPaddingVertical,0,buttonPaddingVertical,0);  //padding on top and bottom
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.ipady = mapSize.height;      //specify height
+		c.ipadx = mapSize.width; //specify width
+		c.gridwidth = 9;
+		c.gridheight = 6;
+		c.gridx = 0;
+		c.gridy = 5;
+		add(map, c); //add main board panel showing map
+	}
+
 }
