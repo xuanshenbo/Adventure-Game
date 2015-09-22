@@ -28,7 +28,6 @@ public class GameRenderer extends JPanel{
 		this.height = height;
 		this.tileWidth = width/size;
 		this.tileHeight = height/size;
-		System.out.println("tileWidth: " + tileWidth + " tileHeight: " + tileHeight);
 		this.area = area;
 		this.players = players;
 		this.avatarImages = new ArrayList<AvatarImages>();
@@ -99,6 +98,11 @@ public class GameRenderer extends JPanel{
 		anmt++;
 		if (anmt > 3){
 			anmt = 0;
+		}
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 
