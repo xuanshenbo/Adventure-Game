@@ -20,6 +20,7 @@ public class GameRenderer extends JPanel{
 	private ArrayList<AvatarImages> avatarImages;
 	private Image grassImage;
 	private ArrayList<Player> players;
+	private int anmt;
 
 	public GameRenderer(int width, int height, Tile[][] area, ArrayList<Player> players){
 
@@ -31,6 +32,7 @@ public class GameRenderer extends JPanel{
 		this.area = area;
 		this.players = players;
 		this.avatarImages = new ArrayList<AvatarImages>();
+		this.anmt = 0;
 
 		for (int i = 0; i < players.size(); i++){
 			int avatarImageIndex = new Random().nextInt(3);
@@ -82,13 +84,21 @@ public class GameRenderer extends JPanel{
 				drawTile(area[x][y], x, y, g);
 			}
 		}
-
 		//draw players
 		for (int i = 0; i < players.size(); i++){
-			g.drawImage(avatarImages.get(i).getImages()[0][0],
+			g.drawImage(avatarImages.get(i).getImages()[0][(int)(anmt)],
 					(int)(players.get(i).getPosition().getX()*tileWidth),
 					(int)(players.get(i).getPosition().getY()*tileHeight - avatarImages.get(i).avatarHeight() + tileHeight),
 					null);
+		}
+		updateAnimation();
+		repaint();
+	}
+
+	private void updateAnimation() {
+		anmt++;
+		if (anmt > 3){
+			anmt = 0;
 		}
 	}
 
