@@ -12,6 +12,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import dataStorage.test.model.*;
+import static utilities.PrintTool.p;
 
 public class SerialiseMain {
 
@@ -31,14 +32,14 @@ public class SerialiseMain {
 		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
 		// Write to System.out
-		m.marshal(politics, System.out);
+		//m.marshal(politics, System.out);
 
 		// Write to File
 		m.marshal(politics, new File(SHELF_XML));
 
 		// get variables from our xml file, created before
 		System.out.println();
-		System.out.println("Output from our XML File: ");
+		//System.out.println("Output from our XML File: ");
 		Unmarshaller um = context.createUnmarshaller();
 		Shelf politics2 = (Shelf) um.unmarshal(new FileReader(SHELF_XML));
 		ArrayList<Book> list = (ArrayList<Book>) politics2.getBookList();
@@ -49,6 +50,11 @@ public class SerialiseMain {
 	}
 
 	private static void initShelf(Shelf politics) {
+		p("s");
+		p();
+		p(new ArrayList<String>());
+		p(null);
+		p(politics);
 		List<Book> bookList = new ArrayList<Book>();
 
 		// create Phone numbers
