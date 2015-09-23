@@ -4,6 +4,8 @@
 
 package state;
 
+import state.Tile.TileType;
+
 public class Player {
 
 	private Position position; // Position of the player in the world
@@ -11,7 +13,7 @@ public class Player {
 
 	public Player(Position p, int id){
 		this.position  = p;
-		this.id = id;;
+		this.id = id;
 	}
 
 	public Position getPosition() {

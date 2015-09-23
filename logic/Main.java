@@ -44,6 +44,7 @@ public class Main {
 	}
 
 	public static void main(String[] args){
+<<<<<<< HEAD
 		Server ss = new Server();
 		Main g = new Main(20, 2, 1, 5, 10, 20, 4, ss);
 		ss.start();
@@ -54,6 +55,9 @@ public class Main {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+=======
+		Main g = new Main(20, 0, 0, 15, 20, 20, 4);
+>>>>>>> bca92629bdd3cec02feaa9d469626354c5c72445
 	}
 
 	public static Server startNetwork(){

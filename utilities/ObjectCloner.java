@@ -1,19 +1,12 @@
 package utilities;
 
-/* This is class provides a static mathod that deep-clones an object.
- * for now it is not quite useful. I will modify it later so that
- * Felix might be able to send binary which is smaller which will make
- * the network faster
- */
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.*;
 
 /**
- * This is an ObjectCloner class It deep clones an object using serialization
+ * Provides a static method deepCopy(Object) to deep clone an object using serialization.
  *
  * @author Shenbo Xuan 300259386
  *
@@ -21,8 +14,7 @@ import java.util.*;
 public class ObjectCloner {
 
 	// so that nobody can accidentally create an ObjectCloner object
-	private ObjectCloner() {
-	}
+	private ObjectCloner() {}
 
 	/**
 	 * returns a deep cloned object

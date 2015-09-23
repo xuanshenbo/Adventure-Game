@@ -44,7 +44,7 @@ public class ButtonPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e){
-				//call addDisplayPanel on GameFrame, and get info from model from there?
+				containerFrame.addInventoryPanel(); //call addDisplayPanel on GameFrame, and get info from model from there?
 			}
 		});
 

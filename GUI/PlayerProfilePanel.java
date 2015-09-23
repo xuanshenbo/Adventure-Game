@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -17,21 +18,27 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-public class UserProfilePanel extends JPanel{
+public class PlayerProfilePanel extends JPanel{
 	private JLabel playerPic;
 	private JLabel lifeline;
 	private JButton inventory;
-	private Dimension size = new Dimension(100, 100);
-	private Dimension pictureSize = new Dimension(50, 50);
+	private Dimension size = new Dimension(250, 100);
+	private Dimension pictureSize = new Dimension(100, 100);
 	private Dimension labelSize = new Dimension(40, 30);
 	private Image[] avatars;
 	private JPanel picturePanel;
 	private JPanel statusPanel;
 
-	public UserProfilePanel(){
+	private PlayerInfo playerInfo;
+
+	//change this, as more pictures and avatars are added
+	private int numAvatars = 1;
+
+	public PlayerProfilePanel(PlayerInfo info){
+		playerInfo = info;
 
 		//load all the images for the different available avatars
-		avatars = new Image[1];
+		avatars = new Image[numAvatars];
 		loadImages();
 
 		//set up the GridLayout with one row and two columns
@@ -41,14 +48,18 @@ public class UserProfilePanel extends JPanel{
 		//a panel which contains just the player's avatar
 		picturePanel = new JPanel();
 		addPictureToPanel();
+		//picturePanel.setSize(pictureSize);
+
+		picturePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(picturePanel);
 
 
 		//a panel which displays lifeline, name etc in one column
 		statusPanel = new JPanel();
-		BoxLayout boxLayout = new BoxLayout(picturePanel, BoxLayout.PAGE_AXIS);
+		BoxLayout boxLayout = new BoxLayout(statusPanel, BoxLayout.PAGE_AXIS);
 		statusPanel.setLayout(boxLayout);
 		fillStatusPanel();
+		add(statusPanel);
 
 		//add a plain black border around the whole panel
 		Border blackline = BorderFactory.createLineBorder(Color.black);
@@ -58,20 +69,24 @@ public class UserProfilePanel extends JPanel{
 	}
 
 	private void fillStatusPanel() {
-		JLabel name = new JLabel("Donald Duck");
+		JLabel name = new JLabel(playerInfo.getName());
 		name.setFont(new Font("Serif", Font.BOLD, 20));
-		picturePanel.add(name);
+		statusPanel.add(name);
 
 		JLabel lifeline = new JLabel("Lifeline");
-		picturePanel.add(lifeline);
+		statusPanel.add(lifeline);
 
 		JLabel happiness = new JLabel("Happiness level");
-		picturePanel.add(happiness);
+		statusPanel.add(happiness);
+
+
 
 	}
 
 	private void loadImages() {
-		avatars[0] = loadImage("playerpictest.jpeg");  //this generates an image file
+		//this generates an image file and saves it to the array
+		avatars[0] = ImageLoader.loadImage("playerpictest.jpeg")
+				.getScaledInstance(pictureSize.width, pictureSize.height, -1);
 
 	}
 
@@ -82,32 +97,14 @@ public class UserProfilePanel extends JPanel{
 	}
 
 	private void addPictureToPanel() {
-
-		Image image=avatars[0];
+		//display the image at the appropriate position in the array
+		Image image=avatars[Avatar.getAvatarAsInteger(playerInfo.getAvatar())];
 
 		ImageIcon icon = new ImageIcon(image);
 		JLabel thumb = new JLabel();
 		thumb.setIcon(icon);
-
-		add(thumb);
-
+		picturePanel.add(thumb);
 	}
 
-	/*
-	 * Loads an image from file and handles exceptions
-	 */
-	private Image loadImage(String filename) {
-		try {
-			Image img = ImageIO.read(new File("images/"+filename));
-			//scale the picture
-			img = img.getScaledInstance(size.width, size.height, -1);
 
-			return img;
-		} catch (IOException e) {
-			// we've encountered an error loading the image. There's not much we
-			// can actually do at this point, except to abort the game.
-			throw new RuntimeException("Unable to load image: " + filename);
-		}
-
-	}
 }
