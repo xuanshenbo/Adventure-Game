@@ -20,7 +20,10 @@ public class GameRenderer extends JPanel{
 	private ArrayList<AvatarImages> avatarImages;
 	private Image grassImage;
 	private ArrayList<Player> players;
-	private int anmt;
+	private int animationIndex;
+
+	//temp
+	private Image treeImage;
 
 	public GameRenderer(int width, int height, Tile[][] area, ArrayList<Player> players){
 
@@ -31,13 +34,14 @@ public class GameRenderer extends JPanel{
 		this.area = area;
 		this.players = players;
 		this.avatarImages = new ArrayList<AvatarImages>();
-		this.anmt = 0;
+		this.animationIndex = 0;
 
 		for (int i = 0; i < players.size(); i++){
 			int avatarImageIndex = new Random().nextInt(3);
 			this.avatarImages.add(new AvatarImages("avatar" + avatarImageIndex + ".png", tileWidth));
 		}
-		this.grassImage = loadImage("ground.png");
+		this.grassImage = loadImage("ground.png", 1);
+		this.treeImage = loadImage("tree.png", 3);
 
 //		setWidthHeight(width, height);
 		Dimension size = new Dimension(width, height);
@@ -47,16 +51,16 @@ public class GameRenderer extends JPanel{
 		setVisible(true);
 	}
 
-	private Image loadImage(String filename) {
+	private Image loadImage(String filename, int scale) {
 		Image image = ImageLoader.loadImage(filename);
 
 		BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		//draw the image to bufferedImage
 		Graphics2D g = img.createGraphics();
-		g.drawImage(image, 0, 0, (int)tileWidth, (int)tileHeight, null);
+		g.drawImage(image, 0, 0, (int)tileWidth*scale, (int)tileHeight*scale, null);
+//		g.drawImage(image, 0, 0, (int) (tileWidth * scale), (int) (tileHeight * scale), 0, 0, width, height, null);
 		g.dispose();
 		return img;
-
 	}
 
 //	public void setWidthHeight(int w, int h){
@@ -71,33 +75,45 @@ public class GameRenderer extends JPanel{
 	public void paintComponent(Graphics g) {
 		//clear this panel
 		this.removeAll();
-
 		render(g);
 	}
 
 	public void render(Graphics g) {
 		//draw the game board
-
 		for (int x = 0; x < area.length; x++) {
 			for (int y = 0; y < area[x].length; y++) {
+				g.drawImage(grassImage, (int) (x * tileWidth), (int) (y * tileHeight), null);
+			}
+		}
+		for (int y = 0; y < area[0].length; y++) {
+			for (int i = 0; i < players.size(); i++){
+				if (players.get(i).getPosition().getY() == y) {
+					g.drawImage(avatarImages.get(i).getImages()[0][(int) (animationIndex)],
+							(int) (players.get(i).getPosition().getX() * tileWidth),
+							(int) (players.get(i).getPosition().getY() * tileHeight - avatarImages.get(i).avatarHeight() + tileHeight),
+							null);
+				}
+			}
+			for (int x = 0; x < area.length; x++) {
 				drawTile(area[x][y], x, y, g);
 			}
 		}
+
 		//draw players
-		for (int i = 0; i < players.size(); i++){
-			g.drawImage(avatarImages.get(i).getImages()[0][(int)(anmt)],
-					(int)(players.get(i).getPosition().getX()*tileWidth),
-					(int)(players.get(i).getPosition().getY()*tileHeight - avatarImages.get(i).avatarHeight() + tileHeight),
-					null);
-		}
+//		for (int i = 0; i < players.size(); i++){
+//			g.drawImage(avatarImages.get(i).getImages()[0][(int)(animationIndex)],
+//					(int)(players.get(i).getPosition().getX()*tileWidth),
+//					(int)(players.get(i).getPosition().getY()*tileHeight - avatarImages.get(i).avatarHeight() + tileHeight),
+//					null);
+//		}
 		updateAnimation();
 		repaint();
 	}
 
 	private void updateAnimation() {
-		anmt++;
-		if (anmt > 3){
-			anmt = 0;
+		animationIndex++;
+		if (animationIndex > 3){
+			animationIndex = 0;
 		}
 		try {
 			Thread.sleep(200);
@@ -109,32 +125,32 @@ public class GameRenderer extends JPanel{
 	private void drawTile(Tile tile, int x, int y, Graphics g) {
 		switch (tile.getType()){
 			case TREE:
-				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
+				g.drawImage(treeImage, (int)(x*tileWidth-tileWidth), (int)(y*tileHeight-3*tileHeight+tileHeight), null);
 				break;
-			case BUILDING:
-				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
-				break;
-			case DOOR:
-				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
-				break;
-			case CAVE:
-				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
-				break;
-			case CAVEENTRANCE:
-				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
-				break;
-			case CHEST:
-				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
-				break;
-			case GRASS:
-				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
-				break;
-			case ROCK:
-				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
-				break;
-			case WOOD:
-				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
-				break;
+//			case BUILDING:
+//				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
+//				break;
+//			case DOOR:
+//				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
+//				break;
+//			case CAVE:
+//				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
+//				break;
+//			case CAVEENTRANCE:
+//				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
+//				break;
+//			case CHEST:
+//				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
+//				break;
+//			case GRASS:
+//				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
+//				break;
+//			case ROCK:
+//				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
+//				break;
+//			case WOOD:
+//				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
+//				break;
 			default:
 				break;
 		}

@@ -24,7 +24,7 @@ public class GameFrame extends JFrame{
 	private PlayerInfo player = new PlayerInfo("Donald Duck", Avatar.DONALD_DUCK);
 
 	private StrategyInterpreter keyInterpreter;
-
+	private testRenderer data;
 
 
 	/**
@@ -171,29 +171,70 @@ public class GameFrame extends JFrame{
 	/**
 	 * Shows a dialog if the user presses an arrow key
 	 */
+//	private class MyDispatcher implements KeyEventDispatcher {
+//		@Override
+//		public boolean dispatchKeyEvent(KeyEvent e) {
+//
+//			if (e.getID() == KeyEvent.KEY_PRESSED) {
+//				switch( e.getKeyCode()) {
+//				case KeyEvent.VK_UP:
+//					showDialog("UP!");
+//					keyInterpreter.notify("UP"); //implement for all key presses
+//					break;
+//				case KeyEvent.VK_DOWN:
+//					showDialog("DOWN!");
+//					//notify interpreter?
+//					break;
+//				case KeyEvent.VK_LEFT:
+//					showDialog("LEFT!");
+//					//notify interpreter?
+//					break;
+//				case KeyEvent.VK_RIGHT :
+//					showDialog("RIGHT!");
+//					//notify interpreter?
+//					break;
+//				}
+//			}
+//			else if (e.getID() == KeyEvent.KEY_RELEASED) {
+//			}
+//			else if (e.getID() == KeyEvent.KEY_TYPED) {
+//			}
+//			return false;
+//		}
+//
+//
+//	}
+
+	//for testing renderer
 	private class MyDispatcher implements KeyEventDispatcher {
 		@Override
 		public boolean dispatchKeyEvent(KeyEvent e) {
 
 			if (e.getID() == KeyEvent.KEY_PRESSED) {
+				int x = data.getPlayers().get(0).getPosition().getX();
+				int y = data.getPlayers().get(0).getPosition().getY();
+
 				switch( e.getKeyCode()) {
-				case KeyEvent.VK_UP:
-					showDialog("UP!");
-					keyInterpreter.notify("UP"); //implement for all key presses
-					break;
-				case KeyEvent.VK_DOWN:
-					showDialog("DOWN!");
-					//notify interpreter?
-					break;
-				case KeyEvent.VK_LEFT:
-					showDialog("LEFT!");
-					//notify interpreter?
-					break;
-				case KeyEvent.VK_RIGHT :
-					showDialog("RIGHT!");
-					//notify interpreter?
-					break;
+					case KeyEvent.VK_UP:
+						y -= 1;
+						keyInterpreter.notify("UP"); //implement for all key presses
+						break;
+					case KeyEvent.VK_DOWN:
+						y += 1;
+						//notify interpreter?
+						break;
+					case KeyEvent.VK_LEFT:
+						x -= 1;
+						//notify interpreter?
+						break;
+					case KeyEvent.VK_RIGHT :
+						x += 1;
+						//notify interpreter?
+						break;
 				}
+
+				data.getPlayers().get(0).getPosition().setX(x);
+				data.getPlayers().get(0).getPosition().setY(y);
 			}
 			else if (e.getID() == KeyEvent.KEY_RELEASED) {
 			}
@@ -239,7 +280,7 @@ public class GameFrame extends JFrame{
 		c = new GridBagConstraints();
 
 		//data for testing
-		testRenderer data = new testRenderer(20, 0, 0, 15, 20, 20, 4);
+		data = new testRenderer(20, 0, 0, 15, 20, 20, 4);
 
 		GameRenderer map = new GameRenderer(mapSize.width, mapSize.height, data.getArea().getArray(), data.getPlayers());
 		c.insets = new Insets(buttonPaddingVertical,0,buttonPaddingVertical,0);  //padding on top and bottom
