@@ -4,17 +4,29 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.*;
+
+import control.*;
+import dataStorage.*;
+import GUI.*;
+import interpreter.*;
+import logic.*;
+import renderer.*;
+import state.*;
 
 /**
- * Provides a static method deepCopy(Object) to deep clone an object using serialization.
+ * Provides a static method deepCopy(Object) to deep clone an object using
+ * serialization.
  *
  * @author Shenbo Xuan 300259386
  *
  */
+@SuppressWarnings("unused")
 public class ObjectCloner {
 
 	// so that nobody can accidentally create an ObjectCloner object
-	private ObjectCloner() {}
+	private ObjectCloner() {
+	}
 
 	/**
 	 * returns a deep cloned object
