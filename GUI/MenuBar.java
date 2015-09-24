@@ -52,22 +52,22 @@ public class MenuBar extends JMenuBar {
 					}
 				}
 				else if(e.getSource()==load){
-					 int returnVal = fc.showOpenDialog(MenuBar.this);
-					 if (returnVal == JFileChooser.APPROVE_OPTION) {
-				            File file = fc.getSelectedFile();
-				            //notify interpreter to open file
-				        } else {
-				            //do nothing
-				        }
+					int returnVal = fc.showOpenDialog(MenuBar.this);
+					if (returnVal == JFileChooser.APPROVE_OPTION) {
+						File file = fc.getSelectedFile();
+						//notify interpreter to open file
+					} else {
+						//do nothing
+					}
 				}
 				else if(e.getSource()==save){
 					int returnVal = fc.showSaveDialog(MenuBar.this);
 					if (returnVal == JFileChooser.APPROVE_OPTION) {
-			            File file = fc.getSelectedFile();
-			            //notify interpreter to save file
-			        } else {
-			            //do nothing
-			        }
+						File file = fc.getSelectedFile();
+						//notify interpreter to save file
+					} else {
+						//do nothing
+					}
 
 				}
 			}

@@ -1,13 +1,13 @@
 package interpreter;
 
-public class TestKeyStrategy implements StrategyInterpreter.Strategy{
+public class KeyStrategy implements StrategyInterpreter.Strategy{
 
 	private StrategyInterpreter interpreter;
 
 	@Override
 	public void notify(String text) {
 		if(text.equals("UP")){
-			//send code to Model through network
+			//send code to Model through network, using the interpreter?
 		}
 	}
 

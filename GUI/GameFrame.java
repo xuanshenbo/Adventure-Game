@@ -5,9 +5,12 @@ import interpreter.*;
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.util.Set;
 
 
@@ -24,6 +27,8 @@ public class GameFrame extends JFrame{
 
 	private StrategyInterpreter keyInterpreter;
 
+	private StrategyInterpreter buttonInterpreter;
+
 
 
 	/**
@@ -33,6 +38,9 @@ public class GameFrame extends JFrame{
 	public GameFrame(String title) {
 		super(title);
 		setLayout(new GridBagLayout());
+
+		addMenuBar();
+
 		setUpLayout();
 
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -64,8 +72,8 @@ public class GameFrame extends JFrame{
 		setVisible(true);
 	}
 
+	//add all the necessary panels with the appropriate GridBagConstraints
 	private void setUpLayout() {
-		addMenuBar();
 
 		GridBagConstraints c;
 
@@ -100,10 +108,71 @@ public class GameFrame extends JFrame{
 		}
 
 	private void addMenuBar() {
-		GridBagConstraints c;
-		c = new GridBagConstraints();
-		c.ipady = 0;       //reset to default
-		MenuBar menu = new MenuBar();
+		GridBagConstraints c = new GridBagConstraints();
+
+		//create a new JMenuBar
+		JMenuBar bar = new JMenuBar();
+
+		//create a File menu
+		JMenu menu = new JMenu("File");
+
+		//Create a file chooser
+		final JFileChooser fc = new JFileChooser();
+
+		//add an Exit option to the file menu
+		final JMenuItem exit = new JMenuItem("Exit");
+
+		//add Save option to the file menu
+		final JMenuItem save = new JMenuItem("Save");
+
+		//add Load option to the file menu
+		final JMenuItem load = new JMenuItem("Load");
+
+		//add a menu listener
+		ActionListener menuListener = new ActionListener(){
+
+			public void actionPerformed(ActionEvent e) {
+				//prompt the user if they choose exit, to ensure they want to exit the program
+				if(e.getSource()==exit){
+					String ObjButtons[] = {"Yes","No"};
+					int PromptResult = JOptionPane.showOptionDialog(null,"Are you sure you want to exit?","Adventure Game",
+							JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE,null,ObjButtons,ObjButtons[1]);
+					if(PromptResult==JOptionPane.YES_OPTION){
+						System.exit(0);
+					}
+				}
+				else if(e.getSource()==load){
+					 int returnVal = fc.showOpenDialog(GameFrame.this);
+					 if (returnVal == JFileChooser.APPROVE_OPTION) {
+				            File file = fc.getSelectedFile();
+				            //notify interpreter to open file
+				        } else {
+				            //do nothing
+				        }
+				}
+				else if(e.getSource()==save){
+					int returnVal = fc.showSaveDialog(GameFrame.this);
+					if (returnVal == JFileChooser.APPROVE_OPTION) {
+			            File file = fc.getSelectedFile();
+			            //notify interpreter to save file
+			        } else {
+			            //do nothing
+			        }
+
+				}
+			}
+		};
+
+		exit.addActionListener(menuListener);
+		save.addActionListener(menuListener);
+		load.addActionListener(menuListener);
+
+		menu.add(exit);
+		menu.add(save);
+		menu.add(load);
+
+		bar.add(menu);
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.PAGE_START; //top of space
 		c.gridx = 0;       //aligned with button 1
@@ -111,13 +180,14 @@ public class GameFrame extends JFrame{
 		c.gridwidth = 9;   //6 columns wide
 		c.gridheight = 1; //1 row high?
 		c.gridy = 2;       //third row
-		add(menu, c);
+
+		add(bar, c);
 	}
 
 	private void addButtonPanel() {
 		GridBagConstraints c1 = new GridBagConstraints();
 		c1.ipady = 0;       //reset to default
-		ButtonPanel buttons = new ButtonPanel(this);
+		ButtonPanel buttons = new ButtonPanel(this, this.buttonInterpreter);
 
 		c1.fill = GridBagConstraints.HORIZONTAL;
 		c1.ipady = 0;       //reset to default
@@ -229,5 +299,10 @@ public class GameFrame extends JFrame{
 
 	public void setKeyInterpreter(StrategyInterpreter keyInterpreter) {
 		this.keyInterpreter = keyInterpreter;
+	}
+
+	public void setButtonInterpreter(StrategyInterpreter b) {
+		this.buttonInterpreter = b;
+
 	}
 }

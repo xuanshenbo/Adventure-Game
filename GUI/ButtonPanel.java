@@ -1,6 +1,8 @@
 package GUI;
 
 
+import interpreter.StrategyInterpreter;
+
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,13 +27,13 @@ public class ButtonPanel extends JPanel {
 	private JButton team;
 	private JButton exchange;
 	private GameFrame containerFrame;
-	//private StrategyInterpreter buttonInterpreter;
+	private StrategyInterpreter buttonInterpreter;
 	/**
 	 * The constructor stores the button interpreter to a field
 	 * @param container
 	 */
-	public ButtonPanel(GameFrame container){ //TODO make it take a StrategyInterpreter
-		//buttonInterpreter = b;
+	public ButtonPanel(GameFrame container, StrategyInterpreter b){
+		buttonInterpreter = b;
 		containerFrame = container;
 		//make buttons layout top to bottom
 		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS);
