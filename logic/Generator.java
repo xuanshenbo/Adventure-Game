@@ -28,12 +28,14 @@ public class Generator {
 	private int buildings;
 	private int caves;
 	private int chests;
+	private int lootValue;
 
-	public Generator(int trees, int buildings, int caves, int chests){
+	public Generator(int trees, int buildings, int caves, int chests, int lootValue){
 		this.trees = trees;
 		this.buildings = buildings;
 		this.caves = caves;
 		this.chests = chests;
+		this.lootValue = lootValue;
 	}
 
 	public int treeRatio(){
@@ -44,7 +46,11 @@ public class Generator {
 		return buildings;
 	}
 
-	public void fillArea(Area area, ArrayList<Area> children){
+	public void placeLoot(Area area, ArrayList<Area> children){
+
+	}
+
+	public void fillTiles(Area area, ArrayList<Area> children){
 
 		Tile[][] areaArray = area.getArray();
 

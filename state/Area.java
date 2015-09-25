@@ -105,7 +105,7 @@ public class Area {
 	}
 
 	public void generateWorld(Generator g){
-		g.fillArea(this, internalAreas);
+		g.fillTiles(this, internalAreas);
 	}
 
 	public String toString(){

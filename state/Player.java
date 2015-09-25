@@ -4,12 +4,16 @@
 
 package state;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import state.Tile.TileType;
 
 public class Player {
 
 	private Position position; // Position of the player in the world
 	private final int id; // unique identifier of the player
+	private List<Items> inventory = new ArrayList<Items>(); // The inventory of the player
 
 	public Player(Position p, int id){
 		this.position  = p;
@@ -22,7 +26,7 @@ public class Player {
 
 	public void setPosition(Position newPosition) {
 		position = newPosition;
-		
+
 	}
 
 	public int getId() {

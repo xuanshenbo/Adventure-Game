@@ -5,6 +5,7 @@
 package state;
 
 import java.util.ArrayList;
+import static utilities.PrintTool.p;
 
 public class GameState {
 
@@ -45,6 +46,45 @@ public class GameState {
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * This methods returns a 15 by 15 array of tiles that are around the player,
+	 * this is for the network to send down the pipe to the client to draw.
+	 * @param player
+	 * @return
+	 */
+	public String[][] getGameView(Player player){
+		String[][] view = new String[15][15];
+		Area a = getArea(player);
+		int left = player.getPosition().getY() - 7;
+		int right = player.getPosition().getY() + 7;
+		int top = player.getPosition().getX() - 7;
+		int bottom = player.getPosition().getX() + 7;
+		
+		int r = 0;
+		int c = 0;
+		for(int row = top; row < bottom+1; row++){
+			for(int col = left; col < right+1; col++){
+				if(row>-1 && col >-1 && row <a.getArray().length && col < a.getArray()[0].length){
+					boolean playerPos = false;					
+
+					for(Player p: playerList){
+						if(p.getPosition().getX() == row && p.getPosition().getY() == col && p.getPosition().getArea() == a){
+							view[r][c] = Integer.toString(p.getId());
+							playerPos = true;
+						}
+					}
+					if(!playerPos){
+						view[r][c] = Character.toString(a.getArray()[row][col].getType().id);
+					}
+				}
+				c++;
+			}
+			c=0;
+			r++;
+		}		
+		return view;		
 	}
 
 
@@ -102,6 +142,20 @@ public class GameState {
 				}
 				System.out.println("");
 			}
+		}
+		
+		
+		String[][] playerOneView = getGameView(playerList.get(0));
+		System.out.println("\nPlayer 1 view");
+		for(int row = 0; row<playerOneView.length; row++){
+			for(int col = 0; col<playerOneView[0].length; col++){
+				if(playerOneView[row][col] != null){
+					System.out.print(playerOneView[row][col]);
+				}else{
+					System.out.print("N");
+				}
+			}
+			System.out.println("");
 		}
 	}
 

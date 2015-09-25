@@ -13,7 +13,7 @@ public class Tile {
 		BUILDING('B'),
 		DOOR('D'),
 		CAVE('C'),
-		CAVEENTRANCE('c'),
+		CAVEENTRANCE('E'),
 		CHEST('O'),
 		GRASS('G'),
 		ROCK('R'),
