@@ -4,6 +4,8 @@ import interpreter.StrategyInterpreter;
 
 import javax.swing.*;
 
+import renderer.GameRenderer;
+import renderer.testRenderer;
 import state.Item;
 
 import java.awt.*;
@@ -31,7 +33,7 @@ public class GameFrame extends JFrame{
 	private StrategyInterpreter keyInterpreter;
 
 	private StrategyInterpreter buttonInterpreter;
-	private Renderer data;
+	private testRenderer data;
 
 
 	/**
@@ -244,41 +246,6 @@ public class GameFrame extends JFrame{
 	/**
 	 * Shows a dialog if the user presses an arrow key
 	 */
-	private class MyDispatcher implements KeyEventDispatcher {
-		@Override
-		public boolean dispatchKeyEvent(KeyEvent e) {
-
-	int x = data.getPlayers().get(0).getPosition().getX();
-
-			if (e.getID() == KeyEvent.KEY_PRESSED) {
-				switch( e.getKeyCode()) {
-				case KeyEvent.VK_UP:
-					showDialog("UP!");
-					keyInterpreter.notify("UP"); //implement for all key presses
-					break;
-				case KeyEvent.VK_DOWN:
-					showDialog("DOWN!");
-					//notify interpreter?
-					break;
-				case KeyEvent.VK_LEFT:
-					showDialog("LEFT!");
-					//notify interpreter?
-					break;
-				case KeyEvent.VK_RIGHT :
-					showDialog("RIGHT!");
-					//notify interpreter?
-					break;
-				}
-			}
-			else if (e.getID() == KeyEvent.KEY_RELEASED) {
-			}
-			else if (e.getID() == KeyEvent.KEY_TYPED) {
-			}
-			return false;
-		}
-
-
-	}
 
 	//for testing renderer
 	private class MyDispatcher implements KeyEventDispatcher {
