@@ -1,8 +1,10 @@
 package GUI;
 
-import interpreter.*;
+import interpreter.StrategyInterpreter;
 
 import javax.swing.*;
+
+import state.Item;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,6 +13,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -18,7 +21,7 @@ public class GameFrame extends JFrame{
 	private int frameWidth = 800;
 	private int frameHeight = 800;
 
-	private Dimension mapSize = new Dimension(1000, 600);
+	private Dimension mapSize = new Dimension(750, 400);
 
 	public final int buttonPaddingHorizontal = 50;	//public as needs to be accessed from ButtonPanel
 	private final int buttonPaddingVertical = 50;
@@ -28,7 +31,7 @@ public class GameFrame extends JFrame{
 	private StrategyInterpreter keyInterpreter;
 
 	private StrategyInterpreter buttonInterpreter;
-
+	private Renderer data;
 
 
 	/**
@@ -37,6 +40,7 @@ public class GameFrame extends JFrame{
 	 */
 	public GameFrame(String title) {
 		super(title);
+
 		setLayout(new GridBagLayout());
 
 		addMenuBar();
@@ -53,11 +57,10 @@ public class GameFrame extends JFrame{
 			@Override
 			public void windowClosing(WindowEvent we) {
 
-				String ObjButtons[] = {"Yes","No"};
-				int PromptResult = JOptionPane.showOptionDialog(null,"Are you sure you want to exit?","CluedoGame",
-						JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE,null,ObjButtons,ObjButtons[1]);
-				if(PromptResult==JOptionPane.YES_OPTION)
-				{
+				String ObjButtons[] = {"Yes", "No"};
+				int PromptResult = JOptionPane.showOptionDialog(null, "Are you sure you want to exit?", "CluedoGame",
+						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
+				if (PromptResult == JOptionPane.YES_OPTION) {
 					System.exit(0);
 				}
 			}
@@ -124,6 +127,7 @@ public class GameFrame extends JFrame{
 
 		//add Save option to the file menu
 		final JMenuItem save = new JMenuItem("Save");
+
 
 		//add Load option to the file menu
 		final JMenuItem load = new JMenuItem("Load");
@@ -199,20 +203,20 @@ public class GameFrame extends JFrame{
 		add(buttons, c1);
 	}
 
-	private void addGameMapPanel() {
-		GridBagConstraints c;
-		c = new GridBagConstraints();
-		JButton map = new JButton("The Game Map panel");
-		c.insets = new Insets(buttonPaddingVertical,0,buttonPaddingVertical,0);  //padding on top and bottom
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.ipady = mapSize.height;      //specify height
-		c.ipadx = mapSize.width; //specify width
-		c.gridwidth = 9;
-		c.gridheight = 6;
-		c.gridx = 0;
-		c.gridy = 5;
-		add(map, c); //add main board panel showing map
-	}
+//	private void addGameMapPanel() {
+//		GridBagConstraints c;
+//		c = new GridBagConstraints();
+//		JButton map = new JButton("The Game Map panel");
+//		c.insets = new Insets(buttonPaddingVertical,0,buttonPaddingVertical,0);  //padding on top and bottom
+//		c.fill = GridBagConstraints.HORIZONTAL;
+//		c.ipady = mapSize.height;      //specify height
+//		c.ipadx = mapSize.width; //specify width
+//		c.gridwidth = 9;
+//		c.gridheight = 6;
+//		c.gridx = 0;
+//		c.gridy = 5;
+//		add(map, c); //add main board panel showing map
+//	}
 
 	private void addPlayerProfilePanel() {
 		GridBagConstraints c;
@@ -244,6 +248,8 @@ public class GameFrame extends JFrame{
 		@Override
 		public boolean dispatchKeyEvent(KeyEvent e) {
 
+	int x = data.getPlayers().get(0).getPosition().getX();
+
 			if (e.getID() == KeyEvent.KEY_PRESSED) {
 				switch( e.getKeyCode()) {
 				case KeyEvent.VK_UP:
@@ -274,6 +280,47 @@ public class GameFrame extends JFrame{
 
 	}
 
+	//for testing renderer
+	private class MyDispatcher implements KeyEventDispatcher {
+		@Override
+		public boolean dispatchKeyEvent(KeyEvent e) {
+
+			if (e.getID() == KeyEvent.KEY_PRESSED) {
+				int x = data.getPlayers().get(0).getPosition().getX();
+				int y = data.getPlayers().get(0).getPosition().getY();
+
+				switch( e.getKeyCode()) {
+					case KeyEvent.VK_UP:
+						y -= 1;
+						keyInterpreter.notify("UP"); //implement for all key presses
+						break;
+					case KeyEvent.VK_DOWN:
+						y += 1;
+						//notify interpreter?
+						break;
+					case KeyEvent.VK_LEFT:
+						x -= 1;
+						//notify interpreter?
+						break;
+					case KeyEvent.VK_RIGHT :
+						x += 1;
+						//notify interpreter?
+						break;
+				}
+
+				data.getPlayers().get(0).getPosition().setX(x);
+				data.getPlayers().get(0).getPosition().setY(y);
+			}
+			else if (e.getID() == KeyEvent.KEY_RELEASED) {
+			}
+			else if (e.getID() == KeyEvent.KEY_TYPED) {
+			}
+			return false;
+		}
+
+
+	}
+
 	private void showDialog(String string) {
 		int PromptResult = JOptionPane.showConfirmDialog(this, "You pressed: "+string);
 
@@ -283,14 +330,22 @@ public class GameFrame extends JFrame{
 
 	}
 
-	public void addInventoryPanel() {
-		// TODO Auto-generated method stub
+	public Set<Item> getInventoryContents() {
 
+		Set<Item> items = new HashSet<Item>();
+
+		//Get contents from Game, via Felix
+
+		//for testing, display random num of images
+		for(int i = 0; i<(int)(Math.random()*5 +1); i++){
+			items.add(new Item());
+		}
+
+		return items;
 	}
 
-	public Set<String> getInventory() {
-		// TODO Auto-generated method stub
-		return null;
+	public void addInventoryDialog() {
+		Dialog inventory = new Dialog(this, "Display Inventory", "Your inventory contains:", "inventory");
 	}
 
 	public StrategyInterpreter getKeyInterpreter() {
@@ -300,9 +355,30 @@ public class GameFrame extends JFrame{
 	public void setKeyInterpreter(StrategyInterpreter keyInterpreter) {
 		this.keyInterpreter = keyInterpreter;
 	}
-
 	public void setButtonInterpreter(StrategyInterpreter b) {
 		this.buttonInterpreter = b;
 
+	}
+
+
+
+	//add by Lucas for debugging purpose
+	private void addGameMapPanel() {
+		GridBagConstraints c;
+		c = new GridBagConstraints();
+
+		//data for testing
+		data = new testRenderer(20, 0, 0, 15, 20, 20, 4);
+
+		GameRenderer map = new GameRenderer(mapSize.width, mapSize.height, data.getArea().getArray(), data.getPlayers());
+		c.insets = new Insets(buttonPaddingVertical,0,buttonPaddingVertical,0);  //padding on top and bottom
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.ipady = mapSize.height;      //specify height
+		c.ipadx = mapSize.width; //specify width
+		c.gridwidth = 9;
+		c.gridheight = 6;
+		c.gridx = 0;
+		c.gridy = 5;
+		add(map, c); //add main board panel showing map
 	}
 }

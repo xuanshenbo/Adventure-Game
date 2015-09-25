@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -46,7 +47,7 @@ public class ButtonPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e){
-				containerFrame.addInventoryPanel(); //call addDisplayPanel on GameFrame, and get info from model from there?
+				containerFrame.addInventoryDialog();
 			}
 		});
 
@@ -58,7 +59,10 @@ public class ButtonPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e){
-				//notify interpreter
+				JOptionPane.showMessageDialog(containerFrame,
+					    "You have NO team",
+					    "Sorry :(",
+					    JOptionPane.WARNING_MESSAGE);
 			}
 		});
 
@@ -70,7 +74,10 @@ public class ButtonPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e){
-				//notify interpreter
+				JOptionPane.showMessageDialog(containerFrame,
+					    "You have NO items to display",
+					    "Idiot!",
+					    JOptionPane.WARNING_MESSAGE);
 			}
 		});
 

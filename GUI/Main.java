@@ -1,6 +1,8 @@
 package GUI;
 
-import interpreter.*;
+import interpreter.ButtonStrategy;
+import interpreter.KeyStrategy;
+import interpreter.StrategyInterpreter;
 
 /**
  * This class to be used for testing the GUI and interpreter packages
@@ -19,7 +21,6 @@ public class Main {
 		//add the Strategy Interpreters to the GameFrame
 		game.setKeyInterpreter(keyInterpreter);
 		game.setButtonInterpreter(buttonInterpreter);
-
 
 	}
 

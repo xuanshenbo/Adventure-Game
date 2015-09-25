@@ -11,6 +11,10 @@ import java.net.Socket;
 public class TestControl {
 
 	public static void main(String[] args) {
+		startNetwork();
+	}
+
+	public static void startNetwork(){
 		Server ss = new Server();
 		ss.start();
 		try {
