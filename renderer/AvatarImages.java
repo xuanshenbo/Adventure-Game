@@ -26,7 +26,7 @@ public class AvatarImages {
 //        this.size = size;
         this.scale = tileWidth/avater_width;
         this.images = split(ImageLoader.loadImage(fileName), width, height);
-        System.out.println("avatarWidth: " + this.scale*avater_width + " avatarHeight: " + this.scale*avater_height);
+        //System.out.println("avatarWidth: " + this.scale*avater_width + " avatarHeight: " + this.scale*avater_height);
     }
 
     public Image[][] split(Image image, int width, int height){

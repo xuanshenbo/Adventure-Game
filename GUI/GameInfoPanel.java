@@ -19,6 +19,7 @@ public class GameInfoPanel extends JPanel{
 	private JPanel gameInfo;
 	private String time = "09:00";
 	private String playerPosition = "(3, 5)";
+	private Dimension size = new Dimension(250, 100);
 
 	private Dimension mapSize = new Dimension(100, 100);
 
@@ -43,6 +44,8 @@ public class GameInfoPanel extends JPanel{
 		//add a plain black border around the whole panel
 		Border blackline = BorderFactory.createLineBorder(Color.black);
 		setBorder(blackline);
+
+		setSize(size);
 	}
 
 	private void fillGameInfoPanel() {

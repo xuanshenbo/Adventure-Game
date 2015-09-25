@@ -1,5 +1,6 @@
 package interpreter;
 import GUI.GameFrame;
+import GUI.GameFrameGridBag;
 
 /**
  * An implementation of the Strategy design pattern. A StrategyInterpreter acts as an Observer
@@ -12,12 +13,12 @@ public class StrategyInterpreter implements Observer{
 
 	/**
 	 * Stores the arguments in the fields
-	 * @param g The Game
+	 * @param game The Game
 	 * @param gameFrame The BoardFrame
 	 * @param s The Strategy
 	 */
-	public StrategyInterpreter(GameFrame g, Strategy s){
-		gameGUI = g;
+	public StrategyInterpreter(GameFrame game, Strategy s){
+		gameGUI = game;
 		strategy = s;
 		s.setInterpreter(this);
 	}

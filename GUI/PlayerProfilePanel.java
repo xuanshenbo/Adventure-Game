@@ -65,7 +65,11 @@ public class PlayerProfilePanel extends JPanel{
 		Border blackline = BorderFactory.createLineBorder(Color.black);
 		setBorder(blackline);
 
-		setPreferredSize(size);
+		//setPreferredSize(size);
+	}
+
+	public PlayerProfilePanel() {
+		// TODO Auto-generated constructor stub
 	}
 
 	private void fillStatusPanel() {

@@ -60,9 +60,9 @@ public class ButtonPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e){
 				JOptionPane.showMessageDialog(containerFrame,
-					    "You have NO team",
-					    "Sorry :(",
-					    JOptionPane.WARNING_MESSAGE);
+						"You have NO team",
+						"Sorry :(",
+						JOptionPane.WARNING_MESSAGE);
 			}
 		});
 
@@ -75,9 +75,9 @@ public class ButtonPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e){
 				JOptionPane.showMessageDialog(containerFrame,
-					    "You have NO items to display",
-					    "Idiot!",
-					    JOptionPane.WARNING_MESSAGE);
+						"You have NO items to display",
+						"Idiot!",
+						JOptionPane.WARNING_MESSAGE);
 			}
 		});
 
@@ -88,5 +88,5 @@ public class ButtonPanel extends JPanel {
 		add(Box.createRigidArea(new Dimension(containerFrame.buttonPaddingHorizontal,0))); //pad between buttons
 		add(exchange);
 
-}
+	}
 }

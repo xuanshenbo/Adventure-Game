@@ -4,10 +4,22 @@ public class KeyStrategy implements StrategyInterpreter.Strategy{
 
 	private StrategyInterpreter interpreter;
 
+	/**
+	 * Sends information to the "Model" via the network, depending on what key the user pressed
+	 */
 	@Override
 	public void notify(String text) {
-		if(text.equals("UP")){
-			//send code to Model through network, using the interpreter?
+		if(text.equals("up")){
+
+		}
+		else if(text.equals("down")){
+
+		}
+		else if(text.equals("left")){
+
+		}
+		else if(text.equals("right")){
+
 		}
 	}
 

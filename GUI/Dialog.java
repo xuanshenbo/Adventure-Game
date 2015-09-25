@@ -37,17 +37,17 @@ public class Dialog extends JDialog implements ActionListener {
 
 	/**
 	 * Creates a dialog with a message, and different behaviour depending on the state
-	 * @param parent The parent frame of the dialog
+	 * @param gameFrame The parent frame of the dialog
 	 * @param title The title of the Dialog to be passed to super constructor
 	 * @param msg Message to display
 	 * @param i The state of the Game
 	 */
-	public Dialog(GameFrame parent, String title, String msg, String state) {
-		super(parent, title, true);
+	public Dialog(GameFrame gameFrame, String title, String msg, String state) {
+		super(gameFrame, title, true);
 
 		getContentPane().setLayout( new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
 
-		parentFrame = parent;
+		parentFrame = gameFrame;
 
 		JPanel messagePane = new JPanel();
 		messagePane.add(new JLabel(msg));

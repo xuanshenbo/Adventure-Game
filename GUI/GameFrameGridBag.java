@@ -1,4 +1,4 @@
-package GUI;
+/*package GUI;
 
 import interpreter.StrategyInterpreter;
 
@@ -18,13 +18,8 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * NEW version of GameFrame doesn't use GridBagLayout, but instead uses a BoxLayout with 3 Jpanels, each of
- * which has its own Layout
- * @author flanagdonn
- *
- */
-public class GameFrame extends JFrame{
+
+public class GameFrameGridBag extends JFrame{
 	private int frameWidth = 800;
 	private int frameHeight = 800;
 
@@ -43,32 +38,28 @@ public class GameFrame extends JFrame{
 
 	private testRenderer data;
 
-	private TopPanel topPanel;
 
-	private JPanel midPanel;
 
-	private JPanel botPanel;
-
-	/**
+	*//**
 	 * The constructor sets up the KeyListener using the KeyboardFocusManager
 	 * @param title The title of the GameFrame, used in the super constructor
-	 */
-	public GameFrame(String title) {
+	 *//*
+	public GameFrameGridBag(String title) {
 		super(title);
 
 		setBackground(new Color(102, 0, 0));
 
-		addMenuBar();
+		setLayout(new GridBagLayout());
 
-		setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
+		addMenuBar();
 
 		setUpLayout();
 
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-		/*
+
 		 *Prompt the user to confirm if they click the close button
-		 */
+
 		addWindowListener(new WindowAdapter() {
 
 			@Override
@@ -95,50 +86,41 @@ public class GameFrame extends JFrame{
 	//add all the necessary panels with the appropriate GridBagConstraints
 	private void setUpLayout() {
 
-		setupMiddlePanel();//need it set up so can use its width in Top Panel class
+		GridBagConstraints c;
 
-		addTopPanel();
+		addGameInfoPanel();
 
-		add(midPanel);
+		addTeamPanel();
 
-		addBottomPanel();
+		addPlayerProfilePanel();
 
+		addGameMapPanel();
 
-	}
-
-	private void addTopPanel() {
-		JPanel top = new TopPanel(this);
-
-		add(top);
-
-	}
-
-	private void setupMiddlePanel() {
-		midPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-
-		data = new testRenderer(20, 0, 0, 15, 20, 20, 4);
-
-		GameRenderer map = new GameRenderer(mapSize.width, mapSize.height, data.getArea().getArray(), data.getPlayers());
-
-		midPanel.add(map); //add main board panel showing map
+		addButtonPanel();
 
 
 	}
 
-	private void addBottomPanel() {
-		botPanel = new JPanel();
-		botPanel.setLayout(new BoxLayout(botPanel, BoxLayout.LINE_AXIS));
+	private void addTeamPanel() {
+		GridBagConstraints c;
+		//implement team panel later?
 
-		ButtonPanel buttons = new ButtonPanel(this, this.buttonInterpreter);
-		botPanel.add(buttons);
-
-		add(botPanel);
+		c = new GridBagConstraints();
+		c.ipady = 0;       //reset to default
+		JButton team = new JButton("The Team panel");
+		c.insets = new Insets(0,buttonPaddingHorizontal,0,buttonPaddingHorizontal);  //padding on sides
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1;
+		c.gridwidth = 1;   //1 column wide
+		c.gridx = 3;
+		c.gridy = 3; //same row as time/position panel
+		add(team, c); //add panel which shows the Team members. Should we implement team??
 
 	}
-
-
 
 	private void addMenuBar() {
+		GridBagConstraints c = new GridBagConstraints();
+
 		//create a new JMenuBar
 		JMenuBar bar = new JMenuBar();
 
@@ -171,7 +153,7 @@ public class GameFrame extends JFrame{
 					}
 				}
 				else if(e.getSource()==load){
-					int returnVal = fc.showOpenDialog(GameFrame.this);
+					int returnVal = fc.showOpenDialog(GameFrameGridBag.this);
 					if (returnVal == JFileChooser.APPROVE_OPTION) {
 						File file = fc.getSelectedFile();
 						System.out.println(file);
@@ -181,7 +163,7 @@ public class GameFrame extends JFrame{
 					}
 				}
 				else if(e.getSource()==save){
-					int returnVal = fc.showSaveDialog(GameFrame.this);
+					int returnVal = fc.showSaveDialog(GameFrameGridBag.this);
 					if (returnVal == JFileChooser.APPROVE_OPTION) {
 						File file = fc.getSelectedFile();
 						menuInterpreter.notify("save "+file);
@@ -203,14 +185,74 @@ public class GameFrame extends JFrame{
 
 		bar.add(menu);
 
-		setJMenuBar(bar);
+//		add(bar, c);
+//		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.PAGE_START; //top of space
+//		c.gridx = 0;       //aligned with button 1
+//
+//		c.gridwidth = 9;   //6 columns wide
+//		c.gridheight = 1; //1 row high?
+//		c.gridy = 2;       //third row
+
+		add(bar, c);
 	}
 
+	private void addButtonPanel() {
+		GridBagConstraints c1 = new GridBagConstraints();
+		c1.ipady = 0;       //reset to default
+		ButtonPanel buttons = new ButtonPanel(this, this.buttonInterpreter);
 
+		c1.fill = GridBagConstraints.HORIZONTAL;
+		c1.ipady = 0;       //reset to default
+		//c1.weighty = 1.0;   //request any extra vertical space
+		c1.anchor = GridBagConstraints.PAGE_END; //bottom of space
+		c1.gridx = 7;
+		//c1.gridwidth = 6;   //6 columns wide
+		c1.gridy = 10;       //10th row
+		add(buttons, c1);
+	}
 
-	/**
+	//	private void addGameMapPanel() {
+	//		GridBagConstraints c;
+	//		c = new GridBagConstraints();
+	//		JButton map = new JButton("The Game Map panel");
+	//		c.insets = new Insets(buttonPaddingVertical,0,buttonPaddingVertical,0);  //padding on top and bottom
+	//		c.fill = GridBagConstraints.HORIZONTAL;
+	//		c.ipady = mapSize.height;      //specify height
+	//		c.ipadx = mapSize.width; //specify width
+	//		c.gridwidth = 9;
+	//		c.gridheight = 6;
+	//		c.gridx = 0;
+	//		c.gridy = 5;
+	//		add(map, c); //add main board panel showing map
+	//	}
+
+	private void addPlayerProfilePanel() {
+		GridBagConstraints c;
+		c = new GridBagConstraints();
+		PlayerProfilePanel profile = new PlayerProfilePanel(player);
+		c.insets = new Insets(0,buttonPaddingHorizontal,0,buttonPaddingHorizontal);  //padding on sides
+		c.fill = GridBagConstraints.NONE;	//don't resize this panel
+		c.gridwidth = 1;   //1 column wide
+		c.gridx = 8;
+		c.gridy = 3;
+		add(profile, c); //add panel which shows current player picture, and stats
+	}
+
+	private void addGameInfoPanel() {
+		GridBagConstraints c = new GridBagConstraints();
+		GameInfoPanel gameInfo = new GameInfoPanel();
+		//c.insets = new Insets(0,buttonPaddingHorizontal,0,buttonPaddingHorizontal);  //padding on sides
+		c.fill = GridBagConstraints.NONE; //don't resize this panel
+		c.gridx = 0;
+		c.gridy = 3;
+		c.gridwidth = 1;   //1 column wide
+		add(gameInfo, c); //add panel which shows the time, position, map button?
+	}
+
+	*//**
 	 * Shows a dialog if the user presses an arrow key
-	 */
+	 *//*
 
 	//for testing renderer
 	private class MyDispatcher implements KeyEventDispatcher {
@@ -262,10 +304,10 @@ public class GameFrame extends JFrame{
 
 	}
 
-	/**
+	*//**
 	 * Get contents of this player's inventory from Game, via network
 	 * @return
-	 */
+	 *//*
 	public Set<Item> getInventoryContents() {
 
 		//for testing, display random num of key images
@@ -296,25 +338,27 @@ public class GameFrame extends JFrame{
 
 	//add by Lucas for debugging purpose
 	private void addGameMapPanel() {
+		GridBagConstraints c;
+		c = new GridBagConstraints();
 
 		//data for testing
 		data = new testRenderer(20, 0, 0, 15, 20, 20, 4);
 
 		GameRenderer map = new GameRenderer(mapSize.width, mapSize.height, data.getArea().getArray(), data.getPlayers());
-
-		add(map); //add main board panel showing map
+		c.insets = new Insets(buttonPaddingVertical,0,buttonPaddingVertical,0);  //padding on top and bottom
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.ipady = mapSize.height;      //specify height
+		c.ipadx = mapSize.width; //specify width
+		c.gridwidth = 9;
+		c.gridheight = 6;
+		c.gridx = 0;
+		c.gridy = 5;
+		add(map, c); //add main board panel showing map
 	}
 
 	public void setMenuInterpreter(StrategyInterpreter m) {
 		this.menuInterpreter = m;
 
 	}
-
-	public PlayerInfo getPlayer() {
-		return player;
-	}
-
-	public int getMapWidth() {
-		return this.midPanel.getWidth();
-	}
 }
+*/
