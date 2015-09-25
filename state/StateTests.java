@@ -12,7 +12,7 @@ public class StateTests {
 	@Test
 	public void generateWorldTest01(){
 		Area w = create(1, 1, 0, 0, 0, 0);
-		Tile[][] wArray = w.getArray();
+		Tile[][] wArray = w.getTileArray();
 		assert(wArray[0][0].getType() == Tile.TileType.TREE);
 	}
 

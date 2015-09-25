@@ -18,7 +18,10 @@ import java.util.Random;
 
 import state.Area;
 import state.Area.AreaType;
+import state.Item;
+import state.Items;
 import state.Position;
+import state.Sword;
 import state.Tile;
 import state.Tile.TileType;
 
@@ -46,13 +49,32 @@ public class Generator {
 		return buildings;
 	}
 
-	public void placeLoot(Area area, ArrayList<Area> children){
-
+	public void placeLoot(Area area){
+		ArrayList<Area> children = area.getInternalAreas();
+		for(int row = 0; row<area.getTileArray().length; row++){
+			for(int col = 0; col < area.getTileArray()[0].length; col++){
+				if(area.getTileArray()[row][col].getType() == Tile.TileType.GRASS){
+					if(Math.random()*100 < lootValue){
+						area.getItemArray()[row][col] = randomItem();
+					}
+				}
+			}
+		}
 	}
 
-	public void fillTiles(Area area, ArrayList<Area> children){
+	private Items randomItem() {
+		int itemValue = (int) (Math.random()*10);
+		if(itemValue < 2){
+			//return amazing item
+		}else if(itemValue < 5){
+			//return ok item
+		}
+		return new Sword();		
+	}
 
-		Tile[][] areaArray = area.getArray();
+	public void fillTiles(Area area){
+		ArrayList<Area> children = area.getInternalAreas();
+		Tile[][] areaArray = area.getTileArray();
 
 		for(int row=0; row < areaArray.length; row++){
 			for(int col=0; col < areaArray[0].length; col++){
@@ -105,7 +127,7 @@ public class Generator {
 					areaArray[randomRow+3][randomCol+2] = new Tile(TileType.GRASS);
 					Area building = new Area(5, 5, AreaType.BUILDING, new Position(randomRow+2, randomCol+2, area));
 					building.setExitPosition(new Position(4, 2, building));
-					building.getArray()[4][2] = new Tile(TileType.DOOR);
+					building.getTileArray()[4][2] = new Tile(TileType.DOOR);
 					children.add(building);
 					placed = true;
 				}

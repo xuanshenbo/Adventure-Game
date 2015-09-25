@@ -83,7 +83,7 @@ public class Game{
 	private TileType destinationTileType(int direction, Player player) {
 		int x = player.getPosition().getX();
 		int y = player.getPosition().getY();
-		Tile[][] areaArray = gameState.getArea(player).getArray();
+		Tile[][] areaArray = gameState.getArea(player).getTileArray();
 
 		if(direction == 1){
 			if(x == 0){

@@ -32,6 +32,7 @@ public class Area {
 
 	private final AreaType type; // the type of area this is and determines the ground texture
 	private final Tile[][] area; // the array of tiles that make up the area
+	private final Items[][] items; // the array of items in the area based on their location
 	private Position entrance; // the position on the parent of the entrance to this area
 	private ArrayList<Area> internalAreas = new ArrayList<Area>();
 	private Position exitPosition;
@@ -39,6 +40,7 @@ public class Area {
 	public Area(int height, int width, AreaType t, Position p){
 		type = t;
 		area = new Tile[height][width];
+		items = new Items[height][width];
 		entrance = p;
 
 		for(int row = 0; row < area.length; row++){
@@ -56,8 +58,12 @@ public class Area {
 		return type;
 	}
 
-	public Tile[][] getArray() {
+	public Tile[][] getTileArray() {
 		return area;
+	}
+	
+	public Items[][] getItemArray(){
+		return items;
 	}
 
 	public char[][] getCharArray(){
@@ -105,7 +111,7 @@ public class Area {
 	}
 
 	public void generateWorld(Generator g){
-		g.fillTiles(this, internalAreas);
+		g.fillTiles(this);
 	}
 
 	public String toString(){

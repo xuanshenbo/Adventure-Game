@@ -335,9 +335,9 @@ public class GameFrame extends JFrame{
 		c = new GridBagConstraints();
 
 		//data for testing
-		data = new testRenderer(20, 0, 0, 15, 20, 20, 4);
+		data = new testRenderer(20, 0, 0, 15, 20, 20, 4, 0);
 
-		GameRenderer map = new GameRenderer(mapSize.width, mapSize.height, data.getArea().getArray(), data.getPlayers());
+		GameRenderer map = new GameRenderer(mapSize.width, mapSize.height, data.getArea().getTileArray(), data.getPlayers());
 		c.insets = new Insets(buttonPaddingVertical,0,buttonPaddingVertical,0);  //padding on top and bottom
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.ipady = mapSize.height;      //specify height
