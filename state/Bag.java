@@ -1,5 +1,8 @@
 package state;
 
-public class Bag implements Container, Items {
+public class Bag extends Item implements Container {
 
+	public Bag(String description) {
+		super(description);
+	}
 }

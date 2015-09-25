@@ -19,9 +19,8 @@ import java.util.Random;
 import state.Area;
 import state.Area.AreaType;
 import state.Item;
-import state.Items;
 import state.Position;
-import state.Sword;
+import state.Key;
 import state.Tile;
 import state.Tile.TileType;
 
@@ -62,14 +61,14 @@ public class Generator {
 		}
 	}
 
-	private Items randomItem() {
+	private Item randomItem() {
 		int itemValue = (int) (Math.random()*10);
 		if(itemValue < 2){
 			//return amazing item
 		}else if(itemValue < 5){
 			//return ok item
 		}
-		return new Sword();		
+		return new Key();		
 	}
 
 	public void fillTiles(Area area){
