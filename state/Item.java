@@ -13,11 +13,13 @@ import GUI.ImageLoader;
 public abstract class Item {
 
 	private String description;
+	private String imgpath;
 	private Image img;
 	private Dimension size = new Dimension(40, 40);
 
-	public Item(String description){
+	public Item(String description, String imgpath){
 		this.description = description;
+		this.imgpath = imgpath;
 	}
 
 	public String getDescription() {
@@ -35,7 +37,7 @@ public abstract class Item {
 	 */
 	public Image getPicture() {
 		if(img==null){
-			return ImageLoader.loadImage(description+".png").getScaledInstance(size.width, size.height, -1);
+			return ImageLoader.loadImage(imgpath+".png").getScaledInstance(size.width, size.height, -1);
 		}
 
 		return img;
