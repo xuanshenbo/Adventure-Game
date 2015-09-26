@@ -17,4 +17,22 @@ public enum Avatar{
 			}
 			return -1;
 		}
+
+		@Override
+		public String toString(){
+			String name = "";
+
+			if(this.equals(DONALD_DUCK)){
+				name = "Donald Duck";
+			}
+
+			return name;
+
+		}
+
+		public static boolean isAvatar(String text) {
+			return(text.equals("Donald Duck"));
+		}
+
+
 }

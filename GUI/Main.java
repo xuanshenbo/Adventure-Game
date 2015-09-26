@@ -1,6 +1,7 @@
 package GUI;
 
 import interpreter.ButtonStrategy;
+import interpreter.DialogStrategy;
 import interpreter.KeyStrategy;
 import interpreter.MenuStrategy;
 import interpreter.StrategyInterpreter;

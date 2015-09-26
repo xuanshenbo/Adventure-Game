@@ -1,6 +1,5 @@
 package interpreter;
 import GUI.GameFrame;
-import GUI.GameFrameGridBag;
 
 /**
  * An implementation of the Strategy design pattern. A StrategyInterpreter acts as an Observer

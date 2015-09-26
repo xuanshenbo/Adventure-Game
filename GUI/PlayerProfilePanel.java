@@ -45,6 +45,13 @@ public class PlayerProfilePanel extends JPanel{
 		GridLayout layout = new GridLayout(1,2);
 		setLayout(layout);
 
+		//a panel which displays lifeline, name etc in one column
+		statusPanel = new JPanel();
+		BoxLayout boxLayout = new BoxLayout(statusPanel, BoxLayout.PAGE_AXIS);
+		statusPanel.setLayout(boxLayout);
+		fillStatusPanel();
+		add(statusPanel);
+
 		//a panel which contains just the player's avatar
 		picturePanel = new JPanel();
 		addPictureToPanel();
@@ -54,12 +61,7 @@ public class PlayerProfilePanel extends JPanel{
 		add(picturePanel);
 
 
-		//a panel which displays lifeline, name etc in one column
-		statusPanel = new JPanel();
-		BoxLayout boxLayout = new BoxLayout(statusPanel, BoxLayout.PAGE_AXIS);
-		statusPanel.setLayout(boxLayout);
-		fillStatusPanel();
-		add(statusPanel);
+
 
 		//add a plain black border around the whole panel
 		Border blackline = BorderFactory.createLineBorder(Color.black);

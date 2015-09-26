@@ -10,11 +10,15 @@ import GUI.ImageLoader;
  * @author flanagdonn
  *
  */
-public class Item {
+public abstract class Item {
 
 	private String description;
 	private Image img;
 	private Dimension size = new Dimension(40, 40);
+
+	public Item(String description){
+		this.description = description;
+	}
 
 	public String getDescription() {
 
@@ -31,10 +35,18 @@ public class Item {
 	 */
 	public Image getPicture() {
 		if(img==null){
-			return ImageLoader.loadImage("key.png").getScaledInstance(size.width, size.height, -1);
+			return ImageLoader.loadImage(description+".png").getScaledInstance(size.width, size.height, -1);
 		}
 
 		return img;
 	}
+
+	public abstract void use();
+
+	/**
+	 * This method used to display available options to the user
+	 * @return The action specific to this item. Eg "unlock door" for a Key Item
+	 */
+	public abstract String getUseDescription();
 
 }

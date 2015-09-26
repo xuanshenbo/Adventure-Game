@@ -15,8 +15,8 @@ public class testRenderer {
     private ArrayList<Player> players;
     private Area area;
 
-    public testRenderer(int trees, int buildings, int caves, int chests, int width, int height, int playerCount){
-        Generator g = new Generator(trees, buildings, caves, chests);
+    public testRenderer(int trees, int buildings, int caves, int chests, int width, int height, int playerCount, int lootValue){
+        Generator g = new Generator(trees, buildings, caves, chests, lootValue);
         area = new Area(width, height, Area.AreaType.OUTSIDE, null);
         area.generateWorld(g);
         players = placePlayers(playerCount, width, height, area);

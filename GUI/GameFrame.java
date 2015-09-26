@@ -1,5 +1,6 @@
 package GUI;
 
+import interpreter.DialogStrategy;
 import interpreter.StrategyInterpreter;
 
 import javax.swing.*;
@@ -15,6 +16,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,10 +38,10 @@ public class GameFrame extends JFrame{
 	private PlayerInfo player = new PlayerInfo("Donald Duck", Avatar.DONALD_DUCK);
 
 	private StrategyInterpreter keyInterpreter;
-
 	private StrategyInterpreter menuInterpreter;
-
 	private StrategyInterpreter buttonInterpreter;
+	//have to initialise this here for use in WelcomeDialog
+	private StrategyInterpreter dialogInterpreter = new StrategyInterpreter(this, new DialogStrategy());
 
 	private testRenderer data;
 
@@ -50,13 +52,20 @@ public class GameFrame extends JFrame{
 	private JPanel botPanel;
 
 	/**
-	 * The constructor sets up the KeyListener using the KeyboardFocusManager
+	 * First a WelcomeDialog is displayed and then
+	 * the constructor sets up the KeyListener using the KeyboardFocusManager, sets up the layout with all the appropriate Panels.
 	 * @param title The title of the GameFrame, used in the super constructor
 	 */
 	public GameFrame(String title) {
 		super(title);
 
-		setBackground(new Color(102, 0, 0));
+		try {
+		    UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
+
+		new WelcomeDialog(this);
 
 		addMenuBar();
 
@@ -116,12 +125,11 @@ public class GameFrame extends JFrame{
 	private void setupMiddlePanel() {
 		midPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
-		data = new testRenderer(20, 0, 0, 15, 20, 20, 4);
+		data = new testRenderer(20, 0, 0, 15, 20, 20, 4, 0);
 
-		GameRenderer map = new GameRenderer(mapSize.width, mapSize.height, data.getArea().getArray(), data.getPlayers());
+		GameRenderer map = new GameRenderer(mapSize.width, mapSize.height, data.getArea().getTileArray(), data.getPlayers());
 
 		midPanel.add(map); //add main board panel showing map
-
 
 	}
 
@@ -272,18 +280,22 @@ public class GameFrame extends JFrame{
 
 		Set<Item> items = new HashSet<Item>();
 		for(int i = 0; i<(int)(Math.random()*5 +1); i++){
-			items.add(new Item());
+			//items.add(new Key());
 		}
 
 		return items;
 	}
 
 	public void addInventoryDialog() {
-		Dialog inventory = new Dialog(this, "Display Inventory", "Your inventory contains:", "inventory");
+		Dialog inventory = new Dialog(this, "Display Inventory", "Your inventory contains:", "inventory", this.dialogInterpreter);
 	}
 
 	public StrategyInterpreter getKeyInterpreter() {
 		return keyInterpreter;
+	}
+
+	public StrategyInterpreter getDialogInterpreter() {
+		return dialogInterpreter;
 	}
 
 	public void setKeyInterpreter(StrategyInterpreter keyInterpreter) {
@@ -291,23 +303,14 @@ public class GameFrame extends JFrame{
 	}
 	public void setButtonInterpreter(StrategyInterpreter b) {
 		this.buttonInterpreter = b;
-
-	}
-
-	//add by Lucas for debugging purpose
-	private void addGameMapPanel() {
-
-		//data for testing
-		data = new testRenderer(20, 0, 0, 15, 20, 20, 4);
-
-		GameRenderer map = new GameRenderer(mapSize.width, mapSize.height, data.getArea().getArray(), data.getPlayers());
-
-		add(map); //add main board panel showing map
 	}
 
 	public void setMenuInterpreter(StrategyInterpreter m) {
 		this.menuInterpreter = m;
+	}
 
+	public void setDialogInterpreter(StrategyInterpreter d) {
+		this.dialogInterpreter = d;
 	}
 
 	public PlayerInfo getPlayer() {
@@ -316,5 +319,14 @@ public class GameFrame extends JFrame{
 
 	public int getMapWidth() {
 		return this.midPanel.getWidth();
+}
+
+	public ArrayList<Avatar> getAvailableAvatars() {
+		ArrayList<Avatar> avatars= new ArrayList<Avatar>();
+		// ask Model for the available Avatars to display as options to the user
+
+		avatars.add(Avatar.DONALD_DUCK);	//for testing purposes
+
+		return avatars;
 	}
 }

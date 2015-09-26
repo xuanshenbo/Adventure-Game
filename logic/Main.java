@@ -14,8 +14,8 @@ import state.Position;
 import static utilities.PrintTool.p;
 
 public class Main {
-	public Main(int trees, int buildings, int caves, int chests, int width, int height, int playerCount, Server ss){
-		Generator g = new Generator(trees, buildings, caves, chests);
+	public Main(int trees, int buildings, int caves, int chests, int width, int height, int playerCount, Server ss, int lootValue){
+		Generator g = new Generator(trees, buildings, caves, chests, lootValue);
 		Area a = new Area(width, height, AreaType.OUTSIDE, null);
 		a.generateWorld(g);
 		ArrayList<Player> p = placePlayers(playerCount, width, height, a);
@@ -45,7 +45,7 @@ public class Main {
 
 	public static void main(String[] args){
 		Server ss = new Server();
-		Main g = new Main(20, 2, 1, 5, 10, 20, 4, ss);
+		Main g = new Main(20, 2, 1, 5, 10, 20, 4, ss, 50);
 		ss.start();
 		try {
 			Socket socket = new Socket(ss.getAddress(),ss.PORT);

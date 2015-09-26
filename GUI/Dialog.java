@@ -1,5 +1,7 @@
 package GUI;
 
+import interpreter.StrategyInterpreter;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,6 +15,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -32,7 +36,14 @@ import state.Item;
  * A subclass of JDialog which presents options to the player and displays warning messages *
  */
 public class Dialog extends JDialog implements ActionListener {
+
 	private GameFrame parentFrame;
+
+	private Avatar chosenAvatar;
+
+	private String state;
+
+	private StrategyInterpreter dialogInterpreter;
 
 
 	/**
@@ -42,8 +53,12 @@ public class Dialog extends JDialog implements ActionListener {
 	 * @param msg Message to display
 	 * @param i The state of the Game
 	 */
-	public Dialog(GameFrame gameFrame, String title, String msg, String state) {
+	public Dialog(GameFrame gameFrame, String title, String msg, String state, StrategyInterpreter dialogInterp) {
 		super(gameFrame, title, true);
+
+		this.state = state;
+
+		this.dialogInterpreter = dialogInterp;
 
 		getContentPane().setLayout( new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
 
@@ -59,10 +74,46 @@ public class Dialog extends JDialog implements ActionListener {
 			displayInventory();
 		}
 
+		else if(state.equals("avatars")){
+			displayAvatarOptions();
+		}
+
+		JButton ok = new JButton("OK");
+		ok.addActionListener(this);
+		add(ok);
+
 		//display the dialog
 		pack();
 		setLocationRelativeTo(null);
 		setVisible(true);
+	}
+
+
+	private void displayAvatarOptions() {
+		JPanel avatarOptions = new JPanel();
+		List<Avatar> availAvatars= parentFrame.getAvailableAvatars();
+
+		ButtonGroup group = new ButtonGroup();
+
+		List<JRadioButton> buttons = new ArrayList<JRadioButton>();
+
+		for(final Avatar a: availAvatars){
+			JRadioButton avatar = new JRadioButton(a.toString());
+
+			ItemListener radioListener = new ItemListener(){
+				public void itemStateChanged(ItemEvent e) {
+					if(e.getStateChange()==1) { //then checked
+						chosenAvatar = a;
+					}
+				}
+			};
+
+			avatar.addItemListener(radioListener);
+			group.add(avatar);
+			avatarOptions.add(avatar);
+		}
+		add(avatarOptions);
+
 	}
 
 
@@ -79,8 +130,6 @@ public class Dialog extends JDialog implements ActionListener {
 				Image image= i.getPicture();
 				ImageIcon icon = new ImageIcon(image);
 				item.setIcon(icon);
-
-
 				add(item);
 
 			}
@@ -94,7 +143,16 @@ public class Dialog extends JDialog implements ActionListener {
 	 * Notifies different interpreters depending on what state the game is in.
 	 */
 	public void actionPerformed(ActionEvent e) {
+		boolean validInput = false;
+		if(state.equals("avatars") && chosenAvatar != null){
+			dialogInterpreter.notify(chosenAvatar.toString());
+			validInput = true;
 
+		}
+		if(validInput){
+			setVisible(false);
+			dispose();
+		}
 	}
 
 	/**	 *
