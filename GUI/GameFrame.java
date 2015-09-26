@@ -8,6 +8,7 @@ import javax.swing.*;
 import renderer.GameRenderer;
 import renderer.testRenderer;
 import state.Item;
+import state.Key;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -280,7 +281,7 @@ public class GameFrame extends JFrame{
 
 		Set<Item> items = new HashSet<Item>();
 		for(int i = 0; i<(int)(Math.random()*5 +1); i++){
-			//items.add(new Key());
+			items.add(new Key());
 		}
 
 		return items;
