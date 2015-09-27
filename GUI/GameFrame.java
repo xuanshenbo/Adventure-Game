@@ -134,9 +134,9 @@ public class GameFrame extends JFrame{
 
 		data = new testRenderer(20, 0, 0, 15, 20, 20, 4, 0);
 
-		GameRenderer map = new GameRenderer(mapSize.width, mapSize.height, data.getArea().getTileArray(), data.getPlayers());
+//		GameRenderer map = new GameRenderer(mapSize.width, mapSize.height, data.getArea().getTileArray(), data.getPlayers());
 
-		midPanel.add(map); //add main board panel showing map
+//		midPanel.add(map); //add main board panel showing map
 
 	}
 

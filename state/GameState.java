@@ -37,6 +37,10 @@ public class GameState {
 		return null;
 	}
 
+	public ArrayList<Player> getPlayerList(){
+		return playerList;
+	}
+
 	public Area getArea(Player player) {
 		if(player.getPosition().getArea() == area){
 			return area;

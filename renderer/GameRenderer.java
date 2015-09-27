@@ -4,87 +4,69 @@ import GUI.ImageLoader;
 import state.Player;
 import tiles.Tile;
 
-import javax.swing.*;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
+import static utilities.PrintTool.p;
 
 public class GameRenderer{
 
-	private int size = 20;
+	private int size = 15;
 //	private int width,height;
-	private Tile[][] area;
+	private String[][] map;
+	private String[][] items;
 	private double tileHeight;
 	private double tileWidth;
-	private ArrayList<AvatarImages> avatarImages;
-	private Image grassImage;
 	private ArrayList<Player> players;
 	private int animationIndex;
 	private BufferedImage outPut;
 	private Graphics2D graphic;
 
-	//temp
-	private Image treeImage;
+	private Images images;
 
-	public GameRenderer(int width, int height, Tile[][] area, ArrayList<Player> players){
+	public GameRenderer(int width, int height, String[][] map, String[][] items, ArrayList<Player> players){
 
 		this.outPut = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		this.graphic = outPut.createGraphics();
 //		this.width = width;
 //		this.height = height;
 		this.tileWidth = width/size;
 		this.tileHeight = height/size;
-		this.area = area;
+		this.map = map;
+		this.items = items;
 		this.players = players;
-		this.avatarImages = new ArrayList<AvatarImages>();
+		this.images = new Images(tileWidth, tileHeight, players);
+
 		this.animationIndex = 0;
 
-		loadImages();
+		render();
 
-	}
-
-	private  void loadImages(){
-		for (int i = 0; i < players.size(); i++){
-			int avatarImageIndex = new Random().nextInt(3);
-			this.avatarImages.add(new AvatarImages("avatar" + avatarImageIndex + ".png", tileWidth));
-		}
-		this.grassImage = loadImage("ground.png", 1);
-		this.treeImage = loadImage("tree.png", 3);
-	}
-
-	private Image loadImage(String filename, int scale) {
-		Image image = ImageLoader.loadImage(filename);
-
-		BufferedImage img = new BufferedImage((int)tileWidth*scale, (int)tileWidth*scale, BufferedImage.TYPE_INT_ARGB);
-		//draw the image to bufferedImage
-		Graphics2D g = img.createGraphics();
-		g.drawImage(image, 0, 0, (int)tileWidth*scale, (int)tileHeight*scale, null);
-//		g.drawImage(image, 0, 0, (int) (tileWidth * scale), (int) (tileHeight * scale), 0, 0, width, height, null);
-		g.dispose();
-		return img;
 	}
 
 	public void render() {
 		//draw the game board
-//		for (int x = 0; x < area.length; x++) {
-//			for (int y = 0; y < area[x].length; y++) {
-//				g.drawImage(grassImage, (int) (x * tileWidth), (int) (y * tileHeight), null);
-//			}
-//		}
-		for (int y = 0; y < area[0].length; y++) {
-			for (int x = 0; x < area.length; x++) {
-				drawTile(area[x][y], x, y);
-			}
-			for (int i = 0; i < players.size(); i++){
-				if (players.get(i).getPosition().getY() == y) {
-					graphic.drawImage(avatarImages.get(i).getImages()[0][(int) (animationIndex)],
-							(int) (players.get(i).getPosition().getX() * tileWidth),
-							(int) (players.get(i).getPosition().getY() * tileHeight - avatarImages.get(i).avatarHeight() + tileHeight),
-							null);
+		graphic = outPut.createGraphics();
+		graphic.clearRect(0,0,outPut.getWidth(), outPut.getHeight());
+
+		for (int x = 0; x < map.length; x++) {
+			for (int y = 0; y < map[x].length; y++) {
+				if(map[x][y] != null) {
+					graphic.drawImage(images.getGroundImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
 				}
 			}
+		}
+		for (int y = 0; y < map[0].length; y++) {
+			for (int x = 0; x < map.length; x++) {
+				drawTile(map[x][y], x, y);
+			}
+//			for (int i = 0; i < players.size(); i++){
+//				if (players.get(i).getPosition().getY() == y) {
+//					graphic.drawImage(avatarImages.get(i).getImages()[0][(int) (animationIndex)],
+//							(int) (players.get(i).getPosition().getX() * tileWidth),
+//							(int) (players.get(i).getPosition().getY() * tileHeight - avatarImages.get(i).avatarHeight() + tileHeight),
+//							null);
+//				}
+//			}
 		}
 
 		//draw players
@@ -96,6 +78,7 @@ public class GameRenderer{
 //		}
 		graphic.dispose();
 		updateAnimation();
+
 	}
 
 	private void updateAnimation() {
@@ -103,42 +86,51 @@ public class GameRenderer{
 		if (animationIndex > 3){
 			animationIndex = 0;
 		}
-		try {
-			Thread.sleep(200);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 	}
 
-	private void drawTile(Tile tile, int x, int y) {
-		switch (tile.getType()){
-			case 'T':
-				graphic.drawImage(treeImage, (int)(x*tileWidth-tileWidth), (int)(y*tileHeight-3*tileHeight+tileHeight/2), null);
+	private void drawTile(String tile, int x, int y) {
+
+		if (tile == null){
+			return;
+		}
+		switch (tile){
+
+			case "T":
+				graphic.drawImage(images.getTreeImage(), (int)(x*tileWidth-tileWidth), (int)(y*tileHeight-3*tileHeight+tileHeight/2), null);
 				break;
-//			case BUILDING:
-//				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
-//				break;
-//			case DOOR:
-//				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
-//				break;
-//			case CAVE:
-//				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
-//				break;
-//			case CAVEENTRANCE:
-//				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
-//				break;
-//			case CHEST:
-//				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
-//				break;
-//			case GRASS:
-//				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
-//				break;
-//			case ROCK:
-//				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
-//				break;
-//			case WOOD:
-//				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
-//				break;
+			case "1":
+				graphic.drawImage(images.getAvatarImages().get(0).getImages()[0][(int) (animationIndex)],
+						(int) (x * tileWidth),
+						(int) (y * tileHeight - images.getAvatarImages().get(0).avatarHeight() + tileHeight),
+						null);
+				break;
+			case "2":
+				graphic.drawImage(images.getAvatarImages().get(1).getImages()[0][(int) (animationIndex)],
+						(int) (x * tileWidth),
+						(int) (y * tileHeight - images.getAvatarImages().get(1).avatarHeight() + tileHeight),
+						null);
+				break;
+			case "3":
+				graphic.drawImage(images.getAvatarImages().get(2).getImages()[0][(int) (animationIndex)],
+						(int) (x * tileWidth),
+						(int) (y * tileHeight - images.getAvatarImages().get(2).avatarHeight() + tileHeight),
+						null);
+				break;
+			case "4":
+				graphic.drawImage(images.getAvatarImages().get(3).getImages()[0][(int) (animationIndex)],
+						(int) (x * tileWidth),
+						(int) (y * tileHeight - images.getAvatarImages().get(3).avatarHeight() + tileHeight),
+						null);
+				break;
+			case "O":
+				graphic.drawImage(images.getChestImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
+				break;
+			case "O":
+				graphic.drawImage(images.getChestImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
+				break;
+			case "O":
+				graphic.drawImage(images.getChestImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
+				break;
 			default:
 				break;
 		}
@@ -148,4 +140,14 @@ public class GameRenderer{
 		return outPut;
 	}
 
+//	public Image getOneImage(){
+//		return loadImage("tree.png", 3);
+//	}
+
+	public void update(String[][] map, String[][] items, ArrayList<Player> players) {
+		this.map = map;
+		this.items = items;
+		this.players = players;
+		render();
+	}
 }

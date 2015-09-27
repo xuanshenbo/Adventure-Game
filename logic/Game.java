@@ -39,10 +39,11 @@ public class Game{
 		Area currentArea = playerPosition.getArea();
 		Tile toTile = destinationTile(direction, player);
 
-		p("toTile: "+toTile.getType());
-		p("toTile Position: "+toTile.getPosition());
-		p("current tile: "+player.getPosition());
+
 		if(toTile != null){
+			p("toTile: "+toTile.getType());
+			p("toTile Position: "+toTile.getPosition());
+			p("current tile: "+player.getPosition());
 			toTile.move(player, direction);
 		}
 		gameState.printState();
