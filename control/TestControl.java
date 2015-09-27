@@ -1,6 +1,7 @@
 package control;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.Socket;
 
 /**
@@ -18,7 +19,9 @@ public class TestControl {
 		Server ss = new Server();
 		ss.start();
 		try {
-			Socket socket = new Socket(ss.getAddress(),ss.PORT);
+			System.out.println(ss.getAddress().toString());
+			//Socket socket = new Socket(InetAddress.getByName( (ss.getAddress().getHostAddress().toString() ) ),ss.PORT);
+			Socket socket = new Socket(InetAddress.getByName("0.0.0.0"),ss.PORT);
 			Client client = new Client(socket);
 			client.start();
 		} catch (IOException e) {

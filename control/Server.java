@@ -1,7 +1,9 @@
 package control;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.io.Writer;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -12,6 +14,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import static utilities.PrintTool.p;
 
 /**
@@ -63,19 +66,29 @@ public class Server extends Thread{
 	}
 
 	public void run(){
+		System.out.println("Server is stared");//debug
 		ExecutorService pool = Executors.newFixedThreadPool(50);
-			while (true) {
-				try {
-					Socket connection = server.accept();
-					Callable<Void> task = new DaytimeTask(connection);
-					pool.submit(task);
-				} catch (IOException ex) {
-					errorLogger.log(Level.SEVERE, "accept error", ex);
-				} catch (RuntimeException ex) {
-					errorLogger.log(Level.SEVERE, "unexpected error " + ex.getMessage(), ex);
-				}
+		while (true) {
+			try {
+				Socket connection = server.accept();
+				Callable<Void> task = new DaytimeTask(connection);
+				pool.submit(task);
+			} catch (IOException ex) {
+				errorLogger.log(Level.SEVERE, "accept error", ex);
+			} catch (RuntimeException ex) {
+				errorLogger.log(Level.SEVERE, "unexpected error " + ex.getMessage(), ex);
 			}
+		}
 
+	}
+
+	/**
+	 * The following determines what the server should send to the client depends on the input
+	 */
+	public void feedback(String input, Writer out){
+		switch(input){
+		default:
+		}
 	}
 	private class DaytimeTask implements Callable<Void> {
 		private Socket connection;
@@ -88,15 +101,24 @@ public class Server extends Thread{
 				Date now = new Date();
 				// write the log entry first in case the client disconnects
 				auditLogger.info(now + " " + connection.getRemoteSocketAddress());
+				Reader in = new InputStreamReader(connection.getInputStream());
+				char[] message = new char[24];
+				in.read(message);
+				String input = "";
+				for(int i=0; i<message.length; i++){
+					input += message[i];
+				}
 				Writer out = new OutputStreamWriter(connection.getOutputStream());
-				//out.write("boboxuan" +"\r\n");
-				p("mapRow"+String.format("%s",mapRow).charAt(0)+String.format("%s",mapRow).charAt(1));
-				p("colRow"+(char)('0' + mapCol));
-				out.write(String.valueOf(mapRow));
+				feedback(input, out);
+				System.out.println(input);//debug
+				out.write("boboxuan" +"\r\n");
+				//p("mapRow"+String.format("%s",mapRow).charAt(0)+String.format("%s",mapRow).charAt(1));
+				//p("colRow"+(char)('0' + mapCol));
+				/*out.write(String.valueOf(mapRow));
 				out.write('x');
 				out.write(String.valueOf(mapCol));
 				out.write('x');
-				out.write(map);
+				out.write(map);*/
 				out.flush();
 			} catch (IOException ex) {
 				// client disconnected; ignore;
