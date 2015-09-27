@@ -13,7 +13,7 @@ import GUI.WelcomeDialog;
 public class Initialisation implements ActionListener{
 
 	public Initialisation(){
-		WelcomeDialog welcome = new WelcomeDialog();
+		//WelcomeDialog welcome = new WelcomeDialog();
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
