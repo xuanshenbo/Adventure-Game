@@ -5,6 +5,8 @@
 package state;
 
 import java.util.ArrayList;
+
+import tiles.Tile;
 import static utilities.PrintTool.p;
 
 public class GameState {
@@ -19,11 +21,11 @@ public class GameState {
 		this.playerList = p;
 		printState();
 	}
-	
+
 	/**
 	 * Goes through the player list and checks the players id
 	 * @param id: the id of the player to return
-	 * @return: the player with the id or null if no player with 
+	 * @return: the player with the id or null if no player with
 	 * that id
 	 */
 	public Player getPlayer(int id) {
@@ -47,7 +49,7 @@ public class GameState {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * This methods returns a 15 by 15 array of tiles that are around the player,
 	 * this is for the network to send down the pipe to the client to draw.
@@ -61,13 +63,13 @@ public class GameState {
 		int right = player.getPosition().getY() + 7;
 		int top = player.getPosition().getX() - 7;
 		int bottom = player.getPosition().getX() + 7;
-		
+
 		int r = 0;
 		int c = 0;
 		for(int row = top; row < bottom+1; row++){
 			for(int col = left; col < right+1; col++){
 				if(row>-1 && col >-1 && row <a.getTileArray().length && col < a.getTileArray()[0].length){
-					boolean playerPos = false;					
+					boolean playerPos = false;
 
 					for(Player p: playerList){
 						if(p.getPosition().getX() == row && p.getPosition().getY() == col && p.getPosition().getArea() == a){
@@ -76,15 +78,15 @@ public class GameState {
 						}
 					}
 					if(!playerPos){
-						view[r][c] = Character.toString(a.getTileArray()[row][col].getType().id);
+						view[r][c] = Character.toString(a.getTileArray()[row][col].getType());
 					}
 				}
 				c++;
 			}
 			c=0;
 			r++;
-		}		
-		return view;		
+		}
+		return view;
 	}
 
 
@@ -138,13 +140,13 @@ public class GameState {
 					}
 					if(!playerPos){
 						System.out.print(innerTiles[row][col]);
-					}				
+					}
 				}
 				System.out.println("");
 			}
 		}
-		
-		
+
+
 		String[][] playerOneView = getGameView(playerList.get(0));
 		System.out.println("\nPlayer 1 view");
 		for(int row = 0; row<playerOneView.length; row++){

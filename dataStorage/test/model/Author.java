@@ -1,12 +1,17 @@
 package dataStorage.test.model;
 
-import javax.xml.bind.annotation.XmlTransient;
+import java.util.List;
 
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
+
+@XmlType(propOrder = { "name", "phoneNumber", "friends" })
 public class Author {
 
 	private String name;
 	private int age;
 	private PhoneNumber phoneNumber;
+	private List<Author> friends;
 
 	public String getName() {
 		return name;
@@ -31,6 +36,14 @@ public class Author {
 
 	public void setPhoneNumber(PhoneNumber phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	public List<Author> getFriends() {
+		return friends;
+	}
+
+	public void setFriends(List<Author> friends) {
+		this.friends = friends;
 	}
 
 	@Override

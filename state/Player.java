@@ -7,8 +7,6 @@ package state;
 import java.util.ArrayList;
 import java.util.List;
 
-import state.Tile.TileType;
-
 public class Player {
 
 	private Position position; // Position of the player in the world

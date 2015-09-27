@@ -4,6 +4,8 @@ import interpreter.StrategyInterpreter;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JPanel;
 
@@ -30,5 +32,12 @@ public class TopPanel extends JPanel{
 		playerProf = new PlayerProfilePanel(gameframe.getPlayer());
 		add(playerProf); //add to the right
 
+	}
+
+	public Set<JPanel> getPanels() {
+		Set panels = new HashSet<JPanel>();
+		panels.add(gameInfo);
+		panels.add(playerProf);
+		return panels;
 	}
 }

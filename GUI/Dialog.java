@@ -56,6 +56,8 @@ public class Dialog extends JDialog implements ActionListener {
 	public Dialog(GameFrame gameFrame, String title, String msg, String state, StrategyInterpreter dialogInterp) {
 		super(gameFrame, title, true);
 
+
+
 		this.state = state;
 
 		this.dialogInterpreter = dialogInterp;
@@ -75,6 +77,7 @@ public class Dialog extends JDialog implements ActionListener {
 		}
 
 		else if(state.equals("avatars")){
+			parentFrame.setVisible(false);
 			displayAvatarOptions();
 		}
 
@@ -152,6 +155,7 @@ public class Dialog extends JDialog implements ActionListener {
 		if(validInput){
 			setVisible(false);
 			dispose();
+			parentFrame.setVisible(true);
 		}
 	}
 

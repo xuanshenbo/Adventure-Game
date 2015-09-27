@@ -1,6 +1,8 @@
 package state;
 
 import org.junit.Test;
+
+import tiles.Tile;
 import logic.Generator;
 
 public class StateTests {
@@ -13,7 +15,7 @@ public class StateTests {
 	public void generateWorldTest01(){
 		Area w = create(1, 1, 0, 0, 0, 0);
 		Tile[][] wArray = w.getTileArray();
-		assert(wArray[0][0].getType() == Tile.TileType.TREE);
+		assert(wArray[0][0].getType() == 'T');
 	}
 
 	public Area create(int size, int trees, int buildings, int caves, int chests, int lootValue) {

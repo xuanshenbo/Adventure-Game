@@ -12,8 +12,11 @@ import java.util.Arrays;
 import java.util.Random;
 
 import static utilities.PrintTool.p;
-import state.Tile.TileType;
+import tiles.GroundTile;
+import tiles.Tile;
 import logic.Generator;
+import tiles.GroundTile.TileType;
+
 
 public class Area {
 
@@ -44,12 +47,14 @@ public class Area {
 		entrance = p;
 
 		for(int row = 0; row < area.length; row++){
-			for(int col = 0; col < area[0].length; col++)
+			for(int col = 0; col < area[0].length; col++){
+				Position position = new Position(row, col, this);
 				if(t.equals(AreaType.CAVE)){
-					area[row][col] = new Tile(TileType.ROCK);
+					area[row][col] = new GroundTile(TileType.ROCK, position);
 				}else if(t.equals(AreaType.BUILDING)){
-					area[row][col] = new Tile(TileType.WOOD);
+					area[row][col] = new GroundTile(TileType.WOOD, position);
 				}
+			}
 		}
 
 	}
@@ -61,7 +66,7 @@ public class Area {
 	public Tile[][] getTileArray() {
 		return area;
 	}
-	
+
 	public Item[][] getItemArray(){
 		return items;
 	}
@@ -70,7 +75,7 @@ public class Area {
 		char[][] charArray = new char[area.length][area[0].length];
 		for(int row=0; row<charArray.length; row++){
 			for(int col=0; col<charArray[0].length; col++){
-				charArray[row][col] = area[row][col].getType().id;
+				charArray[row][col] = area[row][col].getType();
 			}
 		}
 		return charArray;
@@ -137,12 +142,7 @@ public class Area {
 	}
 
 	public void printTile(Position p){
-		Tile t = area[p.getY()][p.getX()];
-		if(t == null){
-			System.out.print(type.id);
-		}else{
-			System.out.print(area[p.getY()][p.getX()]);
-		}
+		System.out.print(area[p.getY()][p.getX()]);
 	}
 
 	@Override
