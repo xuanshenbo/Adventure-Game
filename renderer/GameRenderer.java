@@ -10,10 +10,10 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class GameRenderer extends JPanel{
+public class GameRenderer{
 
 	private int size = 20;
-	private int width,height;
+//	private int width,height;
 	private Tile[][] area;
 	private double tileHeight;
 	private double tileWidth;
@@ -21,14 +21,18 @@ public class GameRenderer extends JPanel{
 	private Image grassImage;
 	private ArrayList<Player> players;
 	private int animationIndex;
+	private BufferedImage outPut;
+	private Graphics2D graphic;
 
 	//temp
 	private Image treeImage;
 
 	public GameRenderer(int width, int height, Tile[][] area, ArrayList<Player> players){
 
-		this.width = width;
-		this.height = height;
+		this.outPut = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		this.graphic = outPut.createGraphics();
+//		this.width = width;
+//		this.height = height;
 		this.tileWidth = width/size;
 		this.tileHeight = height/size;
 		this.area = area;
@@ -36,25 +40,23 @@ public class GameRenderer extends JPanel{
 		this.avatarImages = new ArrayList<AvatarImages>();
 		this.animationIndex = 0;
 
+		loadImages();
+
+	}
+
+	private  void loadImages(){
 		for (int i = 0; i < players.size(); i++){
 			int avatarImageIndex = new Random().nextInt(3);
 			this.avatarImages.add(new AvatarImages("avatar" + avatarImageIndex + ".png", tileWidth));
 		}
 		this.grassImage = loadImage("ground.png", 1);
 		this.treeImage = loadImage("tree.png", 3);
-
-//		setWidthHeight(width, height);
-		Dimension size = new Dimension(width, height);
-
-		setPreferredSize(size);
-		setBorder(BorderFactory.createLineBorder(Color.black));
-		setVisible(true);
 	}
 
 	private Image loadImage(String filename, int scale) {
 		Image image = ImageLoader.loadImage(filename);
 
-		BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage img = new BufferedImage((int)tileWidth*scale, (int)tileWidth*scale, BufferedImage.TYPE_INT_ARGB);
 		//draw the image to bufferedImage
 		Graphics2D g = img.createGraphics();
 		g.drawImage(image, 0, 0, (int)tileWidth*scale, (int)tileHeight*scale, null);
@@ -63,39 +65,24 @@ public class GameRenderer extends JPanel{
 		return img;
 	}
 
-//	public void setWidthHeight(int w, int h){
-////		if(w != width || h != height){
-//		width = w;
-//		height = h;
-////			return true;
-////		}
-////		return false;
-//	}
-
-	public void paintComponent(Graphics g) {
-		//clear this panel
-		this.removeAll();
-		render(g);
-	}
-
-	public void render(Graphics g) {
+	public void render() {
 		//draw the game board
-		for (int x = 0; x < area.length; x++) {
-			for (int y = 0; y < area[x].length; y++) {
-				g.drawImage(grassImage, (int) (x * tileWidth), (int) (y * tileHeight), null);
-			}
-		}
+//		for (int x = 0; x < area.length; x++) {
+//			for (int y = 0; y < area[x].length; y++) {
+//				g.drawImage(grassImage, (int) (x * tileWidth), (int) (y * tileHeight), null);
+//			}
+//		}
 		for (int y = 0; y < area[0].length; y++) {
+			for (int x = 0; x < area.length; x++) {
+				drawTile(area[x][y], x, y);
+			}
 			for (int i = 0; i < players.size(); i++){
 				if (players.get(i).getPosition().getY() == y) {
-					g.drawImage(avatarImages.get(i).getImages()[0][(int) (animationIndex)],
+					graphic.drawImage(avatarImages.get(i).getImages()[0][(int) (animationIndex)],
 							(int) (players.get(i).getPosition().getX() * tileWidth),
 							(int) (players.get(i).getPosition().getY() * tileHeight - avatarImages.get(i).avatarHeight() + tileHeight),
 							null);
 				}
-			}
-			for (int x = 0; x < area.length; x++) {
-				drawTile(area[x][y], x, y, g);
 			}
 		}
 
@@ -106,8 +93,8 @@ public class GameRenderer extends JPanel{
 //					(int)(players.get(i).getPosition().getY()*tileHeight - avatarImages.get(i).avatarHeight() + tileHeight),
 //					null);
 //		}
+		graphic.dispose();
 		updateAnimation();
-		repaint();
 	}
 
 	private void updateAnimation() {
@@ -122,10 +109,10 @@ public class GameRenderer extends JPanel{
 		}
 	}
 
-	private void drawTile(Tile tile, int x, int y, Graphics g) {
+	private void drawTile(Tile tile, int x, int y) {
 		switch (tile.getType()){
 			case TREE:
-				g.drawImage(treeImage, (int)(x*tileWidth-tileWidth), (int)(y*tileHeight-3*tileHeight+tileHeight), null);
+				graphic.drawImage(treeImage, (int)(x*tileWidth-tileWidth), (int)(y*tileHeight-3*tileHeight+tileHeight/2), null);
 				break;
 //			case BUILDING:
 //				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
@@ -154,6 +141,10 @@ public class GameRenderer extends JPanel{
 			default:
 				break;
 		}
+	}
+
+	public Image getImage(){
+		return outPut;
 	}
 
 }
