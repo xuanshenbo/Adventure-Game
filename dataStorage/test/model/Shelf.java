@@ -3,21 +3,15 @@ package dataStorage.test.model;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(namespace = "shelf")
+//@XmlType(propOrder = { "bookList", "name", "location" })
 public class Shelf {
 
 	private List<Book> bookList;
 	private String name;
 	private String location;
-
-	public List<Book> getBooks() {
-		return bookList;
-	}
-
-	public void setBooks(List<Book> books) {
-		this.bookList = books;
-	}
 
 	public List<Book> getBookList() {
 		return bookList;

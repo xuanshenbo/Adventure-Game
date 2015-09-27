@@ -20,8 +20,6 @@ public class SerialiseMain {
 	public static void main(String[] args) throws JAXBException,
 			FileNotFoundException {
 		Shelf politics = new Shelf();
-		politics.setName("Politics");
-		politics.setLocation("C-3");
 
 		initShelf(politics);
 
@@ -52,6 +50,10 @@ public class SerialiseMain {
 		List<Book> bookList = new ArrayList<Book>();
 
 		// create Phone numbers
+		PhoneNumber chinaNumber = new PhoneNumber();
+		chinaNumber.setPrefix("(+86)");
+		chinaNumber.setNumber("15893726132");
+
 		PhoneNumber wellingtonNumber = new PhoneNumber();
 		wellingtonNumber.setPrefix("(04)");
 		wellingtonNumber.setNumber("232-XXXX");
@@ -70,6 +72,27 @@ public class SerialiseMain {
 		len.setAge(55);
 		len.setName("Len");
 		len.setPhoneNumber(aucklandNumber);
+
+		Author mao = new Author();
+		mao.setAge(99);
+		mao.setName("Mao");
+		mao.setPhoneNumber(chinaNumber);
+
+		// set friends
+		List<Author> celiaFriends = new ArrayList<Author>();
+		celiaFriends.add(len);
+		celia.setFriends(celiaFriends);
+
+		List<Author> lenFriends = new ArrayList<Author>();
+		lenFriends.add(celia);
+		lenFriends.add(mao);
+		len.setFriends(lenFriends);
+
+		List<Author> maoFriends = new ArrayList<Author>();
+		maoFriends.add(len);
+		maoFriends.add(celia);
+		maoFriends.add(mao);
+		mao.setFriends(maoFriends);
 
 		// create books
 		Book book1 = new Book();
@@ -92,6 +115,16 @@ public class SerialiseMain {
 		book3.setAuthor(len);
 		book3.setPublisher("University of Auckland");
 		bookList.add(book3);
+
+		Book book4 = new Book();
+		book4.setIsbn("448498-45485");
+		book4.setName("Maoism");
+		book4.setAuthor(mao);
+		book4.setPublisher("China");
+		bookList.add(book4);
+
+		politics.setName("Politics");
+		politics.setLocation("C-3");
 
 		politics.setBookList(bookList);
 	}
