@@ -112,13 +112,8 @@ public class GameRenderer{
 
 	private void drawTile(Tile tile, int x, int y) {
 		switch (tile.getType()){
-<<<<<<< HEAD
-			case TREE:
-				graphic.drawImage(treeImage, (int)(x*tileWidth-tileWidth), (int)(y*tileHeight-3*tileHeight+tileHeight/2), null);
-=======
 			case 'T':
-				g.drawImage(treeImage, (int)(x*tileWidth-tileWidth), (int)(y*tileHeight-3*tileHeight+tileHeight), null);
->>>>>>> 81599f7dc70c4b9448e906da139ff22a314b4428
+				graphic.drawImage(treeImage, (int)(x*tileWidth-tileWidth), (int)(y*tileHeight-3*tileHeight+tileHeight/2), null);
 				break;
 //			case BUILDING:
 //				g.drawImage(grassImage, (int)(x*tileWidth), (int)(y*tileHeight), null);
