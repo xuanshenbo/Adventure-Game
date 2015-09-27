@@ -2,8 +2,9 @@ package dataStorage.test.model;
 
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(namespace = "shelf")
 //@XmlType(propOrder = { "bookList", "name", "location" })
@@ -13,6 +14,8 @@ public class Shelf {
 	private String name;
 	private String location;
 
+	@XmlElementWrapper
+	@XmlElement(name="book")
 	public List<Book> getBookList() {
 		return bookList;
 	}

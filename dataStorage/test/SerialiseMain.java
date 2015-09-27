@@ -15,7 +15,7 @@ import dataStorage.test.model.*;
 
 public class SerialiseMain {
 
-	private static final String SHELF_XML = "./shelf-jaxb.xml";
+	private static final String SHELF_XML = "./myshelf.xml";
 
 	public static void main(String[] args) throws JAXBException,
 			FileNotFoundException {
@@ -24,7 +24,8 @@ public class SerialiseMain {
 		initShelf(politics);
 
 		// create JAXB context and instantiate marshaller
-		JAXBContext context = JAXBContext.newInstance(Shelf.class);
+		JAXBContext context = JAXBContext.newInstance(new Class[] {
+				Shelf.class, AuthorPointer.class });
 		Marshaller m = context.createMarshaller();
 		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
@@ -81,6 +82,7 @@ public class SerialiseMain {
 		// set friends
 		List<Author> celiaFriends = new ArrayList<Author>();
 		celiaFriends.add(len);
+		celiaFriends.add(mao);
 		celia.setFriends(celiaFriends);
 
 		List<Author> lenFriends = new ArrayList<Author>();
