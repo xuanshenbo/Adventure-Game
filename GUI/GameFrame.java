@@ -4,6 +4,8 @@ import interpreter.DialogStrategy;
 import interpreter.StrategyInterpreter;
 
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.TitledBorder;
 
 import renderer.GameRenderer;
 import renderer.testRenderer;
@@ -41,6 +43,7 @@ public class GameFrame extends JFrame{
 	private StrategyInterpreter keyInterpreter;
 	private StrategyInterpreter menuInterpreter;
 	private StrategyInterpreter buttonInterpreter;
+
 	//have to initialise this here for use in WelcomeDialog
 	private StrategyInterpreter dialogInterpreter = new StrategyInterpreter(this, new DialogStrategy());
 
@@ -60,13 +63,14 @@ public class GameFrame extends JFrame{
 	public GameFrame(String title) {
 		super(title);
 
-		try {
+
+		/*try {
 		    UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
 		} catch (Exception e) {
 		    e.printStackTrace();
-		}
+		}*/
 
-		new WelcomeDialog(this);
+		new WelcomeDialogAlt(this);
 
 		addMenuBar();
 
@@ -97,10 +101,13 @@ public class GameFrame extends JFrame{
 		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		manager.addKeyEventDispatcher(new MyDispatcher());
 
+		makePretty(topPanel.getPanels(), midPanel, botPanel);
+
 		pack();
 		setLocationRelativeTo(null);	//set the frame at the center of the screen
 		setVisible(true);
 	}
+
 
 	//add all the necessary panels with the appropriate GridBagConstraints
 	private void setUpLayout() {
@@ -117,9 +124,8 @@ public class GameFrame extends JFrame{
 	}
 
 	private void addTopPanel() {
-		JPanel top = new TopPanel(this);
-
-		add(top);
+		topPanel = new TopPanel(this);
+		add(topPanel);
 
 	}
 
@@ -135,11 +141,10 @@ public class GameFrame extends JFrame{
 	}
 
 	private void addBottomPanel() {
-		botPanel = new JPanel();
-		botPanel.setLayout(new BoxLayout(botPanel, BoxLayout.LINE_AXIS));
+		//new JPanel(new BoxLayout(botPanel, BoxLayout.LINE_AXIS));
+		botPanel = new ButtonPanel(this, this.buttonInterpreter, "main");
 
-		ButtonPanel buttons = new ButtonPanel(this, this.buttonInterpreter);
-		botPanel.add(buttons);
+		//botPanel.add(buttons);
 
 		add(botPanel);
 
@@ -329,5 +334,43 @@ public class GameFrame extends JFrame{
 		avatars.add(Avatar.DONALD_DUCK);	//for testing purposes
 
 		return avatars;
+	}
+
+
+	private void makePretty(Set<JPanel> topPanels, JPanel p1, JPanel p2) {
+
+		HashSet<JPanel> panels = new HashSet<JPanel>();
+		panels.addAll(topPanels);
+		panels.add(p1);
+		panels.add(p2);
+
+		/*for(JPanel b:panels){
+			System.out.println(b);
+			javax.swing.border.Border line, raisedbevel, loweredbevel;
+			TitledBorder title;
+			javax.swing.border.Border empty;
+	        line = BorderFactory.createLineBorder(Color.black);
+	        raisedbevel = BorderFactory.createRaisedBevelBorder();
+	        loweredbevel = BorderFactory.createLoweredBevelBorder();
+	        title = BorderFactory.createTitledBorder("");
+	        empty = BorderFactory.createEmptyBorder(1, 1, 1, 1);
+	        final CompoundBorder compound, compound1, compound2;
+	        Color crl = (new Color(202, 0, 0));
+	        compound = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl));
+	        Color crl1 = (Color.red);
+	        compound1 = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl1));
+	        Color crl2 = (Color.black);
+	        compound2 = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl2));
+	        b.setFont(new Font("Serif", Font.BOLD, 14));
+	        b.setForeground(Color.darkGray);
+	        b.setPreferredSize(new Dimension(50, 30));
+
+//	        b.setBorderPainted(true);
+//	        b.setFocusPainted(false);
+	        b.setBorder(compound);
+
+
+		}*/
+
 	}
 }

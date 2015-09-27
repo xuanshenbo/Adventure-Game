@@ -28,23 +28,17 @@ import javax.swing.SwingConstants;
 /**
  * A subclass of JDialog which welcomes a new player and invites them to choose an avatar
  */
-public class WelcomeDialog extends JDialog implements ActionListener {
+public class WelcomeDialogAlt extends JDialog implements ActionListener {
 
 	private GameFrame parentFrame;
 
 	private int heading1Size = 50;
 	private int heading2Size = 30;
-	private GridBagConstraints buttonPanelConstraints;
 
 	private Dimension imageSize = new Dimension(850, 400);
 
 	//static so as to be used in parent constructor
 	private static String welcome = "Welcome to Adventure Game!";
-
-	//this will display different buttons depending on what the user needs to choose
-	private ButtonPanel bPanel;
-
-	private InitialisationStates state;
 
 	private String instructions = "If you wish to start a new game, please click OK, to choose an Avatar!";
 
@@ -56,13 +50,20 @@ public class WelcomeDialog extends JDialog implements ActionListener {
 	 * @param msg Message to display
 	 * @param i The state of the Game
 	 */
-	public WelcomeDialog(Initialisation i) {
+	public WelcomeDialogAlt(GameFrame gameFrame) {
+		super(gameFrame, welcome, true);
+
+		//setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
+		//setLayout(new BorderLayout());
 		setLayout(new GridBagLayout());
+
+		parentFrame = gameFrame;
 
 		GridBagConstraints gc=new GridBagConstraints();
 		gc.fill=GridBagConstraints.HORIZONTAL;
 		gc.gridx = 0;
 		gc.gridy = 0;
+		//gc.anchor = GridBagConstraints.PAGE_START;
 
 		//The message is put in a panel, in case new messages will be added later
 		JPanel messagePane = new JPanel();
@@ -93,13 +94,16 @@ public class WelcomeDialog extends JDialog implements ActionListener {
 		//add(thumb, BorderLayout.CENTER);
 		add(thumb, gc);
 
-		buttonPanelConstraints=new GridBagConstraints();
-		buttonPanelConstraints.gridx = 0;
-		buttonPanelConstraints.gridy = 10;
+		gc=new GridBagConstraints();
+		gc.gridx = 0;
+		gc.gridy = 10;
 
-		//button panel needs to store this to call the display next methods
-		ButtonPanel b = new ButtonPanel(this, i, "serverClient");
-		add(b, buttonPanelConstraints);
+		JButton chooseAvatar = new JButton("Choose my Avatar");
+		chooseAvatar.addActionListener(this);
+		//add(chooseAvatar, BorderLayout.EAST);
+		add(chooseAvatar, gc);
+
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		//display the dialog
 		pack();
@@ -107,53 +111,14 @@ public class WelcomeDialog extends JDialog implements ActionListener {
 		setVisible(true);
 	}
 
-	public void displayNext(String s){
-		if(s.equals("loadNew")){
-			displayLoadNew();
-		}
-		else if(s.equals("connect")){
-			displayConnect();
-		}
-		else if(s.equals("newGame")){
-			displayNewGameOptions();
-		}
-	}
 
-	/*
-	 * Displays option dialog to get user input on which server to connect to
-	 */
-	private void displayConnect() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * Displays option dialog to get user to decide to load a game, or start a new game
-	 */
-	private void displayLoadNew() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * Displays option dialog to get user to choose Avatar
-	 */
-	private void displayNewGameOptions() {
-		JButton chooseAvatar = new JButton("Choose my Avatar");
-		chooseAvatar.addActionListener(this);
-		add(chooseAvatar, buttonPanelConstraints);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
-	}
 	/**
 	 * Called when the user clicks "Choose Avatar" on the dialog
 	 */
 	public void actionPerformed(ActionEvent e) {
 		setVisible(false);
 		dispose();
-		if(this.state.equals(InitialisationStates.NEW_GAME)){
-			Dialog avatarDialog = new Dialog(parentFrame, "Avatar chooser", "These are your available options.", "avatars", parentFrame.getDialogInterpreter());
-		}
+		Dialog avatarDialog = new Dialog(parentFrame, "Avatar chooser", "These are your available options.", "avatars", parentFrame.getDialogInterpreter());
 	}
 
 	/**	 *
