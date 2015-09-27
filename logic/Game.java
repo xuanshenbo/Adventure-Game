@@ -20,10 +20,10 @@ public class Game{
 
 	public Game(GameState state) {
 		this.gameState = state;
-		while(true){
-			int direction = Input.getInputBetween(1,4);
-			move(gameState.getPlayer(1), direction);
-		}
+//		while(true){
+//			int direction = Input.getInputBetween(1,4);
+//			move(gameState.getPlayer(1), direction);
+//		}
 	}
 
 
@@ -39,10 +39,11 @@ public class Game{
 		Area currentArea = playerPosition.getArea();
 		Tile toTile = destinationTile(direction, player);
 
-		p("toTile: "+toTile.getType());
-		p("toTile Position: "+toTile.getPosition());
-		p("current tile: "+player.getPosition());
+
 		if(toTile != null){
+			p("toTile: "+toTile.getType());
+			p("toTile Position: "+toTile.getPosition());
+			p("current tile: "+player.getPosition());
 			toTile.move(player, direction);
 		}
 		gameState.printState();
