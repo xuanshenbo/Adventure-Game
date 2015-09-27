@@ -125,6 +125,12 @@ public class GameRenderer{
 			case "O":
 				graphic.drawImage(images.getChestImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
 				break;
+			case "O":
+				graphic.drawImage(images.getChestImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
+				break;
+			case "O":
+				graphic.drawImage(images.getChestImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
+				break;
 			default:
 				break;
 		}
