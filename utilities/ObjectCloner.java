@@ -13,6 +13,7 @@ import interpreter.*;
 import logic.*;
 import renderer.*;
 import state.*;
+import tiles.*;
 
 /**
  * Provides a static method deepCopy(Object) to deep clone an object using
