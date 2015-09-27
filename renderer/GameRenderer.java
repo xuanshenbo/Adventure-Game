@@ -2,9 +2,10 @@ package renderer;
 
 import GUI.ImageLoader;
 import state.Player;
-import state.Tile;
+import tiles.Tile;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -124,7 +125,7 @@ public class GameRenderer extends JPanel{
 
 	private void drawTile(Tile tile, int x, int y, Graphics g) {
 		switch (tile.getType()){
-			case TREE:
+			case 'T':
 				g.drawImage(treeImage, (int)(x*tileWidth-tileWidth), (int)(y*tileHeight-3*tileHeight+tileHeight), null);
 				break;
 //			case BUILDING:

@@ -11,8 +11,7 @@ import state.Direction;
 import state.GameState;
 import state.Player;
 import state.Position;
-import state.Tile;
-import state.Tile.TileType;
+import tiles.Tile;
 import static utilities.PrintTool.p;
 
 public class Game{
@@ -38,88 +37,67 @@ public class Game{
 		int x = playerPosition.getX();
 		int y = playerPosition.getY();
 		Area currentArea = playerPosition.getArea();
-		Position newPosition;
-		TileType toTileType;
+		Tile toTile = destinationTile(direction, player);
 
-		if(direction == 1){
-			newPosition = new Position(x-1, y, currentArea);
-			toTileType = destinationTileType(1, player);
-
-		}else if(direction == 2){
-			toTileType = destinationTileType(2, player);
-			newPosition = new Position(x+1, y, currentArea);
-
-		}else if(direction == 3){
-			toTileType = destinationTileType(3, player);
-			newPosition = new Position(x, y+1, currentArea);
-
-		}else{
-			toTileType = destinationTileType(4, player);
-			newPosition = new Position(x, y-1, currentArea);
-
-		}
-		if(toTileType != null){
-			if(isEmptyTile(toTileType)){
-				player.setPosition(newPosition);
-			}else if(toTileType.equals(TileType.DOOR)){
-				Area newArea = playerPosition.getArea().getInternalArea(newPosition);
-				if(newArea == null){
-					player.setPosition(currentArea.getEntrance());
-				}else{
-					player.setPosition(newArea.exitPosition());
-				}
-			}
+		p("toTile: "+toTile.getType());
+		p("toTile Position: "+toTile.getPosition());
+		p("current tile: "+player.getPosition());
+		if(toTile != null){
+			toTile.move(player, direction);
 		}
 		gameState.printState();
 	}
 
 	/**
-	 * This method will return the tileType the that is in the direction
+	 * This method will return the Tile the that is in the direction
 	 * the player want to move in
 	 * @param direction: direction of the player
 	 * @param player: player that is moving
-	 * @return: tileType of destination
+	 * @return: Tile of destination
 	 */
-	private TileType destinationTileType(int direction, Player player) {
+	private Tile destinationTile(int direction, Player player) {
 		int x = player.getPosition().getX();
 		int y = player.getPosition().getY();
 		Tile[][] areaArray = gameState.getArea(player).getTileArray();
 
-		if(direction == 1){
+		if(direction == 1){//up
 			if(x == 0){
 				return null;
 			}
-			return areaArray[x-1][y].getType();
-		}else if(direction == 2){
+			return areaArray[x-1][y];
+
+		}else if(direction == 2){//down
 			if(x == areaArray.length-1){
 				return null;
 			}
-			return areaArray[x+1][y].getType();
-		}else if(direction == 3){
+			return areaArray[x+1][y];
+
+		}else if(direction == 3){//right
 			if(y == areaArray[0].length-1){
 				return null;
 			}
-			return areaArray[x][y+1].getType();
-		}else if(direction == 4){
+			return areaArray[x][y+1];
+
+		}else if(direction == 4){//left
 			if(y == 0){
 				return null;
 			}
-			return areaArray[x][y-1].getType();
+			return areaArray[x][y-1];
 		}
 		return null;
 	}
 
 
-	/**
-	 * This method returns whether this is a base tile that the player
-	 * can move onto.
-	 * that they are in
-	 * @param tileType: The tile type that needs to be checked
-	 * @return: If it is a base tile that the player can move into
-	 */
-	private boolean isEmptyTile(TileType tileType) {
-		return (tileType.equals(TileType.GRASS) || tileType.equals(TileType.ROCK) || tileType.equals(TileType.WOOD));
-	}
+//	/**
+//	 * This method returns whether this is a base tile that the player
+//	 * can move onto.
+//	 * that they are in
+//	 * @param tileType: The tile type that needs to be checked
+//	 * @return: If it is a base tile that the player can move into
+//	 */
+//	private boolean isEmptyTile(TileType tileType) {
+//		return (tileType.equals(TileType.GRASS) || tileType.equals(TileType.ROCK) || tileType.equals(TileType.WOOD));
+//	}
 
 
 	/**

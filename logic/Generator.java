@@ -21,8 +21,15 @@ import state.Area.AreaType;
 import state.Item;
 import state.Position;
 import state.Key;
-import state.Tile;
-import state.Tile.TileType;
+import tiles.BuildingTile;
+import tiles.CaveEntranceTile;
+import tiles.CaveTile;
+import tiles.ChestTile;
+import tiles.DoorTile;
+import tiles.GroundTile;
+import tiles.GroundTile.TileType;
+import tiles.Tile;
+import tiles.TreeTile;
 
 public class Generator {
 
@@ -52,7 +59,7 @@ public class Generator {
 		ArrayList<Area> children = area.getInternalAreas();
 		for(int row = 0; row<area.getTileArray().length; row++){
 			for(int col = 0; col < area.getTileArray()[0].length; col++){
-				if(area.getTileArray()[row][col].getType() == Tile.TileType.GRASS){
+				if(area.getTileArray()[row][col] instanceof GroundTile){
 					if(Math.random()*100 < lootValue){
 						area.getItemArray()[row][col] = randomItem();
 					}
@@ -68,7 +75,7 @@ public class Generator {
 		}else if(itemValue < 5){
 			//return ok item
 		}
-		return new Key();		
+		return new Key();
 	}
 
 	public void fillTiles(Area area){
@@ -77,7 +84,7 @@ public class Generator {
 
 		for(int row=0; row < areaArray.length; row++){
 			for(int col=0; col < areaArray[0].length; col++){
-				areaArray[row][col] = new Tile(TileType.GRASS);
+				areaArray[row][col] = new GroundTile(TileType.GRASS, new Position(row, col, area));
 			}
 		}
 
@@ -85,7 +92,7 @@ public class Generator {
 			for(int col=1; col < areaArray[0].length-1; col++){
 				//generate trees
 				if(new Random().nextInt(trees) == trees-1){
-					areaArray[row][col] = new Tile(TileType.TREE);
+					areaArray[row][col] = new TreeTile();
 				}
 			}
 		}
@@ -98,6 +105,7 @@ public class Generator {
 				int randomRow = new Random().nextInt(areaArray.length-4)+1;
 				int randomCol = new Random().nextInt(areaArray[0].length-6)+1;
 				boolean placeClear = true;
+
 				//check if the random place is open for a building
 				for(int row = randomRow; row < randomRow+3; row++){
 					for(int col = randomCol; col < randomCol+5; col++){
@@ -112,7 +120,7 @@ public class Generator {
 				if(placeClear){
 					for(int row = randomRow; row < randomRow+3; row++){
 						for(int col = randomCol; col < randomCol+5; col++){
-							areaArray[row][col] = new Tile(TileType.BUILDING);
+							areaArray[row][col] = new BuildingTile();
 						}
 					}
 					//Create a boarder around the building so that no buildings can be side by side.
@@ -121,12 +129,15 @@ public class Generator {
 							invalidPosition[row][col] = true;
 						}
 					}
+
 					//place the door and create the new area
-					areaArray[randomRow+2][randomCol+2] = new Tile(TileType.DOOR);
-					areaArray[randomRow+3][randomCol+2] = new Tile(TileType.GRASS);
-					Area building = new Area(5, 5, AreaType.BUILDING, new Position(randomRow+2, randomCol+2, area));
-					building.setExitPosition(new Position(4, 2, building));
-					building.getTileArray()[4][2] = new Tile(TileType.DOOR);
+					Position entrance = new Position(randomRow+2, randomCol+2, area);
+					areaArray[randomRow+3][randomCol+2] = new GroundTile(TileType.GRASS, new Position(randomRow+3, randomCol+2, area));
+					Area building = new Area(5, 5, AreaType.BUILDING, new Position(randomCol+2, randomRow+2, area));
+					Position exit = new Position(4, 2, building);
+
+					areaArray[randomRow+2][randomCol+2] = new DoorTile(entrance, exit);
+					building.getTileArray()[4][2] = new DoorTile(exit, entrance);
 					children.add(building);
 					placed = true;
 				}
@@ -153,7 +164,7 @@ public class Generator {
 				if(placeClear){
 					for(int row = randomRow; row < randomRow+2; row++){
 						for(int col = randomCol; col < randomCol+2; col++){
-							areaArray[row][col] = new Tile(TileType.CAVE);
+							areaArray[row][col] = new CaveTile();
 						}
 					}
 					//Create a boarder around the building so that no buildings can be side by side.
@@ -162,9 +173,12 @@ public class Generator {
 							invalidPosition[row][col] = true;
 						}
 					}
-					//place the entrance and create the new area
-					areaArray[randomRow+1][randomCol+1] = new Tile(TileType.CAVEENTRANCE);
-					Area cave = new Area(5, 10, AreaType.CAVE, new Position(randomRow+1, randomCol+1, area));
+					Position entrance = new Position(randomRow+1, randomCol+1, area);
+					//create the new area and place the entrance and exit
+					Area cave = new Area(5, 10, AreaType.CAVE, new Position(randomCol+1, randomRow+1, area));
+					Position exit = new Position(0, 0, cave);
+					areaArray[randomRow+1][randomCol+1] = new CaveEntranceTile(entrance, exit);
+					cave.getTileArray()[0][0] = new CaveEntranceTile(exit, entrance);
 					children.add(cave);
 					placed = true;
 				}
@@ -180,7 +194,7 @@ public class Generator {
 				int randomCol = new Random().nextInt(areaArray[0].length-2)+1;
 
 				if(!invalidPosition[randomRow][randomCol]){
-					areaArray[randomRow][randomCol] = new Tile(TileType.CHEST);
+					areaArray[randomRow][randomCol] = new ChestTile();
 					invalidPosition[randomRow][randomCol] = true;
 					placed = true;
 
