@@ -4,6 +4,8 @@
 
 package state;
 
+import items.Item;
+
 import java.util.ArrayList;
 import java.util.List;
 

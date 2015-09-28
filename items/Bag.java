@@ -1,4 +1,6 @@
-package state;
+package items;
+
+import state.Container;
 
 public class Bag extends Item implements Container {
 
