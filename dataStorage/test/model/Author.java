@@ -2,11 +2,15 @@ package dataStorage.test.model;
 
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
+import com.sun.xml.internal.bind.CycleRecoverable;
+
 @XmlType(propOrder = { "name", "phoneNumber", "friends" })
-public class Author {
+public class Author implements CycleRecoverable {
 
 	private String name;
 	private int age;
@@ -38,6 +42,8 @@ public class Author {
 		this.phoneNumber = phoneNumber;
 	}
 
+	@XmlElementWrapper
+	@XmlElement(name="friend")
 	public List<Author> getFriends() {
 		return friends;
 	}
@@ -49,5 +55,13 @@ public class Author {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	@Override
+	public Object onCycleDetected(Context arg0) {
+		AuthorPointer ap = new AuthorPointer();
+		ap.setName(name);
+		ap.setPhoneNumber(phoneNumber);
+		return ap;
 	}
 }

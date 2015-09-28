@@ -27,7 +27,7 @@ public class ClockThread extends Thread{
 				Thread.sleep(delay);
 				game.clockTick();
 				if(renderer != null) {
-					renderer.repaint();
+//					renderer.repaint();
 				}
 			} catch(InterruptedException e) {
 				// should never happen

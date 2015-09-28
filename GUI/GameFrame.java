@@ -27,7 +27,7 @@ import java.util.Set;
  * NEW version of GameFrame doesn't use GridBagLayout, but instead uses a BoxLayout with 3 Jpanels, each of
  * which has its own Layout
  * @author flanagdonn
- *
+ * TODO show onscreen what ip address
  */
 public class GameFrame extends JFrame{
 	private int frameWidth = 800;
@@ -36,7 +36,7 @@ public class GameFrame extends JFrame{
 	private Dimension mapSize = new Dimension(750, 400);
 
 	public final int buttonPaddingHorizontal = 50;	//public as needs to be accessed from ButtonPanel
-	private final int buttonPaddingVertical = 50;
+	public final int buttonPaddingVertical = 50;
 
 	private PlayerInfo player = new PlayerInfo("Donald Duck", Avatar.DONALD_DUCK);
 
@@ -134,9 +134,9 @@ public class GameFrame extends JFrame{
 
 		data = new testRenderer(20, 0, 0, 15, 20, 20, 4, 0);
 
-		GameRenderer map = new GameRenderer(mapSize.width, mapSize.height, data.getArea().getTileArray(), data.getPlayers());
+//		GameRenderer map = new GameRenderer(mapSize.width, mapSize.height, data.getArea().getTileArray(), data.getPlayers());
 
-		midPanel.add(map); //add main board panel showing map
+//		midPanel.add(map); //add main board panel showing map
 
 	}
 

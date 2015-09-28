@@ -35,6 +35,7 @@ public class Client extends Thread implements KeyListener {
 			e.printStackTrace();
 		}
 	}
+
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
