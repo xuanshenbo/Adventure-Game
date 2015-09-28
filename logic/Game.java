@@ -7,7 +7,6 @@ package logic;
 import java.util.Scanner;
 
 import state.Area;
-import state.Direction;
 import state.GameState;
 import state.Player;
 import state.Position;
@@ -58,6 +57,8 @@ public class Game{
 	private Tile destinationTile(int direction, Player player) {
 		int x = player.getPosition().getX();
 		int y = player.getPosition().getY();
+		int row = player.getPosition().getY();
+		int col = player.getPosition().getX();
 		Tile[][] areaArray = gameState.getArea(player).getTileArray();
 
 		if(direction == 1){//up

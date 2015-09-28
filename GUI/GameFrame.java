@@ -2,6 +2,8 @@ package GUI;
 
 import interpreter.DialogStrategy;
 import interpreter.StrategyInterpreter;
+import items.Item;
+import items.Key;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -9,8 +11,6 @@ import javax.swing.border.TitledBorder;
 
 import renderer.GameRenderer;
 import renderer.testRenderer;
-import state.Item;
-import state.Key;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

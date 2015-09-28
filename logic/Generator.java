@@ -12,15 +12,15 @@
 package logic;
 
 import static utilities.PrintTool.p;
+import items.Item;
+import items.Key;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 import state.Area;
 import state.Area.AreaType;
-import state.Item;
 import state.Position;
-import state.Key;
 import tiles.BuildingTile;
 import tiles.CaveEntranceTile;
 import tiles.CaveTile;

@@ -1,4 +1,5 @@
-package state;
+package items;
+
 
 public class Key extends Item {
 

@@ -28,7 +28,6 @@ public class ChestTile implements Tile {
 
 	@Override
 	public Position getPosition() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -13,6 +13,7 @@ public class GameState {
 
 	private ArrayList<Player> playerList = new ArrayList<Player>(); // list of players in the game
 	private Area area; // The game world
+	private int viewPortSize = 15;
 
 
 
@@ -57,12 +58,12 @@ public class GameState {
 	 * @return
 	 */
 	public String[][] getGameView(Player player){
-		String[][] view = new String[15][15];
+		String[][] view = new String[viewPortSize][viewPortSize];
 		Area a = getArea(player);
-		int left = player.getPosition().getY() - 7;
-		int right = player.getPosition().getY() + 7;
-		int top = player.getPosition().getX() - 7;
-		int bottom = player.getPosition().getX() + 7;
+		int left = player.getPosition().getY() - (viewPortSize/2);
+		int right = player.getPosition().getY() + (viewPortSize/2);
+		int top = player.getPosition().getX() - (viewPortSize/2);
+		int bottom = player.getPosition().getX() + (viewPortSize/2);
 
 		int r = 0;
 		int c = 0;
