@@ -40,6 +40,8 @@ public class ButtonPanel extends JPanel {
 	private JButton team;
 	private JButton exchange;
 	private GameFrame containerFrame;
+
+	private WelcomeDialog welcomeDialog;
 	private StrategyInterpreter buttonInterpreter;
 	/**
 	 * The constructor stores the button interpreter to a field
@@ -50,11 +52,12 @@ public class ButtonPanel extends JPanel {
 		buttonInterpreter = b;
 		containerFrame = container;
 		//make buttons layout top to bottom
-		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS);
-		setLayout(boxLayout);
+
 
 		if(state.equals("main")){
 			if(containerFrame!=null){
+				BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS);	//display main game-play buttons horizontally
+				setLayout(boxLayout);
 				CreateMainButtons();
 			}
 			else{
@@ -62,14 +65,68 @@ public class ButtonPanel extends JPanel {
 			}
 		}
 
-		else if(state.equals("serverClient")){
-			createServerClientButtons();
-		}
+
 
 
 	}
+
+	/**
+	 * Displays the button choices for playing as a client or playing as a client + server
+	 * @param i An initialisation object, which implements StrategyInterpreter
+	 * @param welcomeDialog The Dialog which needs to be informed of any choice that is made
+	 * @param state Which buttons are to be displayed?
+	 */
+	public ButtonPanel(WelcomeDialog welcomeDialog, String state) { //should take an Initialisation object too.
+		//TODO Initialisation object extends StrategyInterpreter?
+
+		this.welcomeDialog = welcomeDialog;
+
+		if(state.equals("serverClient")){
+			BoxLayout boxLayout = new BoxLayout(this, BoxLayout.PAGE_AXIS); //display client server buttons vertically
+			setLayout(boxLayout);
+			createServerClientButtons();
+		}
+	}
+
+	/**
+	 * Adds two buttons to the panel: A button to play as a Client, and
+	 * another to play as Server/Client.
+	 */
 	private void createServerClientButtons() {
-		// TODO Auto-generated method stub
+		final JButton client = new JButton("Client");
+		client.setMnemonic(KeyEvent.VK_C);
+		client.setToolTipText("Play as a client");
+
+
+		JButton serverclient = new JButton("Server + Client");
+		serverclient.setMnemonic(KeyEvent.VK_S);
+		serverclient.setToolTipText("Play as a client");
+
+
+		ActionListener serverclientListener = new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource()==client){
+					buttonInterpreter.notify("client");
+					welcomeDialog.displayNext("connect");	//now display the option for which server to connect to
+				}
+				else{
+					buttonInterpreter.notify("clientserver");
+					welcomeDialog.displayNext("loadNew"); //now display the options of loading a game, or starting a new one
+				}
+
+			}
+
+		};
+
+		client.addActionListener(serverclientListener);
+		serverclient.addActionListener(serverclientListener);
+
+		add(Box.createRigidArea(new Dimension(containerFrame.buttonPaddingVertical,0))); //pad between buttons
+		add(client);
+		add(Box.createRigidArea(new Dimension(containerFrame.buttonPaddingVertical,0))); //pad between buttons
+		add(serverclient);
 
 	}
 	private void CreateMainButtons() {

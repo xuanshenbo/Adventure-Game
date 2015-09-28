@@ -56,7 +56,7 @@ public class WelcomeDialog extends JDialog implements ActionListener {
 	 * @param msg Message to display
 	 * @param i The state of the Game
 	 */
-	public WelcomeDialog(Initialisation i) {
+	public WelcomeDialog() {		//TODO Felix to create an Initialisation Object
 		setLayout(new GridBagLayout());
 
 		GridBagConstraints gc=new GridBagConstraints();
@@ -77,12 +77,29 @@ public class WelcomeDialog extends JDialog implements ActionListener {
 		//add(messagePane, BorderLayout.PAGE_START);
 		add(messagePane, gc);
 
-		gc=new GridBagConstraints();
+		addWelcomeImage();
+
+		buttonPanelConstraints=new GridBagConstraints();
+		buttonPanelConstraints.gridx = 0;
+		buttonPanelConstraints.gridy = 10;
+
+		//button panel needs to store "this" to call the display next methods, and send it Initialisation too? Or Initialisation
+		//has access to buttonInterpreter?
+		ButtonPanel b = new ButtonPanel(this, "serverClient");
+		add(b, buttonPanelConstraints);
+
+		//display the dialog
+		pack();
+		setLocationRelativeTo(null);
+		setVisible(true);
+	}
+
+	private void addWelcomeImage() {
+		GridBagConstraints gc=new GridBagConstraints();
 		gc.fill=GridBagConstraints.HORIZONTAL;
 		gc.gridx = 0;
 		gc.gridy = 3;
 		gc.gridwidth = 5;
-
 
 		Image image = ImageLoader.loadImage("welcomeImage.jpg");
 		image = image.getScaledInstance(imageSize.width, imageSize.height, -1);
@@ -93,18 +110,6 @@ public class WelcomeDialog extends JDialog implements ActionListener {
 		//add(thumb, BorderLayout.CENTER);
 		add(thumb, gc);
 
-		buttonPanelConstraints=new GridBagConstraints();
-		buttonPanelConstraints.gridx = 0;
-		buttonPanelConstraints.gridy = 10;
-
-		//button panel needs to store this to call the display next methods
-		ButtonPanel b = new ButtonPanel(this, i, "serverClient");
-		add(b, buttonPanelConstraints);
-
-		//display the dialog
-		pack();
-		setLocationRelativeTo(null);
-		setVisible(true);
 	}
 
 	public void displayNext(String s){

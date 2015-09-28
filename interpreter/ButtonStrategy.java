@@ -6,7 +6,12 @@ public class ButtonStrategy implements StrategyInterpreter.Strategy{
 
 	@Override
 	public void notify(String text) {
-		// TODO Auto-generated method stub
+		if(text.equals("client")){
+			//let Felix know that the client option has been selected
+		}
+		else if(text.equals("clientserver")){
+			//let Felix know that the client/server option has been selected
+		}
 
 	}
 
