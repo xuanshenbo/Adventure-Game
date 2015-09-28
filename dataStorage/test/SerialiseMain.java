@@ -15,7 +15,7 @@ import dataStorage.test.model.*;
 
 public class SerialiseMain {
 
-	private static final String SHELF_XML = "./myshelf.xml";
+	private static final String SHELF_XML = "./mynewshelf.xml";
 
 	public static void main(String[] args) throws JAXBException,
 			FileNotFoundException {
@@ -38,12 +38,19 @@ public class SerialiseMain {
 		// get variables from our xml file, created before
 		System.out.println();
 		System.out.println("Output from our XML File: ");
+
 		Unmarshaller um = context.createUnmarshaller();
+		//Shelf politics2 = (Shelf) um.unmarshal(new FileReader("./myshelf.xml"));
 		Shelf politics2 = (Shelf) um.unmarshal(new FileReader(SHELF_XML));
 		ArrayList<Book> list = (ArrayList<Book>) politics2.getBookList();
 		for (Book book : list) {
 			System.out.println("Book: " + book.getName() + " from "
 					+ book.getAuthor());
+			System.out.println(book.getAuthor());
+			System.out.println(book.getAuthor().getPhoneNumber());
+			for (Author author : book.getAuthor().getFriends()) {
+				System.out.println(author.getName());
+			}
 		}
 	}
 

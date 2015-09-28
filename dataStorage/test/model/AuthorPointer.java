@@ -1,6 +1,7 @@
 package dataStorage.test.model;
 
 public class AuthorPointer {
+
 	private String name;
 	private PhoneNumber phoneNumber;
 
