@@ -12,12 +12,12 @@ import static utilities.PrintTool.p;
 public class GameState {
 
 	private ArrayList<Player> playerList = new ArrayList<Player>(); // list of players in the game
-	private Area area; // The game world
+	private Area world; // The game world
 
 
 
 	public GameState(Area a, ArrayList<Player> p){
-		this.area = a;
+		this.world = a;
 		this.playerList = p;
 		printState();
 	}
@@ -42,10 +42,10 @@ public class GameState {
 	}
 
 	public Area getArea(Player player) {
-		if(player.getPosition().getArea() == area){
-			return area;
+		if(player.getPosition().getArea() == world){
+			return world;
 		} else{
-			for(Area childArea: area.getInternalAreas()){
+			for(Area childArea: world.getInternalAreas()){
 				if(player.getPosition().getArea() == childArea){
 					return childArea;
 				}
@@ -111,12 +111,12 @@ public class GameState {
 	 * used for debugging.
 	 */
 	public void printState(){
-		Tile[][] a = area.getTileArray();
+		Tile[][] a = world.getTileArray();
 		for(int row = 0; row<a.length; row++){
 			for(int col = 0; col<a[0].length; col++){
 				boolean playerPos = false;
 				for(Player p: playerList){
-					if(p.getPosition().getX() == row && p.getPosition().getY() == col && p.getPosition().getArea() == area){
+					if(p.getPosition().getX() == row && p.getPosition().getY() == col && p.getPosition().getArea() == world){
 						System.out.print(p);
 						playerPos = true;
 					}
@@ -127,7 +127,7 @@ public class GameState {
 			}
 			System.out.println("");
 		}
-		for(Area innerArea: area.getInternalAreas()){
+		for(Area innerArea: world.getInternalAreas()){
 			System.out.println("");
 			System.out.println(innerArea.getEntrance());
 
