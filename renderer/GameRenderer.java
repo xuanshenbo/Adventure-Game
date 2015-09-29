@@ -121,7 +121,7 @@ public class GameRenderer{
 						(int) (x * tileWidth),
 						(int) (y * tileHeight - images.getAvatarImages().get(3).avatarHeight() + tileHeight),
 						null);
-				break;
+			/*	break;
 			case "O":
 				graphic.drawImage(images.getChestImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
 				break;
@@ -130,7 +130,7 @@ public class GameRenderer{
 				break;
 			case "O":
 				graphic.drawImage(images.getChestImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
-				break;
+				break;*/
 			default:
 				break;
 		}

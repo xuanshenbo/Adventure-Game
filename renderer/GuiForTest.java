@@ -127,7 +127,8 @@ public class GuiForTest extends JFrame implements KeyListener{
 
     }
 
-    private class RendererCanvas extends JPanel{
+    //public to be used in GameFrame
+    public class RendererCanvas extends JPanel{
 
         private Image bi;
 

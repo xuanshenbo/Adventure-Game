@@ -8,9 +8,15 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
 
 import renderer.GameRenderer;
+import renderer.GuiForTest;
 import renderer.testRenderer;
+import renderer.GuiForTest.RendererCanvas;
+import state.Area;
+import state.GameState;
 import state.Item;
 import state.Key;
+import state.Player;
+import state.Position;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -23,6 +29,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import logic.Game;
+import logic.Generator;
+
 /**
  * NEW version of GameFrame doesn't use GridBagLayout, but instead uses a BoxLayout with 3 Jpanels, each of
  * which has its own Layout
@@ -33,7 +42,11 @@ public class GameFrame extends JFrame{
 	private int frameWidth = 800;
 	private int frameHeight = 800;
 
+	private Game game; //TODO initalise this WHERE?
+
 	private Dimension mapSize = new Dimension(750, 400);
+
+	private Dimension gamePanelSize = new Dimension(800, 600);
 
 	public final int buttonPaddingHorizontal = 50;	//public as needs to be accessed from ButtonPanel
 	public final int buttonPaddingVertical = 50;
@@ -116,7 +129,7 @@ public class GameFrame extends JFrame{
 
 		addTopPanel();
 
-		add(midPanel);
+		add(midPanel);	//as it has already been set up
 
 		addBottomPanel();
 
@@ -129,16 +142,51 @@ public class GameFrame extends JFrame{
 
 	}
 
+
+
 	private void setupMiddlePanel() {
+
 		midPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
+		//generate a Game for testing
+		this.game = generateGame(20, 2, 1, 5, 20, 20, 4, 50);
+
+		GameRenderer renderer = new GameRenderer(800, 600, game.getState().getGameView(game.getState().getPlayer(1)), null, game.getState().getPlayerList());
+
+		Image renderWindow = renderer.getImage(); //need to set the size??
+		JLabel renderLabel = new JLabel(new ImageIcon(renderWindow));
+		midPanel.add(renderLabel);
 
 		data = new testRenderer(20, 0, 0, 15, 20, 20, 4, 0);
 
-//		GameRenderer map = new GameRenderer(mapSize.width, mapSize.height, data.getArea().getTileArray(), data.getPlayers());
-
-//		midPanel.add(map); //add main board panel showing map
-
 	}
+
+	//taken from GUIForTest for testing purposes
+    private static Game generateGame(int trees, int buildings, int caves, int chests, int width, int height, int playerCount, int lootValue) {
+        Generator g = new Generator(trees, buildings, caves, chests, lootValue);
+        Area a = new Area(width, height, Area.AreaType.OUTSIDE, null);
+        a.generateWorld(g);
+        ArrayList<Player> p = placePlayers(playerCount, width, height, a);
+        GameState state = new GameState(a, p);
+        Game game = new Game(state);
+        return game;
+    }
+
+  //taken from GUIForTest for testing purposes
+    private static ArrayList<Player> placePlayers(int playerCount, int width, int height, Area a) {
+        double[] xCoords = {0.5, 0, 0.5, 1};
+        double[] yCoords = {0, 0.5, 1, 0.5};
+        ArrayList<Player> list = new ArrayList<Player>();
+        for(int count = 0; count < playerCount; count++){
+            int x = (int) ((width-1)*xCoords[count]);
+            int y = (int) ((height-1)*yCoords[count]);
+            int id = count+1;
+            Position position = new Position(x, y, a);
+            Player p = new Player(position, id);
+            list.add(p);
+        }
+        return list;
+    }
 
 	private void addBottomPanel() {
 		//new JPanel(new BoxLayout(botPanel, BoxLayout.LINE_AXIS));
