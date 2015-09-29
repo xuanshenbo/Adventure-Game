@@ -70,6 +70,8 @@ public class GameFrame extends JFrame{
 
 	private JPanel botPanel;
 
+	private GameRenderer renderer;
+
 	/**
 	 * First a WelcomeDialog is displayed and then
 	 * the constructor sets up the KeyListener using the KeyboardFocusManager, sets up the layout with all the appropriate Panels.
@@ -154,7 +156,7 @@ public class GameFrame extends JFrame{
 		//generate a Game for testing
 		this.game = generateGame(20, 2, 1, 5, 20, 20, 4, 50);
 
-		GameRenderer renderer = new GameRenderer(800, 600, game.getState().getGameView(game.getState().getPlayer(1)), null, game.getState().getPlayerList());
+		renderer = new GameRenderer(800, 600, game.getState().getGameView(game.getState().getPlayer(1)), null, game.getState().getPlayerList());
 
 		Image renderWindow = renderer.getImage(); //need to set the size??
 		JLabel renderLabel = new JLabel(new ImageIcon(renderWindow));
@@ -288,18 +290,39 @@ public class GameFrame extends JFrame{
 				case KeyEvent.VK_UP:
 					y -= 1;
 					keyInterpreter.notify("up"); //implement for all key presses
+
+					 game.move(game.getState().getPlayer(1), 4);
+			            renderer.update(game.getState().getGameView(game.getState().getPlayer(1)), null, game.getState().getPlayerList());
+			            midPanel.repaint();
+
 					break;
 				case KeyEvent.VK_DOWN:
 					y += 1;
 					keyInterpreter.notify("down");
+
+					  game.move(game.getState().getPlayer(1), 3);
+			            renderer.update(game.getState().getGameView(game.getState().getPlayer(1)), null, game.getState().getPlayerList());
+			            midPanel.repaint();
+
 					break;
 				case KeyEvent.VK_LEFT:
 					x -= 1;
 					keyInterpreter.notify("left");
+
+					//TODO refactor this using interpreter
+					 game.move(game.getState().getPlayer(1), 1);
+			            renderer.update(game.getState().getGameView(game.getState().getPlayer(1)), null, game.getState().getPlayerList());
+			            midPanel.repaint();
+
 					break;
 				case KeyEvent.VK_RIGHT :
 					x += 1;
 					keyInterpreter.notify("right");
+
+					  game.move(game.getState().getPlayer(1), 2);
+			            renderer.update(game.getState().getGameView(game.getState().getPlayer(1)), null, game.getState().getPlayerList());
+			            midPanel.repaint();
+
 					break;
 				}
 
