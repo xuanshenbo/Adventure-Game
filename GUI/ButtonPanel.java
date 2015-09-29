@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -106,11 +107,21 @@ public class ButtonPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==load){
-					initialisation.notify("load");
+					try {
+						initialisation.notify("load");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					welcomePanel.displayNext("load");
 				}
 				else if(e.getSource()==newGame){	//conditional not strictly necessary, but added for completion
-					initialisation.notify("newGame");
+					try {
+						initialisation.notify("newGame");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					welcomePanel.displayNext("newGame");
 				}
 			}
@@ -147,11 +158,21 @@ public class ButtonPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==client){
-					initialisation.notify("client");
+					try {
+						initialisation.notify("client");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					welcomePanel.displayNext("connect");	//now display the option for which server to connect to
 				}
 				else if(e.getSource()==serverclient){	//conditional not strictly necessary, but added for completion
-					initialisation.notify("clientserver");
+					try {
+						initialisation.notify("clientserver");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					welcomePanel.displayNext("loadNew"); //now display the options of loading a game, or starting a new one
 				}
 

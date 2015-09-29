@@ -33,11 +33,7 @@ public class Game{
 	 */
 	public void move(Player player, int direction){
 		Position playerPosition = player.getPosition();
-		int x = playerPosition.getX();
-		int y = playerPosition.getY();
-		Area currentArea = playerPosition.getArea();
 		Tile toTile = destinationTile(direction, player);
-
 
 		if(toTile != null){
 			p("toTile: "+toTile.getType());
@@ -58,29 +54,27 @@ public class Game{
 	private Tile destinationTile(int direction, Player player) {
 		int x = player.getPosition().getX();
 		int y = player.getPosition().getY();
-		int row = player.getPosition().getY();
-		int col = player.getPosition().getX();
-		Tile[][] areaArray = gameState.getArea(player).getArea();
+		Tile[][] areaArray = gameState.getWorld(player).getArea();
 
-		if(direction == 1){//up
+		if(direction == 1){//left
 			if(x == 0){
 				return null;
 			}
 			return areaArray[x-1][y];
 
-		}else if(direction == 2){//down
+		}else if(direction == 2){//right
 			if(x == areaArray.length-1){
 				return null;
 			}
 			return areaArray[x+1][y];
 
-		}else if(direction == 3){//right
+		}else if(direction == 3){//down
 			if(y == areaArray[0].length-1){
 				return null;
 			}
 			return areaArray[x][y+1];
 
-		}else if(direction == 4){//left
+		}else if(direction == 4){//up
 			if(y == 0){
 				return null;
 			}

@@ -8,9 +8,11 @@ import interpreter.StrategyInterpreter;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Writer;
 
 import javax.swing.JFrame;
 
+import control.Client;
 import GUI.GameFrame;
 import GUI.WelcomePanel;
 
@@ -31,7 +33,7 @@ public class Initialisation extends StrategyInterpreter{
 	 * @author flanagdonn
 	 */
 	public Initialisation(){
-		super(null, new InitialStrategy());
+		super(null, new InitialStrategy(), null);
 		frame = new JFrame("Welcome to Adventure Game");
 		WelcomePanel welcome = new WelcomePanel(this);
 		frame.add(welcome);
@@ -41,22 +43,27 @@ public class Initialisation extends StrategyInterpreter{
 		frame.setVisible(true);
 	}
 
-	public void displayMainGameFrame(){
+	/**
+	 * A getter for the JFrame
+	 * @return
+	 */
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void displayMainGameFrame(Client c){
 		frame.dispose();	//get rid of welcome frame
 
 		GameFrame game = new GameFrame("Adventure Game");
 
 		//create the Strategy Interpreters with different Strategies as appropriate
-		StrategyInterpreter keyInterpreter = new StrategyInterpreter(game, new KeyStrategy());
-		StrategyInterpreter buttonInterpreter = new StrategyInterpreter(game, new ButtonStrategy());
-		StrategyInterpreter menuInterpreter = new StrategyInterpreter(game, new MenuStrategy());
+		StrategyInterpreter keyInterpreter = new StrategyInterpreter(game, new KeyStrategy(),c);
+		StrategyInterpreter buttonInterpreter = new StrategyInterpreter(game, new ButtonStrategy(),c);
+		StrategyInterpreter menuInterpreter = new StrategyInterpreter(game, new MenuStrategy(),c);
 
 		//add the Strategy Interpreters to the GameFrame
 		game.setKeyInterpreter(keyInterpreter);
 		game.setButtonInterpreter(buttonInterpreter);
 		game.setMenuInterpreter(menuInterpreter);
 	}
-
-
-
 }

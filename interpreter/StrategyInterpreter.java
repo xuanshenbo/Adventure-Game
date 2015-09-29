@@ -1,4 +1,8 @@
 package interpreter;
+import java.io.IOException;
+import java.io.Writer;
+
+import control.Client;
 import GUI.GameFrame;
 
 /**
@@ -9,6 +13,7 @@ public class StrategyInterpreter implements Observer{
 
 	private GameFrame gameGUI;
 	private Strategy strategy;
+	private Client client;
 
 	/**
 	 * Stores the arguments in the fields
@@ -16,9 +21,10 @@ public class StrategyInterpreter implements Observer{
 	 * @param gameFrame The BoardFrame
 	 * @param s The Strategy
 	 */
-	public StrategyInterpreter(GameFrame game, Strategy s){
+	public StrategyInterpreter(GameFrame game, Strategy s, Client c){
 		gameGUI = game;
 		strategy = s;
+		client = c;;
 		s.setInterpreter(this);
 	}
 
@@ -26,14 +32,16 @@ public class StrategyInterpreter implements Observer{
 	 * The interface which ensures different behaviour when notify is called
 	 */
 	public interface Strategy{
-		public void notify(String text);
+		public void notify(String text) throws IOException;
 		public void setInterpreter(StrategyInterpreter i);
+		//public void setOutput(Writer writer);
 	}
 
 	/**
 	 * Notifies the game of the user events or game instructions
+	 * @throws IOException
 	 */
-	public void notify(String text){
+	public void notify(String text) throws IOException{
 		strategy.notify(text);
 	}
 
@@ -42,6 +50,22 @@ public class StrategyInterpreter implements Observer{
 	 */
 	public Strategy getStrategy(){
 		return strategy;
+	}
+
+	/**
+	 * a getter for the client
+	 * @return client
+	 */
+	public Client getClient() {
+		return client;
+	}
+
+	/**
+	 * a setter for the client
+	 * @param output
+	 */
+	public void setClient(Client c) {
+		client = c;
 	}
 
 
