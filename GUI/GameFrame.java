@@ -155,7 +155,7 @@ public class GameFrame extends JFrame{
 		//generate a Game for testing
 		this.game = generateGame(20, 2, 1, 5, 20, 20, 4, 50);
 
-		renderer = new GameRenderer(800, 600, game.getState().getGameView(game.getState().getPlayer(1)), null, game.getState().getPlayerList());
+		renderer = new GameRenderer(800, 600, game.getGameState().getGameView(game.getGameState().getPlayer(1)), null, game.getGameState().getPlayerList());
 
 		Image renderWindow = renderer.getImage(); //need to set the size??
 		JLabel renderLabel = new JLabel(new ImageIcon(renderWindow));
@@ -290,8 +290,8 @@ public class GameFrame extends JFrame{
 					y -= 1;
 					keyInterpreter.notify("up"); //implement for all key presses
 
-					 game.move(game.getState().getPlayer(1), 4);
-			            renderer.update(game.getState().getGameView(game.getState().getPlayer(1)), null, game.getState().getPlayerList());
+					 game.move(game.getGameState().getPlayer(1), 4);
+			            renderer.update(game.getGameState().getGameView(game.getGameState().getPlayer(1)), null, game.getGameState().getPlayerList());
 			            midPanel.repaint();
 
 					break;
@@ -299,8 +299,8 @@ public class GameFrame extends JFrame{
 					y += 1;
 					keyInterpreter.notify("down");
 
-					  game.move(game.getState().getPlayer(1), 3);
-			            renderer.update(game.getState().getGameView(game.getState().getPlayer(1)), null, game.getState().getPlayerList());
+					  game.move(game.getGameState().getPlayer(1), 3);
+			            renderer.update(game.getGameState().getGameView(game.getGameState().getPlayer(1)), null, game.getGameState().getPlayerList());
 			            midPanel.repaint();
 
 					break;
@@ -309,8 +309,8 @@ public class GameFrame extends JFrame{
 					keyInterpreter.notify("left");
 
 					//TODO refactor this using interpreter
-					 game.move(game.getState().getPlayer(1), 1);
-			            renderer.update(game.getState().getGameView(game.getState().getPlayer(1)), null, game.getState().getPlayerList());
+					 game.move(game.getGameState().getPlayer(1), 1);
+			            renderer.update(game.getGameState().getGameView(game.getGameState().getPlayer(1)), null, game.getGameState().getPlayerList());
 			            midPanel.repaint();
 
 					break;
@@ -318,8 +318,8 @@ public class GameFrame extends JFrame{
 					x += 1;
 					keyInterpreter.notify("right");
 
-					  game.move(game.getState().getPlayer(1), 2);
-			            renderer.update(game.getState().getGameView(game.getState().getPlayer(1)), null, game.getState().getPlayerList());
+					  game.move(game.getGameState().getPlayer(1), 2);
+			            renderer.update(game.getGameState().getGameView(game.getGameState().getPlayer(1)), null, game.getGameState().getPlayerList());
 			            midPanel.repaint();
 
 					break;

@@ -23,7 +23,7 @@ public class Main {
 		Game game = new Game(state);
 
 
-		char[][] charArray = game.getState().getArea(p.get(1)).getCharArray();
+		char[][] charArray = game.getGameState().getArea(p.get(1)).getCharArray();
 		ss.updateMap(charArray);
 	}
 
