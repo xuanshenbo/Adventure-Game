@@ -36,7 +36,7 @@ public class GameState {
 		return null;
 	}
 
-	public Area getArea(Player player) {
+	public Area getWorld(Player player) {
 		if(player.getPosition().getArea() == world){
 			return world;
 		} else{
@@ -57,16 +57,16 @@ public class GameState {
 	 */
 	public String[][] getGameView(Player player){
 		String[][] view = new String[viewPortSize][viewPortSize];
-		Area a = getArea(player);
-		int left = player.getPosition().getY() - (viewPortSize/2);
-		int right = player.getPosition().getY() + (viewPortSize/2);
-		int top = player.getPosition().getX() - (viewPortSize/2);
-		int bottom = player.getPosition().getX() + (viewPortSize/2);
+		Area a = getWorld(player);
+		int left = player.getPosition().getX() - (viewPortSize/2);
+		int right = player.getPosition().getX() + (viewPortSize/2);
+		int top = player.getPosition().getY() - (viewPortSize/2);
+		int bottom = player.getPosition().getY() + (viewPortSize/2);
 
 		int r = 0;
 		int c = 0;
-		for(int row = top; row < bottom+1; row++){
-			for(int col = left; col < right+1; col++){
+		for(int row = left; row < right+1; row++){
+			for(int col = top; col < bottom+1; col++){
 				if(row>-1 && col >-1 && row <a.getArea().length && col < a.getArea()[0].length){
 					boolean playerPos = false;
 
@@ -103,15 +103,16 @@ public class GameState {
 
 	/**
 	 * This method prints out the game state to the console, it is mainly
-	 * used for debugging.
+	 * used for debugging. 
 	 */
 	public void printState(){
 		Tile[][] a = world.getArea();
+		
 		for(int row = 0; row<a.length; row++){
 			for(int col = 0; col<a[0].length; col++){
 				boolean playerPos = false;
 				for(Player p: playerList){
-					if(p.getPosition().getX() == row && p.getPosition().getY() == col && p.getPosition().getArea() == world){
+					if(p.getPosition().getX() == col && p.getPosition().getY() == row && p.getPosition().getArea() == world){
 						System.out.print(p);
 						playerPos = true;
 					}
@@ -122,6 +123,7 @@ public class GameState {
 			}
 			System.out.println("");
 		}
+		
 		for(Area innerArea: world.getInternalAreas()){
 			System.out.println("");
 			System.out.println(innerArea.getEntrance());
@@ -132,7 +134,7 @@ public class GameState {
 				for(int col = 0; col<innerTiles[0].length; col++){
 					boolean playerPos = false;
 					for(Player p: playerList){
-						if(p.getPosition().getX() == row && p.getPosition().getY() == col && p.getPosition().getArea() == innerArea){
+						if(p.getPosition().getX() == col && p.getPosition().getY() == row && p.getPosition().getArea() == innerArea){
 							System.out.print(p);
 							playerPos = true;
 						}

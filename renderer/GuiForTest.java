@@ -111,8 +111,10 @@ public class GuiForTest extends JFrame implements KeyListener{
     }
 
     private static ArrayList<Player> placePlayers(int playerCount, int width, int height, Area a) {
-        double[] xCoords = {0.5, 0, 0.5, 1};
-        double[] yCoords = {0, 0.5, 1, 0.5};
+//        double[] xCoords = {0.5, 0, 0.5, 1};
+//        double[] yCoords = {0, 0.5, 1, 0.5};
+        double[] xCoords = {0, 0.5, 1, 0.5};
+        double[] yCoords = {0.5, 0, 0.5, 1};
         ArrayList<Player> list = new ArrayList<Player>();
         for(int count = 0; count < playerCount; count++){
             int x = (int) ((width-1)*xCoords[count]);

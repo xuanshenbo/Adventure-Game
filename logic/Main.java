@@ -23,7 +23,7 @@ public class Main {
 		Game game = new Game(state);
 
 
-		char[][] charArray = game.getGameState().getArea(p.get(1)).getCharArray();
+		char[][] charArray = game.getGameState().getWorld(p.get(1)).getCharArray();
 		ss.updateMap(charArray);
 	}
 
@@ -34,6 +34,7 @@ public class Main {
 		for(int count = 0; count < playerCount; count++){
 			int x = (int) ((width-1)*xCoords[count]);
 			int y = (int) ((height-1)*yCoords[count]);
+			p("player"+(count+1)+" XGEN: "+x+" YGEN"+y);
 			int id = count+1;
 			Position position = new Position(x, y, a);
 			Player p = new Player(position, id);
