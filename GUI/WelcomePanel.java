@@ -92,8 +92,8 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		bottomPanelConstraints.gridx = 0;
 		bottomPanelConstraints.gridy = 10;
 
-		//button panel needs to store "this" to call the display next methods, and send it Initialisation too? Or Initialisation
-		//has access to buttonInterpreter?
+		// button panel needs to store "this" to call the display next methods, and send it Initialisation too? Or Initialisation
+		// has access to buttonInterpreter?
 		bPanel = new ButtonPanel(this, "serverClient", initialisation);
 		add(bPanel, bottomPanelConstraints);
 
@@ -133,6 +133,9 @@ public class WelcomePanel extends JPanel implements ActionListener {
 			displayNewGameOptions();
 			repaint();
 		}
+		else if(s.equals("load")){
+			//load the saved game
+		}
 	}
 
 	/*
@@ -141,14 +144,17 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	private void displayConnect() {
 		iPanel = new InputPanel(initialisation, "connect");
 		add(iPanel, bottomPanelConstraints);
-		repaint();
 	}
 
 	/*
 	 * Displays option dialog to get user to decide to load a game, or start a new game
+	 * TODO why is this panel not being displayed?
 	 */
 	private void displayLoadNew() {
 		bPanel = new ButtonPanel(this, "loadnew", initialisation);
+		repaint();
+
+		//System.out.println("got here");
 	}
 
 	/*
@@ -156,7 +162,16 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	 */
 	private void displayNewGameOptions() {
 		JButton chooseAvatar = new JButton("Choose my Avatar");
-		chooseAvatar.addActionListener(this);
+		chooseAvatar.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(state.equals(InitialisationStates.NEW_GAME)){
+					Dialog avatarDialog = new Dialog(parentFrame, "Avatar chooser", "These are your available options.", "avatars", parentFrame.getDialogInterpreter());
+					initialisation.notify("start");
+				}
+			}
+		});
 		add(chooseAvatar, bottomPanelConstraints);
 
 	}
@@ -164,10 +179,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	 * Called when the user clicks "Choose Avatar" on the dialog
 	 */
 	public void actionPerformed(ActionEvent e) {
-		setVisible(false);
-		if(this.state.equals(InitialisationStates.NEW_GAME)){
-			Dialog avatarDialog = new Dialog(parentFrame, "Avatar chooser", "These are your available options.", "avatars", parentFrame.getDialogInterpreter());
-		}
+
 	}
 
 	/**	 *

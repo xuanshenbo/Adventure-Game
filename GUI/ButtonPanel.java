@@ -43,9 +43,9 @@ public class ButtonPanel extends JPanel {
 	private JButton exchange;
 	private GameFrame containerFrame;
 
-	private Initialisation initialisation;
+	private StrategyInterpreter initialisation;
 
-	private WelcomePanel welcomeDialog;
+	private WelcomePanel welcomePanel;
 	private StrategyInterpreter buttonInterpreter;
 	/**
 	 * The constructor stores the button interpreter to a field
@@ -78,7 +78,7 @@ public class ButtonPanel extends JPanel {
 	 */
 	public ButtonPanel(WelcomePanel welcomeDialog, String state, Initialisation i) {
 
-		this.welcomeDialog = welcomeDialog;
+		this.welcomePanel = welcomeDialog;
 
 		this.initialisation = i;
 
@@ -101,18 +101,17 @@ public class ButtonPanel extends JPanel {
 		final JButton load = new JButton("Load saved game");
 		final JButton newGame = new JButton("Start new game");
 
-
 		ActionListener loadnewListener = new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==load){
 					initialisation.notify("load");
-					welcomeDialog.displayNext("loadOptions");
+					welcomePanel.displayNext("load");
 				}
 				else if(e.getSource()==newGame){	//conditional not strictly necessary, but added for completion
 					initialisation.notify("newGame");
-					welcomeDialog.displayNext("newGame");
+					welcomePanel.displayNext("newGame");
 				}
 			}
 
@@ -140,7 +139,7 @@ public class ButtonPanel extends JPanel {
 
 		final JButton serverclient = new JButton("Server + Client");
 		serverclient.setMnemonic(KeyEvent.VK_S);
-		serverclient.setToolTipText("Play as a client");
+		serverclient.setToolTipText("Play as a server + client");
 
 
 		ActionListener serverclientListener = new ActionListener(){
@@ -149,11 +148,11 @@ public class ButtonPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==client){
 					initialisation.notify("client");
-					welcomeDialog.displayNext("connect");	//now display the option for which server to connect to
+					welcomePanel.displayNext("connect");	//now display the option for which server to connect to
 				}
 				else if(e.getSource()==serverclient){	//conditional not strictly necessary, but added for completion
 					initialisation.notify("clientserver");
-					welcomeDialog.displayNext("loadNew"); //now display the options of loading a game, or starting a new one
+					welcomePanel.displayNext("loadNew"); //now display the options of loading a game, or starting a new one
 				}
 
 			}

@@ -51,6 +51,8 @@ public class MenuBar extends JMenuBar {
 						System.exit(0);
 					}
 				}
+
+				//TODO implement this (Shenbo)
 				else if(e.getSource()==load){
 					int returnVal = fc.showOpenDialog(MenuBar.this);
 					if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -60,6 +62,8 @@ public class MenuBar extends JMenuBar {
 						//do nothing
 					}
 				}
+
+				//TODO implement this (Shenbo)
 				else if(e.getSource()==save){
 					int returnVal = fc.showSaveDialog(MenuBar.this);
 					if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -78,8 +82,8 @@ public class MenuBar extends JMenuBar {
 		load.addActionListener(menuListener);
 
 		menu.add(exit);
-		menu.add(save);
-		menu.add(load);
+		//menu.add(save); this choice is now taken care of at the start
+		//menu.add(load);
 
 		add(menu);
 	}
