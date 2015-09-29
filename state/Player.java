@@ -20,17 +20,9 @@ public class Player {
 		this.id = id;
 	}
 
-	public Position getPosition() {
-		return position;
-	}
-
 	public void setPosition(Position newPosition) {
 		position = newPosition;
 
-	}
-
-	public int getId() {
-		return id;
 	}
 
 	public String toString(){
@@ -57,6 +49,22 @@ public class Player {
 		if (id != other.id)
 			return false;
 		return true;
+	}
+
+	// ================================================
+	// getters from here
+	// ================================================
+
+	public Position getPosition() {
+		return position;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public List<Item> getInventory() {
+		return inventory;
 	}
 
 }

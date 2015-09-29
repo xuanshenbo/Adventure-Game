@@ -149,6 +149,7 @@ public class Area {
 	// ================================================
 	// getters from here
 	// ================================================
+
 	public AreaType getType() {
 		return type;
 	}
