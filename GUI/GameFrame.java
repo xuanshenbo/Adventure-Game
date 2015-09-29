@@ -12,7 +12,6 @@ import javax.swing.border.TitledBorder;
 import renderer.GameRenderer;
 import renderer.GuiForTest;
 import renderer.testRenderer;
-import renderer.GuiForTest.RendererCanvas;
 import state.Area;
 import state.GameState;
 import items.Item;

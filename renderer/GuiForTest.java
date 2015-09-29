@@ -26,9 +26,9 @@ import static utilities.PrintTool.p;
 public class GuiForTest extends JFrame implements KeyListener{
 
     private static Game game;
-    private RendererCanvas can;
+    private static RendererCanvas can;
 
-    private GameRenderer renderer;
+    private static GameRenderer renderer;
 
     public GuiForTest(Game game) {
 
@@ -96,7 +96,6 @@ public class GuiForTest extends JFrame implements KeyListener{
 
     @Override
     public void keyReleased(KeyEvent e) {
-
     }
 
     //width >= 20 & height >= 20
@@ -127,8 +126,7 @@ public class GuiForTest extends JFrame implements KeyListener{
 
     }
 
-    //public to be used in GameFrame
-    public class RendererCanvas extends JPanel{
+    private class RendererCanvas extends JPanel{
 
         private Image bi;
 
@@ -159,9 +157,7 @@ public class GuiForTest extends JFrame implements KeyListener{
     }
 
     public static void main(String[] args){
-        p("start");
         GuiForTest app = new GuiForTest(generateGame(20, 2, 1, 5, 20, 20, 4, 50));
-
     }
 
 

@@ -13,6 +13,7 @@ import static utilities.PrintTool.p;
 public class GameRenderer{
 
 	private int size = 15;
+	private int offsetX, offsetY;
 //	private int width,height;
 	private String[][] map;
 	private String[][] items;
@@ -30,6 +31,8 @@ public class GameRenderer{
 		this.outPut = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 //		this.width = width;
 //		this.height = height;
+		offsetX = 0;
+		offsetY = 0;
 		this.tileWidth = width/size;
 		this.tileHeight = height/size;
 		this.map = map;
@@ -68,14 +71,6 @@ public class GameRenderer{
 //				}
 //			}
 		}
-
-		//draw players
-//		for (int i = 0; i < players.size(); i++){
-//			g.drawImage(avatarImages.get(i).getImages()[0][(int)(animationIndex)],
-//					(int)(players.get(i).getPosition().getX()*tileWidth),
-//					(int)(players.get(i).getPosition().getY()*tileHeight - avatarImages.get(i).avatarHeight() + tileHeight),
-//					null);
-//		}
 		graphic.dispose();
 		updateAnimation();
 
@@ -100,8 +95,8 @@ public class GameRenderer{
 				break;
 			case "1":
 				graphic.drawImage(images.getAvatarImages().get(0).getImages()[0][(int) (animationIndex)],
-						(int) (x * tileWidth),
-						(int) (y * tileHeight - images.getAvatarImages().get(0).avatarHeight() + tileHeight),
+						(int) (x * tileWidth)+offsetX,
+						(int) (y * tileHeight - images.getAvatarImages().get(0).avatarHeight() + tileHeight)+offsetY,
 						null);
 				break;
 			case "2":
@@ -121,16 +116,16 @@ public class GameRenderer{
 						(int) (x * tileWidth),
 						(int) (y * tileHeight - images.getAvatarImages().get(3).avatarHeight() + tileHeight),
 						null);
-			/*	break;
-			case "O":
-				graphic.drawImage(images.getChestImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
 				break;
 			case "O":
 				graphic.drawImage(images.getChestImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
 				break;
-			case "O":
-				graphic.drawImage(images.getChestImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
-				break;*/
+			case "B":
+				graphic.drawImage(images.getBuildingImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
+				break;
+			case "D":
+				graphic.drawImage(images.getDoorImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
+				break;
 			default:
 				break;
 		}
@@ -150,4 +145,38 @@ public class GameRenderer{
 		this.players = players;
 		render();
 	}
+
+//	public int getOffsetX(){
+//		return offsetX;
+//	}
+//
+//	public int getOffsetY(){
+//		return offsetY;
+//	}
+//
+//	public boolean setOffsetX(int offsetX){
+//		this.offsetX += offsetX;
+//		if (offsetX > tileWidth/2){
+//			offsetX = -(int)(tileWidth/2);
+//			return true;
+//		}
+//		if (offsetX < -tileWidth/2){
+//			offsetX = (int)(tileWidth/2);
+//			return true;
+//		}
+//		return false;
+//	}
+//
+//	public boolean setOffsetY(int offsetY){
+//		this.offsetY += offsetY;
+//		if (offsetY > tileHeight/2){
+//			offsetY = -(int)(tileHeight/2);
+//			return true;
+//		}
+//		if (offsetY < -tileHeight/2){
+//			offsetY = (int)(tileHeight/2);
+//			return true;
+//		}
+//		return false;
+//	}
 }
