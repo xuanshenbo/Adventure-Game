@@ -6,9 +6,12 @@ package state;
 
 import java.util.ArrayList;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import tiles.Tile;
 import static utilities.PrintTool.p;
 
+@XmlRootElement(namespace = "shelf")
 public class GameState {
 
 	private ArrayList<Player> playerList = new ArrayList<Player>(); // list of players in the game
