@@ -17,24 +17,12 @@ public class Position {
 		this.a = a;
 	}
 
-	public int getX() {
-		return x;
-	}
-
 	public void setX(int x) {
 		this.x = x;
 	}
 
-	public int getY() {
-		return y;
-	}
-
 	public void setY(int areaY) {
 		this.y = areaY;
-	}
-
-	public Area getArea() {
-		return a;
 	}
 
 	@Override
@@ -71,6 +59,22 @@ public class Position {
 		if (y != other.y)
 			return false;
 		return true;
+	}
+
+	// ================================================
+	// getters from here
+	// ================================================
+
+	public Area getArea() {
+		return a;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
 	}
 
 }
