@@ -50,8 +50,8 @@ public class GameFrame extends JFrame{
 
 	private Dimension gamePanelSize = new Dimension(800, 600);
 
-	public final int buttonPaddingHorizontal = 50;	//public as needs to be accessed from ButtonPanel
-	public final int buttonPaddingVertical = 50;
+	public static final int buttonPaddingHorizontal = 50;	//public as needs to be accessed from ButtonPanel
+	public static final int buttonPaddingVertical = 50;
 
 	private PlayerInfo player = new PlayerInfo("Donald Duck", Avatar.DONALD_DUCK);
 
@@ -144,8 +144,9 @@ public class GameFrame extends JFrame{
 
 	}
 
-
-
+/*
+ * Sets up the Middle Panel, ready for displaying. But doesn't add it to the Frame yet.
+ */
 	private void setupMiddlePanel() {
 
 		midPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -199,8 +200,6 @@ public class GameFrame extends JFrame{
 		add(botPanel);
 
 	}
-
-
 
 	private void addMenuBar() {
 		//create a new JMenuBar

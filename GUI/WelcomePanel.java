@@ -25,16 +25,22 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import Main.Initialisation;
+
 /**
  * A subclass of JDialog which welcomes a new player and invites them to choose an avatar
  */
-public class WelcomeDialog extends JDialog implements ActionListener {
+public class WelcomePanel extends JPanel implements ActionListener {
 
 	private GameFrame parentFrame;
 
 	private int heading1Size = 50;
 	private int heading2Size = 30;
-	private GridBagConstraints buttonPanelConstraints;
+	private GridBagConstraints bottomPanelConstraints;
+
+	private InputPanel iPanel;
+
+	private Initialisation initialisation;
 
 	private Dimension imageSize = new Dimension(850, 400);
 
@@ -56,7 +62,10 @@ public class WelcomeDialog extends JDialog implements ActionListener {
 	 * @param msg Message to display
 	 * @param i The state of the Game
 	 */
-	public WelcomeDialog() {		//TODO Felix to create an Initialisation Object
+	public WelcomePanel(Initialisation i) {
+
+		this.initialisation = i;
+
 		setLayout(new GridBagLayout());
 
 		GridBagConstraints gc=new GridBagConstraints();
@@ -79,18 +88,16 @@ public class WelcomeDialog extends JDialog implements ActionListener {
 
 		addWelcomeImage();
 
-		buttonPanelConstraints=new GridBagConstraints();
-		buttonPanelConstraints.gridx = 0;
-		buttonPanelConstraints.gridy = 10;
+		bottomPanelConstraints=new GridBagConstraints();
+		bottomPanelConstraints.gridx = 0;
+		bottomPanelConstraints.gridy = 10;
 
 		//button panel needs to store "this" to call the display next methods, and send it Initialisation too? Or Initialisation
 		//has access to buttonInterpreter?
-		bPanel = new ButtonPanel(this, "serverClient");
-		add(bPanel, buttonPanelConstraints);
+		bPanel = new ButtonPanel(this, "serverClient", initialisation);
+		add(bPanel, bottomPanelConstraints);
 
-		//display the dialog
-		pack();
-		setLocationRelativeTo(null);
+		//display the welcome panel
 		setVisible(true);
 	}
 
@@ -117,31 +124,31 @@ public class WelcomeDialog extends JDialog implements ActionListener {
 			displayLoadNew();
 		}
 		else if(s.equals("connect")){
+			bPanel.setVisible(false); //don't want to see loadNew options anymore
 			displayConnect();
+			repaint();
 		}
 		else if(s.equals("newGame")){
+			bPanel.setVisible(false); //don't want to see loadNew options anymore
 			displayNewGameOptions();
+			repaint();
 		}
 	}
 
 	/*
 	 * Displays option dialog to get user input on which server to connect to
 	 */
-	/*private void displayConnect() {
-		InputPanel iPanel = new
-		TextFieldImpl textField = new TextFieldImpl();
-	}*/
-
 	private void displayConnect() {
-		// TODO Auto-generated method stub
-
+		iPanel = new InputPanel(initialisation, "connect");
+		add(iPanel, bottomPanelConstraints);
+		repaint();
 	}
 
 	/*
 	 * Displays option dialog to get user to decide to load a game, or start a new game
 	 */
 	private void displayLoadNew() {
-		bPanel = new ButtonPanel(this, "loadnew");
+		bPanel = new ButtonPanel(this, "loadnew", initialisation);
 	}
 
 	/*
@@ -150,8 +157,7 @@ public class WelcomeDialog extends JDialog implements ActionListener {
 	private void displayNewGameOptions() {
 		JButton chooseAvatar = new JButton("Choose my Avatar");
 		chooseAvatar.addActionListener(this);
-		add(chooseAvatar, buttonPanelConstraints);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		add(chooseAvatar, bottomPanelConstraints);
 
 	}
 	/**
@@ -159,7 +165,6 @@ public class WelcomeDialog extends JDialog implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		setVisible(false);
-		dispose();
 		if(this.state.equals(InitialisationStates.NEW_GAME)){
 			Dialog avatarDialog = new Dialog(parentFrame, "Avatar chooser", "These are your available options.", "avatars", parentFrame.getDialogInterpreter());
 		}

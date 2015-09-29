@@ -26,6 +26,8 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 
+import Main.Initialisation;
+
 /**
  * A panel to store the button options
  * @author flanagdonn
@@ -41,7 +43,9 @@ public class ButtonPanel extends JPanel {
 	private JButton exchange;
 	private GameFrame containerFrame;
 
-	private WelcomeDialog welcomeDialog;
+	private Initialisation initialisation;
+
+	private WelcomePanel welcomeDialog;
 	private StrategyInterpreter buttonInterpreter;
 	/**
 	 * The constructor stores the button interpreter to a field
@@ -72,22 +76,56 @@ public class ButtonPanel extends JPanel {
 	 * @param welcomeDialog The Dialog which needs to be informed of any choice that is made
 	 * @param state Which buttons are to be displayed?
 	 */
-	public ButtonPanel(WelcomeDialog welcomeDialog, String state) { //should take an Initialisation object too.
-		//TODO Initialisation object extends StrategyInterpreter?
+	public ButtonPanel(WelcomePanel welcomeDialog, String state, Initialisation i) {
 
 		this.welcomeDialog = welcomeDialog;
 
+		this.initialisation = i;
+
 		//display server or server+client buttons
 		if(state.equals("serverClient")){
-			BoxLayout boxLayout = new BoxLayout(this, BoxLayout.PAGE_AXIS); //display client server buttons vertically
+			BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS); //display client server buttons vertically
 			setLayout(boxLayout);
 			createServerClientButtons();
 		}
 
 		//display option to load a game or start a new game
 		else if(state.equals("loadnew")){
-
+			BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS); //display client server buttons vertically
+			setLayout(boxLayout);
+			createLoadNewButtons();
 		}
+	}
+
+	private void createLoadNewButtons() {
+		final JButton load = new JButton("Load saved game");
+		final JButton newGame = new JButton("Start new game");
+
+
+		ActionListener loadnewListener = new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource()==load){
+					initialisation.notify("load");
+					welcomeDialog.displayNext("loadOptions");
+				}
+				else if(e.getSource()==newGame){	//conditional not strictly necessary, but added for completion
+					initialisation.notify("newGame");
+					welcomeDialog.displayNext("newGame");
+				}
+			}
+
+		};
+
+		load.addActionListener(loadnewListener);
+		newGame.addActionListener(loadnewListener);
+
+		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical,0))); //pad between buttons
+		add(load);
+		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical,0))); //pad between buttons
+		add(newGame);
+
 	}
 
 	/**
@@ -100,7 +138,7 @@ public class ButtonPanel extends JPanel {
 		client.setToolTipText("Play as a client");
 
 
-		JButton serverclient = new JButton("Server + Client");
+		final JButton serverclient = new JButton("Server + Client");
 		serverclient.setMnemonic(KeyEvent.VK_S);
 		serverclient.setToolTipText("Play as a client");
 
@@ -110,11 +148,11 @@ public class ButtonPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==client){
-					buttonInterpreter.notify("client");
+					initialisation.notify("client");
 					welcomeDialog.displayNext("connect");	//now display the option for which server to connect to
 				}
-				else{
-					buttonInterpreter.notify("clientserver");
+				else if(e.getSource()==serverclient){	//conditional not strictly necessary, but added for completion
+					initialisation.notify("clientserver");
 					welcomeDialog.displayNext("loadNew"); //now display the options of loading a game, or starting a new one
 				}
 
@@ -125,9 +163,9 @@ public class ButtonPanel extends JPanel {
 		client.addActionListener(serverclientListener);
 		serverclient.addActionListener(serverclientListener);
 
-		add(Box.createRigidArea(new Dimension(containerFrame.buttonPaddingVertical,0))); //pad between buttons
+		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical,0))); //pad between buttons
 		add(client);
-		add(Box.createRigidArea(new Dimension(containerFrame.buttonPaddingVertical,0))); //pad between buttons
+		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical,0))); //pad between buttons
 		add(serverclient);
 
 	}
@@ -175,11 +213,11 @@ public class ButtonPanel extends JPanel {
 
 		//makePretty(inventory, team, exchange);
 
-		add(Box.createRigidArea(new Dimension(containerFrame.buttonPaddingHorizontal,0))); //pad between buttons
+		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingHorizontal,0))); //pad between buttons
 		add(inventory);
-		add(Box.createRigidArea(new Dimension(containerFrame.buttonPaddingHorizontal,0))); //pad between buttons
+		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingHorizontal,0))); //pad between buttons
 		add(team);
-		add(Box.createRigidArea(new Dimension(containerFrame.buttonPaddingHorizontal,0))); //pad between buttons
+		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingHorizontal,0))); //pad between buttons
 		add(exchange);
 
 	}
