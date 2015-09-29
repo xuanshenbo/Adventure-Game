@@ -15,8 +15,6 @@ public class GameState {
 	private Area world; // The game world
 	private int viewPortSize = 15;
 
-
-
 	public GameState(Area a, ArrayList<Player> p){
 		this.world = a;
 		this.playerList = p;
