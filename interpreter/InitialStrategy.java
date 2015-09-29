@@ -1,6 +1,6 @@
 package interpreter;
 
-import Main.Initialisation;
+import main.Initialisation;
 
 
 public class InitialStrategy implements StrategyInterpreter.Strategy{

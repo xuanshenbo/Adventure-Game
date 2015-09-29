@@ -1,4 +1,4 @@
-package Main;
+package main;
 
 import interpreter.ButtonStrategy;
 import interpreter.KeyStrategy;

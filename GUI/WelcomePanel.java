@@ -25,7 +25,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import Main.Initialisation;
+import main.Initialisation;
 
 /**
  * A subclass of JDialog which welcomes a new player and invites them to choose an avatar

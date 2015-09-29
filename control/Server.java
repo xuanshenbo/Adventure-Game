@@ -36,7 +36,7 @@ public class Server extends Thread{
 	public Server() {
 		//System.out.println(Server.class.getClassLoader().getResource("requests"));
 		try{
-			server = new ServerSocket(PORT);
+			server = new ServerSocket(PORT, 50, InetAddress.getLocalHost());
 			address = server.getInetAddress();
 		} catch (IOException ex) {
 			errorLogger.log(Level.SEVERE, "Couldn't start server", ex);
@@ -66,7 +66,7 @@ public class Server extends Thread{
 	}
 
 	public void run(){
-		System.out.println("Server is stared");//debug
+		//System.out.println("Server is stared");//debug
 		ExecutorService pool = Executors.newFixedThreadPool(50);
 		while (true) {
 			try {
@@ -98,20 +98,31 @@ public class Server extends Thread{
 		@Override
 		public Void call() {
 			try {
+				Writer out = new OutputStreamWriter(connection.getOutputStream());
+				out.write(address.getHostAddress().toString());
+				out.flush();
+				//System.out.println("Server call() is entered");//debug
 				Date now = new Date();
 				// write the log entry first in case the client disconnects
 				auditLogger.info(now + " " + connection.getRemoteSocketAddress());
 				Reader in = new InputStreamReader(connection.getInputStream());
-				char[] message = new char[24];
+				char[] message = new char[1024];
+
+				//System.out.println("before reading message?");//debug
+
 				in.read(message);
+
+				//System.out.println("No message?");//debug
+
 				String input = "";
 				for(int i=0; i<message.length; i++){
 					input += message[i];
 				}
-				Writer out = new OutputStreamWriter(connection.getOutputStream());
-				feedback(input, out);
+
 				System.out.println(input);//debug
-				out.write("boboxuan" +"\r\n");
+
+				feedback(input, out);
+
 				//p("mapRow"+String.format("%s",mapRow).charAt(0)+String.format("%s",mapRow).charAt(1));
 				//p("colRow"+(char)('0' + mapCol));
 				/*out.write(String.valueOf(mapRow));
@@ -119,7 +130,7 @@ public class Server extends Thread{
 				out.write(String.valueOf(mapCol));
 				out.write('x');
 				out.write(map);*/
-				out.flush();
+
 			} catch (IOException ex) {
 				// client disconnected; ignore;
 			} finally {

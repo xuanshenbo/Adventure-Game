@@ -5,7 +5,7 @@ import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import Main.Initialisation;
+import main.Initialisation;
 
 public class InputPanel extends JPanel{
 

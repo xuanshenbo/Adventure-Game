@@ -26,7 +26,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 
-import Main.Initialisation;
+import main.Initialisation;
 
 /**
  * A panel to store the button options

@@ -56,10 +56,15 @@ public class Client extends Thread implements KeyListener {
 
 	public void run(){
 		try {
-			output.write(1);
+			output.write("This is the server machine!");
+			output.flush();
 			char[] message = new char[1024];
 			input.read(message);
-			int i = 0;
+			for(int i=0; i<message.length; i++){
+				System.out.print(message[i]);
+			}
+			System.out.println();
+			/*int i = 0;
 			String rowString = "";
 			String colString = "";
 			while(message[i] != 'x'){
@@ -83,7 +88,7 @@ public class Client extends Thread implements KeyListener {
 					i++;
 				}
 				System.out.println("");
-			}
+			}*/
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
