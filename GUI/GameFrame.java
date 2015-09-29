@@ -2,6 +2,8 @@ package GUI;
 
 import interpreter.DialogStrategy;
 import interpreter.StrategyInterpreter;
+import items.Item;
+import items.Key;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -13,8 +15,8 @@ import renderer.testRenderer;
 import renderer.GuiForTest.RendererCanvas;
 import state.Area;
 import state.GameState;
-import state.Item;
-import state.Key;
+import items.Item;
+import items.Key;
 import state.Player;
 import state.Position;
 

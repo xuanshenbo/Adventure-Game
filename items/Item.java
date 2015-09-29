@@ -1,4 +1,4 @@
-package state;
+package items;
 
 import java.awt.Dimension;
 import java.awt.Image;
@@ -16,10 +16,14 @@ public abstract class Item {
 	private String imgpath;
 	private Image img;
 	private Dimension size = new Dimension(40, 40);
+	private static int idCounter = 0;
+	private int id;
 
 	public Item(String description, String imgpath){
 		this.description = description;
 		this.imgpath = imgpath;
+		id = idCounter;
+		idCounter++;
 	}
 
 	public String getDescription() {
@@ -51,4 +55,7 @@ public abstract class Item {
 	 */
 	public abstract String getUseDescription();
 
+	public int getId() {
+		return id;
+	}	
 }

@@ -85,8 +85,8 @@ public class WelcomeDialog extends JDialog implements ActionListener {
 
 		//button panel needs to store "this" to call the display next methods, and send it Initialisation too? Or Initialisation
 		//has access to buttonInterpreter?
-		ButtonPanel b = new ButtonPanel(this, "serverClient");
-		add(b, buttonPanelConstraints);
+		bPanel = new ButtonPanel(this, "serverClient");
+		add(bPanel, buttonPanelConstraints);
 
 		//display the dialog
 		pack();
@@ -127,6 +127,11 @@ public class WelcomeDialog extends JDialog implements ActionListener {
 	/*
 	 * Displays option dialog to get user input on which server to connect to
 	 */
+	/*private void displayConnect() {
+		InputPanel iPanel = new
+		TextFieldImpl textField = new TextFieldImpl();
+	}*/
+
 	private void displayConnect() {
 		// TODO Auto-generated method stub
 
@@ -136,8 +141,7 @@ public class WelcomeDialog extends JDialog implements ActionListener {
 	 * Displays option dialog to get user to decide to load a game, or start a new game
 	 */
 	private void displayLoadNew() {
-		// TODO Auto-generated method stub
-
+		bPanel = new ButtonPanel(this, "loadnew");
 	}
 
 	/*

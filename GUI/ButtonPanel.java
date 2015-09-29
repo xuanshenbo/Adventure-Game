@@ -64,10 +64,6 @@ public class ButtonPanel extends JPanel {
 				throw new IllegalArgumentException("The GameFrame hasn't been stored by the ButtonPanel");
 			}
 		}
-
-
-
-
 	}
 
 	/**
@@ -81,10 +77,16 @@ public class ButtonPanel extends JPanel {
 
 		this.welcomeDialog = welcomeDialog;
 
+		//display server or server+client buttons
 		if(state.equals("serverClient")){
 			BoxLayout boxLayout = new BoxLayout(this, BoxLayout.PAGE_AXIS); //display client server buttons vertically
 			setLayout(boxLayout);
 			createServerClientButtons();
+		}
+
+		//display option to load a game or start a new game
+		else if(state.equals("loadnew")){
+
 		}
 	}
 
