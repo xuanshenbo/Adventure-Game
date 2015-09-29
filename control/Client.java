@@ -23,6 +23,7 @@ public class Client extends Thread implements KeyListener {
 	private InputStreamReader input;
 	private final Socket socket;
 	private char[][] map;
+	private String sending;//the message to be sent to the server
 
 	public Client(Socket s){
 		socket = s;
@@ -58,12 +59,28 @@ public class Client extends Thread implements KeyListener {
 		try {
 			output.write("This is the server machine!");
 			output.flush();
-			char[] message = new char[1024];
-			input.read(message);
-			for(int i=0; i<message.length; i++){
-				System.out.print(message[i]);
+			boolean exit = false;
+			while(!exit){
+				//debug
+				/*int counter = 0;
+				output.write(counter++);*/
+
+				//output.write("This is the server machine!");
+				//output.flush();
+				char[] message = new char[1024];
+				//System.out.println("client starts reading");//debug
+				input.read(message);
+
+				//only do something if the message is not null
+				if(message[0] != '\0'){
+					for(int i=0; i<message.length; i++){
+						if(message[i] == '\0'|| message[i] == '\r' || message[i] == '\n') break;
+						System.out.print(message[i]);
+					}
+					System.out.println();
+				}
 			}
-			System.out.println();
+			socket.close();
 			/*int i = 0;
 			String rowString = "";
 			String colString = "";
@@ -90,8 +107,12 @@ public class Client extends Thread implements KeyListener {
 				System.out.println("");
 			}*/
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			try {
+				socket.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 
 	}
@@ -99,5 +120,19 @@ public class Client extends Thread implements KeyListener {
 	public char[][] getMap(){
 		return map;
 	}
+
+	/**
+	 * a getter for the outputstreamwriter of the client
+	 * @return
+	 */
+	public OutputStreamWriter getOutput() {
+		return output;
+	}
+
+	public void send(String s) throws IOException{
+		output.write(s);
+		output.flush();
+	}
+
 
 }

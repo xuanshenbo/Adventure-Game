@@ -26,6 +26,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -59,7 +61,7 @@ public class GameFrame extends JFrame{
 	private StrategyInterpreter buttonInterpreter;
 
 	//have to initialise this here for use in WelcomeDialog
-	private StrategyInterpreter dialogInterpreter = new StrategyInterpreter(this, new DialogStrategy());
+	private StrategyInterpreter dialogInterpreter = new StrategyInterpreter(this, new DialogStrategy(), null);
 
 	private testRenderer data;
 
@@ -78,7 +80,6 @@ public class GameFrame extends JFrame{
 	 */
 	public GameFrame(String title) {
 		super(title);
-
 
 		/*try {
 		    UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
@@ -239,7 +240,12 @@ public class GameFrame extends JFrame{
 					if (returnVal == JFileChooser.APPROVE_OPTION) {
 						File file = fc.getSelectedFile();
 						System.out.println(file);
-						menuInterpreter.notify("open "+file);
+						try {
+							menuInterpreter.notify("open "+file);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					} else {
 						//do nothing
 					}
@@ -248,7 +254,12 @@ public class GameFrame extends JFrame{
 					int returnVal = fc.showSaveDialog(GameFrame.this);
 					if (returnVal == JFileChooser.APPROVE_OPTION) {
 						File file = fc.getSelectedFile();
-						menuInterpreter.notify("save "+file);
+						try {
+							menuInterpreter.notify("save "+file);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					} else {
 						//do nothing
 					}
@@ -277,9 +288,9 @@ public class GameFrame extends JFrame{
 	 */
 
 	//for testing renderer
-	private class MyDispatcher implements KeyEventDispatcher {
+	private class MyDispatcher implements KeyEventDispatcher{
 		@Override
-		public boolean dispatchKeyEvent(KeyEvent e) {
+		public boolean dispatchKeyEvent(KeyEvent e){
 
 			if (e.getID() == KeyEvent.KEY_PRESSED) {
 				int x = data.getPlayers().get(0).getPosition().getX();
@@ -288,7 +299,12 @@ public class GameFrame extends JFrame{
 				switch( e.getKeyCode()) {
 				case KeyEvent.VK_UP:
 					y -= 1;
-					keyInterpreter.notify("up"); //implement for all key presses
+					try {
+						keyInterpreter.notify("up");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} //implement for all key presses
 
 					 game.move(game.getGameState().getPlayer(1), 4);
 			            renderer.update(game.getGameState().getGameView(game.getGameState().getPlayer(1)), null, game.getGameState().getPlayerList());
@@ -297,7 +313,12 @@ public class GameFrame extends JFrame{
 					break;
 				case KeyEvent.VK_DOWN:
 					y += 1;
-					keyInterpreter.notify("down");
+					try {
+						keyInterpreter.notify("down");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 
 					  game.move(game.getGameState().getPlayer(1), 3);
 			            renderer.update(game.getGameState().getGameView(game.getGameState().getPlayer(1)), null, game.getGameState().getPlayerList());
@@ -306,7 +327,12 @@ public class GameFrame extends JFrame{
 					break;
 				case KeyEvent.VK_LEFT:
 					x -= 1;
-					keyInterpreter.notify("left");
+					try {
+						keyInterpreter.notify("left");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 
 					//TODO refactor this using interpreter
 					 game.move(game.getGameState().getPlayer(1), 1);
@@ -316,7 +342,12 @@ public class GameFrame extends JFrame{
 					break;
 				case KeyEvent.VK_RIGHT :
 					x += 1;
-					keyInterpreter.notify("right");
+					try {
+						keyInterpreter.notify("right");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 
 					  game.move(game.getGameState().getPlayer(1), 2);
 			            renderer.update(game.getGameState().getGameView(game.getGameState().getPlayer(1)), null, game.getGameState().getPlayerList());

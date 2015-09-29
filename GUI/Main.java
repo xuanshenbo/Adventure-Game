@@ -1,5 +1,7 @@
 package GUI;
 
+import java.io.Writer;
+
 import interpreter.ButtonStrategy;
 import interpreter.DialogStrategy;
 import interpreter.KeyStrategy;
@@ -17,9 +19,9 @@ public class Main {
 		GameFrame game = new GameFrame("Adventure Game");
 
 		//create the Strategy Interpreters with different Strategies as appropriate
-		StrategyInterpreter keyInterpreter = new StrategyInterpreter(game, new KeyStrategy());
-		StrategyInterpreter buttonInterpreter = new StrategyInterpreter(game, new ButtonStrategy());
-		StrategyInterpreter menuInterpreter = new StrategyInterpreter(game, new MenuStrategy());
+		StrategyInterpreter keyInterpreter = new StrategyInterpreter(game, new KeyStrategy(), null);
+		StrategyInterpreter buttonInterpreter = new StrategyInterpreter(game, new ButtonStrategy(), null);
+		StrategyInterpreter menuInterpreter = new StrategyInterpreter(game, new MenuStrategy(), null);
 
 		//add the Strategy Interpreters to the GameFrame
 		game.setKeyInterpreter(keyInterpreter);
