@@ -36,10 +36,6 @@ public class GameState {
 		return null;
 	}
 
-	public ArrayList<Player> getPlayerList(){
-		return playerList;
-	}
-
 	public Area getArea(Player player) {
 		if(player.getPosition().getArea() == world){
 			return world;
@@ -177,5 +173,19 @@ public class GameState {
 
 
 
+	// ================================================
+	// getters from here
+	// ================================================
 
+	public ArrayList<Player> getPlayerList(){
+		return playerList;
+	}
+
+	public Area getWorld() {
+		return world;
+	}
+
+	public int getViewPortSize() {
+		return viewPortSize;
+	}
 }
