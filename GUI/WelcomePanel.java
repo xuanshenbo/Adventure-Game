@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -168,7 +169,12 @@ public class WelcomePanel extends JPanel implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				if(state.equals(InitialisationStates.NEW_GAME)){
 					Dialog avatarDialog = new Dialog(parentFrame, "Avatar chooser", "These are your available options.", "avatars", parentFrame.getDialogInterpreter());
-					initialisation.notify("start");
+					try {
+						initialisation.notify("start");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			}
 		});

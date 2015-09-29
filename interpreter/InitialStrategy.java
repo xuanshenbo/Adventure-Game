@@ -1,29 +1,35 @@
 package interpreter;
 
+import java.io.Writer;
+
 import main.Initialisation;
+import main.Main;
 
 
 public class InitialStrategy implements StrategyInterpreter.Strategy{
-		private Initialisation s;
+	private Initialisation s;
 
-		@Override
-		public void notify(String text) {
-			if(text.equals("start")){
-				s.displayMainGameFrame();
+	@Override
+	public void notify(String text) {
+		if(text.equals("start")){
+			s.displayMainGameFrame(s.getClient());
+		}
+		else{
+			if(text.equals("client")){
+				//let Felix know that the client option has been selected
 			}
-			else{
-				if(text.equals("client")){
-					//let Felix know that the client option has been selected
-				}
-				else if(text.equals("clientserver")){
-					//let Felix know that the client/server option has been selected
-				}
+			else if(text.equals("clientserver")){
+				Main.serverClient();
+				Main.closeWelcome();
+				Main.displayMainGameFrame(s.getClient());
 			}
-
 		}
 
-		@Override
-		public void setInterpreter(StrategyInterpreter i) {
-			this.s = (Initialisation) i;
-		}
 	}
+
+	@Override
+	public void setInterpreter(StrategyInterpreter i) {
+		this.s = (Initialisation) i;
+	}
+
+}

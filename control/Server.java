@@ -32,6 +32,7 @@ public class Server extends Thread{
 	private char[] map;
 	private int mapRow;
 	private int mapCol;
+	private int uid;
 
 	public Server() {
 		//System.out.println(Server.class.getClassLoader().getResource("requests"));
@@ -67,12 +68,14 @@ public class Server extends Thread{
 
 	public void run(){
 		//System.out.println("Server is stared");//debug
-		ExecutorService pool = Executors.newFixedThreadPool(50);
-		while (true) {
+		ExecutorService pool = Executors.newFixedThreadPool(4);
+		boolean exit = false;
+		while (!exit) {
 			try {
 				Socket connection = server.accept();
-				Callable<Void> task = new DaytimeTask(connection);
+				Callable<Void> task = new Task(connection);
 				pool.submit(task);
+				//Thread.yield();
 			} catch (IOException ex) {
 				errorLogger.log(Level.SEVERE, "accept error", ex);
 			} catch (RuntimeException ex) {
@@ -83,6 +86,22 @@ public class Server extends Thread{
 	}
 
 	/**
+	 * a getter for uid
+	 * @return
+	 */
+	public int getUid() {
+		return uid;
+	}
+
+	/**
+	 * a setter for uid
+	 * @param uid
+	 */
+	public void setUid(int uid) {
+		this.uid = uid;
+	}
+
+	/**
 	 * The following determines what the server should send to the client depends on the input
 	 */
 	public void feedback(String input, Writer out){
@@ -90,46 +109,50 @@ public class Server extends Thread{
 		default:
 		}
 	}
-	private class DaytimeTask implements Callable<Void> {
+	private class Task implements Callable<Void> {
 		private Socket connection;
-		DaytimeTask(Socket connection) {
+		Task(Socket connection) {
 			this.connection = connection;
 		}
 		@Override
 		public Void call() {
 			try {
 				Writer out = new OutputStreamWriter(connection.getOutputStream());
-				out.write(address.getHostAddress().toString());
+				out.write("Server address: "+address.getHostAddress().toString());
 				out.flush();
-				//System.out.println("Server call() is entered");//debug
-				Date now = new Date();
-				// write the log entry first in case the client disconnects
-				auditLogger.info(now + " " + connection.getRemoteSocketAddress());
 				Reader in = new InputStreamReader(connection.getInputStream());
-				char[] message = new char[1024];
+				//Date now = new Date();
+				// write the log entry first in case the client disconnects
+				//auditLogger.info(now + " " + connection.getRemoteSocketAddress());
+				while(true){
+					char[] message = new char[1024];
+					//System.out.println("Stuck for twice");
+					in.read(message);
+					/*int counter = 0;
+					System.out.println(counter++);*/
+					String input = "";
+					for(int i=0; i<message.length; i++){
+						if(message[i] == '\0' || message[i] == '\r' || message[i] == '\n') break;
+						input += message[i];
+					}
 
-				//System.out.println("before reading message?");//debug
+					//System.out.println("skip the input?");//debug
+					System.out.println("======================"+input+"====================");//debug
 
-				in.read(message);
+					//System.out.println("server printed input");//debug
 
-				//System.out.println("No message?");//debug
+					//feedback(input, out);
 
-				String input = "";
-				for(int i=0; i<message.length; i++){
-					input += message[i];
-				}
-
-				System.out.println(input);//debug
-
-				feedback(input, out);
-
-				//p("mapRow"+String.format("%s",mapRow).charAt(0)+String.format("%s",mapRow).charAt(1));
-				//p("colRow"+(char)('0' + mapCol));
-				/*out.write(String.valueOf(mapRow));
+					//p("mapRow"+String.format("%s",mapRow).charAt(0)+String.format("%s",mapRow).charAt(1));
+					//p("colRow"+(char)('0' + mapCol));
+					/*out.write(String.valueOf(mapRow));
 				out.write('x');
 				out.write(String.valueOf(mapCol));
 				out.write('x');
 				out.write(map);*/
+
+
+				}
 
 			} catch (IOException ex) {
 				// client disconnected; ignore;

@@ -1,5 +1,7 @@
 package interpreter;
 
+import java.io.Writer;
+
 public class ButtonStrategy implements StrategyInterpreter.Strategy{
 
 	private StrategyInterpreter interpreter;

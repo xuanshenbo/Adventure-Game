@@ -1,6 +1,7 @@
 package control;
 
 import java.io.IOException;
+import java.io.Writer;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -24,6 +25,7 @@ public class TestControl {
 			//Socket socket = new Socket(InetAddress.getByName("0.0.0.0"),ss.PORT);
 			Socket socket = new Socket(ss.getAddress(), ss.PORT);
 			Client client = new Client(socket);
+			Writer output = client.getOutput();
 			client.start();
 		} catch (IOException e) {
 			e.printStackTrace();

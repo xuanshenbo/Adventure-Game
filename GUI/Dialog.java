@@ -16,6 +16,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -147,7 +148,12 @@ public class Dialog extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		boolean validInput = false;
 		if(state.equals("avatars") && chosenAvatar != null){
-			dialogInterpreter.notify(chosenAvatar.toString());
+			try {
+				dialogInterpreter.notify(chosenAvatar.toString());
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			validInput = true;
 
 		}
