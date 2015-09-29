@@ -26,6 +26,18 @@ public abstract class Item {
 		idCounter++;
 	}
 
+	public abstract void use();
+
+	/**
+	 * This method used to display available options to the user
+	 * @return The action specific to this item. Eg "unlock door" for a Key Item
+	 */
+	public abstract String getUseDescription();
+
+	// ================================================
+	// getters from here
+	// ================================================
+
 	public String getDescription() {
 
 		if(description==null){
@@ -33,6 +45,10 @@ public abstract class Item {
 		}
 
 		return description;
+	}
+
+	public String getImgpath() {
+		return imgpath;
 	}
 
 	/**
@@ -47,15 +63,11 @@ public abstract class Item {
 		return img;
 	}
 
-	public abstract void use();
-
-	/**
-	 * This method used to display available options to the user
-	 * @return The action specific to this item. Eg "unlock door" for a Key Item
-	 */
-	public abstract String getUseDescription();
+	public Dimension getSize() {
+		return size;
+	}
 
 	public int getId() {
 		return id;
-	}	
+	}
 }
