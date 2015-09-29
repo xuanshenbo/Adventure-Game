@@ -73,7 +73,7 @@ public class GameState {
 		int c = 0;
 		for(int row = top; row < bottom+1; row++){
 			for(int col = left; col < right+1; col++){
-				if(row>-1 && col >-1 && row <a.getTileArray().length && col < a.getTileArray()[0].length){
+				if(row>-1 && col >-1 && row <a.getArea().length && col < a.getArea()[0].length){
 					boolean playerPos = false;
 
 					for(Player p: playerList){
@@ -83,7 +83,7 @@ public class GameState {
 						}
 					}
 					if(!playerPos){
-						view[r][c] = Character.toString(a.getTileArray()[row][col].getType());
+						view[r][c] = Character.toString(a.getArea()[row][col].getType());
 					}
 				}
 				c++;
@@ -112,7 +112,7 @@ public class GameState {
 	 * used for debugging.
 	 */
 	public void printState(){
-		Tile[][] a = world.getTileArray();
+		Tile[][] a = world.getArea();
 		for(int row = 0; row<a.length; row++){
 			for(int col = 0; col<a[0].length; col++){
 				boolean playerPos = false;
@@ -132,7 +132,7 @@ public class GameState {
 			System.out.println("");
 			System.out.println(innerArea.getEntrance());
 
-			Tile[][] innerTiles = innerArea.getTileArray();
+			Tile[][] innerTiles = innerArea.getArea();
 
 			for(int row = 0; row<innerTiles.length; row++){
 				for(int col = 0; col<innerTiles[0].length; col++){

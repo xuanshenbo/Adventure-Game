@@ -14,7 +14,7 @@ public class StateTests {
 	@Test
 	public void generateWorldTest01(){
 		Area w = create(1, 1, 0, 0, 0, 0);
-		Tile[][] wArray = w.getTileArray();
+		Tile[][] wArray = w.getArea();
 		assert(wArray[0][0].getType() == 'T');
 	}
 

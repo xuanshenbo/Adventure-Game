@@ -60,7 +60,7 @@ public class Game{
 		int y = player.getPosition().getY();
 		int row = player.getPosition().getY();
 		int col = player.getPosition().getX();
-		Tile[][] areaArray = gameState.getArea(player).getTileArray();
+		Tile[][] areaArray = gameState.getArea(player).getArea();
 
 		if(direction == 1){//up
 			if(x == 0){

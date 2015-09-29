@@ -61,18 +61,6 @@ public class Area {
 
 	}
 
-	public AreaType getType() {
-		return type;
-	}
-
-	public Tile[][] getTileArray() {
-		return area;
-	}
-
-	public Item[][] getItemArray(){
-		return items;
-	}
-
 	public char[][] getCharArray(){
 		char[][] charArray = new char[area.length][area[0].length];
 		for(int row=0; row<charArray.length; row++){
@@ -81,10 +69,6 @@ public class Area {
 			}
 		}
 		return charArray;
-	}
-
-	public ArrayList<Area> getInternalAreas(){
-		return internalAreas;
 	}
 
 	/**
@@ -104,13 +88,6 @@ public class Area {
 
 	public void setExitPosition(Position p){
 		exitPosition = p;
-	}
-	public Position exitPosition() {
-		return exitPosition;
-	}
-
-	public Position getEntrance() {
-		return entrance;
 	}
 
 	public void setEntrance(Position entrance) {
@@ -167,5 +144,32 @@ public class Area {
 		if (!Arrays.deepEquals(area, other.area))
 			return false;
 		return true;
+	}
+
+	// ================================================
+	// getters from here
+	// ================================================
+	public AreaType getType() {
+		return type;
+	}
+
+	public Tile[][] getArea() {
+		return area;
+	}
+
+	public Item[][] getItems(){
+		return items;
+	}
+
+	public Position getEntrance() {
+		return entrance;
+	}
+
+	public ArrayList<Area> getInternalAreas(){
+		return internalAreas;
+	}
+
+	public Position getExitPosition() {
+		return exitPosition;
 	}
 }

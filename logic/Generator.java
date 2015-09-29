@@ -57,11 +57,11 @@ public class Generator {
 
 	public void placeLoot(Area area){
 		ArrayList<Area> children = area.getInternalAreas();
-		for(int row = 0; row<area.getTileArray().length; row++){
-			for(int col = 0; col < area.getTileArray()[0].length; col++){
-				if(area.getTileArray()[row][col] instanceof GroundTile){
+		for(int row = 0; row<area.getArea().length; row++){
+			for(int col = 0; col < area.getArea()[0].length; col++){
+				if(area.getArea()[row][col] instanceof GroundTile){
 					if(Math.random()*100 < lootValue){
-						area.getItemArray()[row][col] = randomItem();
+						area.getItems()[row][col] = randomItem();
 					}
 				}
 			}
@@ -80,7 +80,7 @@ public class Generator {
 
 	public void fillTiles(Area area){
 		ArrayList<Area> children = area.getInternalAreas();
-		Tile[][] areaArray = area.getTileArray();
+		Tile[][] areaArray = area.getArea();
 
 		for(int row=0; row < areaArray.length; row++){
 			for(int col=0; col < areaArray[0].length; col++){
@@ -137,7 +137,7 @@ public class Generator {
 					Position exit = new Position(4, 2, building);
 
 					areaArray[randomRow+2][randomCol+2] = new DoorTile(entrance, exit);
-					building.getTileArray()[4][2] = new DoorTile(exit, entrance);
+					building.getArea()[4][2] = new DoorTile(exit, entrance);
 					children.add(building);
 					placed = true;
 				}
@@ -178,7 +178,7 @@ public class Generator {
 					Area cave = new Area(5, 10, AreaType.CAVE, new Position(randomCol+1, randomRow+1, area));
 					Position exit = new Position(0, 0, cave);
 					areaArray[randomRow+1][randomCol+1] = new CaveEntranceTile(entrance, exit);
-					cave.getTileArray()[0][0] = new CaveEntranceTile(exit, entrance);
+					cave.getArea()[0][0] = new CaveEntranceTile(exit, entrance);
 					children.add(cave);
 					placed = true;
 				}
