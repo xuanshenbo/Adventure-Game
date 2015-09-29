@@ -132,8 +132,11 @@ public class Game{
 		// TODO Auto-generated method stub
 	}
 
+	// ================================================
+	// getters from here
+	// ================================================
 
-	public GameState getState() {
+	public GameState getGameState() {
 		 return gameState;
 	}
 
