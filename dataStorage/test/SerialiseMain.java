@@ -38,8 +38,10 @@ public class SerialiseMain {
 		// get variables from our xml file, created before
 		System.out.println();
 		System.out.println("Output from our XML File: ");
+		JAXBContext context2 = JAXBContext.newInstance(new Class[] {
+				Shelf.class, AuthorPointer.class });
 
-		Unmarshaller um = context.createUnmarshaller();
+		Unmarshaller um = context2.createUnmarshaller();
 		//Shelf politics2 = (Shelf) um.unmarshal(new FileReader("./myshelf.xml"));
 		Shelf politics2 = (Shelf) um.unmarshal(new FileReader(SHELF_XML));
 		ArrayList<Book> list = (ArrayList<Book>) politics2.getBookList();

@@ -20,6 +20,11 @@ public class Player {
 		this.id = id;
 	}
 
+	@SuppressWarnings("unused")
+	private Player() {
+		this(null, 0);
+	}
+
 	public void setPosition(Position newPosition) {
 		position = newPosition;
 

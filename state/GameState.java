@@ -6,6 +6,8 @@ package state;
 
 import java.util.ArrayList;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import tiles.Tile;
@@ -22,6 +24,11 @@ public class GameState {
 		this.world = a;
 		this.playerList = p;
 		printState();
+	}
+
+	@SuppressWarnings("unused")
+	private GameState() {
+		this(null, null);
 	}
 
 	/**
@@ -106,11 +113,11 @@ public class GameState {
 
 	/**
 	 * This method prints out the game state to the console, it is mainly
-	 * used for debugging. 
+	 * used for debugging.
 	 */
 	public void printState(){
 		Tile[][] a = world.getArea();
-		
+
 		for(int row = 0; row<a.length; row++){
 			for(int col = 0; col<a[0].length; col++){
 				boolean playerPos = false;
@@ -126,7 +133,7 @@ public class GameState {
 			}
 			System.out.println("");
 		}
-		
+
 		for(Area innerArea: world.getInternalAreas()){
 			System.out.println("");
 			System.out.println(innerArea.getEntrance());
@@ -182,14 +189,18 @@ public class GameState {
 	// getters from here
 	// ================================================
 
+	@XmlElementWrapper
+	@XmlElement(name="player")
 	public ArrayList<Player> getPlayerList(){
 		return playerList;
 	}
 
+	//@XmlElement
 	public Area getWorld() {
 		return world;
 	}
 
+	@XmlElement
 	public int getViewPortSize() {
 		return viewPortSize;
 	}

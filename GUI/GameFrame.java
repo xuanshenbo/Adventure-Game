@@ -8,7 +8,9 @@ import items.Key;
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
+import javax.xml.bind.JAXBException;
 
+import dataStorage.Serializer;
 import renderer.GameRenderer;
 import renderer.GuiForTest;
 import renderer.testRenderer;
@@ -251,19 +253,14 @@ public class GameFrame extends JFrame{
 					}
 				}
 				else if(e.getSource()==save){
-					int returnVal = fc.showSaveDialog(GameFrame.this);
-					if (returnVal == JFileChooser.APPROVE_OPTION) {
-						File file = fc.getSelectedFile();
-						try {
-							menuInterpreter.notify("save "+file);
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					} else {
-						//do nothing
+					System.out.println("Saving the game...");
+					try {
+						Serializer.serialize(game.getGameState());
+					} catch (JAXBException ex) {
+						System.out.println("Saving failed...");
+						return;
 					}
-
+					System.out.println("Done!");
 				}
 			}
 		};

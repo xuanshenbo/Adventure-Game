@@ -13,13 +13,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
+
 import static utilities.PrintTool.p;
 import tiles.GroundTile;
 import tiles.Tile;
 import logic.Generator;
 import tiles.GroundTile.TileType;
 
-
+@XmlType(propOrder = { "type", "area", "items", "entrance", "internalAreas", "exitPosition" })
 public class Area {
 
 	public enum AreaType {
@@ -58,7 +63,11 @@ public class Area {
 				}
 			}
 		}
+	}
 
+	@SuppressWarnings("unused")
+	private Area() {
+		this(0, 0, null, null);
 	}
 
 	public char[][] getCharArray(){
@@ -150,26 +159,32 @@ public class Area {
 	// getters from here
 	// ================================================
 
+	@XmlTransient
 	public AreaType getType() {
 		return type;
 	}
 
+	@XmlTransient
 	public Tile[][] getArea() {
 		return area;
 	}
 
+	@XmlTransient
 	public Item[][] getItems(){
 		return items;
 	}
 
+	@XmlTransient
 	public Position getEntrance() {
 		return entrance;
 	}
 
+	@XmlTransient
 	public ArrayList<Area> getInternalAreas(){
 		return internalAreas;
 	}
 
+	@XmlTransient
 	public Position getExitPosition() {
 		return exitPosition;
 	}

@@ -20,8 +20,7 @@ public class Serializer {
 	// So no one can accidently create a Serializer class
 	private Serializer() {}
 
-	public static void serialize(GameState game) {
-		try {
+	public static void serialize(GameState game) throws JAXBException {
 			JAXBContext context = JAXBContext.newInstance(new Class[] {
 					GameState.class });
 			Marshaller m = context.createMarshaller();
@@ -32,8 +31,5 @@ public class Serializer {
 
 			// Write to File
 			m.marshal(game, new File(GAME_STATE_XML));
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
 	}
 }
