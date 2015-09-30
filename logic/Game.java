@@ -70,25 +70,25 @@ public class Game{
 		int y = player.getPosition().getY();
 		Tile[][] areaArray = gameState.getWorld(player).getArea();
 
-		if(direction == 1){//left
+		if(direction == 1){//up
 			if(x == 0){
 				return null;
 			}
 			return areaArray[x-1][y];
 
-		}else if(direction == 2){//right
+		}else if(direction == 2){//down
 			if(x == areaArray.length-1){
 				return null;
 			}
 			return areaArray[x+1][y];
 
-		}else if(direction == 3){//down
+		}else if(direction == 3){//right
 			if(y == areaArray[0].length-1){
 				return null;
 			}
 			return areaArray[x][y+1];
 
-		}else if(direction == 4){//up
+		}else if(direction == 4){//left
 			if(y == 0){
 				return null;
 			}

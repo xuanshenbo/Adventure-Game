@@ -305,7 +305,7 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					} //implement for all key presses
 
-					 game.move(game.getGameState().getPlayer(1), 4);
+					 game.move(game.getGameState().getPlayer(1), 1);
 			            renderer.update(map, items, game.getPlayerList());
 			            midPanel.repaint();
 
@@ -318,7 +318,7 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					}
 
-					  game.move(game.getGameState().getPlayer(1), 3);
+					  game.move(game.getGameState().getPlayer(1), 2);
 			            renderer.update(map, items, game.getGameState().getPlayerList());
 			            midPanel.repaint();
 
@@ -332,7 +332,7 @@ public class GameFrame extends JFrame{
 					}
 
 					//TODO refactor this using interpreter
-					 game.move(game.getGameState().getPlayer(1), 1);
+					 game.move(game.getGameState().getPlayer(1), 4);
 			            renderer.update(map, items, game.getGameState().getPlayerList());
 			            midPanel.repaint();
 
@@ -345,7 +345,7 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					}
 
-					  game.move(game.getGameState().getPlayer(1), 2);
+					  game.move(game.getGameState().getPlayer(1), 3);
 			            renderer.update(map, items, game.getGameState().getPlayerList());
 			            midPanel.repaint();
 
