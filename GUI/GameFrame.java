@@ -256,12 +256,14 @@ public class GameFrame extends JFrame{
 					}
 				}
 				else if(e.getSource()==save){
-						try {
-							menuInterpreter.notify("save");
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+					System.out.println("Saving the game...");
+					try {
+						Serializer.serialize(game.getGameState());
+					} catch (JAXBException ex) {
+						System.out.println("Saving failed...");
+						return;
+					}
+					System.out.println("Done!");
 				}
 			}
 		};

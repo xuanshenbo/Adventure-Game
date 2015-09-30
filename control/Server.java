@@ -122,9 +122,17 @@ public class Server extends Thread{
 
 		}
 	}
+<<<<<<< HEAD
 	private void sendMap(String input, Writer out, int id) {
 
 	}
+=======
+
+	private void sendMap(String input, Writer out, int id) {
+
+	}
+
+>>>>>>> 59e2f878351a5a854b34a99bab5c694dd151497b
 	private class Task implements Callable<Void> {
 		private Socket connection;
 		private int id;

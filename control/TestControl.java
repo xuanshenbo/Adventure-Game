@@ -13,10 +13,10 @@ import java.net.Socket;
 public class TestControl {
 
 	public static void main(String[] args) {
-		startNetwork();
+		//startNetwork();
 	}
 
-	public static void startNetwork(){
+	/*public static void startNetwork(){
 		Server ss = new Server();
 		ss.start();
 		try {
@@ -30,6 +30,6 @@ public class TestControl {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 }
