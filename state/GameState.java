@@ -4,6 +4,8 @@
 
 package state;
 
+import items.Item;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +49,18 @@ public class GameState {
 		return null;
 	}
 
+	public void removeItem(Position position) {
+		int x = position.getX();
+		int y = position.getY();
+		world.getItems()[y][x] = null;
+	}
+
+	public Item getItem(Position playerPosition) {
+		int x = playerPosition.getX();
+		int y = playerPosition.getY();
+		return world.getItems()[y][x];
+	}
+
 	public Area getWorld(Player player) {
 		if(player.getPosition().getArea() == world){
 			return world;
@@ -82,12 +96,11 @@ public class GameState {
 		for(int row = left; row < right+1; row++){
 			for(int col = top; col < bottom+1; col++){
 				if(row>-1 && col >-1 && row <a.getArea().length && col < a.getArea()[0].length){
-					if(a.getItems()[row][col] != null) {
+					if(a.getItems()[row][col] != null){
 						objects[r][c] = a.getItems()[row][col].getType();
 					}else{
 						objects[r][c] = '\u0000';
 					}
-
 					boolean playerPos = false;
 					for(Player p: playerList){
 						if(p.getPosition().getX() == row && p.getPosition().getY() == col && p.getPosition().getArea() == a){

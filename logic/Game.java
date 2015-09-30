@@ -4,6 +4,8 @@
  */
 
 package logic;
+import items.Item;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -44,6 +46,15 @@ public class Game{
 			toTile.move(player, direction);
 		}
 //		gameState.printState();
+	}
+
+	public void pickUp(Player player){
+		Position playerPosition = player.getPosition();
+		Item item = gameState.getItem(playerPosition);
+		if(item != null){
+			player.collect(item);
+			gameState.removeItem(playerPosition);
+		}
 	}
 
 	public List<char[][]> getGameView(int id){

@@ -27,7 +27,10 @@ public class Player {
 
 	public void setPosition(Position newPosition) {
 		position = newPosition;
+	}
 
+	public void collect(Item item) {
+		inventory.add(item);
 	}
 
 	public String toString(){

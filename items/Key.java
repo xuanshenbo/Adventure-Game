@@ -4,7 +4,7 @@ package items;
 public class Key extends Item {
 
 	public Key(){
-		super("A Key", "key", 'K');
+		super("A Key", "key", 'k');
 	}
 
 	@Override
