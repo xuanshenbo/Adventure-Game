@@ -293,8 +293,8 @@ public class GameFrame extends JFrame{
 		public boolean dispatchKeyEvent(KeyEvent e){
 
 			if (e.getID() == KeyEvent.KEY_PRESSED) {
-				char[][] map = game.getGameView(1).get(0);
-				char[][] items = game.getGameView(1).get(0);
+				char[][] map;
+				char[][] items;
 
 				switch( e.getKeyCode()) {
 				case KeyEvent.VK_UP:
@@ -305,9 +305,11 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					} //implement for all key presses
 
-					 game.move(game.getGameState().getPlayer(1), 1);
-			            renderer.update(map, items, game.getPlayerList());
-			            midPanel.repaint();
+					game.move(game.getGameState().getPlayer(1), 1);
+					map = game.getGameView(1).get(0);
+					items = game.getGameView(1).get(0);
+					renderer.update(map, items, game.getPlayerList());
+					midPanel.repaint();
 
 					break;
 				case KeyEvent.VK_DOWN:
@@ -318,9 +320,12 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					}
 
-					  game.move(game.getGameState().getPlayer(1), 2);
-			            renderer.update(map, items, game.getGameState().getPlayerList());
-			            midPanel.repaint();
+					game.move(game.getGameState().getPlayer(1), 2);
+
+					map = game.getGameView(1).get(0);
+					items = game.getGameView(1).get(0);
+					renderer.update(map, items, game.getGameState().getPlayerList());
+					midPanel.repaint();
 
 					break;
 				case KeyEvent.VK_LEFT:
@@ -332,9 +337,12 @@ public class GameFrame extends JFrame{
 					}
 
 					//TODO refactor this using interpreter
-					 game.move(game.getGameState().getPlayer(1), 4);
-			            renderer.update(map, items, game.getGameState().getPlayerList());
-			            midPanel.repaint();
+					game.move(game.getGameState().getPlayer(1), 4);
+
+					map = game.getGameView(1).get(0);
+					items = game.getGameView(1).get(0);
+					renderer.update(map, items, game.getGameState().getPlayerList());
+					midPanel.repaint();
 
 					break;
 				case KeyEvent.VK_RIGHT :
@@ -345,9 +353,12 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					}
 
-					  game.move(game.getGameState().getPlayer(1), 3);
-			            renderer.update(map, items, game.getGameState().getPlayerList());
-			            midPanel.repaint();
+					game.move(game.getGameState().getPlayer(1), 3);
+
+					map = game.getGameView(1).get(0);
+					items = game.getGameView(1).get(0);
+					renderer.update(map, items, game.getGameState().getPlayerList());
+					midPanel.repaint();
 
 					break;
 				}

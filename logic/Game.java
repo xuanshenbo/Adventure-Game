@@ -43,7 +43,7 @@ public class Game{
 			p("current tile: "+player.getPosition());
 			toTile.move(player, direction);
 		}
-		gameState.printState();
+//		gameState.printState();
 	}
 
 	public List<char[][]> getGameView(int id){
