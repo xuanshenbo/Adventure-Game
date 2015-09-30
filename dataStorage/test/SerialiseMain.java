@@ -88,6 +88,14 @@ public class SerialiseMain {
 		mao.setName("Mao");
 		mao.setPhoneNumber(chinaNumber);
 
+		//set pets
+		Cat cat = new Cat();
+		Dog dog = new Dog();
+
+		celia.setPet(cat);
+		len.setPet(dog);
+		mao.setPet(dog);
+
 		// set friends
 		List<Author> celiaFriends = new ArrayList<Author>();
 		celiaFriends.add(len);

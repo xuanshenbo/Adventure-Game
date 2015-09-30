@@ -9,13 +9,14 @@ import javax.xml.bind.annotation.XmlType;
 
 import com.sun.xml.internal.bind.CycleRecoverable;
 
-@XmlType(propOrder = { "name", "phoneNumber", "friends" })
+@XmlType(propOrder = { "name", "phoneNumber", "friends", "pet" })
 public class Author implements CycleRecoverable {
 
 	private String name;
 	private int age;
 	private PhoneNumber phoneNumber;
 	private List<Author> friends;
+	private Pet pet;
 
 	public String getName() {
 		return name;
@@ -50,6 +51,14 @@ public class Author implements CycleRecoverable {
 
 	public void setFriends(List<Author> friends) {
 		this.friends = friends;
+	}
+
+	public Pet getPet() {
+		return pet;
+	}
+
+	public void setPet(Pet pet) {
+		this.pet = pet;
 	}
 
 	@Override

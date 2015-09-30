@@ -3,6 +3,9 @@ package items;
 import java.awt.Dimension;
 import java.awt.Image;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 import GUI.ImageLoader;
 
 /**
@@ -40,6 +43,7 @@ public abstract class Item {
 	// getters from here
 	// ================================================
 
+	@XmlElement
 	public String getDescription() {
 
 		if(description==null){
@@ -49,6 +53,7 @@ public abstract class Item {
 		return description;
 	}
 
+	@XmlTransient
 	public String getImgpath() {
 		return imgpath;
 	}
@@ -57,6 +62,7 @@ public abstract class Item {
 	 * Returns a picture of the item for displaying in the user inventory
 	 * @return The picture associated with this item
 	 */
+	@XmlTransient
 	public Image getPicture() {
 		if(img==null){
 			return ImageLoader.loadImage(imgpath+".png").getScaledInstance(size.width, size.height, -1);
@@ -72,7 +78,7 @@ public abstract class Item {
 	public int getId() {
 		return id;
 	}
-	
+
 	public char getType(){
 		return type;
 	}
