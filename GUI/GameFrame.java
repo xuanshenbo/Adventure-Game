@@ -158,7 +158,10 @@ public class GameFrame extends JFrame{
 		//generate a Game for testing
 		this.game = generateGame(20, 2, 1, 5, 20, 20, 4, 50);
 
-		renderer = new GameRenderer(800, 600, game.getGameState().getGameView(game.getGameState().getPlayer(1)), null, game.getGameState().getPlayerList());
+		char[][] view = game.getGameView(1).get(0);
+		char[][] objects = game.getGameView(1).get(1);
+
+		renderer = new GameRenderer(800, 600, view, objects, game.getPlayerList());
 
 		Image renderWindow = renderer.getImage(); //need to set the size??
 		JLabel renderLabel = new JLabel(new ImageIcon(renderWindow));
@@ -304,7 +307,7 @@ public class GameFrame extends JFrame{
 					} //implement for all key presses
 
 					 game.move(game.getGameState().getPlayer(1), 4);
-			            renderer.update(game.getGameState().getGameView(game.getGameState().getPlayer(1)), null, game.getGameState().getPlayerList());
+			            renderer.update(game.getGameView(1), null, game.getPlayerList());
 			            midPanel.repaint();
 
 					break;
@@ -318,7 +321,7 @@ public class GameFrame extends JFrame{
 					}
 
 					  game.move(game.getGameState().getPlayer(1), 3);
-			            renderer.update(game.getGameState().getGameView(game.getGameState().getPlayer(1)), null, game.getGameState().getPlayerList());
+			            renderer.update(game.getGameView(1), null, game.getGameState().getPlayerList());
 			            midPanel.repaint();
 
 					break;
