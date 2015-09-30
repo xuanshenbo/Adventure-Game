@@ -68,8 +68,10 @@ public class GameState {
 	 */
 	public List<char[][]> getGameView(Player player){
 		char[][] view = new char[viewPortSize][viewPortSize];
-		char[][] item = new char[viewPortSize][viewPortSize];
+		char[][] objects = new char[viewPortSize][viewPortSize];
+
 		Area a = getWorld(player);
+
 		int left = player.getPosition().getX() - (viewPortSize/2);
 		int right = player.getPosition().getX() + (viewPortSize/2);
 		int top = player.getPosition().getY() - (viewPortSize/2);
@@ -80,8 +82,9 @@ public class GameState {
 		for(int row = left; row < right+1; row++){
 			for(int col = top; col < bottom+1; col++){
 				if(row>-1 && col >-1 && row <a.getArea().length && col < a.getArea()[0].length){
-					boolean playerPos = false;
+					objects[r][c] = a.getItems()[row][col].getType();
 
+					boolean playerPos = false;
 					for(Player p: playerList){
 						if(p.getPosition().getX() == row && p.getPosition().getY() == col && p.getPosition().getArea() == a){
 							view[r][c] = (char) (p.getId()+'0');
@@ -98,6 +101,8 @@ public class GameState {
 			r++;
 		}
 		List<char[][]> worldInfo = new ArrayList<char[][]>();
+		worldInfo.add(view);
+		worldInfo.add(objects);
 		return worldInfo;
 	}
 
@@ -161,11 +166,11 @@ public class GameState {
 		}
 
 
-		String[][] playerOneView = getGameView(playerList.get(0));
+		char[][] playerOneView = getGameView(playerList.get(0)).get(0);
 		System.out.println("\nPlayer 1 view");
 		for(int row = 0; row<playerOneView.length; row++){
 			for(int col = 0; col<playerOneView[0].length; col++){
-				if(playerOneView[row][col] != null){
+				if(playerOneView[row][col] != '\0'){
 					System.out.print(playerOneView[row][col]);
 				}else{
 					System.out.print("N");
