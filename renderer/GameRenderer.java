@@ -15,8 +15,8 @@ public class GameRenderer{
 	private int size = 15;
 	private int offsetX, offsetY;
 //	private int width,height;
-	private String[][] map;
-	private String[][] items;
+	private char[][] map;
+	private char[][] items;
 	private double tileHeight;
 	private double tileWidth;
 	private ArrayList<Player> players;
@@ -26,7 +26,7 @@ public class GameRenderer{
 
 	private Images images;
 
-	public GameRenderer(int width, int height, String[][] map, String[][] items, ArrayList<Player> players){
+	public GameRenderer(int width, int height, char[][] view, char[][] objects, ArrayList<Player> players){
 
 		this.outPut = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 //		this.width = width;
@@ -35,8 +35,8 @@ public class GameRenderer{
 		offsetY = 0;
 		this.tileWidth = width/size;
 		this.tileHeight = height/size;
-		this.map = map;
-		this.items = items;
+		this.map = view;
+		this.items = objects;
 		this.players = players;
 		this.images = new Images(tileWidth, tileHeight, players);
 
