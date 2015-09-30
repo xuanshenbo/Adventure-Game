@@ -47,6 +47,14 @@ public class Generator {
 		this.lootValue = lootValue;
 	}
 
+	public Generator(WorldParameters parameters) {
+		this.trees = parameters.getTrees();
+		this.buildings = parameters.getBuildings();
+		this.caves = parameters.getCaves();
+		this.chests = parameters.getChests();
+		this.lootValue = parameters.getLootValue();
+	}
+
 	public int treeRatio(){
 		return trees;
 	}
