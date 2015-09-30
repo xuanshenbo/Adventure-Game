@@ -158,7 +158,7 @@ public class GameFrame extends JFrame{
 		//generate a Game for testing
 		this.game = generateGame(20, 2, 1, 5, 20, 20, 4, 50);
 
-		renderer = new GameRenderer(800, 600, game.getGameState().getGameView(game.getGameState().getPlayer(1)), null, game.getGameState().getPlayerList());
+		renderer = new GameRenderer(800, 600, game.getGameView(1), null, game.getPlayerList());
 
 		Image renderWindow = renderer.getImage(); //need to set the size??
 		JLabel renderLabel = new JLabel(new ImageIcon(renderWindow));

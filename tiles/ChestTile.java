@@ -9,7 +9,9 @@ public class ChestTile implements Tile {
 
 	@Override
 	public void move(Player player, int direction) {
-
+//		if(player.hasKey()){
+//			player.position = position;
+//		}
 	}
 
 	@Override

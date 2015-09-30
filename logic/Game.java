@@ -4,6 +4,8 @@
  */
 
 package logic;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import state.Area;
@@ -42,6 +44,18 @@ public class Game{
 			toTile.move(player, direction);
 		}
 		gameState.printState();
+	}
+
+	public List<char[][]> getGameView(int id){
+		Player player = gameState.getPlayer(id);
+		return gameState.getGameView(player);
+	}
+
+	public Player getPlayer(int id){
+		return gameState.getPlayer(id);
+	}
+	public ArrayList<Player> getPlayerList() {
+		return gameState.getPlayerList();
 	}
 
 	/**
@@ -133,6 +147,8 @@ public class Game{
 	public GameState getGameState() {
 		 return gameState;
 	}
+
+
 
 
 

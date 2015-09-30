@@ -18,12 +18,14 @@ public abstract class Item {
 	private Dimension size = new Dimension(40, 40);
 	private static int idCounter = 0;
 	private int id;
+	private char type;
 
-	public Item(String description, String imgpath){
+	public Item(String description, String imgpath, char c){
 		this.description = description;
 		this.imgpath = imgpath;
 		id = idCounter;
 		idCounter++;
+		type = c;
 	}
 
 	public abstract void use();
@@ -69,5 +71,9 @@ public abstract class Item {
 
 	public int getId() {
 		return id;
+	}
+	
+	public char getType(){
+		return type;
 	}
 }

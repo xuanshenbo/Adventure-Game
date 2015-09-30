@@ -5,6 +5,7 @@
 package state;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -65,8 +66,9 @@ public class GameState {
 	 * @param player
 	 * @return
 	 */
-	public String[][] getGameView(Player player){
-		String[][] view = new String[viewPortSize][viewPortSize];
+	public List<char[][]> getGameView(Player player){
+		char[][] view = new char[viewPortSize][viewPortSize];
+		char[][] item = new char[viewPortSize][viewPortSize];
 		Area a = getWorld(player);
 		int left = player.getPosition().getX() - (viewPortSize/2);
 		int right = player.getPosition().getX() + (viewPortSize/2);
@@ -82,12 +84,12 @@ public class GameState {
 
 					for(Player p: playerList){
 						if(p.getPosition().getX() == row && p.getPosition().getY() == col && p.getPosition().getArea() == a){
-							view[r][c] = Integer.toString(p.getId());
+							view[r][c] = (char) (p.getId()+'0');
 							playerPos = true;
 						}
 					}
 					if(!playerPos){
-						view[r][c] = Character.toString(a.getArea()[row][col].getType());
+						view[r][c] = a.getArea()[row][col].getType();
 					}
 				}
 				c++;
@@ -95,7 +97,8 @@ public class GameState {
 			c=0;
 			r++;
 		}
-		return view;
+		List<char[][]> worldInfo = new ArrayList<char[][]>();
+		return worldInfo;
 	}
 
 
