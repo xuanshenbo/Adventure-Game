@@ -307,7 +307,7 @@ public class GameFrame extends JFrame{
 
 					game.move(game.getGameState().getPlayer(1), 1);
 					map = game.getGameView(1).get(0);
-					items = game.getGameView(1).get(0);
+					items = game.getGameView(1).get(1);
 					renderer.update(map, items, game.getPlayerList());
 					midPanel.repaint();
 
@@ -323,7 +323,7 @@ public class GameFrame extends JFrame{
 					game.move(game.getGameState().getPlayer(1), 2);
 
 					map = game.getGameView(1).get(0);
-					items = game.getGameView(1).get(0);
+					items = game.getGameView(1).get(1);
 					renderer.update(map, items, game.getGameState().getPlayerList());
 					midPanel.repaint();
 
@@ -340,7 +340,7 @@ public class GameFrame extends JFrame{
 					game.move(game.getGameState().getPlayer(1), 4);
 
 					map = game.getGameView(1).get(0);
-					items = game.getGameView(1).get(0);
+					items = game.getGameView(1).get(1);
 					renderer.update(map, items, game.getGameState().getPlayerList());
 					midPanel.repaint();
 
@@ -356,7 +356,7 @@ public class GameFrame extends JFrame{
 					game.move(game.getGameState().getPlayer(1), 3);
 
 					map = game.getGameView(1).get(0);
-					items = game.getGameView(1).get(0);
+					items = game.getGameView(1).get(1);
 					renderer.update(map, items, game.getGameState().getPlayerList());
 					midPanel.repaint();
 

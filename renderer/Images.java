@@ -23,6 +23,7 @@ public class Images {
     private Image chestImage;
     private Image buildingImage;
     private Image doorImage;
+    private Image keyImage;
 
     private ArrayList<AvatarImages> avatarImages;
 
@@ -46,6 +47,7 @@ public class Images {
 
         //load items images
         this.chestImage = loadImage("chest.png", 1, 1);
+        this.keyImage = loadImage("key.png", 1, 1);
 
         //load characters images
         for (int i = 0; i < players.size(); i++){
@@ -87,7 +89,12 @@ public class Images {
         return doorImage;
     }
 
+    public Image getKeyImage() {
+        return keyImage;
+    }
+
     public ArrayList<AvatarImages> getAvatarImages(){
         return avatarImages;
     }
+
 }

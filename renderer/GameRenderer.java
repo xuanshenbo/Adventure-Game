@@ -1,13 +1,11 @@
 package renderer;
 
-import GUI.ImageLoader;
 import state.Player;
-import tiles.Tile;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Random;
+
 import static utilities.PrintTool.p;
 
 public class GameRenderer{
@@ -15,8 +13,8 @@ public class GameRenderer{
 	private int size = 15;
 	private int offsetX, offsetY;
 //	private int width,height;
-	private char[][] map;
-	private char[][] items;
+	private char[][] view;
+	private char[][] objects;
 	private double tileHeight;
 	private double tileWidth;
 	private ArrayList<Player> players;
@@ -35,8 +33,8 @@ public class GameRenderer{
 		offsetY = 0;
 		this.tileWidth = width/size;
 		this.tileHeight = height/size;
-		this.map = view;
-		this.items = objects;
+		this.view = view;
+		this.objects = objects;
 		this.players = players;
 		this.images = new Images(tileWidth, tileHeight, players);
 
@@ -48,19 +46,23 @@ public class GameRenderer{
 
 	public void render() {
 		//draw the game board
+
+
+
 		graphic = outPut.createGraphics();
 		graphic.clearRect(0,0,outPut.getWidth(), outPut.getHeight());
 
-		for (int y = 0; y < map.length; y++) {
-			for (int x = 0; x < map[y].length; x++) {
-				if(map[y][x] != '\u0000') {
+		for (int y = 0; y < view.length; y++) {
+			for (int x = 0; x < view[y].length; x++) {
+				if(view[y][x] != '\u0000') {
 					graphic.drawImage(images.getGroundImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
 				}
 			}
 		}
-		for (int y = 0; y < map[0].length; y++) {
-			for (int x = 0; x < map.length; x++) {
-				drawTile(map[y][x], x, y);
+		for (int y = 0; y < view[0].length; y++) {
+			for (int x = 0; x < view.length; x++) {
+				drawTile(view[y][x], x, y);
+				drawTile(objects[y][x], x, y);
 			}
 //			for (int i = 0; i < players.size(); i++){
 //				if (players.get(i).getPosition().getY() == y) {
@@ -71,6 +73,7 @@ public class GameRenderer{
 //				}
 //			}
 		}
+
 		graphic.dispose();
 		updateAnimation();
 
@@ -126,6 +129,8 @@ public class GameRenderer{
 			case 'D':
 				graphic.drawImage(images.getDoorImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
 				break;
+			case 'k':
+				graphic.drawImage(images.getKeyImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
 			default:
 				break;
 		}
@@ -139,10 +144,16 @@ public class GameRenderer{
 //		return loadImage("tree.png", 3);
 //	}
 
-	public void update(char[][] map, char[][] items, ArrayList<Player> players) {
-		this.map = map;
-		this.items = items;
+	public void update(char[][] view, char[][] objects, ArrayList<Player> players) {
+		this.view = view;
+		this.objects = objects;
 		this.players = players;
+		for (int r = 0; r < objects.length; r++){
+			for (int c = 0; c < objects[0].length; c++){
+				System.out.print(objects[r][c]);
+			}
+			System.out.println("");
+		}
 		render();
 	}
 
