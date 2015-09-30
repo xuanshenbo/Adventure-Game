@@ -20,8 +20,8 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 			}
 			else if(text.equals("clientserver")){
 				Main.serverClient();
-				Main.closeWelcome();
 				Main.displayMainGameFrame(s.getClient());
+				Main.closeWelcome();
 			}
 		}
 

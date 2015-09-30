@@ -17,6 +17,7 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import logic.Game;
 import static utilities.PrintTool.p;
 
 /**
@@ -37,9 +38,11 @@ public class Server extends Thread{
 	private int uid;
 	private Writer[] writers = new Writer[4];
 	private Queue<char[]> instructions = new ArrayDeque<char[]>();
+	private int[] parameters;
 
-	public Server() {
+	public Server(int[] para) {
 		//System.out.println(Server.class.getClassLoader().getResource("requests"));
+		parameters = para;
 		try{
 			server = new ServerSocket(PORT, 50, InetAddress.getLocalHost());
 			address = server.getInetAddress();
@@ -72,6 +75,8 @@ public class Server extends Thread{
 
 	public void run(){
 		//System.out.println("Server is stared");//debug
+		WorldParameters world = new WorldParameters(para[0],para[1],para[2]);
+		Game game= new Game(this, world);
 		ExecutorService pool = Executors.newFixedThreadPool(4);
 		boolean exit = false;
 		while (!exit) {
@@ -117,11 +122,9 @@ public class Server extends Thread{
 
 		}
 	}
-	
 	private void sendMap(String input, Writer out, int id) {
 
 	}
-	
 	private class Task implements Callable<Void> {
 		private Socket connection;
 		private int id;
