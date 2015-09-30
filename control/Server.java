@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import logic.Game;
+import logic.WorldParameters;
 import static utilities.PrintTool.p;
 
 /**
@@ -38,11 +39,13 @@ public class Server extends Thread{
 	private int uid;
 	private Writer[] writers = new Writer[4];
 	private Queue<char[]> instructions = new ArrayDeque<char[]>();
-	private int[] parameters;
+	//private int[] parameters;
+	private Game game;
 
 	public Server(int[] para) {
 		//System.out.println(Server.class.getClassLoader().getResource("requests"));
-		parameters = para;
+		WorldParameters world = new WorldParameters(para[0],para[1],para[2]);
+		game= new Game(this, world);
 		try{
 			server = new ServerSocket(PORT, 50, InetAddress.getLocalHost());
 			address = server.getInetAddress();
@@ -75,8 +78,6 @@ public class Server extends Thread{
 
 	public void run(){
 		//System.out.println("Server is stared");//debug
-		WorldParameters world = new WorldParameters(para[0],para[1],para[2]);
-		Game game= new Game(this, world);
 		ExecutorService pool = Executors.newFixedThreadPool(4);
 		boolean exit = false;
 		while (!exit) {
@@ -110,6 +111,16 @@ public class Server extends Thread{
 		this.uid = uid;
 	}
 
+
+
+	/**
+	 * a getter for the game
+	 * @return
+	 */
+	public Game getGame() {
+		return game;
+	}
+
 	/**
 	 * The following determines what the server should send to the client depends on the input
 	 */
@@ -122,17 +133,11 @@ public class Server extends Thread{
 
 		}
 	}
-<<<<<<< HEAD
-	private void sendMap(String input, Writer out, int id) {
-
-	}
-=======
 
 	private void sendMap(String input, Writer out, int id) {
 
 	}
 
->>>>>>> 59e2f878351a5a854b34a99bab5c694dd151497b
 	private class Task implements Callable<Void> {
 		private Socket connection;
 		private int id;

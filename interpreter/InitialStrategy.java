@@ -12,7 +12,7 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 	@Override
 	public void notify(String text) {
 		if(text.equals("start")){
-			s.displayMainGameFrame(s.getClient());
+			s.displayMainGameFrame(s.getClient(),s.getGame());
 		}
 		else{
 			if(text.equals("client")){

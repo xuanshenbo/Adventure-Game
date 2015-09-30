@@ -137,7 +137,18 @@ public class GameState {
 
 
 	/**
-	 * This method prints out the game state to the console, it is mainly
+	 * This method prints out the game state to the consolpublic static Server startNetwork(){
+		Server ss = new Server();
+		ss.start();
+		try {
+			Socket socket = new Socket(ss.getAddress(),ss.PORT);
+			Client client = new Client(socket);
+			client.start();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return ss;
+	}e, it is mainly
 	 * used for debugging.
 	 */
 	public void printState(){
@@ -196,18 +207,6 @@ public class GameState {
 			System.out.println("");
 		}
 	}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 	// ================================================

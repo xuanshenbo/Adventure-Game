@@ -80,9 +80,9 @@ public class GameFrame extends JFrame{
 	 * the constructor sets up the KeyListener using the KeyboardFocusManager, sets up the layout with all the appropriate Panels.
 	 * @param title The title of the GameFrame, used in the super constructor
 	 */
-	public GameFrame(String title) {
+	public GameFrame(String title, Game g) {
 		super(title);
-
+		game = g;
 		/*try {
 		    UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
 		} catch (Exception e) {
@@ -156,7 +156,7 @@ public class GameFrame extends JFrame{
 		midPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
 		//generate a Game for testing
-		this.game = generateGame(20, 2, 1, 5, 20, 20, 4, 1);
+		//this.game = generateGame(20, 2, 1, 5, 20, 20, 4, 1);
 
 		char[][] view = game.getGameView(1).get(0);
 		char[][] objects = game.getGameView(1).get(1);

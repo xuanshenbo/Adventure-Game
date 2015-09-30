@@ -12,6 +12,7 @@ import java.io.Writer;
 
 import javax.swing.JFrame;
 
+import logic.Game;
 import control.Client;
 import GUI.GameFrame;
 import GUI.WelcomePanel;
@@ -51,10 +52,10 @@ public class Initialisation extends StrategyInterpreter{
 		return frame;
 	}
 
-	public void displayMainGameFrame(Client c){
+	public void displayMainGameFrame(Client c, Game g){
 		frame.dispose();	//get rid of welcome frame
 
-		GameFrame game = new GameFrame("Adventure Game");
+		GameFrame game = new GameFrame("Adventure Game", g);
 
 		//create the Strategy Interpreters with different Strategies as appropriate
 		StrategyInterpreter keyInterpreter = new StrategyInterpreter(game, new KeyStrategy(),c);

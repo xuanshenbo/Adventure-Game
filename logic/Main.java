@@ -45,7 +45,7 @@ public class Main {
 	}
 
 	public static void main(String[] args){
-		Server ss = new Server();
+		/*Server ss = new Server();
 		Main g = new Main(20, 25, 10, 25, 200, 200, 4, ss, 50);
 		ss.start();
 		try {
@@ -54,20 +54,9 @@ public class Main {
 			client.start();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
-	public static Server startNetwork(){
-		Server ss = new Server();
-		ss.start();
-		try {
-			Socket socket = new Socket(ss.getAddress(),ss.PORT);
-			Client client = new Client(socket);
-			client.start();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return ss;
-	}
+
 
 }

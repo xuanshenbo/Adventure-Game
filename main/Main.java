@@ -6,6 +6,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import logic.Game;
 import control.Client;
 import control.Server;
 import interpreter.ButtonStrategy;
@@ -21,10 +22,11 @@ import GUI.GameFrame;
  *
  */
 public class Main {
-	private static Server server = new Server();
+	private static Server server;
 	private static Client client;
 	private static Initialisation initial;
 	private static int uid;
+	private static Game game;
 	//private static boolean initialised;
 
 	/**
@@ -35,6 +37,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		initial = new Initialisation();
+		initial.setGame(game);
 
 	}
 
@@ -42,6 +45,9 @@ public class Main {
 	 * Sets up the network for a server-client mode
 	 */
 	public static void serverClient(){
+		int[] parameters = {};
+		server = new Server(parameters);
+		game = server.getGame();
 		server.start();
 		try {
 			//System.out.println(ss.getAddress().toString());//debug
@@ -75,7 +81,7 @@ public class Main {
 	public static void displayMainGameFrame(Client c){
 		//frame.dispose();	//get rid of welcome frame
 
-		GameFrame gameFrame = new GameFrame("Adventure Game");
+		GameFrame gameFrame = new GameFrame("Adventure Game", game);
 		//create the Strategy Interpreters with different Strategies as appropriate
 		StrategyInterpreter keyInterpreter = new StrategyInterpreter(gameFrame, new KeyStrategy(),c);
 		StrategyInterpreter buttonInterpreter = new StrategyInterpreter(gameFrame, new ButtonStrategy(),c);
