@@ -1,13 +1,11 @@
 package renderer;
 
-import GUI.ImageLoader;
 import state.Player;
-import tiles.Tile;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Random;
+
 import static utilities.PrintTool.p;
 
 public class GameRenderer{
@@ -15,8 +13,8 @@ public class GameRenderer{
 	private int size = 15;
 	private int offsetX, offsetY;
 //	private int width,height;
-	private String[][] map;
-	private String[][] items;
+	private char[][] view;
+	private char[][] objects;
 	private double tileHeight;
 	private double tileWidth;
 	private ArrayList<Player> players;
@@ -26,7 +24,7 @@ public class GameRenderer{
 
 	private Images images;
 
-	public GameRenderer(int width, int height, String[][] map, String[][] items, ArrayList<Player> players){
+	public GameRenderer(int width, int height, char[][] view, char[][] objects, ArrayList<Player> players){
 
 		this.outPut = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 //		this.width = width;
@@ -35,8 +33,8 @@ public class GameRenderer{
 		offsetY = 0;
 		this.tileWidth = width/size;
 		this.tileHeight = height/size;
-		this.map = map;
-		this.items = items;
+		this.view = view;
+		this.objects = objects;
 		this.players = players;
 		this.images = new Images(tileWidth, tileHeight, players);
 
@@ -48,19 +46,23 @@ public class GameRenderer{
 
 	public void render() {
 		//draw the game board
+
+
+
 		graphic = outPut.createGraphics();
 		graphic.clearRect(0,0,outPut.getWidth(), outPut.getHeight());
 
-		for (int x = 0; x < map.length; x++) {
-			for (int y = 0; y < map[x].length; y++) {
-				if(map[x][y] != null) {
+		for (int y = 0; y < view.length; y++) {
+			for (int x = 0; x < view[y].length; x++) {
+				if(view[y][x] != '\u0000') {
 					graphic.drawImage(images.getGroundImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
 				}
 			}
 		}
-		for (int y = 0; y < map[0].length; y++) {
-			for (int x = 0; x < map.length; x++) {
-				drawTile(map[x][y], x, y);
+		for (int y = 0; y < view[0].length; y++) {
+			for (int x = 0; x < view.length; x++) {
+				drawTile(view[y][x], x, y);
+				drawTile(objects[y][x], x, y);
 			}
 //			for (int i = 0; i < players.size(); i++){
 //				if (players.get(i).getPosition().getY() == y) {
@@ -71,6 +73,7 @@ public class GameRenderer{
 //				}
 //			}
 		}
+
 		graphic.dispose();
 		updateAnimation();
 
@@ -83,49 +86,51 @@ public class GameRenderer{
 		}
 	}
 
-	private void drawTile(String tile, int x, int y) {
+	private void drawTile(char tile, int x, int y) {
 
-		if (tile == null){
+		if (tile == '\u0000'){
 			return;
 		}
 		switch (tile){
 
-			case "T":
+			case 'T':
 				graphic.drawImage(images.getTreeImage(), (int)(x*tileWidth-tileWidth), (int)(y*tileHeight-3*tileHeight+tileHeight/2), null);
 				break;
-			case "1":
+			case '1':
 				graphic.drawImage(images.getAvatarImages().get(0).getImages()[0][(int) (animationIndex)],
 						(int) (x * tileWidth)+offsetX,
 						(int) (y * tileHeight - images.getAvatarImages().get(0).avatarHeight() + tileHeight)+offsetY,
 						null);
 				break;
-			case "2":
+			case '2':
 				graphic.drawImage(images.getAvatarImages().get(1).getImages()[0][(int) (animationIndex)],
 						(int) (x * tileWidth),
 						(int) (y * tileHeight - images.getAvatarImages().get(1).avatarHeight() + tileHeight),
 						null);
 				break;
-			case "3":
+			case '3':
 				graphic.drawImage(images.getAvatarImages().get(2).getImages()[0][(int) (animationIndex)],
 						(int) (x * tileWidth),
 						(int) (y * tileHeight - images.getAvatarImages().get(2).avatarHeight() + tileHeight),
 						null);
 				break;
-			case "4":
+			case '4':
 				graphic.drawImage(images.getAvatarImages().get(3).getImages()[0][(int) (animationIndex)],
 						(int) (x * tileWidth),
 						(int) (y * tileHeight - images.getAvatarImages().get(3).avatarHeight() + tileHeight),
 						null);
 				break;
-			case "O":
+			case 'O':
 				graphic.drawImage(images.getChestImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
 				break;
-			case "B":
+			case 'B':
 				graphic.drawImage(images.getBuildingImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
 				break;
-			case "D":
+			case 'D':
 				graphic.drawImage(images.getDoorImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
 				break;
+			case 'k':
+				graphic.drawImage(images.getKeyImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
 			default:
 				break;
 		}
@@ -139,10 +144,16 @@ public class GameRenderer{
 //		return loadImage("tree.png", 3);
 //	}
 
-	public void update(String[][] map, String[][] items, ArrayList<Player> players) {
-		this.map = map;
-		this.items = items;
+	public void update(char[][] view, char[][] objects, ArrayList<Player> players) {
+		this.view = view;
+		this.objects = objects;
 		this.players = players;
+		for (int r = 0; r < objects.length; r++){
+			for (int c = 0; c < objects[0].length; c++){
+				System.out.print(objects[r][c]);
+			}
+			System.out.println("");
+		}
 		render();
 	}
 

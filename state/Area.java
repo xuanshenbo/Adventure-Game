@@ -105,6 +105,7 @@ public class Area {
 
 	public void generateWorld(Generator g){
 		g.fillTiles(this);
+		g.placeLoot(this);
 	}
 
 	public String toString(){

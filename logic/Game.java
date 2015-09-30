@@ -4,6 +4,10 @@
  */
 
 package logic;
+import items.Item;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import state.Area;
@@ -41,7 +45,28 @@ public class Game{
 			p("current tile: "+player.getPosition());
 			toTile.move(player, direction);
 		}
-		gameState.printState();
+//		gameState.printState();
+	}
+
+	public void pickUp(Player player){
+		Position playerPosition = player.getPosition();
+		Item item = gameState.getItem(playerPosition);
+		if(item != null){
+			player.collect(item);
+			gameState.removeItem(playerPosition);
+		}
+	}
+
+	public List<char[][]> getGameView(int id){
+		Player player = gameState.getPlayer(id);
+		return gameState.getGameView(player);
+	}
+
+	public Player getPlayer(int id){
+		return gameState.getPlayer(id);
+	}
+	public ArrayList<Player> getPlayerList() {
+		return gameState.getPlayerList();
 	}
 
 	/**
@@ -56,25 +81,25 @@ public class Game{
 		int y = player.getPosition().getY();
 		Tile[][] areaArray = gameState.getWorld(player).getArea();
 
-		if(direction == 1){//left
+		if(direction == 1){//up
 			if(x == 0){
 				return null;
 			}
 			return areaArray[x-1][y];
 
-		}else if(direction == 2){//right
+		}else if(direction == 2){//down
 			if(x == areaArray.length-1){
 				return null;
 			}
 			return areaArray[x+1][y];
 
-		}else if(direction == 3){//down
+		}else if(direction == 3){//right
 			if(y == areaArray[0].length-1){
 				return null;
 			}
 			return areaArray[x][y+1];
 
-		}else if(direction == 4){//up
+		}else if(direction == 4){//left
 			if(y == 0){
 				return null;
 			}
@@ -133,6 +158,8 @@ public class Game{
 	public GameState getGameState() {
 		 return gameState;
 	}
+
+
 
 
 

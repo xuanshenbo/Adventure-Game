@@ -156,9 +156,12 @@ public class GameFrame extends JFrame{
 		midPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
 		//generate a Game for testing
-		this.game = generateGame(20, 2, 1, 5, 20, 20, 4, 50);
+		this.game = generateGame(20, 2, 1, 5, 20, 20, 4, 1);
 
-		renderer = new GameRenderer(800, 600, game.getGameState().getGameView(game.getGameState().getPlayer(1)), null, game.getGameState().getPlayerList());
+		char[][] view = game.getGameView(1).get(0);
+		char[][] objects = game.getGameView(1).get(1);
+
+		renderer = new GameRenderer(800, 600, view, objects, game.getPlayerList());
 
 		Image renderWindow = renderer.getImage(); //need to set the size??
 		JLabel renderLabel = new JLabel(new ImageIcon(renderWindow));
@@ -290,12 +293,11 @@ public class GameFrame extends JFrame{
 		public boolean dispatchKeyEvent(KeyEvent e){
 
 			if (e.getID() == KeyEvent.KEY_PRESSED) {
-				int x = data.getPlayers().get(0).getPosition().getX();
-				int y = data.getPlayers().get(0).getPosition().getY();
+				char[][] map;
+				char[][] items;
 
 				switch( e.getKeyCode()) {
 				case KeyEvent.VK_UP:
-					y -= 1;
 					try {
 						keyInterpreter.notify("up");
 					} catch (IOException e1) {
@@ -303,13 +305,14 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					} //implement for all key presses
 
-					 game.move(game.getGameState().getPlayer(1), 4);
-			            renderer.update(game.getGameState().getGameView(game.getGameState().getPlayer(1)), null, game.getGameState().getPlayerList());
-			            midPanel.repaint();
+					game.move(game.getGameState().getPlayer(1), 1);
+					map = game.getGameView(1).get(0);
+					items = game.getGameView(1).get(1);
+					renderer.update(map, items, game.getPlayerList());
+					midPanel.repaint();
 
 					break;
 				case KeyEvent.VK_DOWN:
-					y += 1;
 					try {
 						keyInterpreter.notify("down");
 					} catch (IOException e1) {
@@ -317,13 +320,15 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					}
 
-					  game.move(game.getGameState().getPlayer(1), 3);
-			            renderer.update(game.getGameState().getGameView(game.getGameState().getPlayer(1)), null, game.getGameState().getPlayerList());
-			            midPanel.repaint();
+					game.move(game.getGameState().getPlayer(1), 2);
+
+					map = game.getGameView(1).get(0);
+					items = game.getGameView(1).get(1);
+					renderer.update(map, items, game.getGameState().getPlayerList());
+					midPanel.repaint();
 
 					break;
 				case KeyEvent.VK_LEFT:
-					x -= 1;
 					try {
 						keyInterpreter.notify("left");
 					} catch (IOException e1) {
@@ -332,13 +337,15 @@ public class GameFrame extends JFrame{
 					}
 
 					//TODO refactor this using interpreter
-					 game.move(game.getGameState().getPlayer(1), 1);
-			            renderer.update(game.getGameState().getGameView(game.getGameState().getPlayer(1)), null, game.getGameState().getPlayerList());
-			            midPanel.repaint();
+					game.move(game.getGameState().getPlayer(1), 4);
+
+					map = game.getGameView(1).get(0);
+					items = game.getGameView(1).get(1);
+					renderer.update(map, items, game.getGameState().getPlayerList());
+					midPanel.repaint();
 
 					break;
 				case KeyEvent.VK_RIGHT :
-					x += 1;
 					try {
 						keyInterpreter.notify("right");
 					} catch (IOException e1) {
@@ -346,15 +353,16 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					}
 
-					  game.move(game.getGameState().getPlayer(1), 2);
-			            renderer.update(game.getGameState().getGameView(game.getGameState().getPlayer(1)), null, game.getGameState().getPlayerList());
-			            midPanel.repaint();
+					game.move(game.getGameState().getPlayer(1), 3);
+
+					map = game.getGameView(1).get(0);
+					items = game.getGameView(1).get(1);
+					renderer.update(map, items, game.getGameState().getPlayerList());
+					midPanel.repaint();
 
 					break;
 				}
 
-				data.getPlayers().get(0).getPosition().setX(x);
-				data.getPlayers().get(0).getPosition().setY(y);
 			}
 			else if (e.getID() == KeyEvent.KEY_RELEASED) {
 			}

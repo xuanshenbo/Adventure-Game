@@ -4,7 +4,10 @@
 
 package state;
 
+import items.Item;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -46,6 +49,18 @@ public class GameState {
 		return null;
 	}
 
+	public void removeItem(Position position) {
+		int x = position.getX();
+		int y = position.getY();
+		world.getItems()[y][x] = null;
+	}
+
+	public Item getItem(Position playerPosition) {
+		int x = playerPosition.getX();
+		int y = playerPosition.getY();
+		return world.getItems()[y][x];
+	}
+
 	public Area getWorld(Player player) {
 		if(player.getPosition().getArea() == world){
 			return world;
@@ -65,9 +80,12 @@ public class GameState {
 	 * @param player
 	 * @return
 	 */
-	public String[][] getGameView(Player player){
-		String[][] view = new String[viewPortSize][viewPortSize];
+	public List<char[][]> getGameView(Player player){
+		char[][] view = new char[viewPortSize][viewPortSize];
+		char[][] objects = new char[viewPortSize][viewPortSize];
+
 		Area a = getWorld(player);
+
 		int left = player.getPosition().getX() - (viewPortSize/2);
 		int right = player.getPosition().getX() + (viewPortSize/2);
 		int top = player.getPosition().getY() - (viewPortSize/2);
@@ -78,16 +96,20 @@ public class GameState {
 		for(int row = left; row < right+1; row++){
 			for(int col = top; col < bottom+1; col++){
 				if(row>-1 && col >-1 && row <a.getArea().length && col < a.getArea()[0].length){
+					if(a.getItems()[row][col] != null){
+						objects[r][c] = a.getItems()[row][col].getType();
+					}else{
+						objects[r][c] = '\u0000';
+					}
 					boolean playerPos = false;
-
 					for(Player p: playerList){
 						if(p.getPosition().getX() == row && p.getPosition().getY() == col && p.getPosition().getArea() == a){
-							view[r][c] = Integer.toString(p.getId());
+							view[r][c] = (char) (p.getId()+'0');
 							playerPos = true;
 						}
 					}
 					if(!playerPos){
-						view[r][c] = Character.toString(a.getArea()[row][col].getType());
+						view[r][c] = a.getArea()[row][col].getType();
 					}
 				}
 				c++;
@@ -95,7 +117,10 @@ public class GameState {
 			c=0;
 			r++;
 		}
-		return view;
+		List<char[][]> worldInfo = new ArrayList<char[][]>();
+		worldInfo.add(view);
+		worldInfo.add(objects);
+		return worldInfo;
 	}
 
 
@@ -158,11 +183,11 @@ public class GameState {
 		}
 
 
-		String[][] playerOneView = getGameView(playerList.get(0));
+		char[][] playerOneView = getGameView(playerList.get(0)).get(0);
 		System.out.println("\nPlayer 1 view");
 		for(int row = 0; row<playerOneView.length; row++){
 			for(int col = 0; col<playerOneView[0].length; col++){
-				if(playerOneView[row][col] != null){
+				if(playerOneView[row][col] != '\u0000'){
 					System.out.print(playerOneView[row][col]);
 				}else{
 					System.out.print("N");

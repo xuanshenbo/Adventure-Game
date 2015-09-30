@@ -22,7 +22,7 @@ import GUI.GameFrame;
  */
 public class Main {
 	private static Server server = new Server();
-	private static ArrayList<Client> clients = new ArrayList<Client>();
+	private static Client client;
 	private static Initialisation initial;
 	private static int uid;
 	//private static boolean initialised;
@@ -58,8 +58,7 @@ public class Main {
 			//Socket socket = new Socket(InetAddress.getByName( (ss.getAddress().getHostAddress().toString() ) ),ss.PORT);
 			//Socket socket = new Socket(InetAddress.getByName("0.0.0.0"),ss.PORT);
 			Socket socket = new Socket(server.getAddress(), server.PORT);
-			Client client = new Client(socket);
-			clients.add(client);
+			client = new Client(socket);
 			//Writer output = client.getOutput();
 			client.start();
 		} catch (IOException e) {
@@ -76,8 +75,7 @@ public class Main {
 		server = null;
 		try {
 			Socket socket = new Socket(adr, port);
-			Client client = new Client(socket);
-			clients.add(client);
+			client = new Client(socket);
 			client.start();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -101,7 +99,7 @@ public class Main {
 
 	public static void closeWelcome() {
 		initial.getFrame().dispose();
-		initial.setClient(clients.get(uid++));
+		initial.setClient(client);
 	}
 
 	/**
