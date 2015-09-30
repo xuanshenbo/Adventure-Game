@@ -13,16 +13,16 @@ public class KeyStrategy implements StrategyInterpreter.Strategy{
 	@Override
 	public void notify(String text) throws IOException {
 		if(text.equals("up")){
-			interpreter.getClient().send("up");
+			interpreter.getClient().send("dirup");
 		}
 		else if(text.equals("down")){
-			interpreter.getClient().send("down");
+			interpreter.getClient().send("dirdown");
 		}
 		else if(text.equals("left")){
-			interpreter.getClient().send("left");
+			interpreter.getClient().send("dirleft");
 		}
 		else if(text.equals("right")){
-			interpreter.getClient().send("right");
+			interpreter.getClient().send("dirright");
 		}
 	}
 

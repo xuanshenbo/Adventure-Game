@@ -8,7 +8,9 @@ import java.io.Writer;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayDeque;
 import java.util.Date;
+import java.util.Queue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -33,6 +35,8 @@ public class Server extends Thread{
 	private int mapRow;
 	private int mapCol;
 	private int uid;
+	private Writer[] writers = new Writer[4];
+	private Queue<char[]> instructions = new ArrayDeque<char[]>();
 
 	public Server() {
 		//System.out.println(Server.class.getClassLoader().getResource("requests"));
@@ -73,7 +77,7 @@ public class Server extends Thread{
 		while (!exit) {
 			try {
 				Socket connection = server.accept();
-				Callable<Void> task = new Task(connection);
+				Callable<Void> task = new Task(connection, uid++);
 				pool.submit(task);
 				//Thread.yield();
 			} catch (IOException ex) {
@@ -104,21 +108,28 @@ public class Server extends Thread{
 	/**
 	 * The following determines what the server should send to the client depends on the input
 	 */
-	public void feedback(String input, Writer out){
-		switch(input){
+	public void feedback(String input, Writer out, int id){
+		switch(input.substring(0, 3)){
+		case
 		default:
+
 		}
 	}
 	private class Task implements Callable<Void> {
 		private Socket connection;
-		Task(Socket connection) {
+		private int id;
+		Task(Socket connection, int uid) {
 			this.connection = connection;
+			id = uid;
 		}
 		@Override
 		public Void call() {
 			try {
 				Writer out = new OutputStreamWriter(connection.getOutputStream());
+				writers[id] = out;
 				out.write("Server address: "+address.getHostAddress().toString());
+				out.flush();
+				out.write("ID: "+id);
 				out.flush();
 				Reader in = new InputStreamReader(connection.getInputStream());
 				//Date now = new Date();
@@ -141,7 +152,7 @@ public class Server extends Thread{
 
 					//System.out.println("server printed input");//debug
 
-					//feedback(input, out);
+					feedback(input, out, id);
 
 					//p("mapRow"+String.format("%s",mapRow).charAt(0)+String.format("%s",mapRow).charAt(1));
 					//p("colRow"+(char)('0' + mapCol));

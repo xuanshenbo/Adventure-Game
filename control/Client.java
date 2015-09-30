@@ -24,6 +24,7 @@ public class Client extends Thread implements KeyListener {
 	private final Socket socket;
 	private char[][] map;
 	private String sending;//the message to be sent to the server
+	private int uid;
 
 	public Client(Socket s){
 		socket = s;
@@ -72,12 +73,17 @@ public class Client extends Thread implements KeyListener {
 				input.read(message);
 
 				//only do something if the message is not null
+				String receive = "";
 				if(message[0] != '\0'){
 					for(int i=0; i<message.length; i++){
 						if(message[i] == '\0'|| message[i] == '\r' || message[i] == '\n') break;
+						receive+=message[i];
 						System.out.print(message[i]);
 					}
 					System.out.println();
+				}
+				if(receive.substring(0,2).equals("ID")){
+					uid = Integer.valueOf(receive.substring(3,4));
 				}
 			}
 			socket.close();
@@ -132,6 +138,14 @@ public class Client extends Thread implements KeyListener {
 	public void send(String s) throws IOException{
 		output.write(s);
 		output.flush();
+	}
+
+	/**
+	 * a getter for uid
+	 * @return
+	 */
+	public int getUid() {
+		return uid;
 	}
 
 
