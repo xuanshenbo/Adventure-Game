@@ -9,6 +9,8 @@ import items.Item;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElement;
+
 public class Player {
 
 	private Position position; // Position of the player in the world
@@ -60,14 +62,17 @@ public class Player {
 	// getters from here
 	// ================================================
 
+	@XmlElement
 	public Position getPosition() {
 		return position;
 	}
 
+	@XmlElement
 	public int getId() {
 		return id;
 	}
 
+	
 	public List<Item> getInventory() {
 		return inventory;
 	}

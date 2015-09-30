@@ -5,6 +5,8 @@
 
 package state;
 
+import javax.xml.bind.annotation.XmlElement;
+
 public class Position {
 
 	private Area a;
@@ -69,10 +71,12 @@ public class Position {
 		return a;
 	}
 
+	@XmlElement
 	public int getX() {
 		return x;
 	}
 
+	@XmlElement
 	public int getY() {
 		return y;
 	}
