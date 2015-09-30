@@ -156,7 +156,7 @@ public class GameFrame extends JFrame{
 		midPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
 		//generate a Game for testing
-		this.game = generateGame(20, 2, 1, 5, 20, 20, 4, 50);
+		this.game = generateGame(20, 2, 1, 5, 20, 20, 4, 1);
 
 		char[][] view = game.getGameView(1).get(0);
 		char[][] objects = game.getGameView(1).get(1);
