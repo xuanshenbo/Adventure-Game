@@ -6,12 +6,13 @@
 package logic;
 import items.Item;
 
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import control.Server;
 import state.Area;
+import state.Area.AreaType;
 import state.GameState;
 import state.Player;
 import state.Position;
@@ -21,6 +22,7 @@ import static utilities.PrintTool.p;
 public class Game{
 
 	private GameState gameState;
+	private Server server;
 
 	public Game(GameState state) {
 		this.gameState = state;
@@ -28,6 +30,16 @@ public class Game{
 			int direction = Input.getInputBetween(1,4);
 			move(gameState.getPlayer(1), direction);
 		}*/
+	}
+
+	public Game(Server server, WorldParameters parameters){
+		this.server = server;
+		int height = parameters.getHeight();
+		int width = parameters.getWidth();
+		Area area = new Area(height, width, AreaType.OUTSIDE, null);
+		Generator g = new Generator(parameters);
+
+		this.gameState = new GameState(area, placePlayers(parameters.getPlayerCount(), height, width, area));
 	}
 
 
@@ -158,6 +170,23 @@ public class Game{
 
 	public GameState getGameState() {
 		 return gameState;
+	}
+
+	private ArrayList<Player> placePlayers(int playerCount, int width, int height, Area a) {
+		double[] xCoords = {0.5, 0, 0.5, 1};
+		double[] yCoords = {0, 0.5, 1, 0.5};
+		ArrayList<Player> list = new ArrayList<Player>();
+		for(int count = 0; count < playerCount; count++){
+			int x = (int) ((width-1)*xCoords[count]);
+			int y = (int) ((height-1)*yCoords[count]);
+			p("player"+(count+1)+" XGEN: "+x+" YGEN"+y);
+			int id = count+1;
+			Position position = new Position(x, y, a);
+			Player p = new Player(position, id);
+			list.add(p);
+		}
+		return list;
+
 	}
 
 
