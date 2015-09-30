@@ -35,17 +35,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		initial = new Initialisation();
-		/*GameFrame game = new GameFrame("Adventure Game");
 
-		//create the Strategy Interpreters with different Strategies as appropriate
-		StrategyInterpreter keyInterpreter = new StrategyInterpreter(game, new KeyStrategy());
-		StrategyInterpreter buttonInterpreter = new StrategyInterpreter(game, new ButtonStrategy());
-		StrategyInterpreter menuInterpreter = new StrategyInterpreter(game, new MenuStrategy());
-
-		//add the Strategy Interpreters to the GameFrame
-		game.setKeyInterpreter(keyInterpreter);
-		game.setButtonInterpreter(buttonInterpreter);
-		game.setMenuInterpreter(menuInterpreter);*/
 	}
 
 	/**
@@ -85,16 +75,19 @@ public class Main {
 	public static void displayMainGameFrame(Client c){
 		//frame.dispose();	//get rid of welcome frame
 
-		GameFrame game = new GameFrame("Adventure Game");
+		GameFrame gameFrame = new GameFrame("Adventure Game");
 		//create the Strategy Interpreters with different Strategies as appropriate
-		StrategyInterpreter keyInterpreter = new StrategyInterpreter(game, new KeyStrategy(),c);
-		StrategyInterpreter buttonInterpreter = new StrategyInterpreter(game, new ButtonStrategy(),c);
-		StrategyInterpreter menuInterpreter = new StrategyInterpreter(game, new MenuStrategy(),c);
+		StrategyInterpreter keyInterpreter = new StrategyInterpreter(gameFrame, new KeyStrategy(),c);
+		StrategyInterpreter buttonInterpreter = new StrategyInterpreter(gameFrame, new ButtonStrategy(),c);
+		StrategyInterpreter menuInterpreter = new StrategyInterpreter(gameFrame, new MenuStrategy(),c);
+
+		menuInterpreter.setGame(gameFrame.getGame());
 
 		//add the Strategy Interpreters to the GameFrame
-		game.setKeyInterpreter(keyInterpreter);
-		game.setButtonInterpreter(buttonInterpreter);
-		game.setMenuInterpreter(menuInterpreter);
+		gameFrame.setKeyInterpreter(keyInterpreter);
+		gameFrame.setButtonInterpreter(buttonInterpreter);
+		gameFrame.setMenuInterpreter(menuInterpreter);
+
 	}
 
 	public static void closeWelcome() {

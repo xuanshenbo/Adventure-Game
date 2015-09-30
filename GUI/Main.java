@@ -1,4 +1,4 @@
-package GUI;
+/*package GUI;
 
 import java.io.Writer;
 
@@ -8,11 +8,11 @@ import interpreter.KeyStrategy;
 import interpreter.MenuStrategy;
 import interpreter.StrategyInterpreter;
 
-/**
+*//**
  * This class to be used for testing the GUI and interpreter packages
  * @author flanagdonn
  *
- */
+ *//*
 public class Main {
 
 	public static void main(String[] args) {
@@ -31,3 +31,4 @@ public class Main {
 	}
 
 }
+*/

@@ -2,6 +2,7 @@ package interpreter;
 import java.io.IOException;
 import java.io.Writer;
 
+import logic.Game;
 import control.Client;
 import GUI.GameFrame;
 
@@ -14,6 +15,8 @@ public class StrategyInterpreter implements Observer{
 	private GameFrame gameGUI;
 	private Strategy strategy;
 	private Client client;
+
+	private Game game;
 
 	/**
 	 * Stores the arguments in the fields
@@ -66,6 +69,14 @@ public class StrategyInterpreter implements Observer{
 	 */
 	public void setClient(Client c) {
 		client = c;
+	}
+
+	public void setGame(Game game) {
+		this.game = game;
+
+	}
+	public Game getGame(){
+		return this.game;
 	}
 
 

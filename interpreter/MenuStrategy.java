@@ -2,6 +2,10 @@ package interpreter;
 
 import java.util.Scanner;
 
+import javax.xml.bind.JAXBException;
+
+import dataStorage.Serializer;
+
 public class MenuStrategy implements StrategyInterpreter.Strategy{
 
 	private StrategyInterpreter interpreter;
@@ -13,9 +17,18 @@ public class MenuStrategy implements StrategyInterpreter.Strategy{
 		String filename = sc.next();
 
 		if(command.equals("open")){
-			//notify game
+			//notify game passing it the filename
+
 		}
 		else if(command.equals("save")){
+			System.out.println("Saving the game...");
+			try {
+				Serializer.serialize(interpreter.getGame().getGameState());
+			} catch (JAXBException ex) {
+				System.out.println("Saving failed...");
+				return;
+			}
+			System.out.println("Done!");
 			//notify game
 		}
 	}
