@@ -117,11 +117,11 @@ public class Server extends Thread{
 
 		}
 	}
-	
+
 	private void sendMap(String input, Writer out, int id) {
 
 	}
-	
+
 	private class Task implements Callable<Void> {
 		private Socket connection;
 		private int id;
