@@ -110,10 +110,15 @@ public class Server extends Thread{
 	 */
 	public void feedback(String input, Writer out, int id){
 		switch(input.substring(0, 3)){
-		case
+		case "dir":
+			sendMap(input, out, id);
+			break;
 		default:
 
 		}
+	}
+	private void sendMap(String input, Writer out, int id) {
+
 	}
 	private class Task implements Callable<Void> {
 		private Socket connection;
