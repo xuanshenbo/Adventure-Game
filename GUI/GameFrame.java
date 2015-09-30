@@ -293,14 +293,11 @@ public class GameFrame extends JFrame{
 		public boolean dispatchKeyEvent(KeyEvent e){
 
 			if (e.getID() == KeyEvent.KEY_PRESSED) {
-//				int x = data.getPlayers().get(0).getPosition().getX();
-//				int y = data.getPlayers().get(0).getPosition().getY();
 				char[][] map = game.getGameView(1).get(0);
 				char[][] items = game.getGameView(1).get(0);
 
 				switch( e.getKeyCode()) {
 				case KeyEvent.VK_UP:
-//					y -= 1;
 					try {
 						keyInterpreter.notify("up");
 					} catch (IOException e1) {
@@ -314,7 +311,6 @@ public class GameFrame extends JFrame{
 
 					break;
 				case KeyEvent.VK_DOWN:
-//					y += 1;
 					try {
 						keyInterpreter.notify("down");
 					} catch (IOException e1) {
@@ -328,7 +324,6 @@ public class GameFrame extends JFrame{
 
 					break;
 				case KeyEvent.VK_LEFT:
-//					x -= 1;
 					try {
 						keyInterpreter.notify("left");
 					} catch (IOException e1) {
@@ -343,7 +338,6 @@ public class GameFrame extends JFrame{
 
 					break;
 				case KeyEvent.VK_RIGHT :
-//					x += 1;
 					try {
 						keyInterpreter.notify("right");
 					} catch (IOException e1) {
@@ -358,8 +352,6 @@ public class GameFrame extends JFrame{
 					break;
 				}
 
-//				data.getPlayers().get(0).getPosition().setX(x);
-//				data.getPlayers().get(0).getPosition().setY(y);
 			}
 			else if (e.getID() == KeyEvent.KEY_RELEASED) {
 			}
