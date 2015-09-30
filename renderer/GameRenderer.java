@@ -51,16 +51,16 @@ public class GameRenderer{
 		graphic = outPut.createGraphics();
 		graphic.clearRect(0,0,outPut.getWidth(), outPut.getHeight());
 
-		for (int x = 0; x < map.length; x++) {
-			for (int y = 0; y < map[x].length; y++) {
-				if(map[x][y] != null) {
+		for (int y = 0; y < map.length; y++) {
+			for (int x = 0; x < map[y].length; x++) {
+				if(map[y][x] != null) {
 					graphic.drawImage(images.getGroundImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
 				}
 			}
 		}
 		for (int y = 0; y < map[0].length; y++) {
 			for (int x = 0; x < map.length; x++) {
-				drawTile(map[x][y], x, y);
+				drawTile(map[y][x], x, y);
 			}
 //			for (int i = 0; i < players.size(); i++){
 //				if (players.get(i).getPosition().getY() == y) {
