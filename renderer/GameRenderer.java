@@ -53,7 +53,7 @@ public class GameRenderer{
 
 		for (int y = 0; y < map.length; y++) {
 			for (int x = 0; x < map[y].length; x++) {
-				if(map[y][x] != null) {
+				if(map[y][x] != '\u0000') {
 					graphic.drawImage(images.getGroundImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
 				}
 			}
@@ -83,47 +83,47 @@ public class GameRenderer{
 		}
 	}
 
-	private void drawTile(String tile, int x, int y) {
+	private void drawTile(char tile, int x, int y) {
 
-		if (tile == null){
+		if (tile == '\u0000'){
 			return;
 		}
 		switch (tile){
 
-			case "T":
+			case 'T':
 				graphic.drawImage(images.getTreeImage(), (int)(x*tileWidth-tileWidth), (int)(y*tileHeight-3*tileHeight+tileHeight/2), null);
 				break;
-			case "1":
+			case '1':
 				graphic.drawImage(images.getAvatarImages().get(0).getImages()[0][(int) (animationIndex)],
 						(int) (x * tileWidth)+offsetX,
 						(int) (y * tileHeight - images.getAvatarImages().get(0).avatarHeight() + tileHeight)+offsetY,
 						null);
 				break;
-			case "2":
+			case '2':
 				graphic.drawImage(images.getAvatarImages().get(1).getImages()[0][(int) (animationIndex)],
 						(int) (x * tileWidth),
 						(int) (y * tileHeight - images.getAvatarImages().get(1).avatarHeight() + tileHeight),
 						null);
 				break;
-			case "3":
+			case '3':
 				graphic.drawImage(images.getAvatarImages().get(2).getImages()[0][(int) (animationIndex)],
 						(int) (x * tileWidth),
 						(int) (y * tileHeight - images.getAvatarImages().get(2).avatarHeight() + tileHeight),
 						null);
 				break;
-			case "4":
+			case '4':
 				graphic.drawImage(images.getAvatarImages().get(3).getImages()[0][(int) (animationIndex)],
 						(int) (x * tileWidth),
 						(int) (y * tileHeight - images.getAvatarImages().get(3).avatarHeight() + tileHeight),
 						null);
 				break;
-			case "O":
+			case 'O':
 				graphic.drawImage(images.getChestImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
 				break;
-			case "B":
+			case 'B':
 				graphic.drawImage(images.getBuildingImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
 				break;
-			case "D":
+			case 'D':
 				graphic.drawImage(images.getDoorImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
 				break;
 			default:
@@ -139,7 +139,7 @@ public class GameRenderer{
 //		return loadImage("tree.png", 3);
 //	}
 
-	public void update(String[][] map, String[][] items, ArrayList<Player> players) {
+	public void update(char[][] map, char[][] items, ArrayList<Player> players) {
 		this.map = map;
 		this.items = items;
 		this.players = players;

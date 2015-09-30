@@ -42,7 +42,7 @@ public class GuiForTest extends JFrame implements KeyListener{
 
 //        generateGame(trees, buildings, caves, chests, width, height, playerCount, lootValue);
 //
-        renderer = new GameRenderer(800, 600, game.getGameState().getGameView(game.getGameState().getPlayer(1)), null, game.getGameState().getPlayerList());
+        renderer = new GameRenderer(800, 600, game.getGameView(1).get(0), game.getGameView(1).get(1), game.getPlayerList());
 
         can = new RendererCanvas(renderer.getImage());
 
@@ -63,32 +63,34 @@ public class GuiForTest extends JFrame implements KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
+        char[][] map = game.getGameView(1).get(0);
+        char[][] items = game.getGameView(1).get(1);
         //If press Left Arrow, go left
         if (e.getKeyCode() == 37) {
             p("Left");
             game.move(game.getGameState().getPlayer(1), 1);
-            renderer.update(game.getGameState().getGameView(game.getGameState().getPlayer(1)), null, game.getGameState().getPlayerList());
+            renderer.update(map, items, game.getGameState().getPlayerList());
             can.repaint();
         }
         //If press Up Arrow, go up
         if (e.getKeyCode() == 38) {
             p("Up");
             game.move(game.getGameState().getPlayer(1), 4);
-            renderer.update(game.getGameState().getGameView(game.getGameState().getPlayer(1)), null, game.getGameState().getPlayerList());
+            renderer.update(map, items, game.getGameState().getPlayerList());
             can.repaint();
         }
         //If press Right Arrow, go right
         if (e.getKeyCode() == 39) {
             p("Right");
             game.move(game.getGameState().getPlayer(1), 2);
-            renderer.update(game.getGameState().getGameView(game.getGameState().getPlayer(1)), null, game.getGameState().getPlayerList());
+            renderer.update(map, items, game.getGameState().getPlayerList());
             can.repaint();
         }
         //If press Down Arrow, go down
         if (e.getKeyCode() == 40) {
             p("Down");
             game.move(game.getGameState().getPlayer(1), 3);
-            renderer.update(game.getGameState().getGameView(game.getGameState().getPlayer(1)), null, game.getGameState().getPlayerList());
+            renderer.update(map, items, game.getGameState().getPlayerList());
             can.repaint();
         }
 

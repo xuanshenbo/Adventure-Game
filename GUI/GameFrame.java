@@ -293,12 +293,14 @@ public class GameFrame extends JFrame{
 		public boolean dispatchKeyEvent(KeyEvent e){
 
 			if (e.getID() == KeyEvent.KEY_PRESSED) {
-				int x = data.getPlayers().get(0).getPosition().getX();
-				int y = data.getPlayers().get(0).getPosition().getY();
+//				int x = data.getPlayers().get(0).getPosition().getX();
+//				int y = data.getPlayers().get(0).getPosition().getY();
+				char[][] map = game.getGameView(1).get(0);
+				char[][] items = game.getGameView(1).get(0);
 
 				switch( e.getKeyCode()) {
 				case KeyEvent.VK_UP:
-					y -= 1;
+//					y -= 1;
 					try {
 						keyInterpreter.notify("up");
 					} catch (IOException e1) {
@@ -307,12 +309,12 @@ public class GameFrame extends JFrame{
 					} //implement for all key presses
 
 					 game.move(game.getGameState().getPlayer(1), 4);
-			            renderer.update(game.getGameView(1), null, game.getPlayerList());
+			            renderer.update(map, items, game.getPlayerList());
 			            midPanel.repaint();
 
 					break;
 				case KeyEvent.VK_DOWN:
-					y += 1;
+//					y += 1;
 					try {
 						keyInterpreter.notify("down");
 					} catch (IOException e1) {
@@ -321,12 +323,12 @@ public class GameFrame extends JFrame{
 					}
 
 					  game.move(game.getGameState().getPlayer(1), 3);
-			            renderer.update(game.getGameView(1), null, game.getGameState().getPlayerList());
+			            renderer.update(map, items, game.getGameState().getPlayerList());
 			            midPanel.repaint();
 
 					break;
 				case KeyEvent.VK_LEFT:
-					x -= 1;
+//					x -= 1;
 					try {
 						keyInterpreter.notify("left");
 					} catch (IOException e1) {
@@ -336,12 +338,12 @@ public class GameFrame extends JFrame{
 
 					//TODO refactor this using interpreter
 					 game.move(game.getGameState().getPlayer(1), 1);
-			            renderer.update(game.getGameState().getGameView(game.getGameState().getPlayer(1)), null, game.getGameState().getPlayerList());
+			            renderer.update(map, items, game.getGameState().getPlayerList());
 			            midPanel.repaint();
 
 					break;
 				case KeyEvent.VK_RIGHT :
-					x += 1;
+//					x += 1;
 					try {
 						keyInterpreter.notify("right");
 					} catch (IOException e1) {
@@ -350,14 +352,14 @@ public class GameFrame extends JFrame{
 					}
 
 					  game.move(game.getGameState().getPlayer(1), 2);
-			            renderer.update(game.getGameState().getGameView(game.getGameState().getPlayer(1)), null, game.getGameState().getPlayerList());
+			            renderer.update(map, items, game.getGameState().getPlayerList());
 			            midPanel.repaint();
 
 					break;
 				}
 
-				data.getPlayers().get(0).getPosition().setX(x);
-				data.getPlayers().get(0).getPosition().setY(y);
+//				data.getPlayers().get(0).getPosition().setX(x);
+//				data.getPlayers().get(0).getPosition().setY(y);
 			}
 			else if (e.getID() == KeyEvent.KEY_RELEASED) {
 			}
