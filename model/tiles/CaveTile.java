@@ -1,11 +1,11 @@
-package tiles;
+package model.tiles;
 
-import state.Player;
-import state.Position;
+import model.state.Player;
+import model.state.Position;
 
-public class BuildingTile implements Tile {
+public class CaveTile implements Tile {
 
-	private char id = 'B';
+	private char id = 'C';
 
 	@Override
 	public void move(Player player, int direction) {
@@ -34,6 +34,8 @@ public class BuildingTile implements Tile {
 		return null;
 	}
 
-
-
+	@Override
+	public boolean isGround() {
+		return false;
+	}
 }

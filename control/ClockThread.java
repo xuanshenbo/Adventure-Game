@@ -5,7 +5,7 @@
 
 package control;
 
-import logic.Game;
+import model.logic.Game;
 import renderer.GameRenderer;
 
 public class ClockThread extends Thread{

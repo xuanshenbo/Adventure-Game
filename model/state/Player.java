@@ -2,14 +2,14 @@
  * The holds the state of the Players in the game.
  */
 
-package state;
-
-import items.Item;
+package model.state;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
+
+import model.items.Item;
 
 public class Player {
 

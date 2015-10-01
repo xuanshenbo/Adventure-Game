@@ -9,27 +9,27 @@
  *
  * MAJOR BUG: will infinite loop out if it cannot fit the object in the map
  */
-package logic;
+package model.logic;
 
 import static utilities.PrintTool.p;
-import items.Item;
-import items.Key;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import state.Area;
-import state.Area.AreaType;
-import state.Position;
-import tiles.BuildingTile;
-import tiles.CaveEntranceTile;
-import tiles.CaveTile;
-import tiles.ChestTile;
-import tiles.DoorTile;
-import tiles.GroundTile;
-import tiles.GroundTile.TileType;
-import tiles.Tile;
-import tiles.TreeTile;
+import model.items.Item;
+import model.items.Key;
+import model.state.Area;
+import model.state.Position;
+import model.state.Area.AreaType;
+import model.tiles.BuildingTile;
+import model.tiles.CaveEntranceTile;
+import model.tiles.CaveTile;
+import model.tiles.ChestTile;
+import model.tiles.DoorTile;
+import model.tiles.GroundTile;
+import model.tiles.Tile;
+import model.tiles.TreeTile;
+import model.tiles.GroundTile.TileType;
 
 public class Generator {
 

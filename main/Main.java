@@ -6,7 +6,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import logic.Game;
+import model.logic.Game;
 import control.Client;
 import control.Server;
 import interpreter.ButtonStrategy;

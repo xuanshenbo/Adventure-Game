@@ -1,16 +1,16 @@
-package logic;
+package model.logic;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import model.state.Area;
+import model.state.GameState;
+import model.state.Player;
+import model.state.Position;
+import model.state.Area.AreaType;
 import control.Client;
 import control.Server;
-import state.Area;
-import state.Area.AreaType;
-import state.GameState;
-import state.Player;
-import state.Position;
 import static utilities.PrintTool.p;
 
 public class Main {

@@ -1,7 +1,7 @@
-package tiles;
+package model.tiles;
 
-import state.Player;
-import state.Position;
+import model.state.Player;
+import model.state.Position;
 
 public class GroundTile implements Tile {
 
@@ -47,6 +47,12 @@ public class GroundTile implements Tile {
 
 	public Position getPosition(){
 		return position;
+	}
+
+
+	@Override
+	public boolean isGround() {
+		return true;
 	}
 
 }

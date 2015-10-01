@@ -1,7 +1,7 @@
-package tiles;
+package model.tiles;
 
-import state.Player;
-import state.Position;
+import model.state.Player;
+import model.state.Position;
 
 public class CaveEntranceTile implements Tile {
 
@@ -42,6 +42,11 @@ public class CaveEntranceTile implements Tile {
 	public Position getPosition() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean isGround() {
+		return false;
 	}
 
 }

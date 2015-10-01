@@ -1,11 +1,11 @@
-package state;
+package model.state;
 
 import org.junit.Test;
 
-import tiles.Tile;
-import logic.Generator;
+import model.logic.Generator;
+import model.tiles.Tile;
 
-public class StateTests {
+public class ModelTests {
 
 
 	/**

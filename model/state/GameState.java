@@ -2,9 +2,7 @@
  * The main class that stores the state of the game.
  */
 
-package state;
-
-import items.Item;
+package model.state;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +11,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import tiles.Tile;
+import model.items.Item;
+import model.tiles.Tile;
 import static utilities.PrintTool.p;
 
 @XmlRootElement(namespace = "shelf")

@@ -1,7 +1,7 @@
-package tiles;
+package model.tiles;
 
-import state.Player;
-import state.Position;
+import model.state.Player;
+import model.state.Position;
 
 public interface Tile {
 
@@ -9,4 +9,5 @@ public interface Tile {
 	public void interact(Player player);
 	public char getType();
 	public Position getPosition();
+	public boolean isGround();
 }

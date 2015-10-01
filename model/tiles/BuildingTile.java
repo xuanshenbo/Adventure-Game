@@ -1,16 +1,15 @@
-package tiles;
+package model.tiles;
 
-import state.Player;
-import state.Position;
+import model.state.Player;
+import model.state.Position;
 
+public class BuildingTile implements Tile {
 
-public class TreeTile implements Tile {
-
-	private Position position;
-	private char id = 'T';
+	private char id = 'B';
 
 	@Override
 	public void move(Player player, int direction) {
+		// TODO Auto-generated method stub
 
 	}
 
@@ -34,5 +33,12 @@ public class TreeTile implements Tile {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public boolean isGround() {
+		return false;
+	}
+
+
 
 }

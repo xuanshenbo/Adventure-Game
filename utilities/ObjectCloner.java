@@ -10,10 +10,10 @@ import control.*;
 import dataStorage.*;
 import GUI.*;
 import interpreter.*;
-import logic.*;
+import model.logic.*;
+import model.state.*;
+import model.tiles.*;
 import renderer.*;
-import state.*;
-import tiles.*;
 
 /**
  * Provides a static method deepCopy(Object) to deep clone an object using

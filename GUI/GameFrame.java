@@ -2,8 +2,6 @@ package GUI;
 
 import interpreter.DialogStrategy;
 import interpreter.StrategyInterpreter;
-import items.Item;
-import items.Key;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -14,12 +12,6 @@ import dataStorage.Serializer;
 import renderer.GameRenderer;
 import renderer.GuiForTest;
 import renderer.testRenderer;
-import state.Area;
-import state.GameState;
-import items.Item;
-import items.Key;
-import state.Player;
-import state.Position;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -34,8 +26,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import logic.Game;
-import logic.Generator;
+import model.items.Item;
+import model.items.Key;
+import model.logic.Game;
+import model.logic.Generator;
+import model.state.Area;
+import model.state.GameState;
+import model.state.Player;
+import model.state.Position;
 
 /**
  * NEW version of GameFrame doesn't use GridBagLayout, but instead uses a BoxLayout with 3 Jpanels, each of

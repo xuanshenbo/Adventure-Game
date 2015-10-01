@@ -2,15 +2,16 @@ package renderer;
 
 import control.Client;
 import control.Server;
-import logic.Game;
-import logic.Generator;
-import state.Area;
-import state.GameState;
-import state.Player;
-import state.Position;
-import tiles.Tile;
+import model.logic.Game;
+import model.logic.Generator;
+import model.state.Area;
+import model.state.GameState;
+import model.state.Player;
+import model.state.Position;
+import model.tiles.Tile;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -18,6 +19,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+
 import static utilities.PrintTool.p;
 
 /**
