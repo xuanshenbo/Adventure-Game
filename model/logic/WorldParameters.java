@@ -17,7 +17,7 @@ public class WorldParameters {
 		this.playerCount = playerCount;
 		if(test){
 			buildings = 2;
-			lootValue = 1;
+			lootValue = 5;
 			caves = 1;
 			chests = 5;
 			trees = 20;

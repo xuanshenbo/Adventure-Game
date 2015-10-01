@@ -6,9 +6,12 @@
 package model.logic;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 import model.items.Item;
+import model.npcs.RandomZombie;
+import model.npcs.Zombie;
 import model.state.Area;
 import model.state.GameState;
 import model.state.Player;
@@ -22,24 +25,32 @@ public class Game{
 
 	private GameState gameState;
 	private Server server;
+	private Clock clock;
 
 	public Game(GameState state) {
 		this.gameState = state;
-		/*while(true){
-			int direction = Input.getInputBetween(1,4);
-			move(gameState.getPlayer(1), direction);
-		}*/
 	}
 
 	public Game(Server server, WorldParameters parameters){
 		this.server = server;
+		this.clock = new Clock(10000, this);
 		int height = parameters.getHeight();
 		int width = parameters.getWidth();
 		Area area = new Area(height, width, AreaType.OUTSIDE, null);
 		Generator g = new Generator(parameters);
 		area.generateWorld(g);
-
-		this.gameState = new GameState(area, placePlayers(parameters.getPlayerCount(), height, width, area));
+		ArrayList<Player> playerList = placePlayers(parameters.getPlayerCount(), height, width, area);
+		this.gameState = new GameState(area, playerList);
+		//clock.run(); // this dont work....
+	}
+	
+	/**
+	 * This is the method that the clock calls, from here the updates need to happen, ie moving
+	 * Zombies and updating the time.
+	 */
+	
+	public void tick(){
+		p("pulse");
 	}
 
 
@@ -53,14 +64,22 @@ public class Game{
 		Tile toTile = destinationTile(direction, player);
 
 		if(toTile != null){
-			p("toTile: "+toTile.getType());
-			p("toTile Position: "+toTile.getPosition());
-			p("current tile: "+player.getPosition());
 			toTile.move(player, direction);
-		}
-//		gameState.printState();
-	}
+		}		
 
+		
+		
+		p("printing gameState for testing zombies");
+		addZombie();
+		gameState.printState();
+		for(Zombie z:gameState.getZombieList()){
+			z.tick();
+		}
+	}
+	/**
+	 * Called when a player tries to pick up an object of the ground
+	 * @param player
+	 */
 	public void pickUp(Player player){
 		Position playerPosition = player.getPosition();
 		Item item = gameState.getItem(playerPosition);
@@ -68,7 +87,24 @@ public class Game{
 			player.collect(item);
 			gameState.removeItem(playerPosition);
 		}
+	}	
+	
+	/**
+	 * Adds a random Zombie to the game.
+	 */
+	
+	public void addZombie(){
+		Position position = gameState.getRandomValidTile();
+		Zombie z = new Zombie(new RandomZombie(), position);
+		gameState.addZombie(z);
 	}
+	
+	/*********************************
+	 * 
+	 *  GETTERS AND SETTERS
+	 * 
+	 * *******************************
+	 */
 
 	public List<char[][]> getGameView(int id){
 		Player player = gameState.getPlayer(id);
@@ -120,57 +156,20 @@ public class Game{
 		}
 		return null;
 	}
-
-
-//	/**
-//	 * This method returns whether this is a base tile that the player
-//	 * can move onto.
-//	 * that they are in
-//	 * @param tileType: The tile type that needs to be checked
-//	 * @return: If it is a base tile that the player can move into
-//	 */
-//	private boolean isEmptyTile(TileType tileType) {
-//		return (tileType.equals(TileType.GRASS) || tileType.equals(TileType.ROCK) || tileType.equals(TileType.WOOD));
-//	}
-
-
-	/**
-	 * Private class that is for testing to simulate the key presses that will
-	 * come from to GUI.
-	 * @author tuckergare
-	 *
-	 */
-	public static class Input {
-
-	    public static int getInputBetween(int minValue, int maxValue) {
-	        Scanner reader = new Scanner(System.in);
-	        int choice = -1;
-
-	        while (!(choice >= minValue && choice <= maxValue)) {
-	            try {
-	                choice = reader.nextInt();
-	            } catch (java.util.InputMismatchException e) {
-	                reader.next();
-	            }
-	        }
-	        return choice;
-	    }
-
-	}
-
-
-
-	public void clockTick() {
-		// TODO Auto-generated method stub
-	}
-
-	// ================================================
-	// getters from here
-	// ================================================
-
+	
 	public GameState getGameState() {
 		 return gameState;
 	}
+	
+	/**
+	 * This Method is only called when the game is first made and places the 
+	 * players into the world, this will probably be redundant as we progress
+	 * @param playerCount
+	 * @param width
+	 * @param height
+	 * @param a
+	 * @return
+	 */
 
 	private ArrayList<Player> placePlayers(int playerCount, int width, int height, Area a) {
 		double[] xCoords = {0.5, 0, 0.5, 1};
@@ -179,18 +178,11 @@ public class Game{
 		for(int count = 0; count < playerCount; count++){
 			int x = (int) ((width-1)*xCoords[count]);
 			int y = (int) ((height-1)*yCoords[count]);
-			p("player"+(count+1)+" XGEN: "+x+" YGEN"+y);
 			int id = count+1;
 			Position position = new Position(x, y, a);
 			Player p = new Player(position, id);
 			list.add(p);
 		}
 		return list;
-
 	}
-
-
-
-
-
 }

@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import model.items.Item;
+import model.npcs.Zombie;
 import model.tiles.Tile;
 import static utilities.PrintTool.p;
 
@@ -19,13 +20,15 @@ import static utilities.PrintTool.p;
 public class GameState {
 
 	private ArrayList<Player> playerList = new ArrayList<Player>(); // list of players in the game
+	private ArrayList<Zombie> zombieList = new ArrayList<Zombie>(); // list of zombies in the game
 	private Area world; // The game world
 	private int viewPortSize = 15;
+	private int time;
 
 	public GameState(Area a, ArrayList<Player> p){
 		this.world = a;
 		this.playerList = p;
-		printState();
+		time = 0;
 	}
 
 	@SuppressWarnings("unused")
@@ -46,6 +49,10 @@ public class GameState {
 			}
 		}
 		return null;
+	}	
+
+	public void addZombie(Zombie z) {
+		zombieList.add(z);
 	}
 
 	public void removeItem(Position position) {
@@ -71,6 +78,41 @@ public class GameState {
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * This returns a random tile in the top level area that is ground
+	 * @return
+	 */
+
+	public Position getRandomValidTile() {
+		Tile[][] areaArray = world.getArea();
+		Position validPosition = null;
+		boolean positionFound = false;
+		while(!positionFound){
+			int x = (int) (Math.random()*areaArray.length);
+			int y = (int) (Math.random()*areaArray[0].length);
+			Position randomPosition = new Position(x, y, world);
+			Tile randomTile = areaArray[y][x];
+			if(randomTile.isGround()){
+				boolean noCharacters = true;
+				for(Player p: playerList){
+					if(p.getPosition() == randomPosition){
+						noCharacters = false;
+					}
+				}
+				for(Zombie z: zombieList){
+					if(z.getPosition() == randomPosition){
+						noCharacters = true;
+					}
+				}
+				if(noCharacters){
+					validPosition = randomPosition;
+					positionFound = true;
+				}
+			}			
+		}
+		return validPosition;
 	}
 
 	/**
@@ -136,18 +178,7 @@ public class GameState {
 
 
 	/**
-	 * This method prints out the game state to the consolpublic static Server startNetwork(){
-		Server ss = new Server();
-		ss.start();
-		try {
-			Socket socket = new Socket(ss.getAddress(),ss.PORT);
-			Client client = new Client(socket);
-			client.start();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return ss;
-	}e, it is mainly
+	 * This method prints out the game state to the console
 	 * used for debugging.
 	 */
 	public void printState(){
@@ -159,6 +190,12 @@ public class GameState {
 				for(Player p: playerList){
 					if(p.getPosition().getX() == col && p.getPosition().getY() == row && p.getPosition().getArea() == world){
 						System.out.print(p);
+						playerPos = true;
+					}
+				}
+				for(Zombie z: zombieList){
+					if(z.getPosition().getX() == col && z.getPosition().getY() == row && z.getPosition().getArea() == world){
+						System.out.print(z.getid());
 						playerPos = true;
 					}
 				}
@@ -190,9 +227,10 @@ public class GameState {
 				}
 				System.out.println("");
 			}
-		}
-
-
+		}		
+	}
+	
+	public void printView(int id){
 		char[][] playerOneView = getGameView(playerList.get(0)).get(0);
 		System.out.println("\nPlayer 1 view");
 		for(int row = 0; row<playerOneView.length; row++){
@@ -227,4 +265,10 @@ public class GameState {
 	public int getViewPortSize() {
 		return viewPortSize;
 	}
+	
+	@XmlElement
+	public ArrayList<Zombie> getZombieList(){
+		return zombieList;
+	}
+
 }

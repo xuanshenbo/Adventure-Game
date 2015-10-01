@@ -147,12 +147,7 @@ public class GameRenderer{
 		this.view = view;
 		this.objects = objects;
 		this.players = players;
-		for (int r = 0; r < objects.length; r++){
-			for (int c = 0; c < objects[0].length; c++){
-				System.out.print(objects[r][c]);
-			}
-			System.out.println("");
-		}
+		
 		render();
 	}
 

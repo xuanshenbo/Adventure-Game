@@ -45,6 +45,7 @@ public class Area {
 	private Position entrance; // the position on the parent of the entrance to this area
 	private ArrayList<Area> internalAreas = new ArrayList<Area>();
 	private Position exitPosition;
+	private ArrayList<Position> caveEntrances = new ArrayList<Position>();
 
 	public Area(int height, int width, AreaType t, Position p){
 		type = t;
@@ -62,6 +63,27 @@ public class Area {
 				}
 			}
 		}
+	}
+	
+
+	public Position getNearestCaveEntrance(Position oldPosition) {
+		double bestDistance = Double.MAX_VALUE;
+		Position closestCave = oldPosition;
+		for(Position cave: caveEntrances){
+			double dx = Math.abs(oldPosition.getX() - cave.getX());
+			double dy = Math.abs(oldPosition.getY() - cave.getY());
+			double distance = Math.sqrt((dx*dx)*(dy*dy));
+			if(distance < bestDistance){
+				bestDistance = distance;
+				closestCave = cave;
+			}
+		}
+		return closestCave;
+	}
+
+	public Position getNearestPlayer(Position oldPosition) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@SuppressWarnings("unused")
@@ -101,6 +123,11 @@ public class Area {
 	public void setEntrance(Position entrance) {
 		this.entrance = entrance;
 	}
+	
+	public void addCaveEntrance(Position caveEntrance) {
+		caveEntrances.add(caveEntrance);
+		
+	}
 
 	public void generateWorld(Generator g){
 		g.fillTiles(this);
@@ -112,6 +139,7 @@ public class Area {
 	}
 
 	public void printArea(){
+		p("TEST");
 		for(int row = 0; row < area.length; row++){
 			for(int col = 0; col < area[0].length; col++){
 				if(area[row][col] == null){
@@ -188,4 +216,5 @@ public class Area {
 	public Position getExitPosition() {
 		return exitPosition;
 	}
+
 }

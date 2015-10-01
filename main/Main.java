@@ -45,7 +45,7 @@ public class Main {
 	 * Sets up the network for a server-client mode
 	 */
 	public static void serverClient(){
-		int[] parameters = {200,200,4,20,25,10,25,50};
+		int[] parameters = {20,20,4,20,2,1,5,2};
 		server = new Server(parameters);
 		game = server.getGame();
 		server.start();

@@ -165,7 +165,7 @@ public class GameFrame extends JFrame{
 		JLabel renderLabel = new JLabel(new ImageIcon(renderWindow));
 		midPanel.add(renderLabel);
 
-		data = new testRenderer(20, 0, 0, 15, 20, 20, 4, 0);
+		//data = new testRenderer(20, 0, 0, 15, 20, 20, 4, 0);
 
 	}
 
@@ -360,7 +360,6 @@ public class GameFrame extends JFrame{
 
 					break;
 				}
-
 			}
 			else if (e.getID() == KeyEvent.KEY_RELEASED) {
 			}

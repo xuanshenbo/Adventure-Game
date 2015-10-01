@@ -85,6 +85,15 @@ public class Position {
 	}
 	
 	/**
+	 * This method checks if the tile is ground
+	 * @return true or false if it is a ground tile.
+	 */
+
+	public boolean isValid() {
+		return a.getArea()[y][x].isGround();
+	}
+	
+	/**
 	 * This method returns a list of valid positions to move from this position.
 	 * @param area
 	 * @return
@@ -95,8 +104,14 @@ public class Position {
 			for(int dy = -1; dy < 2; dy++){
 				int newX = x+dx;
 				int newY = y+dy;
+				
+				if(newX >= a.getArea().length){ newX = a.getArea().length -1;}
+				if(newY >= a.getArea()[0].length){ newY = a.getArea()[0].length -1;}
+				if(newX < 0){ newX = 0;}
+				if(newY < 0){ newY = 0;}
+				
 				Position newPos = new Position(newX, newY, a);
-				if(a.getArea()[newY][newX].isGround() && newPos != this){
+				if(a.getArea()[newY][newX].isGround() && newPos != this && Math.abs(dx + dy) == 1){
 					validPositions.add(newPos);
 				}
 			}

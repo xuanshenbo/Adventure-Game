@@ -186,6 +186,7 @@ public class Generator {
 					Area cave = new Area(5, 10, AreaType.CAVE, new Position(randomCol+1, randomRow+1, area));
 					Position exit = new Position(0, 0, cave);
 					areaArray[randomRow+1][randomCol+1] = new CaveEntranceTile(entrance, exit);
+					area.addCaveEntrance(entrance);
 					cave.getArea()[0][0] = new CaveEntranceTile(exit, entrance);
 					children.add(cave);
 					placed = true;

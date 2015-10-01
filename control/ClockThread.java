@@ -25,7 +25,7 @@ public class ClockThread extends Thread{
 			// Loop forever
 			try {
 				Thread.sleep(delay);
-				game.clockTick();
+				game.tick();
 				if(renderer != null) {
 //					renderer.repaint();
 				}
