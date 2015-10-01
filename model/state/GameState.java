@@ -24,11 +24,13 @@ public class GameState {
 	private Area world; // The game world
 	private int viewPortSize = 15;
 	private int time;
+	private boolean day;
 
 	public GameState(Area a, ArrayList<Player> p){
 		this.world = a;
 		this.playerList = p;
 		time = 0;
+		day = true;
 	}
 
 	@SuppressWarnings("unused")
@@ -270,5 +272,24 @@ public class GameState {
 	public ArrayList<Zombie> getZombieList(){
 		return zombieList;
 	}
-
+	
+	@XmlElement
+	public int getTime(){
+		return time;
+	}
+	
+	@XmlElement
+	public void setTime(int time){
+		this.time = time;
+	}
+	
+	@XmlElement
+	public boolean getDay(){
+		return day;
+	}
+	
+	@XmlElement
+	public void setDay(boolean day){
+		this.day = day;
+	}
 }

@@ -6,11 +6,9 @@ package model.logic;
  * rate too high may cause problems, when the point is reached at which the work
  * done to service a given pulse exceeds the time between pulses.
  * 
- * @author djp
- * 
  */
 public class Clock extends Thread {
-	private final int delay; // delay between pulses in us
+	private final int delay; // delay between pulses
 	private Game game;
 	
 	public Clock(int delay, Game game) {

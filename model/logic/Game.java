@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 import model.items.Item;
 import model.npcs.RandomZombie;
+import model.npcs.RunZombie;
 import model.npcs.Zombie;
 import model.state.Area;
 import model.state.GameState;
@@ -33,7 +34,7 @@ public class Game{
 
 	public Game(Server server, WorldParameters parameters){
 		this.server = server;
-		this.clock = new Clock(10000, this);
+		this.clock = new Clock(2000, this);
 		int height = parameters.getHeight();
 		int width = parameters.getWidth();
 		Area area = new Area(height, width, AreaType.OUTSIDE, null);
@@ -41,7 +42,7 @@ public class Game{
 		area.generateWorld(g);
 		ArrayList<Player> playerList = placePlayers(parameters.getPlayerCount(), height, width, area);
 		this.gameState = new GameState(area, playerList);
-		//clock.run(); // this dont work....
+		clock.start();
 	}
 	
 	/**
@@ -50,7 +51,37 @@ public class Game{
 	 */
 	
 	public void tick(){
-		p("pulse");
+		String day;
+		if(gameState.getDay()){
+			day = "AM";
+		}else{
+			day = "PM";
+		}
+		p("time:"+gameState.getTime()+day);
+		gameState.setTime(gameState.getTime()+1);
+		if(gameState.getTime() == 12){
+			gameState.setTime(0);
+			if(gameState.getDay()){
+				gameState.setDay(false);
+			}else{
+				gameState.setDay(true);
+			}
+		}
+		
+		p("printing gameState for testing zombies");
+		if(gameState.getZombieList().size() < 1){
+			addZombie();
+		}
+		for(Zombie z:gameState.getZombieList()){
+			if(gameState.getDay()){
+				z.setStrategy(new RandomZombie());
+			}else{
+				z.setStrategy(new RunZombie());
+			}
+			z.tick();
+		}
+
+		gameState.printState();
 	}
 
 
@@ -69,12 +100,7 @@ public class Game{
 
 		
 		
-		p("printing gameState for testing zombies");
-		addZombie();
-		gameState.printState();
-		for(Zombie z:gameState.getZombieList()){
-			z.tick();
-		}
+		
 	}
 	/**
 	 * Called when a player tries to pick up an object of the ground
