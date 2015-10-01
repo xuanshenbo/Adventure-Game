@@ -45,6 +45,12 @@ public class Server extends Thread{
 	public Server(int[] para) {
 		//System.out.println(Server.class.getClassLoader().getResource("requests"));
 		WorldParameters world = new WorldParameters(para[0],para[1],para[2]);
+		world.setTrees(para[3]);
+		world.setBuildings(para[4]);
+		world.setCaves(para[5]);
+		world.setChests(para[6]);
+		world.setLootValue(para[7]);
+
 		game= new Game(this, world);
 		try{
 			server = new ServerSocket(PORT, 50, InetAddress.getLocalHost());
