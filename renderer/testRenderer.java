@@ -1,9 +1,9 @@
 package renderer;
 
-import logic.Generator;
-import state.Area;
-import state.Player;
-import state.Position;
+import model.logic.Generator;
+import model.state.Area;
+import model.state.Player;
+import model.state.Position;
 
 import java.util.ArrayList;
 

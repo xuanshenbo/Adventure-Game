@@ -1,10 +1,11 @@
-package items;
+package model.items;
 
+import model.state.Container;
 
-public class Key extends Item {
+public class Bag extends Item implements Container {
 
-	public Key(){
-		super("A Key", "key", 'k');
+	public Bag(String description) {
+		super(description, "", 'B');
 	}
 
 	@Override
@@ -18,5 +19,4 @@ public class Key extends Item {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

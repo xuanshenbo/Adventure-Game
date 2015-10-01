@@ -3,20 +3,19 @@
  * updates that have to be done every tick
  */
 
-package logic;
-import items.Item;
-
+package model.logic;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import model.items.Item;
+import model.state.Area;
+import model.state.GameState;
+import model.state.Player;
+import model.state.Position;
+import model.state.Area.AreaType;
+import model.tiles.Tile;
 import control.Server;
-import state.Area;
-import state.Area.AreaType;
-import state.GameState;
-import state.Player;
-import state.Position;
-import tiles.Tile;
 import static utilities.PrintTool.p;
 
 public class Game{
@@ -38,6 +37,7 @@ public class Game{
 		int width = parameters.getWidth();
 		Area area = new Area(height, width, AreaType.OUTSIDE, null);
 		Generator g = new Generator(parameters);
+		area.generateWorld(g);
 
 		this.gameState = new GameState(area, placePlayers(parameters.getPlayerCount(), height, width, area));
 	}

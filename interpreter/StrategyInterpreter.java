@@ -2,7 +2,7 @@ package interpreter;
 import java.io.IOException;
 import java.io.Writer;
 
-import logic.Game;
+import model.logic.Game;
 import control.Client;
 import GUI.GameFrame;
 

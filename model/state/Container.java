@@ -1,4 +1,4 @@
-package state;
+package model.state;
 
 public interface Container {
 

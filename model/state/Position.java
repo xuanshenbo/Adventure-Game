@@ -3,7 +3,10 @@
  * in the world.
  */
 
-package state;
+package model.state;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 
@@ -80,5 +83,24 @@ public class Position {
 	public int getY() {
 		return y;
 	}
-
+	
+	/**
+	 * This method returns a list of valid positions to move from this position.
+	 * @param area
+	 * @return
+	 */
+	public List<Position> getValid() {
+		List<Position> validPositions = new ArrayList<Position>();
+		for(int dx = -1; dx < 2; dx++){
+			for(int dy = -1; dy < 2; dy++){
+				int newX = x+dx;
+				int newY = y+dy;
+				Position newPos = new Position(newX, newY, a);
+				if(a.getArea()[newY][newX].isGround() && newPos != this){
+					validPositions.add(newPos);
+				}
+			}
+		}	
+		return validPositions;
+	}
 }

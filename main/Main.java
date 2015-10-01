@@ -6,7 +6,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import logic.Game;
+import model.logic.Game;
 import control.Client;
 import control.Server;
 import interpreter.ButtonStrategy;
@@ -45,7 +45,8 @@ public class Main {
 	 * Sets up the network for a server-client mode
 	 */
 	public static void serverClient(){
-		int[] parameters = {};
+		int height = 20, width = 20, playerCount = 4;
+		int[] parameters = {height, width, playerCount};
 		server = new Server(parameters);
 		game = server.getGame();
 		server.start();

@@ -1,11 +1,10 @@
 package renderer;
 
-import state.Player;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import model.state.Player;
 import static utilities.PrintTool.p;
 
 public class GameRenderer{

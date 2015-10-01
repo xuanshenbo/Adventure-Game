@@ -1,11 +1,10 @@
-package tiles;
+package model.tiles;
 
-import state.Player;
-import state.Position;
+import model.state.Container;
+import model.state.Player;
+import model.state.Position;
 
-public class CaveTile implements Tile {
-
-	private char id = 'C';
+public class Cabinet implements Container, Tile {
 
 	@Override
 	public void move(Player player, int direction) {
@@ -21,11 +20,8 @@ public class CaveTile implements Tile {
 
 	@Override
 	public char getType() {
-		return id;
-	}
-
-	public String toString(){
-		return Character.toString(id);
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
@@ -33,4 +29,10 @@ public class CaveTile implements Tile {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public boolean isGround() {
+		return false;
+	}
+
 }

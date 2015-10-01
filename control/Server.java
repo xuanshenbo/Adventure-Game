@@ -17,8 +17,8 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import logic.Game;
-import logic.WorldParameters;
+import model.logic.Game;
+import model.logic.WorldParameters;
 import static utilities.PrintTool.p;
 
 /**
@@ -44,7 +44,8 @@ public class Server extends Thread{
 
 	public Server(int[] para) {
 		//System.out.println(Server.class.getClassLoader().getResource("requests"));
-		WorldParameters world = new WorldParameters(para[0],para[1],para[2]);
+		boolean test = true;
+		WorldParameters world = new WorldParameters(para[0],para[1],para[2], test);
 		game= new Game(this, world);
 		try{
 			server = new ServerSocket(PORT, 50, InetAddress.getLocalHost());

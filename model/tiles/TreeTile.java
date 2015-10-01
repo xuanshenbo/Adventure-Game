@@ -1,21 +1,22 @@
-package tiles;
+package model.tiles;
 
-import state.Player;
-import state.Position;
+import model.state.Player;
+import model.state.Position;
 
-public class ChestTile implements Tile {
 
-	private char id = 'O';
+public class TreeTile implements Tile {
+
+	private Position position;
+	private char id = 'T';
 
 	@Override
 	public void move(Player player, int direction) {
-//		if(player.hasKey()){
-//			player.position = position;
-//		}
+
 	}
 
 	@Override
 	public void interact(Player player) {
+		// TODO Auto-generated method stub
 
 	}
 
@@ -30,7 +31,13 @@ public class ChestTile implements Tile {
 
 	@Override
 	public Position getPosition() {
+		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean isGround() {
+		return false;
 	}
 
 }

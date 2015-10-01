@@ -12,7 +12,7 @@ import java.io.Writer;
 
 import javax.swing.JFrame;
 
-import logic.Game;
+import model.logic.Game;
 import control.Client;
 import GUI.GameFrame;
 import GUI.WelcomePanel;

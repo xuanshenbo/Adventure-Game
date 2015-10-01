@@ -1,4 +1,4 @@
-package items;
+package model.items;
 
 import java.awt.Dimension;
 import java.awt.Image;

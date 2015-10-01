@@ -1,4 +1,4 @@
-package logic;
+package model.logic;
 
 public class WorldParameters {
 
@@ -11,10 +11,17 @@ public class WorldParameters {
 	private int playerCount;
 	private int trees;
 
-	public WorldParameters(int height, int width, int playerCount){
+	public WorldParameters(int height, int width, int playerCount, boolean test){
 		this.height = height;
 		this.width = width;
 		this.playerCount = playerCount;
+		if(test){
+			buildings = 2;
+			lootValue = 1;
+			caves = 1;
+			chests = 5;
+			trees = 20;
+		}
 	}
 	
 	public int getTrees() {

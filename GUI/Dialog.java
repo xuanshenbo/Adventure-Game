@@ -1,7 +1,6 @@
 package GUI;
 
 import interpreter.StrategyInterpreter;
-import items.Item;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -31,6 +30,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+
+import model.items.Item;
 
 /**
  * A subclass of JDialog which presents options to the player and displays warning messages *

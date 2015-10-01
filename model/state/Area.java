@@ -5,9 +5,7 @@
  * a generator and call generateWorld
  */
 
-package state;
-
-import items.Item;
+package model.state;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,10 +17,11 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import static utilities.PrintTool.p;
-import tiles.GroundTile;
-import tiles.Tile;
-import logic.Generator;
-import tiles.GroundTile.TileType;
+import model.items.Item;
+import model.logic.Generator;
+import model.tiles.GroundTile;
+import model.tiles.Tile;
+import model.tiles.GroundTile.TileType;
 
 @XmlType(propOrder = { "type", "area", "items", "entrance", "internalAreas", "exitPosition" })
 public class Area {

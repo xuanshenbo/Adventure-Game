@@ -1,13 +1,13 @@
 package renderer;
 
 import GUI.ImageLoader;
-import state.Player;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
+import model.state.Player;
 import static utilities.PrintTool.p;
 
 /**
