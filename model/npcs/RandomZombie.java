@@ -1,3 +1,7 @@
+/**
+ * This strategy makes the zombie move around randomly
+ */
+
 package model.npcs;
 
 import java.util.List;

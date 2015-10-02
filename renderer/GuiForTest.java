@@ -3,6 +3,7 @@ package renderer;
 import control.Client;
 import control.Server;
 import model.logic.Game;
+import model.logic.Game.Direction;
 import model.logic.Generator;
 import model.state.Area;
 import model.state.GameState;
@@ -70,28 +71,28 @@ public class GuiForTest extends JFrame implements KeyListener{
         //If press Left Arrow, go left
         if (e.getKeyCode() == 37) {
             p("Left");
-            game.move(game.getGameState().getPlayer(1), 1);
+            game.move(game.getGameState().getPlayer(1), Direction.LEFT);
             renderer.update(map, items, game.getGameState().getPlayerList());
             can.repaint();
         }
         //If press Up Arrow, go up
         if (e.getKeyCode() == 38) {
             p("Up");
-            game.move(game.getGameState().getPlayer(1), 4);
+            game.move(game.getGameState().getPlayer(1), Direction.UP);
             renderer.update(map, items, game.getGameState().getPlayerList());
             can.repaint();
         }
         //If press Right Arrow, go right
         if (e.getKeyCode() == 39) {
             p("Right");
-            game.move(game.getGameState().getPlayer(1), 2);
+            game.move(game.getGameState().getPlayer(1), Direction.RIGHT);
             renderer.update(map, items, game.getGameState().getPlayerList());
             can.repaint();
         }
         //If press Down Arrow, go down
         if (e.getKeyCode() == 40) {
             p("Down");
-            game.move(game.getGameState().getPlayer(1), 3);
+            game.move(game.getGameState().getPlayer(1), Direction.DOWN);
             renderer.update(map, items, game.getGameState().getPlayerList());
             can.repaint();
         }

@@ -1,13 +1,20 @@
 package model.tiles;
 
+import model.logic.Game.Direction;
 import model.state.Container;
 import model.state.Player;
 import model.state.Position;
 
 public class Cabinet implements Container, Tile {
+	
+	private Position position;
+
+	public Cabinet(Position position){
+		this.position = position;
+	}
 
 	@Override
-	public void move(Player player, int direction) {
+	public void move(Player player, Direction direction) {
 		// TODO Auto-generated method stub
 
 	}
@@ -26,8 +33,7 @@ public class Cabinet implements Container, Tile {
 
 	@Override
 	public Position getPosition() {
-		// TODO Auto-generated method stub
-		return null;
+		return position;
 	}
 
 	@Override

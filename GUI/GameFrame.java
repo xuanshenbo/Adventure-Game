@@ -29,6 +29,7 @@ import java.util.Set;
 import model.items.Item;
 import model.items.Key;
 import model.logic.Game;
+import model.logic.Game.Direction;
 import model.logic.Generator;
 import model.state.Area;
 import model.state.GameState;
@@ -303,7 +304,7 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					} //implement for all key presses
 
-					game.move(game.getGameState().getPlayer(1), 1);
+					game.move(game.getGameState().getPlayer(1), Direction.UP);
 					map = game.getGameView(1).get(0);
 					items = game.getGameView(1).get(1);
 					renderer.update(map, items, game.getPlayerList());
@@ -318,7 +319,7 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					}
 
-					game.move(game.getGameState().getPlayer(1), 2);
+					game.move(game.getGameState().getPlayer(1), Direction.DOWN);
 
 					map = game.getGameView(1).get(0);
 					items = game.getGameView(1).get(1);
@@ -335,7 +336,7 @@ public class GameFrame extends JFrame{
 					}
 
 					//TODO refactor this using interpreter
-					game.move(game.getGameState().getPlayer(1), 4);
+					game.move(game.getGameState().getPlayer(1), Direction.LEFT);
 
 					map = game.getGameView(1).get(0);
 					items = game.getGameView(1).get(1);
@@ -351,7 +352,7 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					}
 
-					game.move(game.getGameState().getPlayer(1), 3);
+					game.move(game.getGameState().getPlayer(1), Direction.RIGHT);
 
 					map = game.getGameView(1).get(0);
 					items = game.getGameView(1).get(1);

@@ -1,3 +1,9 @@
+/**
+ * This is a Zombie that moves around the world independently,
+ * create it with a position and a strategy that controls how 
+ * it moves around.
+ */
+
 package model.npcs;
 
 import model.state.Area;

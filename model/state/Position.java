@@ -22,14 +22,6 @@ public class Position {
 		this.a = a;
 	}
 
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public void setY(int areaY) {
-		this.y = areaY;
-	}
-
 	@Override
 	public String toString(){
 		return "X:"+x+" Y:"+y;
@@ -67,7 +59,7 @@ public class Position {
 	}
 
 	// ================================================
-	// getters from here
+	// getters and setters from here
 	// ================================================
 
 	public Area getArea() {
@@ -82,6 +74,14 @@ public class Position {
 	@XmlElement
 	public int getY() {
 		return y;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public void setY(int areaY) {
+		this.y = areaY;
 	}
 	
 	/**
@@ -105,8 +105,8 @@ public class Position {
 				int newX = x+dx;
 				int newY = y+dy;
 				
-				if(newX >= a.getArea().length){ newX = a.getArea().length -1;}
-				if(newY >= a.getArea()[0].length){ newY = a.getArea()[0].length -1;}
+				if(newX >= a.getArea()[0].length){ newX = a.getArea()[0].length -1;}
+				if(newY >= a.getArea().length){ newY = a.getArea().length -1;}
 				if(newX < 0){ newX = 0;}
 				if(newY < 0){ newY = 0;}
 				

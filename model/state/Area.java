@@ -1,5 +1,9 @@
 /**
- * This is the area class that holds a 2d array of tiles.
+ * This is the main area class, it is made up of tiles and internal
+ * areas. It holds no logic and is just a state class.
+ * It it a certian type of area, building, cave etc. It also holds
+ * another 2d array that holds all the objects on the ground
+ * in the area.
  * To create a new Area you will need to give it a height and
  * width. To generate a new random area you will need to create
  * a generator and call generateWorld
@@ -55,7 +59,7 @@ public class Area {
 
 		for(int row = 0; row < area.length; row++){
 			for(int col = 0; col < area[0].length; col++){
-				Position position = new Position(row, col, this);
+				Position position = new Position(col, row, this);
 				if(t.equals(AreaType.CAVE)){
 					area[row][col] = new GroundTile(TileType.ROCK, position);
 				}else if(t.equals(AreaType.BUILDING)){
@@ -65,13 +69,18 @@ public class Area {
 		}
 	}
 	
-
-	public Position getNearestCaveEntrance(Position oldPosition) {
+	/**
+	 * Finds the nearest cave entrance to the position, it is called by the
+	 * RunZombie strategy
+	 * @param position: the position of the Zombie
+	 * @return: the nearest cave to the Zombie
+	 */
+	public Position getNearestCaveEntrance(Position position) {
 		double bestDistance = Double.MAX_VALUE;
-		Position closestCave = oldPosition;
+		Position closestCave = position;
 		for(Position cave: caveEntrances){
-			double dx = Math.abs(oldPosition.getX() - cave.getX());
-			double dy = Math.abs(oldPosition.getY() - cave.getY());
+			double dx = Math.abs(position.getX() - cave.getX());
+			double dy = Math.abs(position.getY() - cave.getY());
 			double distance = Math.sqrt((dx*dx)*(dy*dy));
 			if(distance < bestDistance){
 				bestDistance = distance;
@@ -90,7 +99,12 @@ public class Area {
 	private Area() {
 		this(0, 0, null, null);
 	}
-
+	
+	/**
+	 * Turns the tile array into a char array, this is used to make the view
+	 * for the client
+	 * @return: the char array.
+	 */
 	public char[][] getCharArray(){
 		char[][] charArray = new char[area.length][area[0].length];
 		for(int row=0; row<charArray.length; row++){
@@ -115,20 +129,35 @@ public class Area {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * Sets the exit position of this area
+	 */
 	public void setExitPosition(Position p){
 		exitPosition = p;
 	}
-
+	
+	/**
+	 * Sets the entrance position of this area
+	 */
 	public void setEntrance(Position entrance) {
 		this.entrance = entrance;
 	}
 	
+	/**
+	 * Adds a cave entrance to the world, this is called when the 
+	 * cave is made.
+	 * @param caveEntrance
+	 */
 	public void addCaveEntrance(Position caveEntrance) {
 		caveEntrances.add(caveEntrance);
 		
 	}
-
+	
+	/**
+	 * Creates the world, this is called on the first area created and uses
+	 * the generator
+	 */
 	public void generateWorld(Generator g){
 		g.fillTiles(this);
 		g.placeLoot(this);
@@ -136,25 +165,6 @@ public class Area {
 
 	public String toString(){
 		return (entrance+" "+type);
-	}
-
-	public void printArea(){
-		p("TEST");
-		for(int row = 0; row < area.length; row++){
-			for(int col = 0; col < area[0].length; col++){
-				if(area[row][col] == null){
-					System.out.print(type.id);
-				}else{
-					System.out.print(area[row][col]);
-				}
-			}
-			System.out.println("");
-		}
-		System.out.println("");
-		for(Area a: internalAreas){
-			System.out.println(a.getEntrance());
-			a.printArea();
-		}
 	}
 
 	public void printTile(Position p){
@@ -215,6 +225,33 @@ public class Area {
 	@XmlTransient
 	public Position getExitPosition() {
 		return exitPosition;
+	}
+	
+	/**========================
+	 * TESTING METHODS
+	 * ========================
+	 */
+	
+	/**
+	 * This prints out the area for testing
+	 */
+	public void printArea(){
+		p("TEST");
+		for(int row = 0; row < area.length; row++){
+			for(int col = 0; col < area[0].length; col++){
+				if(area[row][col] == null){
+					System.out.print(type.id);
+				}else{
+					System.out.print(area[row][col]);
+				}
+			}
+			System.out.println("");
+		}
+		System.out.println("");
+		for(Area a: internalAreas){
+			System.out.println(a.getEntrance());
+			a.printArea();
+		}
 	}
 
 }

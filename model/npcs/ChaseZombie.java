@@ -1,3 +1,7 @@
+/**
+ * This Strategy makes the Zombie chase the player
+ */
+
 package model.npcs;
 
 import model.state.Position;

@@ -1,3 +1,8 @@
+/**
+ * This is a wrapper class to hold the parameters for the random world
+ * to be generated with.
+ */
+
 package model.logic;
 
 public class WorldParameters {

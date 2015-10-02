@@ -1,5 +1,6 @@
 package model.tiles;
 
+import model.logic.Game.Direction;
 import model.state.Player;
 import model.state.Position;
 
@@ -26,7 +27,7 @@ public class GroundTile implements Tile {
 
 
 	@Override
-	public void move(Player player, int direction) {
+	public void move(Player player, Direction direction) {
 		player.setPosition(position);
 
 	}

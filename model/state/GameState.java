@@ -52,23 +52,44 @@ public class GameState {
 		}
 		return null;
 	}	
-
+	
+	/**
+	 * Adding a zombie to the world
+	 * @param z: Zombie to be added
+	 */
 	public void addZombie(Zombie z) {
 		zombieList.add(z);
 	}
-
+	
+	/**
+	 * Removes an object from a game, used when the player picks
+	 * them up.
+	 * @param position
+	 */
 	public void removeItem(Position position) {
 		int x = position.getX();
 		int y = position.getY();
 		world.getItems()[y][x] = null;
 	}
-
+	
+	/**
+	 * returns the item that is in the position of the player, used
+	 * to add it to the players inventory
+	 * @param playerPosition
+	 * @return
+	 */
 	public Item getItem(Position playerPosition) {
 		int x = playerPosition.getX();
 		int y = playerPosition.getY();
 		return world.getItems()[y][x];
 	}
 
+	/**
+	 * This checks where the player is and returns the area that they
+	 * are in.
+	 * @param player
+	 * @return
+	 */
 	public Area getWorld(Player player) {
 		if(player.getPosition().getArea() == world){
 			return world;
@@ -92,8 +113,8 @@ public class GameState {
 		Position validPosition = null;
 		boolean positionFound = false;
 		while(!positionFound){
-			int x = (int) (Math.random()*areaArray.length);
-			int y = (int) (Math.random()*areaArray[0].length);
+			int x = (int) (Math.random()*areaArray[0].length);
+			int y = (int) (Math.random()*areaArray.length);
 			Position randomPosition = new Position(x, y, world);
 			Tile randomTile = areaArray[y][x];
 			if(randomTile.isGround()){
@@ -136,8 +157,8 @@ public class GameState {
 
 		int r = 0;
 		int c = 0;
-		for(int row = left; row < right+1; row++){
-			for(int col = top; col < bottom+1; col++){
+		for(int row = top; row < bottom+1; row++){
+			for(int col = left; col < right+1; col++){
 				if(row>-1 && col >-1 && row <a.getArea().length && col < a.getArea()[0].length){
 					if(a.getItems()[row][col] != null){
 						objects[r][c] = a.getItems()[row][col].getType();
@@ -146,7 +167,7 @@ public class GameState {
 					}
 					boolean playerPos = false;
 					for(Player p: playerList){
-						if(p.getPosition().getX() == row && p.getPosition().getY() == col && p.getPosition().getArea() == a){
+						if(p.getPosition().getX() == col && p.getPosition().getY() == row && p.getPosition().getArea() == a){
 							view[r][c] = (char) (p.getId()+'0');
 							playerPos = true;
 						}
@@ -164,87 +185,6 @@ public class GameState {
 		worldInfo.add(view);
 		worldInfo.add(objects);
 		return worldInfo;
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	/**
-	 * This method prints out the game state to the console
-	 * used for debugging.
-	 */
-	public void printState(){
-		Tile[][] a = world.getArea();
-
-		for(int row = 0; row<a.length; row++){
-			for(int col = 0; col<a[0].length; col++){
-				boolean playerPos = false;
-				for(Player p: playerList){
-					if(p.getPosition().getX() == col && p.getPosition().getY() == row && p.getPosition().getArea() == world){
-						System.out.print(p);
-						playerPos = true;
-					}
-				}
-				for(Zombie z: zombieList){
-					if(z.getPosition().getX() == col && z.getPosition().getY() == row && z.getPosition().getArea() == world){
-						System.out.print(z.getid());
-						playerPos = true;
-					}
-				}
-				if(!playerPos){
-					System.out.print(a[row][col]);
-				}
-			}
-			System.out.println("");
-		}
-
-		for(Area innerArea: world.getInternalAreas()){
-			System.out.println("");
-			System.out.println(innerArea.getEntrance());
-
-			Tile[][] innerTiles = innerArea.getArea();
-
-			for(int row = 0; row<innerTiles.length; row++){
-				for(int col = 0; col<innerTiles[0].length; col++){
-					boolean playerPos = false;
-					for(Player p: playerList){
-						if(p.getPosition().getX() == col && p.getPosition().getY() == row && p.getPosition().getArea() == innerArea){
-							System.out.print(p);
-							playerPos = true;
-						}
-					}
-					if(!playerPos){
-						System.out.print(innerTiles[row][col]);
-					}
-				}
-				System.out.println("");
-			}
-		}		
-	}
-	
-	public void printView(int id){
-		char[][] playerOneView = getGameView(playerList.get(0)).get(0);
-		System.out.println("\nPlayer 1 view");
-		for(int row = 0; row<playerOneView.length; row++){
-			for(int col = 0; col<playerOneView[0].length; col++){
-				if(playerOneView[row][col] != '\u0000'){
-					System.out.print(playerOneView[row][col]);
-				}else{
-					System.out.print("N");
-				}
-			}
-			System.out.println("");
-		}
 	}
 
 
@@ -291,5 +231,85 @@ public class GameState {
 	@XmlElement
 	public void setDay(boolean day){
 		this.day = day;
+	}
+	
+	/**===================================
+	 * DEBUGGING AND TESTING METHODS
+	 * ===================================
+	 */
+	
+	/**
+	 * This method prints out the game state to the console
+	 * used for debugging.
+	 */
+	public void printState(){
+		Tile[][] a = world.getArea();
+
+		for(int row = 0; row<a.length; row++){
+			for(int col = 0; col<a[0].length; col++){
+				boolean playerPos = false;
+				for(Player p: playerList){
+					if(p.getPosition().getX() == col && p.getPosition().getY() == row && p.getPosition().getArea() == world){
+						System.out.print(p);
+						playerPos = true;
+					}
+				}
+				for(Zombie z: zombieList){
+					if(z.getPosition().getX() == col && z.getPosition().getY() == row && z.getPosition().getArea() == world){
+						System.out.print(z.getid());
+						playerPos = true;
+					}
+				}
+				if(!playerPos){
+					System.out.print(a[row][col]);
+				}
+			}
+			System.out.println("");
+		}
+		
+//		for(int row = 0; row<a.length; row++){
+//			for(int col = 0; col<a[0].length; col++){
+//				System.out.print("("+a[row][col].getPosition()+")");
+//			}
+//			System.out.println("");
+//		}
+
+		for(Area innerArea: world.getInternalAreas()){
+			System.out.println("");
+			System.out.println(innerArea.getEntrance());
+
+			Tile[][] innerTiles = innerArea.getArea();
+
+			for(int row = 0; row<innerTiles.length; row++){
+				for(int col = 0; col<innerTiles[0].length; col++){
+					boolean playerPos = false;
+					for(Player p: playerList){
+						if(p.getPosition().getX() == col && p.getPosition().getY() == row && p.getPosition().getArea() == innerArea){
+							System.out.print(p);
+							playerPos = true;
+						}
+					}
+					if(!playerPos){
+						System.out.print(innerTiles[row][col]);
+					}
+				}
+				System.out.println("");
+			}
+		}		
+	}
+	
+	public void printView(int id){
+		char[][] playerOneView = getGameView(playerList.get(0)).get(0);
+		System.out.println("\nPlayer 1 view");
+		for(int row = 0; row<playerOneView.length; row++){
+			for(int col = 0; col<playerOneView[0].length; col++){
+				if(playerOneView[row][col] != '\u0000'){
+					System.out.print(playerOneView[row][col]);
+				}else{
+					System.out.print("N");
+				}
+			}
+			System.out.println("");
+		}
 	}
 }

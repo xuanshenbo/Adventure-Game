@@ -27,6 +27,13 @@ public class Game{
 	private GameState gameState;
 	private Server server;
 	private Clock clock;
+	
+	public enum Direction{
+		UP,
+		DOWN,
+		LEFT,
+		RIGHT;
+	}
 
 	public Game(GameState state) {
 		this.gameState = state;
@@ -48,8 +55,7 @@ public class Game{
 	/**
 	 * This is the method that the clock calls, from here the updates need to happen, ie moving
 	 * Zombies and updating the time.
-	 */
-	
+	 */	
 	public void tick(){
 		String day;
 		if(gameState.getDay()){
@@ -57,7 +63,6 @@ public class Game{
 		}else{
 			day = "PM";
 		}
-		p("time:"+gameState.getTime()+day);
 		gameState.setTime(gameState.getTime()+1);
 		if(gameState.getTime() == 12){
 			gameState.setTime(0);
@@ -67,9 +72,7 @@ public class Game{
 				gameState.setDay(true);
 			}
 		}
-		
-		p("printing gameState for testing zombies");
-		if(gameState.getZombieList().size() < 1){
+		if(gameState.getZombieList().size() < 5){
 			addZombie();
 		}
 		for(Zombie z:gameState.getZombieList()){
@@ -80,8 +83,6 @@ public class Game{
 			}
 			z.tick();
 		}
-
-		gameState.printState();
 	}
 
 
@@ -90,17 +91,52 @@ public class Game{
 	 * @param p: player to move
 	 * @param n: direction to move in.
 	 */
-	public void move(Player player, int direction){
+	public void move(Player player, Direction direction){
 		Position playerPosition = player.getPosition();
 		Tile toTile = destinationTile(direction, player);
 
 		if(toTile != null){
 			toTile.move(player, direction);
 		}		
+	}
 
-		
-		
-		
+	/**
+	 * This method will return the Tile the that is in the direction
+	 * the player want to move in
+	 * @param direction: direction of the player
+	 * @param player: player that is moving
+	 * @return: Tile of destination
+	 */
+	private Tile destinationTile(Direction direction, Player player) {
+		int x = player.getPosition().getX();
+		int y = player.getPosition().getY();
+		Tile[][] areaArray = gameState.getWorld(player).getArea();
+
+		if(direction == Direction.UP){
+			if(y == 0){
+				return null;
+			}
+			return areaArray[y-1][x];
+
+		}else if(direction == Direction.DOWN){
+			if(y == areaArray.length-1){
+				return null;
+			}
+			return areaArray[y+1][x];
+
+		}else if(direction == Direction.RIGHT){
+			if(x == areaArray[0].length-1){
+				return null;
+			}
+			return areaArray[y][x+1];
+
+		}else if(direction == Direction.LEFT){
+			if(x == 0){
+				return null;
+			}
+			return areaArray[y][x-1];
+		}
+		return null;
 	}
 	/**
 	 * Called when a player tries to pick up an object of the ground
@@ -143,45 +179,6 @@ public class Game{
 	public ArrayList<Player> getPlayerList() {
 		return gameState.getPlayerList();
 	}
-
-	/**
-	 * This method will return the Tile the that is in the direction
-	 * the player want to move in
-	 * @param direction: direction of the player
-	 * @param player: player that is moving
-	 * @return: Tile of destination
-	 */
-	private Tile destinationTile(int direction, Player player) {
-		int x = player.getPosition().getX();
-		int y = player.getPosition().getY();
-		Tile[][] areaArray = gameState.getWorld(player).getArea();
-
-		if(direction == 1){//up
-			if(x == 0){
-				return null;
-			}
-			return areaArray[x-1][y];
-
-		}else if(direction == 2){//down
-			if(x == areaArray.length-1){
-				return null;
-			}
-			return areaArray[x+1][y];
-
-		}else if(direction == 3){//right
-			if(y == areaArray[0].length-1){
-				return null;
-			}
-			return areaArray[x][y+1];
-
-		}else if(direction == 4){//left
-			if(y == 0){
-				return null;
-			}
-			return areaArray[x][y-1];
-		}
-		return null;
-	}
 	
 	public GameState getGameState() {
 		 return gameState;
@@ -190,22 +187,22 @@ public class Game{
 	/**
 	 * This Method is only called when the game is first made and places the 
 	 * players into the world, this will probably be redundant as we progress
-	 * @param playerCount
-	 * @param width
-	 * @param height
-	 * @param a
-	 * @return
+	 * @param playerCount: how many players in the game
+	 * @param width: width of the game space
+	 * @param height: height of the game space
+	 * @param a: the outside area that the players spawn in
+	 * @return: a list of players in the game
 	 */
 
-	private ArrayList<Player> placePlayers(int playerCount, int width, int height, Area a) {
-		double[] xCoords = {0.5, 0, 0.5, 1};
-		double[] yCoords = {0, 0.5, 1, 0.5};
+	private ArrayList<Player> placePlayers(int playerCount, int height, int width, Area a) {
+		double[] xCoords = {0, 0.5, 1, 0.5};
+		double[] yCoords = {0.5, 0, 0.5, 1};
 		ArrayList<Player> list = new ArrayList<Player>();
 		for(int count = 0; count < playerCount; count++){
 			int x = (int) ((width-1)*xCoords[count]);
 			int y = (int) ((height-1)*yCoords[count]);
 			int id = count+1;
-			Position position = new Position(x, y, a);
+			Position position = new Position(x, y, a);			
 			Player p = new Player(position, id);
 			list.add(p);
 		}

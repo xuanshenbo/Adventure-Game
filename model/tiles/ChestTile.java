@@ -1,14 +1,20 @@
 package model.tiles;
 
+import model.logic.Game.Direction;
 import model.state.Player;
 import model.state.Position;
 
 public class ChestTile implements Tile {
 
 	private char id = 'O';
+	private Position position;
+	
+	public ChestTile(Position position){
+		this.position = position;
+	}
 
 	@Override
-	public void move(Player player, int direction) {
+	public void move(Player player, Direction direction) {
 //		if(player.hasKey()){
 //			player.position = position;
 //		}
@@ -30,7 +36,7 @@ public class ChestTile implements Tile {
 
 	@Override
 	public Position getPosition() {
-		return null;
+		return position;
 	}
 
 	@Override

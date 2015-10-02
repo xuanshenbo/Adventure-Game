@@ -46,28 +46,30 @@ public class Generator {
 		this.chests = chests;
 		this.lootValue = lootValue;
 	}
-
+	
+	/**
+	 * Alternative Constructor that takes a worldParameters object that holds the 
+	 * parameters for the generation.
+	 * @param parameters
+	 */
 	public Generator(WorldParameters parameters) {
 		this.trees = parameters.getTrees();
 		this.buildings = parameters.getBuildings();
 		this.caves = parameters.getCaves();
 		this.chests = parameters.getChests();
 		this.lootValue = parameters.getLootValue();
-	}
-
-	public int treeRatio(){
-		return trees;
-	}
-
-	public int numberOfBuildings(){
-		return buildings;
-	}
-
+	}	
+	
+	/**
+	 * this places the loot in the game as objects on the ground
+	 * @param area: the area for the loot to be placed in.
+	 */
+	
 	public void placeLoot(Area area){
 		ArrayList<Area> children = area.getInternalAreas();
 		for(int row = 0; row<area.getArea().length; row++){
 			for(int col = 0; col < area.getArea()[0].length; col++){
-				if(area.getArea()[row][col] instanceof GroundTile){
+				if(area.getArea()[row][col].isGround()){
 					if(Math.random()*100 < lootValue){
 						area.getItems()[row][col] = randomItem();
 					}
@@ -75,6 +77,11 @@ public class Generator {
 			}
 		}
 	}
+	
+	/**
+	 * This creates a random item of varying value to the game.
+	 * @return
+	 */
 
 	private Item randomItem() {
 		int itemValue = (int) (Math.random()*10);
@@ -85,6 +92,13 @@ public class Generator {
 		}
 		return new Key();
 	}
+	
+	/**
+	 * Fills the tiles of the game space with random tiles based on the 
+	 * parameters that were given in. It creates buildings and caves, this
+	 * could be refactored out of the method in the future.
+	 * @param area
+	 */
 
 	public void fillTiles(Area area){
 		ArrayList<Area> children = area.getInternalAreas();
@@ -92,7 +106,7 @@ public class Generator {
 
 		for(int row=0; row < areaArray.length; row++){
 			for(int col=0; col < areaArray[0].length; col++){
-				areaArray[row][col] = new GroundTile(TileType.GRASS, new Position(row, col, area));
+				areaArray[row][col] = new GroundTile(TileType.GRASS, new Position(col, row, area));
 			}
 		}
 
@@ -100,7 +114,7 @@ public class Generator {
 			for(int col=1; col < areaArray[0].length-1; col++){
 				//generate trees
 				if(new Random().nextInt(trees) == trees-1){
-					areaArray[row][col] = new TreeTile();
+					areaArray[row][col] = new TreeTile(new Position(col, row, area));
 				}
 			}
 		}
@@ -128,7 +142,7 @@ public class Generator {
 				if(placeClear){
 					for(int row = randomRow; row < randomRow+3; row++){
 						for(int col = randomCol; col < randomCol+5; col++){
-							areaArray[row][col] = new BuildingTile();
+							areaArray[row][col] = new BuildingTile(new Position(col, row, area));
 						}
 					}
 					//Create a boarder around the building so that no buildings can be side by side.
@@ -139,10 +153,10 @@ public class Generator {
 					}
 
 					//place the door and create the new area
-					Position entrance = new Position(randomRow+2, randomCol+2, area);
-					areaArray[randomRow+3][randomCol+2] = new GroundTile(TileType.GRASS, new Position(randomRow+3, randomCol+2, area));
+					Position entrance = new Position(randomCol+2, randomRow+2, area);
+					areaArray[randomRow+3][randomCol+2] = new GroundTile(TileType.GRASS, new Position(randomCol+2, randomRow+3, area));
 					Area building = new Area(5, 5, AreaType.BUILDING, new Position(randomCol+2, randomRow+2, area));
-					Position exit = new Position(4, 2, building);
+					Position exit = new Position(2, 4, building);
 
 					areaArray[randomRow+2][randomCol+2] = new DoorTile(entrance, exit);
 					building.getArea()[4][2] = new DoorTile(exit, entrance);
@@ -172,7 +186,7 @@ public class Generator {
 				if(placeClear){
 					for(int row = randomRow; row < randomRow+2; row++){
 						for(int col = randomCol; col < randomCol+2; col++){
-							areaArray[row][col] = new CaveTile();
+							areaArray[row][col] = new CaveTile(new Position(col, row, area));
 						}
 					}
 					//Create a boarder around the building so that no buildings can be side by side.
@@ -181,7 +195,7 @@ public class Generator {
 							invalidPosition[row][col] = true;
 						}
 					}
-					Position entrance = new Position(randomRow+1, randomCol+1, area);
+					Position entrance = new Position(randomCol+1, randomRow+1, area);
 					//create the new area and place the entrance and exit
 					Area cave = new Area(5, 10, AreaType.CAVE, new Position(randomCol+1, randomRow+1, area));
 					Position exit = new Position(0, 0, cave);
@@ -203,7 +217,7 @@ public class Generator {
 				int randomCol = new Random().nextInt(areaArray[0].length-2)+1;
 
 				if(!invalidPosition[randomRow][randomCol]){
-					areaArray[randomRow][randomCol] = new ChestTile();
+					areaArray[randomRow][randomCol] = new ChestTile(new Position(randomCol, randomRow, area));
 					invalidPosition[randomRow][randomCol] = true;
 					placed = true;
 
@@ -211,5 +225,17 @@ public class Generator {
 
 			}
 		}
+	}
+	/**================================
+	 * GETTERS AND SETTERS
+	 * ================================
+	 */
+	
+	public int treeRatio(){
+		return trees;
+	}
+
+	public int numberOfBuildings(){
+		return buildings;
 	}
 }
