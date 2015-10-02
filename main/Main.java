@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import model.logic.Game;
 import control.Client;
+import control.ClockThread;
 import control.Server;
 import interpreter.ButtonStrategy;
 import interpreter.KeyStrategy;
@@ -27,6 +28,7 @@ public class Main {
 	private static Initialisation initial;
 	private static int uid;
 	private static Game game;
+	private static GameFrame frame;
 	//private static boolean initialised;
 
 	/**
@@ -81,18 +83,20 @@ public class Main {
 	public static void displayMainGameFrame(Client c){
 		//frame.dispose();	//get rid of welcome frame
 
-		GameFrame gameFrame = new GameFrame("Adventure Game", game);
+		frame = new GameFrame("Adventure Game", game);
 		//create the Strategy Interpreters with different Strategies as appropriate
-		StrategyInterpreter keyInterpreter = new StrategyInterpreter(gameFrame, new KeyStrategy(),c);
-		StrategyInterpreter buttonInterpreter = new StrategyInterpreter(gameFrame, new ButtonStrategy(),c);
-		StrategyInterpreter menuInterpreter = new StrategyInterpreter(gameFrame, new MenuStrategy(),c);
+		StrategyInterpreter keyInterpreter = new StrategyInterpreter(frame, new KeyStrategy(),c);
+		StrategyInterpreter buttonInterpreter = new StrategyInterpreter(frame, new ButtonStrategy(),c);
+		StrategyInterpreter menuInterpreter = new StrategyInterpreter(frame, new MenuStrategy(),c);
 
-		menuInterpreter.setGame(gameFrame.getGame());
+		menuInterpreter.setGame(frame.getGame());
 
 		//add the Strategy Interpreters to the GameFrame
-		gameFrame.setKeyInterpreter(keyInterpreter);
-		gameFrame.setButtonInterpreter(buttonInterpreter);
-		gameFrame.setMenuInterpreter(menuInterpreter);
+		frame.setKeyInterpreter(keyInterpreter);
+		frame.setButtonInterpreter(buttonInterpreter);
+		frame.setMenuInterpreter(menuInterpreter);
+		ClockThread clock = new ClockThread(20,frame);
+		clock.start();
 
 	}
 
