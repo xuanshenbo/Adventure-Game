@@ -37,7 +37,7 @@ public class Server extends Thread{
 	private int mapRow;
 	private int mapCol;
 	private int uid;
-	private Writer[] writers = new Writer[4];
+	private Writer[] writers = new Writer[5];//writer[0] will be null. only 1-4 will be used
 	private Queue<char[]> instructions = new ArrayDeque<char[]>();
 	//private int[] parameters;
 	private Game game;
@@ -111,7 +111,8 @@ public class Server extends Thread{
 
 	/**
 	 * a setter for uid
-	 * @param uid
+	 * @param uid	public void notify(String text) throws IOException {
+
 	 */
 	public void setUid(int uid) {
 		this.uid = uid;
@@ -130,7 +131,7 @@ public class Server extends Thread{
 	/**
 	 * The following determines what the server should send to the client depends on the input
 	 */
-	public void feedback(String input, Writer out, int id){
+	/*public void feedback(String input, Writer out, int id){
 		switch(input.substring(0, 3)){
 		case "dir":
 			sendMap(input, out, id);
@@ -138,11 +139,12 @@ public class Server extends Thread{
 		default:
 
 		}
-	}
+		game.processClientEvent(input, out, id);
+	}*/
 
-	private void sendMap(String input, Writer out, int id) {
+	/*private void sendMap(String input, Writer out, int id) {
 
-	}
+	}*/
 
 	private class Task implements Callable<Void> {
 		private Socket connection;
@@ -176,12 +178,11 @@ public class Server extends Thread{
 						input += message[i];
 					}
 
-					//System.out.println("skip the input?");//debug
 					System.out.println("======================"+input+"====================");//debug
 
 					//System.out.println("server printed input");//debug
-
-					feedback(input, out, id);
+					//feedback(input, out, id);
+					game.processClientEvent(message, out, id);
 
 					//p("mapRow"+String.format("%s",mapRow).charAt(0)+String.format("%s",mapRow).charAt(1));
 					//p("colRow"+(char)('0' + mapCol));
