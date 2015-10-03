@@ -56,7 +56,7 @@ public class Initialisation extends StrategyInterpreter{
 
 
 	public void displayMainGameFrame(Client c, Game g){
-		System.out.println("here");
+		//System.out.println("here");
 		Main.displayMainGameFrame(c);
 		/*
 		System.out.println("HERE");

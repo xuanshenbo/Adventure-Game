@@ -38,7 +38,8 @@ public class Server extends Thread{
 	private int mapCol;
 	private int uid;
 	private Writer[] writers = new Writer[5];//writer[0] will be null. only 1-4 will be used
-	private Queue<char[]> instructions = new ArrayDeque<char[]>();
+
+	private Queue<char[]> instructions = new ArrayDeque<char[]>();//debug
 	//private int[] parameters;
 	private Game game;
 
@@ -126,6 +127,14 @@ public class Server extends Thread{
 	 */
 	public Game getGame() {
 		return game;
+	}
+
+	/**
+	 * a getter for all the writers
+	 * @return
+	 */
+	public Writer[] getWriters() {
+		return writers;
 	}
 
 	/**
