@@ -89,7 +89,7 @@ public class GameFrame extends JFrame{
 		    e.printStackTrace();
 		}*/
 
-		//new WelcomeDialogAlt(this); //use WelcomePanel
+		new WelcomeDialogAlt(this);
 
 		addMenuBar();
 

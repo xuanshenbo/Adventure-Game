@@ -12,7 +12,6 @@ public class KeyStrategy implements StrategyInterpreter.Strategy{
 	 */
 	@Override
 	public void notify(String text) throws IOException {
-
 //		if(text.equals("up")){
 //			interpreter.getClient().send("dirup");
 //		}

@@ -4,6 +4,7 @@
  */
 
 package model.logic;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -27,7 +28,7 @@ public class Game{
 	private GameState gameState;
 	private Server server;
 	private Clock clock;
-	
+
 	public enum Direction{
 		UP,
 		DOWN,
@@ -51,11 +52,11 @@ public class Game{
 		this.gameState = new GameState(area, playerList);
 		clock.start();
 	}
-	
+
 	/**
 	 * This is the method that the clock calls, from here the updates need to happen, ie moving
 	 * Zombies and updating the time.
-	 */	
+	 */
 	public void tick(){
 		String day;
 		if(gameState.getDay()){
@@ -97,7 +98,7 @@ public class Game{
 
 		if(toTile != null){
 			toTile.move(player, direction);
-		}		
+		}
 	}
 
 	/**
@@ -149,22 +150,22 @@ public class Game{
 			player.collect(item);
 			gameState.removeItem(playerPosition);
 		}
-	}	
-	
+	}
+
 	/**
 	 * Adds a random Zombie to the game.
 	 */
-	
+
 	public void addZombie(){
 		Position position = gameState.getRandomValidTile();
 		Zombie z = new Zombie(new RandomZombie(), position);
 		gameState.addZombie(z);
 	}
-	
+
 	/*********************************
-	 * 
+	 *
 	 *  GETTERS AND SETTERS
-	 * 
+	 *
 	 * *******************************
 	 */
 
@@ -179,13 +180,13 @@ public class Game{
 	public ArrayList<Player> getPlayerList() {
 		return gameState.getPlayerList();
 	}
-	
+
 	public GameState getGameState() {
 		 return gameState;
 	}
-	
+
 	/**
-	 * This Method is only called when the game is first made and places the 
+	 * This Method is only called when the game is first made and places the
 	 * players into the world, this will probably be redundant as we progress
 	 * @param playerCount: how many players in the game
 	 * @param width: width of the game space
@@ -202,10 +203,46 @@ public class Game{
 			int x = (int) ((width-1)*xCoords[count]);
 			int y = (int) ((height-1)*yCoords[count]);
 			int id = count+1;
-			Position position = new Position(x, y, a);			
+			Position position = new Position(x, y, a);
 			Player p = new Player(position, id);
 			list.add(p);
 		}
 		return list;
 	}
+
+	/**
+	 * The following receives the user event from the client and process the logic needed to update the game.
+	 * @param input
+	 * @param out
+	 * @param id
+	 */
+	public synchronized void processClientEvent(char[] message, Writer out, int id){
+		switch(message[0]){
+		case 'M':
+			move(gameState.getPlayer(id), parseDirection(message[2]));
+			break;
+
+		}
+	}
+
+	/**
+	 * The following transferred a char sent from the client into a Direction
+	 * @param dir
+	 * @return
+	 */
+	public synchronized Direction parseDirection(char dir){
+		switch(dir){
+		case 'N':
+			return Direction.UP;
+		case 'S':
+			return Direction.DOWN;
+		case 'W':
+			return Direction.LEFT;
+		case 'E':
+			return Direction.RIGHT;
+		default:
+			return null;
+		}
+	}
+
 }

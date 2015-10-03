@@ -1,4 +1,4 @@
-/*package GUI;
+package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
-import java.util.List;S
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -25,9 +25,9 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-*//**
+/**
  * A subclass of JDialog which welcomes a new player and invites them to choose an avatar
- *//*
+ */
 public class WelcomeDialogAlt extends JDialog implements ActionListener {
 
 	private GameFrame parentFrame;
@@ -43,13 +43,13 @@ public class WelcomeDialogAlt extends JDialog implements ActionListener {
 	private String instructions = "If you wish to start a new game, please click OK, to choose an Avatar!";
 
 
-	*//**
+	/**
 	 * Creates a dialog with a message, and different behaviour depending on the state
 	 * @param gameFrame The parent frame of the dialog
 	 * @param title The title of the Dialog to be passed to super constructor
 	 * @param msg Message to display
 	 * @param i The state of the Game
-	 *//*
+	 */
 	public WelcomeDialogAlt(GameFrame gameFrame) {
 		super(gameFrame, welcome, true);
 
@@ -112,19 +112,19 @@ public class WelcomeDialogAlt extends JDialog implements ActionListener {
 	}
 
 
-	*//**
+	/**
 	 * Called when the user clicks "Choose Avatar" on the dialog
-	 *//*
+	 */
 	public void actionPerformed(ActionEvent e) {
 		setVisible(false);
 		dispose();
 		Dialog avatarDialog = new Dialog(parentFrame, "Avatar chooser", "These are your available options.", "avatars", parentFrame.getDialogInterpreter());
 	}
 
-	*//**	 *
+	/**	 *
 	 * @param c TextField to store in a field
-	 *//*
+	 */
 	public void setTextField(JTextField c){
 
 	}
-}*/
+}
