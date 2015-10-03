@@ -29,7 +29,6 @@ public class GameState {
 	@XmlElementWrapper
 	@XmlElement(name="zombie")
 	private ArrayList<Zombie> zombieList = new ArrayList<Zombie>(); // list of zombies in the game
-	@XmlTransient
 	private Area world; // The game world
 	private int viewPortSize = 15;
 	private int time;

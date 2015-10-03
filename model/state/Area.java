@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
@@ -29,11 +30,12 @@ import model.tiles.GroundTile;
 import model.tiles.Tile;
 import model.tiles.GroundTile.TileType;
 
-@XmlType(propOrder = { "type", "area", "items", "entrance", "internalAreas", "exitPosition" })
+//@XmlType(propOrder = { "type", "area", "items", "entrance", "internalAreas", "exitPosition" })
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Area {
 
-	@XmlAccessorType(XmlAccessType.FIELD)
+	@XmlType(name = "AreaType")
+	@XmlEnum
 	public enum AreaType {
 		OUTSIDE('G'),
 		BUILDING('W'),
