@@ -9,7 +9,7 @@
  * a generator and call generateWorld
  */
 
-package model.state;
+package dataStorage.pointers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,13 +26,15 @@ import javax.xml.bind.annotation.XmlType;
 import static utilities.PrintTool.p;
 import model.items.Item;
 import model.logic.Generator;
+import model.state.GameState;
+import model.state.Position;
 import model.tiles.GroundTile;
 import model.tiles.Tile;
 import model.tiles.GroundTile.TileType;
 
 //@XmlType(propOrder = { "type", "area", "items", "entrance", "internalAreas", "exitPosition" })
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Area {
+public class AreaPointer {
 
 	@XmlType(name = "AreaType")
 	@XmlEnum
@@ -60,16 +62,15 @@ public class Area {
 	@XmlTransient
 	private final Item[][] items; // the array of items in the area based on their location
 	private Position entrance; // the position on the parent of the entrance to this area
-	@XmlElementWrapper
-	@XmlElement(name="internalArea")
-	private ArrayList<Area> internalAreas = new ArrayList<Area>();
+	@XmlTransient
+	private ArrayList<AreaPointer> internalAreas = new ArrayList<AreaPointer>();
 	private Position exitPosition;
 	@XmlElementWrapper
 	@XmlElement(name="caveEntrance")
 	private ArrayList<Position> caveEntrances = new ArrayList<Position>();
 	private GameState gameState;// the gameState that stores this area.
 
-	public Area(int height, int width, AreaType t, Position p){
+	public AreaPointer(int height, int width, AreaType t, Position p){
 		type = t;
 		area = new Tile[height][width];
 		items = new Item[height][width];
@@ -77,7 +78,7 @@ public class Area {
 
 		for(int row = 0; row < area.length; row++){
 			for(int col = 0; col < area[0].length; col++){
-				Position position = new Position(col, row, this);
+				Position position = new Position(col, row, null);
 				if(t.equals(AreaType.CAVE)){
 					area[row][col] = new GroundTile(TileType.ROCK, position);
 				}else if(t.equals(AreaType.BUILDING)){
@@ -93,7 +94,7 @@ public class Area {
 
 	@SuppressWarnings("unused")
 	// for serializing final fields purpose.
-	private Area() {
+	private AreaPointer() {
 		this(0, 0, null, null);
 	}
 
@@ -149,8 +150,8 @@ public class Area {
 	 * @return: the area that is link to the players position or null if
 	 * not on an entrance.
 	 */
-	public Area getInternalArea(Position playerPosition) {
-		for(Area a: internalAreas){
+	public AreaPointer getInternalArea(Position playerPosition) {
+		for(AreaPointer a: internalAreas){
 			if(a.entrance.equals(playerPosition)){
 				return a;
 			}
@@ -182,15 +183,6 @@ public class Area {
 
 	}
 
-	/**
-	 * Creates the world, this is called on the first area created and uses
-	 * the generator
-	 */
-	public void generateWorld(Generator g){
-		g.fillTiles(this);
-		g.placeLoot(this);
-	}
-
 	public String toString(){
 		return (entrance+" "+type);
 	}
@@ -215,7 +207,7 @@ public class Area {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Area other = (Area) obj;
+		AreaPointer other = (AreaPointer) obj;
 		if (!Arrays.deepEquals(area, other.area))
 			return false;
 		return true;
@@ -241,7 +233,7 @@ public class Area {
 		return entrance;
 	}
 
-	public ArrayList<Area> getInternalAreas(){
+	public ArrayList<AreaPointer> getInternalAreas(){
 		return internalAreas;
 	}
 
@@ -270,7 +262,7 @@ public class Area {
 			System.out.println("");
 		}
 		System.out.println("");
-		for(Area a: internalAreas){
+		for(AreaPointer a: internalAreas){
 			System.out.println(a.getEntrance());
 			a.printArea();
 		}

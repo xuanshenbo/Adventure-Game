@@ -8,10 +8,15 @@ package model.state;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Position {
 
+	@XmlTransient
 	private Area a;
 	private int x;
 	private int y;
@@ -21,7 +26,7 @@ public class Position {
 		this.y = y;
 		this.a = a;
 	}
-	
+
 	/**
 	 * This method checks if the tile is ground
 	 * @return true or false if it is a ground tile.
@@ -29,7 +34,7 @@ public class Position {
 	public boolean isValid() {
 		return a.getArea()[y][x].isGround();
 	}
-	
+
 	/**
 	 * This method returns a list of valid positions to move from this position.
 	 * @param area
@@ -41,18 +46,18 @@ public class Position {
 			for(int dy = -1; dy < 2; dy++){
 				int newX = x+dx;
 				int newY = y+dy;
-				
+
 				if(newX >= a.getArea()[0].length){ newX = a.getArea()[0].length -1;}
 				if(newY >= a.getArea().length){ newY = a.getArea().length -1;}
 				if(newX < 0){ newX = 0;}
 				if(newY < 0){ newY = 0;}
-				
+
 				Position newPos = new Position(newX, newY, a);
 				if(a.getArea()[newY][newX].isGround() && newPos != this && Math.abs(dx + dy) == 1){
 					validPositions.add(newPos);
 				}
 			}
-		}	
+		}
 		return validPositions;
 	}
 
