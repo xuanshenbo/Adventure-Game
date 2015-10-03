@@ -7,14 +7,20 @@ package model.state;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 
 import model.items.Item;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Player {
 
 	private Position position; // Position of the player in the world
 	private final int id; // unique identifier of the player
+	@XmlElementWrapper
+	@XmlElement(name="item")
 	private List<Item> inventory = new ArrayList<Item>(); // The inventory of the player
 
 	public Player(Position p, int id){
@@ -23,6 +29,7 @@ public class Player {
 	}
 
 	@SuppressWarnings("unused")
+	// for serializing final fields purpose.
 	private Player() {
 		this(null, 0);
 	}
@@ -65,17 +72,14 @@ public class Player {
 	// getters from here
 	// ================================================
 
-	@XmlElement
 	public Position getPosition() {
 		return position;
 	}
 
-	@XmlElement
 	public int getId() {
 		return id;
 	}
 
-	
 	public List<Item> getInventory() {
 		return inventory;
 	}

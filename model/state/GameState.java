@@ -7,19 +7,27 @@ package model.state;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import model.items.Item;
 import model.npcs.Zombie;
 import model.tiles.Tile;
 import static utilities.PrintTool.p;
 
-@XmlRootElement(namespace = "shelf")
+@XmlRootElement(namespace = "savedGame")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class GameState {
 
+	@XmlElementWrapper
+	@XmlElement(name="player")
 	private ArrayList<Player> playerList = new ArrayList<Player>(); // list of players in the game
+	@XmlElementWrapper
+	@XmlElement(name="zombie")
 	private ArrayList<Zombie> zombieList = new ArrayList<Zombie>(); // list of zombies in the game
 	private Area world; // The game world
 	private int viewPortSize = 15;
@@ -52,8 +60,8 @@ public class GameState {
 			}
 		}
 		return null;
-	}	
-	
+	}
+
 	/**
 	 * Goes through the player list and returns the nearest players
 	 * position to the pased in parameter. This is used by the ChaseZombie
@@ -83,7 +91,7 @@ public class GameState {
 	public void addZombie(Zombie z) {
 		zombieList.add(z);
 	}
-	
+
 	/**
 	 * Removes an object from a game, used when the player picks
 	 * them up.
@@ -94,7 +102,7 @@ public class GameState {
 		int y = position.getY();
 		world.getItems()[y][x] = null;
 	}
-	
+
 	/**
 	 * returns the item that is in the position of the player, used
 	 * to add it to the players inventory
@@ -125,7 +133,7 @@ public class GameState {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * This returns a random tile in the top level area that is ground
 	 * @return
@@ -156,7 +164,7 @@ public class GameState {
 					validPosition = randomPosition;
 					positionFound = true;
 				}
-			}			
+			}
 		}
 		return validPosition;
 	}
@@ -210,57 +218,47 @@ public class GameState {
 		return worldInfo;
 	}
 
+	public void setTime(int time){
+		this.time = time;
+	}
+
+	public void setDay(boolean day){
+		this.day = day;
+	}
 
 	// ================================================
 	// getters from here
 	// ================================================
 
-	@XmlElementWrapper
-	@XmlElement(name="player")
 	public ArrayList<Player> getPlayerList(){
 		return playerList;
 	}
 
-	//@XmlElement
 	public Area getWorld() {
 		return world;
 	}
 
-	@XmlElement
 	public int getViewPortSize() {
 		return viewPortSize;
 	}
-	
-	@XmlElement
+
 	public ArrayList<Zombie> getZombieList(){
 		return zombieList;
 	}
-	
-	@XmlElement
+
 	public int getTime(){
 		return time;
 	}
-	
-	@XmlElement
-	public void setTime(int time){
-		this.time = time;
-	}
-	
-	@XmlElement
+
 	public boolean getDay(){
 		return day;
 	}
-	
-	@XmlElement
-	public void setDay(boolean day){
-		this.day = day;
-	}
-	
+
 	/**===================================
 	 * DEBUGGING AND TESTING METHODS
 	 * ===================================
 	 */
-	
+
 	/**
 	 * This method prints out the game state to the console
 	 * used for debugging.
@@ -297,7 +295,7 @@ public class GameState {
 			}
 			System.out.println("");
 		}
-		
+
 //		for(int row = 0; row<a.length; row++){
 //			for(int col = 0; col<a[0].length; col++){
 //				System.out.print("("+a[row][col].getPosition()+")");
@@ -328,9 +326,9 @@ public class GameState {
 				}
 			}	
 		}
-		System.out.println("");
+		System.out.println("");		
 	}
-	
+
 	public void printView(int id){
 		char[][] playerOneView = getGameView(playerList.get(0)).get(0);
 		System.out.println("\nPlayer 1 view");

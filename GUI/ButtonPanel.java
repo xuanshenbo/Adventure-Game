@@ -28,6 +28,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 
 import main.Initialisation;
+import main.InitialisationState;
 
 /**
  * A panel to store the button options
@@ -53,7 +54,7 @@ public class ButtonPanel extends JPanel {
 	 * @param container
 	 * @param boxLayout2
 	 */
-	public ButtonPanel(GameFrame container, StrategyInterpreter b, String state){
+	public ButtonPanel(GameFrame container, StrategyInterpreter b, InitialisationState state){
 		buttonInterpreter = b;
 		containerFrame = container;
 		//make buttons layout top to bottom
@@ -77,25 +78,28 @@ public class ButtonPanel extends JPanel {
 	 * @param welcomeDialog The Dialog which needs to be informed of any choice that is made
 	 * @param state Which buttons are to be displayed?
 	 */
-	public ButtonPanel(WelcomePanel welcomeDialog, String state, Initialisation i) {
+	public ButtonPanel(WelcomePanel welcomeDialog, InitialisationState state, Initialisation i) {
 
 		this.welcomePanel = welcomeDialog;
 
 		this.initialisation = i;
 
 		//display server or server+client buttons
-		if(state.equals("serverClient")){
+		if(state.equals(InitialisationState.SHOW_CLIENT_SERVER_OPTION)){
 			BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS); //display client server buttons vertically
 			setLayout(boxLayout);
 			createServerClientButtons();
 		}
 
 		//display option to load a game or start a new game
-		else if(state.equals("loadnew")){
+		else if(state.equals(InitialisationState.SHOW_LOAD_OR_NEW_OPTION)){
 			BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS); //display client server buttons vertically
 			setLayout(boxLayout);
 			createLoadNewButtons();
 		}
+
+
+
 	}
 
 	private void createLoadNewButtons() {
@@ -113,7 +117,7 @@ public class ButtonPanel extends JPanel {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					welcomePanel.displayNext("load");
+					welcomePanel.transitionToNewState(InitialisationState.LOAD_GAME);
 				}
 				else if(e.getSource()==newGame){	//conditional not strictly necessary, but added for completion
 					try {
@@ -122,7 +126,7 @@ public class ButtonPanel extends JPanel {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					welcomePanel.displayNext("newGame");
+					welcomePanel.transitionToNewState(InitialisationState.START_NEW_GAME);
 				}
 			}
 
@@ -164,7 +168,7 @@ public class ButtonPanel extends JPanel {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					welcomePanel.displayNext("connect");	//now display the option for which server to connect to
+					welcomePanel.transitionToNewState(InitialisationState.CONNECT_TO_SERVER);	//now display the option for which server to connect to
 				}
 				else if(e.getSource()==serverclient){	//conditional not strictly necessary, but added for completion
 					try {
@@ -173,7 +177,7 @@ public class ButtonPanel extends JPanel {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					welcomePanel.displayNext("loadNew"); //now display the options of loading a game, or starting a new one
+					welcomePanel.transitionToNewState(InitialisationState.SHOW_LOAD_OR_NEW_OPTION); //now display the options of loading a game, or starting a new one
 				}
 
 			}

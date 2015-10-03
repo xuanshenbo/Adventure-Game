@@ -27,6 +27,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import main.Initialisation;
+import main.InitialisationState;
 
 /**
  * A subclass of JDialog which welcomes a new player and invites them to choose an avatar
@@ -37,7 +38,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 	private int heading1Size = 50;
 	private int heading2Size = 30;
-	private GridBagConstraints bottomPanelConstraints;
+	private GridBagConstraints buttonPanelConstraints;
 
 	private InputPanel iPanel;
 
@@ -51,7 +52,8 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	//this will display different buttons depending on what the user needs to choose
 	private ButtonPanel bPanel;
 
-	private InitialisationStates state;
+	//the state decides what to display
+	private InitialisationState state;
 
 	private String instructions = "If you wish to start a new game, please click OK, to choose an Avatar!";
 
@@ -66,6 +68,8 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	public WelcomePanel(Initialisation i) {
 
 		this.initialisation = i;
+
+		this.state = InitialisationState.SHOW_CLIENT_SERVER_OPTION;
 
 		setLayout(new GridBagLayout());
 
@@ -89,14 +93,14 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 		addWelcomeImage();
 
-		bottomPanelConstraints=new GridBagConstraints();
-		bottomPanelConstraints.gridx = 0;
-		bottomPanelConstraints.gridy = 10;
+		buttonPanelConstraints=new GridBagConstraints();
+		buttonPanelConstraints.gridx = 0;
+		buttonPanelConstraints.gridy = 10;
 
 		// button panel needs to store "this" to call the display next methods, and send it Initialisation too? Or Initialisation
 		// has access to buttonInterpreter?
-		bPanel = new ButtonPanel(this, "serverClient", initialisation);
-		add(bPanel, bottomPanelConstraints);
+		bPanel = new ButtonPanel(this, state, initialisation);
+		add(bPanel, buttonPanelConstraints);
 
 		//display the welcome panel
 		setVisible(true);
@@ -120,23 +124,24 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 	}
 
-	public void displayNext(String s){
-		if(s.equals("loadNew")){
+	public void transitionToNewState(InitialisationState state){
+		if(state.equals(InitialisationState.SHOW_LOAD_OR_NEW_OPTION)){
+			System.out.println("show l n");
 			displayLoadNew();
 		}
-		else if(s.equals("connect")){
+		else if(state.equals(InitialisationState.CONNECT_TO_SERVER)){
 			bPanel.setVisible(false); //don't want to see loadNew options anymore
 			displayConnect();
-			repaint();
 		}
-		else if(s.equals("newGame")){
+		else if(state.equals(InitialisationState.START_NEW_GAME)){
 			bPanel.setVisible(false); //don't want to see loadNew options anymore
 			displayNewGameOptions();
-			repaint();
 		}
-		else if(s.equals("load")){
+		else if(state.equals(InitialisationState.LOAD_GAME)){
 			//load the saved game
 		}
+
+		repaint();
 	}
 
 	/*
@@ -144,7 +149,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	 */
 	private void displayConnect() {
 		iPanel = new InputPanel(initialisation, "connect");
-		add(iPanel, bottomPanelConstraints);
+		add(iPanel, buttonPanelConstraints);
 	}
 
 	/*
@@ -152,10 +157,8 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	 * TODO why is this panel not being displayed?
 	 */
 	private void displayLoadNew() {
-		bPanel = new ButtonPanel(this, "loadnew", initialisation);
-		repaint();
-
-		//System.out.println("got here");
+		bPanel = new ButtonPanel(this, InitialisationState.SHOW_LOAD_OR_NEW_OPTION, initialisation);
+		add(bPanel, buttonPanelConstraints);
 	}
 
 	/*
@@ -167,7 +170,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(state.equals(InitialisationStates.NEW_GAME)){
+				if(state.equals(InitialisationState.START_NEW_GAME)){
 					Dialog avatarDialog = new Dialog(parentFrame, "Avatar chooser", "These are your available options.", "avatars", parentFrame.getDialogInterpreter());
 					try {
 						initialisation.notify("start");
@@ -178,7 +181,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 				}
 			}
 		});
-		add(chooseAvatar, bottomPanelConstraints);
+		add(chooseAvatar, buttonPanelConstraints);
 
 	}
 	/**
