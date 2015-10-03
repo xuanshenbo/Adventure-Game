@@ -9,11 +9,13 @@ import interpreter.StrategyInterpreter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Writer;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
 import model.logic.Game;
 import control.Client;
+import GUI.Avatar;
 import GUI.GameFrame;
 import GUI.WelcomePanel;
 
@@ -43,6 +45,18 @@ public class Initialisation extends StrategyInterpreter{
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+	}
+
+
+
+
+	public ArrayList<Avatar> getAvailableAvatars() {
+		ArrayList<Avatar> avatars= new ArrayList<Avatar>();
+		// ask Model for the available Avatars to display as options to the user
+
+		avatars.add(Avatar.DONALD_DUCK);	//for testing purposes
+
+		return avatars;
 	}
 
 	/**

@@ -31,6 +31,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import main.Initialisation;
+import main.InitialisationState;
 import model.items.Item;
 
 /**
@@ -45,6 +47,10 @@ public class Dialog extends JDialog implements ActionListener {
 	private String state;
 
 	private StrategyInterpreter dialogInterpreter;
+
+	private Initialisation initialisation;
+
+	private WelcomePanel welcomePanel;
 
 
 	/**
@@ -93,9 +99,45 @@ public class Dialog extends JDialog implements ActionListener {
 	}
 
 
+	public Dialog(String title, String msg, InitialisationState state, Initialisation i, WelcomePanel wPanel) {
+		this.initialisation = i;
+		this.welcomePanel = wPanel;
+		getContentPane().setLayout( new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
+
+		JPanel messagePane = new JPanel();
+		messagePane.add(new JLabel(msg));
+		getContentPane().add(messagePane);
+
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		if(state.equals(InitialisationState.SHOW_AVATAR_OPTIONS)){
+			//parentFrame.setVisible(false);
+			displayAvatarOptions();
+		}
+
+		JButton ok = new JButton("OK");
+		ok.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				welcomePanel.transitionToNewState(InitialisationState.MAIN);
+
+			}
+
+		});
+		add(ok);
+
+		//display the dialog
+		pack();
+		setLocationRelativeTo(null);
+		setVisible(true);
+
+	}
+
+
 	private void displayAvatarOptions() {
 		JPanel avatarOptions = new JPanel();
-		List<Avatar> availAvatars= parentFrame.getAvailableAvatars();
+		List<Avatar> availAvatars= initialisation.getAvailableAvatars();
 
 		ButtonGroup group = new ButtonGroup();
 

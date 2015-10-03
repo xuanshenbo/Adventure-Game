@@ -20,6 +20,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -28,13 +29,14 @@ import javax.swing.SwingConstants;
 
 import main.Initialisation;
 import main.InitialisationState;
+import main.Main;
 
 /**
  * A subclass of JDialog which welcomes a new player and invites them to choose an avatar
  */
 public class WelcomePanel extends JPanel implements ActionListener {
 
-	private GameFrame parentFrame;
+	private JFrame parentFrame;
 
 	private int heading1Size = 50;
 	private int heading2Size = 30;
@@ -72,6 +74,8 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		this.state = InitialisationState.SHOW_CLIENT_SERVER_OPTION;
 
 		setLayout(new GridBagLayout());
+
+		this.parentFrame = i.getFrame();
 
 		GridBagConstraints gc=new GridBagConstraints();
 		gc.fill=GridBagConstraints.HORIZONTAL;
@@ -140,8 +144,18 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		else if(state.equals(InitialisationState.LOAD_GAME)){
 			//load the saved game
 		}
-
+		else if(state.equals(InitialisationState.MAIN)){
+			try {
+				initialisation.notify("start");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		//parentFrame.pack();
+		revalidate();
 		repaint();
+
 	}
 
 	/*
@@ -157,6 +171,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	 * TODO why is this panel not being displayed?
 	 */
 	private void displayLoadNew() {
+		remove(bPanel);
 		bPanel = new ButtonPanel(this, InitialisationState.SHOW_LOAD_OR_NEW_OPTION, initialisation);
 		add(bPanel, buttonPanelConstraints);
 	}
@@ -170,17 +185,20 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(state.equals(InitialisationState.START_NEW_GAME)){
-					Dialog avatarDialog = new Dialog(parentFrame, "Avatar chooser", "These are your available options.", "avatars", parentFrame.getDialogInterpreter());
+				//if(state.equals(InitialisationState.START_NEW_GAME)){
+					Dialog avatarDialog = new Dialog("Avatar chooser", "These are your available options.", InitialisationState.SHOW_AVATAR_OPTIONS, initialisation, WelcomePanel.this);
 					try {
 						initialisation.notify("start");
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-				}
+					//transitionToNewState(InitialisationState.MAIN); should happen in dialog
+				//}
 			}
 		});
+
+		remove(bPanel); //remove the previous buttons
 		add(chooseAvatar, buttonPanelConstraints);
 
 	}
