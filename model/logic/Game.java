@@ -11,6 +11,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 import model.items.Item;
+import model.npcs.ChaseZombie;
 import model.npcs.RandomZombie;
 import model.npcs.RunZombie;
 import model.npcs.Zombie;
@@ -39,7 +40,14 @@ public class Game{
 	public Game(GameState state) {
 		this.gameState = state;
 	}
-
+	
+	/**
+	 * Creates a new game. Creates a new World for the players
+	 * and places the players in the world. Also starts a clock thread
+	 * that will keep the day/night cycle and the zombie movement.
+	 * @param server: the server that will be running the game
+	 * @param parameters: the parameters of the game world to be created
+	 */
 	public Game(Server server, WorldParameters parameters){
 		this.server = server;
 		this.clock = new Clock(2000, this);
@@ -73,19 +81,53 @@ public class Game{
 				gameState.setDay(true);
 			}
 		}
+		updateZombies();
+		gameState.printState(false);
+	}
+	
+	/**
+	 * This method checks how many sombeis are in the world and adds
+	 * Zombies if needed, it then checks the time and changes the zombies
+	 * actions based on the time. From there is makes all the Zombies
+	 * move.
+	 */
+	
+	public void updateZombies(){
 		if(gameState.getZombieList().size() < 5){
 			addZombie();
 		}
-		for(Zombie z:gameState.getZombieList()){
+		for(Zombie zombie:gameState.getZombieList()){
+			
 			if(gameState.getDay()){
-				z.setStrategy(new RandomZombie());
+				zombie.setStrategy(new RunZombie());
 			}else{
-				z.setStrategy(new RunZombie());
+				zombie.setStrategy(new RandomZombie());
 			}
-			z.tick();
+			for(Player player: gameState.getPlayerList()){
+				if(playerInRange(player, zombie)){
+					zombie.setStrategy(new ChaseZombie());
+				}
+			}
+			zombie.tick();
 		}
 	}
 
+	/**
+	 * Checks if the player and the Zombie are in 3 blocks of each other.
+	 * @param player: Player to be checked againist the Zombie
+	 * @param zombie: Zombie to be checked if it is in range
+	 * @return: if the Zombie is in range of the player.
+	 */
+	private boolean playerInRange(Player player, Zombie zombie) {
+		int playerX = player.getPosition().getX();
+		int playerY = player.getPosition().getY();
+		int zombieX = zombie.getPosition().getX();
+		int zombieY = zombie.getPosition().getY();
+		if(Math.abs(playerX-zombieX) < 4 && Math.abs(playerY - zombieY) < 4){
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * This method moves the player in the direction that is passed in.

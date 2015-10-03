@@ -66,6 +66,7 @@ public class Area {
 	@XmlElementWrapper
 	@XmlElement(name="caveEntrance")
 	private ArrayList<Position> caveEntrances = new ArrayList<Position>();
+	private GameState gameState;// the gameState that stores this area.
 
 	public Area(int height, int width, AreaType t, Position p){
 		type = t;
@@ -84,13 +85,17 @@ public class Area {
 			}
 		}
 	}
+	
+	public void addGameState(GameState gameState){
+		this.gameState = gameState;
+	}
 
 	@SuppressWarnings("unused")
 	// for serializing final fields purpose.
 	private Area() {
 		this(0, 0, null, null);
 	}
-
+	
 	/**
 	 * Finds the nearest cave entrance to the position, it is called by the
 	 * RunZombie strategy
@@ -112,9 +117,14 @@ public class Area {
 		return closestCave;
 	}
 
-	public Position getNearestPlayer(Position oldPosition) {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * Finds the nearest player to the position, it is called by the 
+	 * ChaseZombie strategy
+	 * @param position: the position of the Zombie
+	 * @return
+	 */
+	public Position getNearestPlayer(Position position) {
+		return gameState.getNearestPlayer(position);
 	}
 
 	/**
