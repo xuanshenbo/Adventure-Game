@@ -1,0 +1,120 @@
+package main;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.util.ArrayList;
+
+import model.logic.Game;
+import control.Client;
+import control.ClockThread;
+import control.Server;
+import interpreter.ButtonStrategy;
+import interpreter.KeyStrategy;
+import interpreter.MenuStrategy;
+import interpreter.InitialStrategy;
+import interpreter.StrategyInterpreter;
+import GUI.GameFrame;
+
+/**
+ * The following is the main class for the whole game.
+ * @author yanlong
+ *
+ */
+public class Main {
+	private static Server server;
+	private static Client client;
+	private static Initialisation initial;
+	private static int uid;
+	private static Game game;
+	private static GameFrame frame;
+	//private static boolean initialised;
+
+	/**
+	 * Displays welcome dialog and set up interpreters, before displaying the main GameFrame
+	 * @author flanagdonn
+	 * @param args
+	 */
+	public static void main(String[] args) {
+
+		initial = new Initialisation();
+		initial.setGame(game);
+
+	}
+
+	/**
+	 * Sets up the network for a server-client mode
+	 */
+	public static void serverClient(){
+		int height = 15, width = 30, players = 4, trees = 20;
+		int buildings = 2, caves = 1, chests = 5, lootValue = 1;
+		int[] parameters = {height, width, players,trees, buildings, caves, chests, lootValue};
+		server = new Server(parameters);
+		game = server.getGame();
+		server.start();
+		try {
+			//System.out.println(ss.getAddress().toString());//debug
+			//Socket socket = new Socket(InetAddress.getByName( (ss.getAddress().getHostAddress().toString() ) ),ss.PORT);
+			//Socket socket = new Socket(InetAddress.getByName("0.0.0.0"),ss.PORT);
+			Socket socket = new Socket(server.getAddress(), server.PORT);
+			client = new Client(socket);
+			//Writer output = client.getOutput();
+			client.start();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Sets up the network for client only mode
+	 * @param adr
+	 * @param port
+	 */
+	public static void clientMode(InetAddress adr, int port){
+		server = null;
+		try {
+			Socket socket = new Socket(adr, port);
+			client = new Client(socket);
+			client.start();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void displayMainGameFrame(Client c){
+		//frame.dispose();	//get rid of welcome frame
+
+		frame = new GameFrame("Adventure Game", game);
+		//create the Strategy Interpreters with different Strategies as appropriate
+		StrategyInterpreter keyInterpreter = new StrategyInterpreter(frame, new KeyStrategy(),c);
+		StrategyInterpreter buttonInterpreter = new StrategyInterpreter(frame, new ButtonStrategy(),c);
+		StrategyInterpreter menuInterpreter = new StrategyInterpreter(frame, new MenuStrategy(),c);
+
+		menuInterpreter.setGame(frame.getGame());
+
+		//add the Strategy Interpreters to the GameFrame
+		frame.setKeyInterpreter(keyInterpreter);
+		frame.setButtonInterpreter(buttonInterpreter);
+		frame.setMenuInterpreter(menuInterpreter);
+		ClockThread clock = new ClockThread(20,frame);
+		clock.start();
+
+	}
+
+	public static void closeWelcome() {
+		initial.getFrame().dispose();
+		initial.setClient(client);
+	}
+
+	/**
+	 * A getter for Initialisation
+	 * @return
+	 */
+	public static Initialisation getInitial() {
+		return initial;
+	}
+
+
+
+}
