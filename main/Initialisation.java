@@ -27,7 +27,7 @@ public class Initialisation extends StrategyInterpreter{
 	private JFrame frame;
 
 	private InitialStrategy initStrategy = new InitialStrategy();
-
+	
 	/**
 	 * Create an Initialisation object using the StrategyInterpreter super constructor
 	 * Create a new frame in which to display the WelcomePanel

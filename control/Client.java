@@ -24,7 +24,7 @@ public class Client extends Thread implements KeyListener {
 	private final Socket socket;
 	private char[][] map;
 	private String sending;//the message to be sent to the server
-	private int uid;
+	private int uid = 1;//uid starts from 1
 
 	public Client(Socket s){
 		socket = s;
