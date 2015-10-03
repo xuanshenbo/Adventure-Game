@@ -47,7 +47,7 @@ public class Main {
 	 * Sets up the network for a server-client mode
 	 */
 	public static void serverClient(){
-		int height = 15, width = 30, players = 4, trees = 20;
+		int height = 15, width = 15, players = 1, trees = 20;
 		int buildings = 2, caves = 1, chests = 5, lootValue = 1;
 		int[] parameters = {height, width, players,trees, buildings, caves, chests, lootValue};
 		server = new Server(parameters);

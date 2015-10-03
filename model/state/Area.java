@@ -50,6 +50,7 @@ public class Area {
 	private ArrayList<Area> internalAreas = new ArrayList<Area>();
 	private Position exitPosition;
 	private ArrayList<Position> caveEntrances = new ArrayList<Position>();
+	private GameState gameState;// the gameState that stores this area.
 
 	public Area(int height, int width, AreaType t, Position p){
 		type = t;
@@ -67,6 +68,10 @@ public class Area {
 				}
 			}
 		}
+	}
+	
+	public void addGameState(GameState gameState){
+		this.gameState = gameState;
 	}
 	
 	/**
@@ -90,9 +95,14 @@ public class Area {
 		return closestCave;
 	}
 
-	public Position getNearestPlayer(Position oldPosition) {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * Finds the nearest player to the position, it is called by the 
+	 * ChaseZombie strategy
+	 * @param position: the position of the Zombie
+	 * @return
+	 */
+	public Position getNearestPlayer(Position position) {
+		return gameState.getNearestPlayer(position);
 	}
 
 	@SuppressWarnings("unused")

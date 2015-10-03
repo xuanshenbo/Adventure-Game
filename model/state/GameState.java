@@ -31,6 +31,7 @@ public class GameState {
 		this.playerList = p;
 		time = 0;
 		day = true;
+		world.addGameState(this);
 	}
 
 	@SuppressWarnings("unused")
@@ -52,6 +53,28 @@ public class GameState {
 		}
 		return null;
 	}	
+	
+	/**
+	 * Goes through the player list and returns the nearest players
+	 * position to the pased in parameter. This is used by the ChaseZombie
+	 * @param position: position of the Zombie
+	 * @return: nearest player to the Zombie
+	 */
+	public Position getNearestPlayer(Position position){
+		double bestDistance = Double.MAX_VALUE;
+		Position closestPlayer = position;
+		for(Player player: playerList){
+			Position playerPosition = player.getPosition();
+			double dx = Math.abs(position.getX() - playerPosition.getX());
+			double dy = Math.abs(position.getY() - playerPosition.getY());
+			double distance = Math.sqrt((dx*dx)*(dy*dy));
+			if(distance < bestDistance){
+				bestDistance = distance;
+				closestPlayer = playerPosition;
+			}
+		}
+		return closestPlayer;
+	}
 	
 	/**
 	 * Adding a zombie to the world
@@ -241,8 +264,16 @@ public class GameState {
 	/**
 	 * This method prints out the game state to the console
 	 * used for debugging.
+	 * @param innerAreas 
 	 */
-	public void printState(){
+	public void printState(boolean innerAreas){
+		String suffix = "am";
+		if(day){
+			suffix = "am";
+		}else{
+			suffix = "pm";
+		}
+		System.out.println("Time: "+time+suffix);
 		Tile[][] a = world.getArea();
 
 		for(int row = 0; row<a.length; row++){
@@ -255,7 +286,7 @@ public class GameState {
 					}
 				}
 				for(Zombie z: zombieList){
-					if(z.getPosition().getX() == col && z.getPosition().getY() == row && z.getPosition().getArea() == world){
+					if(z.getPosition().getX() == col && z.getPosition().getY() == row && z.getPosition().getArea() == world && !playerPos){
 						System.out.print(z.getid());
 						playerPos = true;
 					}
@@ -273,29 +304,31 @@ public class GameState {
 //			}
 //			System.out.println("");
 //		}
+		if(innerAreas){
+			for(Area innerArea: world.getInternalAreas()){
+				System.out.println("");
+				System.out.println(innerArea.getEntrance());
 
-		for(Area innerArea: world.getInternalAreas()){
-			System.out.println("");
-			System.out.println(innerArea.getEntrance());
+				Tile[][] innerTiles = innerArea.getArea();
 
-			Tile[][] innerTiles = innerArea.getArea();
-
-			for(int row = 0; row<innerTiles.length; row++){
-				for(int col = 0; col<innerTiles[0].length; col++){
-					boolean playerPos = false;
-					for(Player p: playerList){
-						if(p.getPosition().getX() == col && p.getPosition().getY() == row && p.getPosition().getArea() == innerArea){
-							System.out.print(p);
-							playerPos = true;
+				for(int row = 0; row<innerTiles.length; row++){
+					for(int col = 0; col<innerTiles[0].length; col++){
+						boolean playerPos = false;
+						for(Player p: playerList){
+							if(p.getPosition().getX() == col && p.getPosition().getY() == row && p.getPosition().getArea() == innerArea){
+								System.out.print(p);
+								playerPos = true;
+							}
+						}
+						if(!playerPos){
+							System.out.print(innerTiles[row][col]);
 						}
 					}
-					if(!playerPos){
-						System.out.print(innerTiles[row][col]);
-					}
+					System.out.println("");
 				}
-				System.out.println("");
-			}
-		}		
+			}	
+		}
+		System.out.println("");
 	}
 	
 	public void printView(int id){
