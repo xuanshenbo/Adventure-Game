@@ -89,8 +89,6 @@ public class GameFrame extends JFrame{
 		    e.printStackTrace();
 		}*/
 
-		new WelcomeDialogAlt(this);
-
 		addMenuBar();
 
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
@@ -148,9 +146,9 @@ public class GameFrame extends JFrame{
 
 	}
 
-/*
- * Sets up the Middle Panel, ready for displaying. But doesn't add it to the Frame yet.
- */
+	/*
+	 * Sets up the Middle Panel, ready for displaying. But doesn't add it to the Frame yet.
+	 */
 	private void setupMiddlePanel() {
 
 		midPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -172,31 +170,31 @@ public class GameFrame extends JFrame{
 	}
 
 	//taken from GUIForTest for testing purposes
-    private static Game generateGame(int trees, int buildings, int caves, int chests, int width, int height, int playerCount, int lootValue) {
-        Generator g = new Generator(trees, buildings, caves, chests, lootValue);
-        Area a = new Area(width, height, Area.AreaType.OUTSIDE, null);
-        a.generateWorld(g);
-        ArrayList<Player> p = placePlayers(playerCount, width, height, a);
-        GameState state = new GameState(a, p);
-        Game game = new Game(state);
-        return game;
-    }
+	private static Game generateGame(int trees, int buildings, int caves, int chests, int width, int height, int playerCount, int lootValue) {
+		Generator g = new Generator(trees, buildings, caves, chests, lootValue);
+		Area a = new Area(width, height, Area.AreaType.OUTSIDE, null);
+		a.generateWorld(g);
+		ArrayList<Player> p = placePlayers(playerCount, width, height, a);
+		GameState state = new GameState(a, p);
+		Game game = new Game(state);
+		return game;
+	}
 
-  //taken from GUIForTest for testing purposes
-    private static ArrayList<Player> placePlayers(int playerCount, int width, int height, Area a) {
-        double[] xCoords = {0.5, 0, 0.5, 1};
-        double[] yCoords = {0, 0.5, 1, 0.5};
-        ArrayList<Player> list = new ArrayList<Player>();
-        for(int count = 0; count < playerCount; count++){
-            int x = (int) ((width-1)*xCoords[count]);
-            int y = (int) ((height-1)*yCoords[count]);
-            int id = count+1;
-            Position position = new Position(x, y, a);
-            Player p = new Player(position, id);
-            list.add(p);
-        }
-        return list;
-    }
+	//taken from GUIForTest for testing purposes
+	private static ArrayList<Player> placePlayers(int playerCount, int width, int height, Area a) {
+		double[] xCoords = {0.5, 0, 0.5, 1};
+		double[] yCoords = {0, 0.5, 1, 0.5};
+		ArrayList<Player> list = new ArrayList<Player>();
+		for(int count = 0; count < playerCount; count++){
+			int x = (int) ((width-1)*xCoords[count]);
+			int y = (int) ((height-1)*yCoords[count]);
+			int id = count+1;
+			Position position = new Position(x, y, a);
+			Player p = new Player(position, id);
+			list.add(p);
+		}
+		return list;
+	}
 
 	private void addBottomPanel() {
 		//new JPanel(new BoxLayout(botPanel, BoxLayout.LINE_AXIS));
@@ -431,7 +429,7 @@ public class GameFrame extends JFrame{
 
 	public int getMapWidth() {
 		return this.midPanel.getWidth();
-}
+	}
 
 	public ArrayList<Avatar> getAvailableAvatars() {
 		ArrayList<Avatar> avatars= new ArrayList<Avatar>();

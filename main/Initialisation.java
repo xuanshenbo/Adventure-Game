@@ -25,9 +25,10 @@ import GUI.WelcomePanel;
 public class Initialisation extends StrategyInterpreter{
 
 	private JFrame frame;
+	private Main main;
 
 	private InitialStrategy initStrategy = new InitialStrategy();
-	
+
 	/**
 	 * Create an Initialisation object using the StrategyInterpreter super constructor
 	 * Create a new frame in which to display the WelcomePanel
@@ -52,7 +53,13 @@ public class Initialisation extends StrategyInterpreter{
 		return frame;
 	}
 
+
+
 	public void displayMainGameFrame(Client c, Game g){
+		System.out.println("here");
+		Main.displayMainGameFrame(c);
+		/*
+		System.out.println("HERE");
 		frame.dispose();	//get rid of welcome frame
 
 		GameFrame game = new GameFrame("Adventure Game", g);
@@ -66,5 +73,6 @@ public class Initialisation extends StrategyInterpreter{
 		game.setKeyInterpreter(keyInterpreter);
 		game.setButtonInterpreter(buttonInterpreter);
 		game.setMenuInterpreter(menuInterpreter);
+	}*/
 	}
 }

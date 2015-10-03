@@ -12,6 +12,7 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 	@Override
 	public void notify(String text) {
 		if(text.equals("start")){
+			System.out.println("START");
 			s.displayMainGameFrame(s.getClient(),s.getGame());
 		}
 		else{
@@ -20,8 +21,6 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 			}
 			else if(text.equals("clientserver")){
 				Main.serverClient();
-				Main.displayMainGameFrame(s.getClient());
-				Main.closeWelcome();
 			}
 		}
 

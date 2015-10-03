@@ -83,6 +83,8 @@ public class Main {
 	}
 
 	public static void displayMainGameFrame(Client c){
+		closeWelcome();
+
 		//frame.dispose();	//get rid of welcome frame
 
 		frame = new GameFrame("Adventure Game", game);

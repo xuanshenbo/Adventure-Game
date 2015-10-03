@@ -38,7 +38,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 	private int heading1Size = 50;
 	private int heading2Size = 30;
-	private GridBagConstraints bottomPanelConstraints;
+	private GridBagConstraints buttonPanelConstraints;
 
 	private InputPanel iPanel;
 
@@ -93,14 +93,14 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 		addWelcomeImage();
 
-		bottomPanelConstraints=new GridBagConstraints();
-		bottomPanelConstraints.gridx = 0;
-		bottomPanelConstraints.gridy = 10;
+		buttonPanelConstraints=new GridBagConstraints();
+		buttonPanelConstraints.gridx = 0;
+		buttonPanelConstraints.gridy = 10;
 
 		// button panel needs to store "this" to call the display next methods, and send it Initialisation too? Or Initialisation
 		// has access to buttonInterpreter?
 		bPanel = new ButtonPanel(this, state, initialisation);
-		add(bPanel, bottomPanelConstraints);
+		add(bPanel, buttonPanelConstraints);
 
 		//display the welcome panel
 		setVisible(true);
@@ -126,21 +126,22 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 	public void transitionToNewState(InitialisationState state){
 		if(state.equals(InitialisationState.SHOW_LOAD_OR_NEW_OPTION)){
+			System.out.println("show l n");
 			displayLoadNew();
 		}
 		else if(state.equals(InitialisationState.CONNECT_TO_SERVER)){
 			bPanel.setVisible(false); //don't want to see loadNew options anymore
 			displayConnect();
-			repaint();
 		}
 		else if(state.equals(InitialisationState.START_NEW_GAME)){
 			bPanel.setVisible(false); //don't want to see loadNew options anymore
 			displayNewGameOptions();
-			repaint();
 		}
 		else if(state.equals(InitialisationState.LOAD_GAME)){
 			//load the saved game
 		}
+
+		repaint();
 	}
 
 	/*
@@ -148,7 +149,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	 */
 	private void displayConnect() {
 		iPanel = new InputPanel(initialisation, "connect");
-		add(iPanel, bottomPanelConstraints);
+		add(iPanel, buttonPanelConstraints);
 	}
 
 	/*
@@ -157,9 +158,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	 */
 	private void displayLoadNew() {
 		bPanel = new ButtonPanel(this, InitialisationState.SHOW_LOAD_OR_NEW_OPTION, initialisation);
-		repaint();
-
-		//System.out.println("got here");
+		add(bPanel, buttonPanelConstraints);
 	}
 
 	/*
@@ -182,7 +181,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 				}
 			}
 		});
-		add(chooseAvatar, bottomPanelConstraints);
+		add(chooseAvatar, buttonPanelConstraints);
 
 	}
 	/**
