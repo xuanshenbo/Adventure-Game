@@ -48,7 +48,7 @@ public class GameFrame extends JFrame{
 	private int frameWidth = 800;
 	private int frameHeight = 800;
 
-	private Game game; //TODO initalise this WHERE?
+	//private Game game; //TODO initalise this WHERE?
 
 	private Dimension mapSize = new Dimension(750, 400);
 
@@ -83,7 +83,7 @@ public class GameFrame extends JFrame{
 	 */
 	public GameFrame(String title, Game g) {
 		super(title);
-		game = g;
+		//game = g;
 		/*try {
 		    UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
 		} catch (Exception e) {
@@ -156,10 +156,12 @@ public class GameFrame extends JFrame{
 
 		//generate a Game for testing
 		//this.game = generateGame(20, 2, 1, 5, 20, 20, 4, 1);
-
+/*
 		char[][] view = game.getGameView(1).get(0);
 		char[][] objects = game.getGameView(1).get(1);
-
+*/
+		char[][] view = new char[15][15];
+		char[][] objects = new char[15][15];
 		renderer = new GameRenderer(800, 600, view, objects);
 
 		Image renderWindow = renderer.getImage(); //need to set the size??
@@ -254,16 +256,16 @@ public class GameFrame extends JFrame{
 						//do nothing
 					}
 				}
-				else if(e.getSource()==save){
-					System.out.println("Saving the game...");
-					try {
-						Serializer.serialize(game.getGameState());
-					} catch (JAXBException ex) {
-						System.out.println("Saving failed...");
-						return;
-					}
-					System.out.println("Done!");
-				}
+//				else if(e.getSource()==save){
+//					System.out.println("Saving the game...");
+//					try {
+//						Serializer.serialize(game.getGameState());
+//					} catch (JAXBException ex) {
+//						System.out.println("Saving failed...");
+//						return;
+//					}
+//					System.out.println("Done!");
+//				}
 			}
 		};
 
@@ -482,10 +484,5 @@ public class GameFrame extends JFrame{
 
 		}*/
 
-	}
-
-
-	public Game getGame() {
-		return this.game;
 	}
 }
