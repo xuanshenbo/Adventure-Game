@@ -24,8 +24,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import main.Initialisation;
 import main.InitialisationState;
@@ -41,6 +44,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	private int heading1Size = 50;
 	private int heading2Size = 30;
 	private GridBagConstraints buttonPanelConstraints;
+	private GridBagConstraints sliderPanelConstraints;
 
 	private InputPanel iPanel;
 
@@ -49,16 +53,20 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	private Dimension imageSize = new Dimension(850, 400);
 
 	//static so as to be used in parent constructor
-	private static String welcome = "Welcome to Adventure Game!";
+	private static String welcome = "Welcome to Happiness Game!";
 
 	//this will display different buttons depending on what the user needs to choose
 	private ButtonPanel bPanel;
+
+	private JPanel sliderPanel;
 
 	//the state decides what to display
 	private InitialisationState state;
 
 	private String instructions = "If you wish to start a new game, please click OK, to choose an Avatar!";
 
+	//how many trees the user wants
+	private int numTrees;
 
 	/**
 	 * Creates a dialog with a message, and different behaviour depending on the state
@@ -96,6 +104,12 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		add(messagePane, gc);
 
 		addWelcomeImage();
+
+		sliderPanelConstraints = new GridBagConstraints();
+		sliderPanelConstraints.gridx = 0;
+		sliderPanelConstraints.gridx = 10;
+		sliderPanelConstraints.gridheight = 50;
+
 
 		buttonPanelConstraints=new GridBagConstraints();
 		buttonPanelConstraints.gridx = 0;
@@ -137,12 +151,15 @@ public class WelcomePanel extends JPanel implements ActionListener {
 			bPanel.setVisible(false); //don't want to see loadNew options anymore
 			displayConnect();
 		}
-		else if(state.equals(InitialisationState.START_NEW_GAME)){
+		else if(state.equals(InitialisationState.SHOW_AVATAR_OPTIONS)){
 			bPanel.setVisible(false); //don't want to see loadNew options anymore
-			displayNewGameOptions();
+			displayAvatarOptions();
 		}
 		else if(state.equals(InitialisationState.LOAD_GAME)){
 			//load the saved game
+		}
+		else if(state.equals(InitialisationState.CHOOSE_SLIDER_OPTIONS)){
+			displaySliderOptions();
 		}
 		else if(state.equals(InitialisationState.MAIN)){
 			try {
@@ -152,9 +169,35 @@ public class WelcomePanel extends JPanel implements ActionListener {
 				e.printStackTrace();
 			}
 		}
-		//parentFrame.pack();
-		revalidate();
+		revalidate(); //resize panel to make room for new panel
 		repaint();
+
+	}
+
+	private void displaySliderOptions() {
+		remove(bPanel); //move this to transition method?
+		final JSlider trees = new JSlider(JSlider.HORIZONTAL, 0, Initialisation.maxTrees, Initialisation.maxTrees/2);
+		sliderPanel = new JPanel();
+		sliderPanel.setLayout(new BoxLayout(sliderPanel, BoxLayout.PAGE_AXIS));
+
+		trees.addChangeListener(new ChangeListener(){
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				JSlider source = (JSlider)e.getSource();
+				if (!source.getValueIsAdjusting()) {
+					if(source==trees){
+						numTrees = trees.getValue();
+						WelcomePanel.this.remove(sliderPanel);
+						transitionToNewState(InitialisationState.SHOW_AVATAR_OPTIONS);
+					}
+				}
+			}
+		});
+		sliderPanel.add(trees);
+		sliderPanel.add(new JLabel("Choose the amount of treeage from 0% to 100%"));
+
+
+		add(sliderPanel, sliderPanelConstraints);
 
 	}
 
@@ -164,6 +207,8 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	private void displayConnect() {
 		iPanel = new InputPanel(initialisation, "connect");
 		add(iPanel, buttonPanelConstraints);
+
+		revalidate();
 	}
 
 	/*
@@ -179,22 +224,15 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	/*
 	 * Displays option dialog to get user to choose Avatar
 	 */
-	private void displayNewGameOptions() {
+	private void displayAvatarOptions() {
 		JButton chooseAvatar = new JButton("Choose my Avatar");
 		chooseAvatar.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//if(state.equals(InitialisationState.START_NEW_GAME)){
-					Dialog avatarDialog = new Dialog("Avatar chooser", "These are your available options.", InitialisationState.SHOW_AVATAR_OPTIONS, initialisation, WelcomePanel.this);
-					try {
-						initialisation.notify("start");
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					//transitionToNewState(InitialisationState.MAIN); should happen in dialog
-				//}
+				Dialog avatarDialog = new Dialog("Avatar chooser", "These are your available options.",
+						InitialisationState.SHOW_AVATAR_OPTIONS, initialisation, WelcomePanel.this);
+
 			}
 		});
 

@@ -29,6 +29,7 @@ import javax.swing.event.ChangeEvent;
 
 import main.Initialisation;
 import main.InitialisationState;
+import main.MainGameState;
 
 /**
  * A panel to store the button options
@@ -63,7 +64,7 @@ public class ButtonPanel extends JPanel {
 	 * @param container
 	 * @param boxLayout2
 	 */
-	public ButtonPanel(GameFrame container, StrategyInterpreter b, InitialisationState state){
+	public ButtonPanel(GameFrame container, StrategyInterpreter b, MainGameState state){
 		buttonInterpreter = b;
 		containerFrame = container;
 		//make buttons layout top to bottom
@@ -109,6 +110,8 @@ public class ButtonPanel extends JPanel {
 
 
 
+
+
 	}
 
 	private void addLoadNewButtons() {
@@ -133,7 +136,7 @@ public class ButtonPanel extends JPanel {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					welcomePanel.transitionToNewState(InitialisationState.START_NEW_GAME);
+					welcomePanel.transitionToNewState(InitialisationState.CHOOSE_SLIDER_OPTIONS);
 				}
 			}
 

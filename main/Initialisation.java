@@ -29,6 +29,9 @@ public class Initialisation extends StrategyInterpreter{
 	private JFrame frame;
 	private Main main;
 
+	public final static int maxTrees = 100;
+	public final static int maxBuildings = 20;
+
 	private InitialStrategy initStrategy = new InitialStrategy();
 
 	/**
@@ -69,23 +72,6 @@ public class Initialisation extends StrategyInterpreter{
 
 
 	public void displayMainGameFrame(Client c, Game g){
-		//System.out.println("here");
 		Main.displayMainGameFrame(c);
-		/*
-		System.out.println("HERE");
-		frame.dispose();	//get rid of welcome frame
-
-		GameFrame game = new GameFrame("Adventure Game", g);
-
-		//create the Strategy Interpreters with different Strategies as appropriate
-		StrategyInterpreter keyInterpreter = new StrategyInterpreter(game, new KeyStrategy(),c);
-		StrategyInterpreter buttonInterpreter = new StrategyInterpreter(game, new ButtonStrategy(),c);
-		StrategyInterpreter menuInterpreter = new StrategyInterpreter(game, new MenuStrategy(),c);
-
-		//add the Strategy Interpreters to the GameFrame
-		game.setKeyInterpreter(keyInterpreter);
-		game.setButtonInterpreter(buttonInterpreter);
-		game.setMenuInterpreter(menuInterpreter);
-	}*/
 	}
 }

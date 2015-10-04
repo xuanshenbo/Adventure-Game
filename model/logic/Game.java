@@ -4,6 +4,8 @@
  */
 
 package model.logic;
+
+import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,35 +22,36 @@ import model.state.GameState;
 import model.state.Player;
 import model.state.Position;
 import model.state.Area.AreaType;
+import model.tiles.Cabinet;
 import model.tiles.Tile;
 import control.Server;
 import static utilities.PrintTool.p;
 
-public class Game{
+public class Game {
 
 	private GameState gameState;
 	private Server server;
 	private Clock clock;
 
-	public enum Direction{
-		UP,
-		DOWN,
-		LEFT,
-		RIGHT;
+	public enum Direction {
+		UP, DOWN, LEFT, RIGHT;
 	}
 
 	public Game(GameState state) {
 		this.gameState = state;
 	}
-	
+
 	/**
-	 * Creates a new game. Creates a new World for the players
-	 * and places the players in the world. Also starts a clock thread
-	 * that will keep the day/night cycle and the zombie movement.
-	 * @param server: the server that will be running the game
-	 * @param parameters: the parameters of the game world to be created
+	 * Creates a new game. Creates a new World for the players and places the
+	 * players in the world. Also starts a clock thread that will keep the
+	 * day/night cycle and the zombie movement.
+	 *
+	 * @param server
+	 *            : the server that will be running the game
+	 * @param parameters
+	 *            : the parameters of the game world to be created
 	 */
-	public Game(Server server, WorldParameters parameters){
+	public Game(Server server, WorldParameters parameters) {
 		this.server = server;
 		this.clock = new Clock(2000, this);
 		int height = parameters.getHeight();
@@ -56,55 +59,55 @@ public class Game{
 		Area area = new Area(height, width, AreaType.OUTSIDE, null);
 		Generator g = new Generator(parameters);
 		area.generateWorld(g);
-		ArrayList<Player> playerList = placePlayers(parameters.getPlayerCount(), height, width, area);
+		ArrayList<Player> playerList = placePlayers(
+				parameters.getPlayerCount(), height, width, area);
 		this.gameState = new GameState(area, playerList);
 		clock.start();
 	}
 
 	/**
-	 * This is the method that the clock calls, from here the updates need to happen, ie moving
-	 * Zombies and updating the time.
+	 * This is the method that the clock calls, from here the updates need to
+	 * happen, ie moving Zombies and updating the time.
 	 */
-	public void tick(){
+	public void tick() {
 		String day;
-		if(gameState.getDay()){
+		if (gameState.getDay()) {
 			day = "AM";
-		}else{
+		} else {
 			day = "PM";
 		}
-		gameState.setTime(gameState.getTime()+1);
-		if(gameState.getTime() == 12){
+		gameState.setTime(gameState.getTime() + 1);
+		if (gameState.getTime() == 12) {
 			gameState.setTime(0);
-			if(gameState.getDay()){
+			if (gameState.getDay()) {
 				gameState.setDay(false);
-			}else{
+			} else {
 				gameState.setDay(true);
 			}
 		}
 		updateZombies();
 		gameState.printState(false);
 	}
-	
+
 	/**
-	 * This method checks how many sombeis are in the world and adds
-	 * Zombies if needed, it then checks the time and changes the zombies
-	 * actions based on the time. From there is makes all the Zombies
-	 * move.
+	 * This method checks how many sombeis are in the world and adds Zombies if
+	 * needed, it then checks the time and changes the zombies actions based on
+	 * the time. From there is makes all the Zombies move.
 	 */
-	
-	public void updateZombies(){
-		if(gameState.getZombieList().size() < 5){
+
+	public void updateZombies() {
+		if (gameState.getZombieList().size() < 5) {
 			addZombie();
 		}
-		for(Zombie zombie:gameState.getZombieList()){
-			
-			if(gameState.getDay()){
+		for (Zombie zombie : gameState.getZombieList()) {
+
+			if (gameState.getDay()) {
 				zombie.setStrategy(new RunZombie());
-			}else{
+			} else {
 				zombie.setStrategy(new RandomZombie());
 			}
-			for(Player player: gameState.getPlayerList()){
-				if(playerInRange(player, zombie)){
+			for (Player player : gameState.getPlayerList()) {
+				if (playerInRange(player, zombie)) {
 					zombie.setStrategy(new ChaseZombie());
 				}
 			}
@@ -114,8 +117,11 @@ public class Game{
 
 	/**
 	 * Checks if the player and the Zombie are in 3 blocks of each other.
-	 * @param player: Player to be checked againist the Zombie
-	 * @param zombie: Zombie to be checked if it is in range
+	 *
+	 * @param player
+	 *            : Player to be checked againist the Zombie
+	 * @param zombie
+	 *            : Zombie to be checked if it is in range
 	 * @return: if the Zombie is in range of the player.
 	 */
 	private boolean playerInRange(Player player, Zombie zombie) {
@@ -123,7 +129,7 @@ public class Game{
 		int playerY = player.getPosition().getY();
 		int zombieX = zombie.getPosition().getX();
 		int zombieY = zombie.getPosition().getY();
-		if(Math.abs(playerX-zombieX) < 4 && Math.abs(playerY - zombieY) < 4){
+		if (Math.abs(playerX - zombieX) < 4 && Math.abs(playerY - zombieY) < 4) {
 			return true;
 		}
 		return false;
@@ -131,23 +137,38 @@ public class Game{
 
 	/**
 	 * This method moves the player in the direction that is passed in.
-	 * @param p: player to move
-	 * @param n: direction to move in.
+	 *
+	 * @param player
+	 *            : player to move
+	 * @param direction
+	 *            : direction to move in.
 	 */
-	public void move(Player player, Direction direction){
+	public void move(Player player, Direction direction) {
 		Position playerPosition = player.getPosition();
 		Tile toTile = destinationTile(direction, player);
 
-		if(toTile != null){
+		if (toTile != null) {
 			toTile.move(player, direction);
+			sendToServer(player, 'M');
+		}
+		if (toTile.isContainer()) {
+			Item[] items = ((Cabinet) toTile).open();
+			char[] itemArray = new char[items.length];
+			for (int i = 0; i < items.length; i++) {
+				itemArray[i] = items[i].getType();
+			}
+			// send signal to server to send to clients containing the inventory
 		}
 	}
 
 	/**
-	 * This method will return the Tile the that is in the direction
-	 * the player want to move in
-	 * @param direction: direction of the player
-	 * @param player: player that is moving
+	 * This method will return the Tile the that is in the direction the player
+	 * want to move in
+	 *
+	 * @param direction
+	 *            : direction of the player
+	 * @param player
+	 *            : player that is moving
 	 * @return: Tile of destination
 	 */
 	private Tile destinationTile(Direction direction, Player player) {
@@ -155,50 +176,62 @@ public class Game{
 		int y = player.getPosition().getY();
 		Tile[][] areaArray = gameState.getWorld(player).getArea();
 
-		if(direction == Direction.UP){
-			if(y == 0){
+		if (direction == Direction.UP) {
+			if (y == 0) {
 				return null;
 			}
-			return areaArray[y-1][x];
+			return areaArray[y - 1][x];
 
-		}else if(direction == Direction.DOWN){
-			if(y == areaArray.length-1){
+		} else if (direction == Direction.DOWN) {
+			if (y == areaArray.length - 1) {
 				return null;
 			}
-			return areaArray[y+1][x];
+			return areaArray[y + 1][x];
 
-		}else if(direction == Direction.RIGHT){
-			if(x == areaArray[0].length-1){
+		} else if (direction == Direction.RIGHT) {
+			if (x == areaArray[0].length - 1) {
 				return null;
 			}
-			return areaArray[y][x+1];
+			return areaArray[y][x + 1];
 
-		}else if(direction == Direction.LEFT){
-			if(x == 0){
+		} else if (direction == Direction.LEFT) {
+			if (x == 0) {
 				return null;
 			}
-			return areaArray[y][x-1];
+			return areaArray[y][x - 1];
 		}
 		return null;
 	}
+
+	/**
+	 * Called when a player uses an item in their inventory
+	 */
+
+	public void use(Player player, int inventorySlot){
+		player.use(inventorySlot);
+		sendToServer(player, 'P');
+	}
+
 	/**
 	 * Called when a player tries to pick up an object of the ground
+	 *
 	 * @param player
 	 */
-	public void pickUp(Player player){
+	public void pickUp(Player player) {
 		Position playerPosition = player.getPosition();
 		Item item = gameState.getItem(playerPosition);
-		if(item != null){
+		if (item != null) {
 			player.collect(item);
 			gameState.removeItem(playerPosition);
 		}
+		sendToServer(player, 'P');
 	}
 
 	/**
 	 * Adds a random Zombie to the game.
 	 */
 
-	public void addZombie(){
+	public void addZombie() {
 		Position position = gameState.getRandomValidTile();
 		Zombie z = new Zombie(new RandomZombie(), position);
 		gameState.addZombie(z);
@@ -206,45 +239,52 @@ public class Game{
 
 	/*********************************
 	 *
-	 *  GETTERS AND SETTERS
+	 * GETTERS AND SETTERS
 	 *
 	 * *******************************
 	 */
 
-	public List<char[][]> getGameView(int id){
+	public List<char[][]> getGameView(int id) {
 		Player player = gameState.getPlayer(id);
 		return gameState.getGameView(player);
 	}
 
-	public Player getPlayer(int id){
+	public Player getPlayer(int id) {
 		return gameState.getPlayer(id);
 	}
+
 	public ArrayList<Player> getPlayerList() {
 		return gameState.getPlayerList();
 	}
 
 	public GameState getGameState() {
-		 return gameState;
+		return gameState;
 	}
 
 	/**
 	 * This Method is only called when the game is first made and places the
 	 * players into the world, this will probably be redundant as we progress
-	 * @param playerCount: how many players in the game
-	 * @param width: width of the game space
-	 * @param height: height of the game space
-	 * @param a: the outside area that the players spawn in
+	 *
+	 * @param playerCount
+	 *            : how many players in the game
+	 * @param width
+	 *            : width of the game space
+	 * @param height
+	 *            : height of the game space
+	 * @param a
+	 *            : the outside area that the players spawn in
 	 * @return: a list of players in the game
 	 */
 
-	private ArrayList<Player> placePlayers(int playerCount, int height, int width, Area a) {
-		double[] xCoords = {0, 0.5, 1, 0.5};
-		double[] yCoords = {0.5, 0, 0.5, 1};
+	private ArrayList<Player> placePlayers(int playerCount, int height,
+			int width, Area a) {
+		double[] xCoords = { 0, 0.5, 1, 0.5 };
+		double[] yCoords = { 0.5, 0, 0.5, 1 };
 		ArrayList<Player> list = new ArrayList<Player>();
-		for(int count = 0; count < playerCount; count++){
-			int x = (int) ((width-1)*xCoords[count]);
-			int y = (int) ((height-1)*yCoords[count]);
-			int id = count+1;
+		for (int count = 0; count < playerCount; count++) {
+			int x = (int) ((width - 1) * xCoords[count]);
+			int y = (int) ((height - 1) * yCoords[count]);
+			int id = count + 1;
 			Position position = new Position(x, y, a);
 			Player p = new Player(position, id);
 			list.add(p);
@@ -253,27 +293,35 @@ public class Game{
 	}
 
 	/**
-	 * The following receives the user event from the client and process the logic needed to update the game.
+	 * The following receives the user event from the client and process the
+	 * logic needed to update the game.
+	 *
 	 * @param input
 	 * @param out
 	 * @param id
 	 */
-	public synchronized void processClientEvent(char[] message, Writer out, int id){
-		switch(message[0]){
-		case 'M':
-			move(gameState.getPlayer(id), parseDirection(message[2]));
+	public synchronized void processClientEvent(char[] message, Writer out,
+			int id) {
+		switch (message[0]) {
+		case 'M'://move [M, direction]
+			move(gameState.getPlayer(id), parseDirection(message[1]));
 			break;
-
+		case 'U': //use [I, int inventorySlot)
+			use(gameState.getPlayer(id), message[1]);
+			break;
+		case 'P'://Pickup [P, _]
+			pickUp(gameState.getPlayer(id));
 		}
 	}
 
 	/**
 	 * The following transferred a char sent from the client into a Direction
+	 *
 	 * @param dir
 	 * @return
 	 */
-	public synchronized Direction parseDirection(char dir){
-		switch(dir){
+	public synchronized Direction parseDirection(char dir) {
+		switch (dir) {
 		case 'N':
 			return Direction.UP;
 		case 'S':
@@ -284,6 +332,41 @@ public class Game{
 			return Direction.RIGHT;
 		default:
 			return null;
+		}
+	}
+
+	public void sendToServer(Player player, char action){
+		char[] message;
+		if(action == 'M'){
+			List<char[][]> view = getGameView(player.getId());
+
+			message = new char[451];
+			message[0] = action;
+			int index = 1;
+			for(int r = 0; r < 15; r++){
+				for(int c = 0; c < 15; c++){
+					message[index++] = view.get(0)[r][c];
+					message[index++] = view.get(1)[r][c];
+				}
+			}
+		}else if(action == 'P'){
+			char[] inventory = new char[player.getInventory().length];
+			int happiness = player.getHappiness();
+			message = new char[inventory.length+2];
+			message[0] = action;
+			message[1] = (char)(happiness +'0');
+			for(int i = 2; i < inventory.length; i++){
+				message[i] = inventory[i];
+			}
+
+		}else{
+			message = new char[0];
+		}
+
+		try {
+			server.getWriters()[player.getId()].write(message);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 

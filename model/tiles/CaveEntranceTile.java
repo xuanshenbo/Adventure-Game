@@ -49,4 +49,9 @@ public class CaveEntranceTile implements Tile {
 		return false;
 	}
 
+	@Override
+	public boolean isContainer() {
+		return false;
+	}
+
 }

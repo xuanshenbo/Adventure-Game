@@ -8,7 +8,7 @@ public class CaveTile implements Tile {
 
 	private char id = 'C';
 	private Position position;
-	
+
 	public CaveTile(Position position){
 		this.position = position;
 	}
@@ -41,6 +41,11 @@ public class CaveTile implements Tile {
 
 	@Override
 	public boolean isGround() {
+		return false;
+	}
+
+	@Override
+	public boolean isContainer() {
 		return false;
 	}
 }

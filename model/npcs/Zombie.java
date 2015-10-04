@@ -17,7 +17,7 @@ import model.state.Position;
 public class Zombie {
 
 	@XmlTransient
-	private ZombieStrategy strategy;
+	private ZombieStrategy strategy  = new RandomZombie();
 	private Position position;
 	private char id = 'Z';
 
