@@ -23,6 +23,7 @@ public class Player {
 	@XmlElement(name = "item")
 	private Item[] inventory = new Item[6]; // The inventory of the player
 	private int happiness = 5;
+	private boolean inGame = false;
 
 	public Player(Position p, int id) {
 		this.position = p;
@@ -122,6 +123,12 @@ public class Player {
 
 	public int getHappiness() {
 		return happiness;
+	}
+
+
+
+	public boolean isInGame() {
+		return inGame;
 	}
 
 }

@@ -85,7 +85,7 @@ public class Area {
 			}
 		}
 	}
-	
+
 	public void addGameState(GameState gameState){
 		this.gameState = gameState;
 	}
@@ -95,7 +95,7 @@ public class Area {
 	private Area() {
 		this(0, 0, null, null);
 	}
-	
+
 	/**
 	 * Finds the nearest cave entrance to the position, it is called by the
 	 * RunZombie strategy
@@ -118,7 +118,7 @@ public class Area {
 	}
 
 	/**
-	 * Finds the nearest player to the position, it is called by the 
+	 * Finds the nearest player to the position, it is called by the
 	 * ChaseZombie strategy
 	 * @param position: the position of the Zombie
 	 * @return

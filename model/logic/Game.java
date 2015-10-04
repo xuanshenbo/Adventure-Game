@@ -338,7 +338,7 @@ public class Game {
 
 	public void sendToServer(Player player, char action){
 		char[] message;
-		if(action == 'M'){
+		if(action == 'M'){// map information
 			List<char[][]> view = getGameView(player.getId());
 			p();
 			message = new char[451];
@@ -350,7 +350,7 @@ public class Game {
 					message[index++] = view.get(1)[r][c];
 				}
 			}
-		}else if(action == 'P'){
+		}else if(action == 'P'){// player information
 			char[] inventory = new char[player.getInventory().length];
 			int happiness = player.getHappiness();
 			message = new char[inventory.length+2];
