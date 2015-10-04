@@ -304,6 +304,7 @@ public class Game {
 			int id) {
 		switch (message[0]) {
 		case 'M'://move [M, direction]
+			p();
 			move(gameState.getPlayer(id), parseDirection(message[1]));
 			break;
 		case 'U': //use [I, int inventorySlot)
@@ -339,7 +340,7 @@ public class Game {
 		char[] message;
 		if(action == 'M'){
 			List<char[][]> view = getGameView(player.getId());
-
+			p();
 			message = new char[451];
 			message[0] = action;
 			int index = 1;
@@ -366,6 +367,7 @@ public class Game {
 		try {
 			//p();
 			server.getWriters()[player.getId()].write(message);
+			server.getWriters()[player.getId()].flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

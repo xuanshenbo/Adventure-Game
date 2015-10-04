@@ -12,18 +12,18 @@ public class KeyStrategy implements StrategyInterpreter.Strategy{
 	 */
 	@Override
 	public void notify(String text) throws IOException {
-//		if(text.equals("up")){
-//			interpreter.getClient().send("dirup");
-//		}
-//		else if(text.equals("down")){
-//			interpreter.getClient().send("dirdown");
-//		}
-//		else if(text.equals("left")){
-//			interpreter.getClient().send("dirleft");
-//		}
-//		else if(text.equals("right")){
-//			interpreter.getClient().send("dirright");
-//		}
+		if(text.equals("up")){
+			interpreter.getClient().send("MN");
+		}
+		else if(text.equals("down")){
+			interpreter.getClient().send("MS");
+		}
+		else if(text.equals("left")){
+			interpreter.getClient().send("MW");
+		}
+		else if(text.equals("right")){
+			interpreter.getClient().send("ME");
+		}
 	}
 
 	@Override

@@ -138,6 +138,17 @@ public class Server extends Thread{
 	}
 
 	/**
+	 * The following closes the server socket
+	 */
+	public void closeServer(){
+		try {
+			server.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
 	 * The following determines what the server should send to the client depends on the input
 	 */
 	/*public void feedback(String input, Writer out, int id){

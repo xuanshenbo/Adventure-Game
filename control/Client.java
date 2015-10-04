@@ -13,7 +13,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
-
+import static utilities.PrintTool.p;
 import GUI.GameFrame;
 
 /**
@@ -169,7 +169,6 @@ public class Client extends Thread implements KeyListener {
 			readMap(message);
 			break;
 		default:
-			System.out.println("Bad message");
 		}
 	}
 
@@ -200,6 +199,7 @@ public class Client extends Thread implements KeyListener {
 				items[row][col] = message[index++];
 			}
 		}
+		p("reading map in the client");
 		gui.updateRenderer(map, items);
 	}
 
