@@ -67,6 +67,7 @@ public class Initialisation extends StrategyInterpreter{
 			}
 		});
 
+
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
@@ -94,8 +95,8 @@ public class Initialisation extends StrategyInterpreter{
 
 
 
-	public void displayMainGameFrame(Client c, Game g){
-		Main.displayMainGameFrame(c);
+	public void displayMainGameFrame(){
+		Main.displayMainGameFrame();
 	}
 
 

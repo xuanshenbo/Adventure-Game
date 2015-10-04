@@ -20,12 +20,46 @@ public class Player {
 	private Position position; // Position of the player in the world
 	private final int id; // unique identifier of the player
 	@XmlElementWrapper
-	@XmlElement(name="item")
-	private List<Item> inventory = new ArrayList<Item>(); // The inventory of the player
+	@XmlElement(name = "item")
+	private Item[] inventory = new Item[6]; // The inventory of the player
+	private int happiness = 5;
 
-	public Player(Position p, int id){
-		this.position  = p;
+	public Player(Position p, int id) {
+		this.position = p;
 		this.id = id;
+	}
+
+
+
+	public void increaseHappiness() {
+		happiness ++;
+		if(happiness > 9){
+			happiness = 9;
+		}
+	}
+
+	/**
+	 * Adds the item to the players inventory
+	 *
+	 * @param item
+	 *            The item to be added to the inventory
+	 */
+	public void collect(Item item) {
+		for (int i = 0; i < inventory.length; i++) {
+			if (inventory[i] == null) {
+				inventory[i] = item;
+			}
+		}
+	}
+
+	/**
+	 * Player uses the item that is passed in
+	 * @return
+	 */
+
+	public Item[] use(int inventorySlot){
+		Item item = inventory[inventorySlot];
+		return item.use(this);
 	}
 
 	@SuppressWarnings("unused")
@@ -38,11 +72,7 @@ public class Player {
 		position = newPosition;
 	}
 
-	public void collect(Item item) {
-		inventory.add(item);
-	}
-
-	public String toString(){
+	public String toString() {
 		return Integer.toString(id);
 	}
 
@@ -80,8 +110,18 @@ public class Player {
 		return id;
 	}
 
-	public List<Item> getInventory() {
+	public Item[] getInventory() {
 		return inventory;
+	}
+
+	public Item getItemFromInventory(int inventorySlot) {
+		return inventory[inventorySlot];
+	}
+
+
+
+	public int getHappiness() {
+		return happiness;
 	}
 
 }

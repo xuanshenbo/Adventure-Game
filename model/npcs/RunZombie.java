@@ -47,12 +47,20 @@ public class RunZombie implements ZombieStrategy {
 		//nothing is possible so now move either left or right to get around the obstacle
 		
 		//try right
-		newPosition = new Position(oldX+1, oldY, oldPosition.getArea());
+		int newX = oldX+1;
+		if(newX > oldPosition.getArea().getArea()[0].length){
+			newX = oldPosition.getArea().getArea()[0].length;
+		}
+		newPosition = new Position(newX, oldY, oldPosition.getArea());
 		if(newPosition.isValid()){
 			return newPosition;
 		}
 		//or left
-		newPosition = new Position(oldX-1, oldY, oldPosition.getArea());
+		newX = oldX-1;
+		if(newX < 0){
+			newX = 0;
+		}
+		newPosition = new Position(newX, oldY, oldPosition.getArea());
 		if(newPosition.isValid()){
 			return newPosition;
 		}

@@ -11,6 +11,10 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.List;
+import static utilities.PrintTool.p;
+import GUI.GameFrame;
 
 /**
  * A simple controller to send user actions to the server and receive notifications from the server.
@@ -23,8 +27,9 @@ public class Client extends Thread implements KeyListener {
 	private InputStreamReader input;
 	private final Socket socket;
 	private char[][] map;
-	private String sending;//the message to be sent to the server
-	private int uid = 1;//uid starts from 1
+	private int uid;
+	private String IPaddress;
+	private GameFrame gui;
 
 	public Client(Socket s){
 		socket = s;
@@ -71,9 +76,10 @@ public class Client extends Thread implements KeyListener {
 				char[] message = new char[1024];
 				//System.out.println("client starts reading");//debug
 				input.read(message);
+				processMessage(message);
 
 				//only do something if the message is not null
-				String receive = "";
+				/*String receive = "";
 				if(message[0] != '\0'){
 					for(int i=0; i<message.length; i++){
 						if(message[i] == '\0'|| message[i] == '\r' || message[i] == '\n') break;
@@ -84,7 +90,7 @@ public class Client extends Thread implements KeyListener {
 				}
 				if(receive.substring(0,2).equals("ID")){
 					uid = Integer.valueOf(receive.substring(3,4));
-				}
+				}*/
 			}
 			socket.close();
 			/*int i = 0;
@@ -135,9 +141,66 @@ public class Client extends Thread implements KeyListener {
 		return output;
 	}
 
+	/**
+	 * The following sends a string to the server
+	 * @param s
+	 * @throws IOException
+	 */
 	public void send(String s) throws IOException{
 		output.write(s);
 		output.flush();
+	}
+
+	/**
+	 * The following processes the message received from the server
+	 * @param message
+	 */
+	public void processMessage(char[] message){
+		switch(message[0]){
+		case 'I'://id
+			uid = Character.getNumericValue(message[1]);
+			break;
+		case 'A'://ip address
+			readIP(message);
+			break;
+		case 'P'://player information
+			break;
+		case 'M'://map
+			readMap(message);
+			break;
+		default:
+		}
+	}
+
+	/**
+	 * The following reads ip address from the server and gives it to the gui
+	 * @param message
+	 */
+	public void readIP(char[] message){
+		String receive = "";
+		for(int i=1; i<message.length; i++){
+			if(message[i] == '\0'|| message[i] == '\r' || message[i] == '\n') break;
+			receive+=message[i];
+		}
+		IPaddress = receive;
+	}
+
+	/**
+	 * The following reads the map data from the server and gives it to the gui
+	 * @param message
+	 */
+	public void readMap(char[] message){
+		char[][] map = new char[15][15];
+		char[][] items = new char[15][15];
+		int index = 1;
+		for(int row=0; row < map.length; row++){
+			for(int col=0; col < map[0].length; col++){
+				map[row][col] = message[index++];
+				items[row][col] = message[index++];
+			}
+		}
+		p("reading map in the client");
+		gui.updateRenderer(map, items);
 	}
 
 	/**
@@ -146,6 +209,14 @@ public class Client extends Thread implements KeyListener {
 	 */
 	public int getUid() {
 		return uid;
+	}
+
+	/**
+	 * a setter for GameFrame gui
+	 * @param gui
+	 */
+	public void setGui(GameFrame gui) {
+		this.gui = gui;
 	}
 
 

@@ -8,7 +8,7 @@ public class BuildingTile implements Tile {
 
 	private char id = 'B';
 	private Position position;
-	
+
 	public BuildingTile(Position position){
 		this.position = position;
 	}
@@ -41,6 +41,11 @@ public class BuildingTile implements Tile {
 
 	@Override
 	public boolean isGround() {
+		return false;
+	}
+
+	@Override
+	public boolean isContainer() {
 		return false;
 	}
 

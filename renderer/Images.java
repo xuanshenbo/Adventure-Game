@@ -27,10 +27,9 @@ public class Images {
 
     private ArrayList<AvatarImages> avatarImages;
 
-    public Images(double tileWidth, double tileHeight, ArrayList<Player> players) {
+    public Images(double tileWidth, double tileHeight) {
         this.tileWidth = tileWidth;
         this.tileHeight = tileHeight;
-        this.players = players;
 
         this.avatarImages = new ArrayList<AvatarImages>();
 
@@ -50,7 +49,7 @@ public class Images {
         this.keyImage = loadImage("key.png", 1, 1);
 
         //load characters images
-        for (int i = 0; i < players.size(); i++){
+        for (int i = 0; i < 4; i++){
             int avatarImageIndex = new Random().nextInt(3);
             p(avatarImageIndex);
             this.avatarImages.add(new AvatarImages("avatar" + avatarImageIndex + ".png", tileWidth));

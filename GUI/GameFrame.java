@@ -159,7 +159,7 @@ public class GameFrame extends JFrame{
 		char[][] view = game.getGameView(1).get(0);
 		char[][] objects = game.getGameView(1).get(1);
 
-		renderer = new GameRenderer(800, 600, view, objects, game.getPlayerList());
+		renderer = new GameRenderer(800, 600, view, objects);
 
 		Image renderWindow = renderer.getImage(); //need to set the size??
 		JLabel renderLabel = new JLabel(new ImageIcon(renderWindow));
@@ -170,7 +170,7 @@ public class GameFrame extends JFrame{
 	}
 
 	//taken from GUIForTest for testing purposes
-	private static Game generateGame(int trees, int buildings, int caves, int chests, int width, int height, int playerCount, int lootValue) {
+	/*private static Game generateGame(int trees, int buildings, int caves, int chests, int width, int height, int playerCount, int lootValue) {
 		Generator g = new Generator(trees, buildings, caves, chests, lootValue);
 		Area a = new Area(width, height, Area.AreaType.OUTSIDE, null);
 		a.generateWorld(g);
@@ -178,10 +178,10 @@ public class GameFrame extends JFrame{
 		GameState state = new GameState(a, p);
 		Game game = new Game(state);
 		return game;
-	}
+	}*/
 
 	//taken from GUIForTest for testing purposes
-	private static ArrayList<Player> placePlayers(int playerCount, int width, int height, Area a) {
+	/*private static ArrayList<Player> placePlayers(int playerCount, int width, int height, Area a) {
 		double[] xCoords = {0.5, 0, 0.5, 1};
 		double[] yCoords = {0, 0.5, 1, 0.5};
 		ArrayList<Player> list = new ArrayList<Player>();
@@ -194,7 +194,7 @@ public class GameFrame extends JFrame{
 			list.add(p);
 		}
 		return list;
-	}
+	}*/
 
 	private void addBottomPanel() {
 		//new JPanel(new BoxLayout(botPanel, BoxLayout.LINE_AXIS));
@@ -308,10 +308,10 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					} //implement for all key presses
 
-					game.move(game.getGameState().getPlayer(1), Direction.UP);
+					/*game.move(game.getGameState().getPlayer(1), Direction.UP);
 					map = game.getGameView(1).get(0);
 					items = game.getGameView(1).get(1);
-					renderer.update(map, items, game.getPlayerList());
+					renderer.update(map, items);*/
 					midPanel.repaint();
 
 					break;
@@ -323,11 +323,11 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					}
 
-					game.move(game.getGameState().getPlayer(1), Direction.DOWN);
+					/*game.move(game.getGameState().getPlayer(1), Direction.DOWN);
 
 					map = game.getGameView(1).get(0);
 					items = game.getGameView(1).get(1);
-					renderer.update(map, items, game.getGameState().getPlayerList());
+					renderer.update(map, items);*/
 					midPanel.repaint();
 
 					break;
@@ -340,11 +340,11 @@ public class GameFrame extends JFrame{
 					}
 
 					//TODO refactor this using interpreter
-					game.move(game.getGameState().getPlayer(1), Direction.LEFT);
+					/*game.move(game.getGameState().getPlayer(1), Direction.LEFT);
 
 					map = game.getGameView(1).get(0);
 					items = game.getGameView(1).get(1);
-					renderer.update(map, items, game.getGameState().getPlayerList());
+					renderer.update(map, items);*/
 					midPanel.repaint();
 
 					break;
@@ -356,11 +356,11 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					}
 
-					game.move(game.getGameState().getPlayer(1), Direction.RIGHT);
+			/*		game.move(game.getGameState().getPlayer(1), Direction.RIGHT);
 
 					map = game.getGameView(1).get(0);
 					items = game.getGameView(1).get(1);
-					renderer.update(map, items, game.getGameState().getPlayerList());
+					renderer.update(map, items);*/
 					midPanel.repaint();
 
 					break;
@@ -374,6 +374,10 @@ public class GameFrame extends JFrame{
 		}
 
 
+	}
+
+	public void updateRenderer(char[][] map, char[][] items){
+		renderer.update(map, items);
 	}
 
 	private void showDialog(String string) {

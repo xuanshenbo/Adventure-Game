@@ -14,7 +14,7 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 	public void notify(String text) {
 		if(text.equals("start")){
 			System.out.println("START");
-			s.displayMainGameFrame(s.getClient(),s.getGame());
+			s.displayMainGameFrame();
 		}
 		else if(text.startsWith("open")){
 			Scanner sc = new Scanner(text);
