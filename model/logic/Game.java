@@ -151,13 +151,13 @@ public class Game {
 			toTile.move(player, direction);
 			sendToServer(player, 'M');
 		}
-		if (toTile.isContainer()) {
+		if (toTile != null && toTile.isContainer()) {
 			Item[] items = ((Cabinet) toTile).open();
 			char[] itemArray = new char[items.length];
 			for (int i = 0; i < items.length; i++) {
 				itemArray[i] = items[i].getType();
 			}
-			// send signal to server to send to clients containing the inventory
+			sendToServer(player, 'P');
 		}
 	}
 
@@ -363,11 +363,11 @@ public class Game {
 			message = new char[0];
 		}
 
-		try {
-			server.getWriters()[player.getId()].write(message);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			server.getWriters()[player.getId()].write(message);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 }
