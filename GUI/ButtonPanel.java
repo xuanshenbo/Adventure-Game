@@ -29,6 +29,7 @@ import javax.swing.event.ChangeEvent;
 
 import main.Initialisation;
 import main.InitialisationState;
+import main.MainGameState;
 
 /**
  * A panel to store the button options
@@ -40,12 +41,21 @@ public class ButtonPanel extends JPanel {
 
 	private int height = 100;
 	private int width = 300;
+
 	private JButton inventory;
 	private JButton team;
 	private JButton exchange;
 	private GameFrame containerFrame;
 
+
+	private JButton load = new JButton("Load saved game");
+	private JButton newGame = new JButton("Start new game");
+
+	private JButton client = new JButton("Client");
+	private JButton serverclient = new JButton("Server + Client");
+
 	private StrategyInterpreter initialisation;
+
 
 	private WelcomePanel welcomePanel;
 	private StrategyInterpreter buttonInterpreter;
@@ -54,7 +64,7 @@ public class ButtonPanel extends JPanel {
 	 * @param container
 	 * @param boxLayout2
 	 */
-	public ButtonPanel(GameFrame container, StrategyInterpreter b, InitialisationState state){
+	public ButtonPanel(GameFrame container, StrategyInterpreter b, MainGameState state){
 		buttonInterpreter = b;
 		containerFrame = container;
 		//make buttons layout top to bottom
@@ -95,16 +105,16 @@ public class ButtonPanel extends JPanel {
 		else if(state.equals(InitialisationState.SHOW_LOAD_OR_NEW_OPTION)){
 			BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS); //display client server buttons vertically
 			setLayout(boxLayout);
-			createLoadNewButtons();
+			addLoadNewButtons();
 		}
+
+
 
 
 
 	}
 
-	private void createLoadNewButtons() {
-		final JButton load = new JButton("Load saved game");
-		final JButton newGame = new JButton("Start new game");
+	private void addLoadNewButtons() {
 
 		ActionListener loadnewListener = new ActionListener(){
 
@@ -126,7 +136,7 @@ public class ButtonPanel extends JPanel {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					welcomePanel.transitionToNewState(InitialisationState.START_NEW_GAME);
+					welcomePanel.transitionToNewState(InitialisationState.CHOOSE_SLIDER_OPTIONS);
 				}
 			}
 
@@ -135,10 +145,19 @@ public class ButtonPanel extends JPanel {
 		load.addActionListener(loadnewListener);
 		newGame.addActionListener(loadnewListener);
 
+		removeAllButtons();
+
+		System.out.println("HERE");
+
 		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical,0))); //pad between buttons
 		add(load);
 		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical,0))); //pad between buttons
 		add(newGame);
+
+
+		setVisible(true);
+
+		repaint();
 
 	}
 
@@ -147,12 +166,11 @@ public class ButtonPanel extends JPanel {
 	 * another to play as Server/Client.
 	 */
 	private void createServerClientButtons() {
-		final JButton client = new JButton("Client");
+
 		client.setMnemonic(KeyEvent.VK_C);
 		client.setToolTipText("Play as a client");
 
 
-		final JButton serverclient = new JButton("Server + Client");
 		serverclient.setMnemonic(KeyEvent.VK_S);
 		serverclient.setToolTipText("Play as a server + client");
 
@@ -187,12 +205,23 @@ public class ButtonPanel extends JPanel {
 		client.addActionListener(serverclientListener);
 		serverclient.addActionListener(serverclientListener);
 
+		removeAllButtons();
+
 		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical,0))); //pad between buttons
 		add(client);
 		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical,0))); //pad between buttons
 		add(serverclient);
 
 	}
+	private void removeAllButtons() {
+		remove(client);
+		remove(serverclient);
+		remove(load);
+		remove(newGame);
+
+
+	}
+
 	private void CreateMainButtons() {
 		inventory = new JButton("Inventory");
 		inventory.setMnemonic(KeyEvent.VK_I);

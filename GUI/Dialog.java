@@ -31,6 +31,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import main.Initialisation;
+import main.InitialisationState;
+import main.MainGameState;
 import model.items.Item;
 
 /**
@@ -42,9 +45,13 @@ public class Dialog extends JDialog implements ActionListener {
 
 	private Avatar chosenAvatar;
 
-	private String state;
+	private MainGameState state;
 
 	private StrategyInterpreter dialogInterpreter;
+
+	private Initialisation initialisation;
+
+	private WelcomePanel welcomePanel;
 
 
 	/**
@@ -54,7 +61,7 @@ public class Dialog extends JDialog implements ActionListener {
 	 * @param msg Message to display
 	 * @param i The state of the Game
 	 */
-	public Dialog(GameFrame gameFrame, String title, String msg, String state, StrategyInterpreter dialogInterp) {
+	public Dialog(GameFrame gameFrame, String title, String msg, MainGameState state, StrategyInterpreter dialogInterp) {
 		super(gameFrame, title, true);
 
 
@@ -73,13 +80,8 @@ public class Dialog extends JDialog implements ActionListener {
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-		if(state.equals("inventory")){
+		if(state.equals(MainGameState.DISPLAY_INVENTORY)){
 			displayInventory();
-		}
-
-		else if(state.equals("avatars")){
-			parentFrame.setVisible(false);
-			displayAvatarOptions();
 		}
 
 		JButton ok = new JButton("OK");
@@ -93,9 +95,44 @@ public class Dialog extends JDialog implements ActionListener {
 	}
 
 
+	public Dialog(String title, String msg, InitialisationState state, Initialisation i, WelcomePanel wPanel) {
+		this.initialisation = i;
+		this.welcomePanel = wPanel;
+		getContentPane().setLayout( new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
+
+		JPanel messagePane = new JPanel();
+		messagePane.add(new JLabel(msg));
+		getContentPane().add(messagePane);
+
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		if(state.equals(InitialisationState.SHOW_AVATAR_OPTIONS)){
+			displayAvatarOptions();
+		}
+
+		JButton ok = new JButton("OK");
+		ok.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				welcomePanel.transitionToNewState(InitialisationState.MAIN);
+				Dialog.this.dispose();	//get rid of the dialog
+			}
+
+		});
+		add(ok);
+
+		//display the dialog
+		pack();
+		setLocationRelativeTo(null);
+		setVisible(true);
+
+	}
+
+
 	private void displayAvatarOptions() {
 		JPanel avatarOptions = new JPanel();
-		List<Avatar> availAvatars= parentFrame.getAvailableAvatars();
+		List<Avatar> availAvatars= initialisation.getAvailableAvatars();
 
 		ButtonGroup group = new ButtonGroup();
 
@@ -138,7 +175,6 @@ public class Dialog extends JDialog implements ActionListener {
 
 			}
 		}
-
 	}
 
 
