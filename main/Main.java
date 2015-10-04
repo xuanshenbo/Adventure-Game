@@ -31,6 +31,8 @@ public class Main {
 	private static int uid;
 	private static Game game;
 	private static GameFrame frame;
+
+	private static boolean devMode = false;
 	//private static boolean initialised;
 
 	/**
@@ -42,15 +44,16 @@ public class Main {
 		String ObjButtons[] = {"Yes", "No"};
 		int PromptResult = JOptionPane.showOptionDialog(null, "Do you want to enter Dev mode??", "DON'T DO IT!!!!!!!",
 				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
+
 		if (PromptResult == JOptionPane.YES_OPTION) {
+			devMode = true;
 			displayMainGameFrame();
 		}
 		else{
 			initial = new Initialisation();
 			initial.setGame(game);
 		}
-		initial = new Initialisation();
-		initial.setGame(game);//debug
+
 
 	}
 
@@ -94,7 +97,10 @@ public class Main {
 	}
 
 	public static void displayMainGameFrame(){
-		closeWelcome();
+		if(!devMode){closeWelcome();}
+		else{
+//			clientMode();
+		}
 
 		//frame.dispose();	//get rid of welcome frame
 
@@ -134,10 +140,12 @@ public class Main {
 	 * TODO Felix to do this properly
 	 */
 	public static void closeServer() {
-		server.closeServer();
+		if(server != null){
+			server.closeServer();
+		}
 	}
 
-	 /* A getter for the client
+	/* A getter for the client
 	 * @return
 	 */
 	/*public static Client getClient() {

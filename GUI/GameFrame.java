@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import main.InitialisationState;
+import main.Main;
 import main.MainGameState;
 import model.items.Item;
 import model.items.Key;
@@ -110,6 +111,7 @@ public class GameFrame extends JFrame{
 				int PromptResult = JOptionPane.showOptionDialog(null, "Are you sure you want to exit?", "Happiness Game",
 						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
 				if (PromptResult == JOptionPane.YES_OPTION) {
+					Main.closeServer();
 					System.exit(0);
 				}
 			}
