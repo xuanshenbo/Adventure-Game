@@ -363,11 +363,12 @@ public class Game {
 			message = new char[0];
 		}
 
-//		try {
-//			server.getWriters()[player.getId()].write(message);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			//p();
+			server.getWriters()[player.getId()].write(message);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
