@@ -33,6 +33,7 @@ import javax.swing.JTextField;
 
 import main.Initialisation;
 import main.InitialisationState;
+import main.MainGameState;
 import model.items.Item;
 
 /**
@@ -44,7 +45,7 @@ public class Dialog extends JDialog implements ActionListener {
 
 	private Avatar chosenAvatar;
 
-	private String state;
+	private MainGameState state;
 
 	private StrategyInterpreter dialogInterpreter;
 
@@ -60,7 +61,7 @@ public class Dialog extends JDialog implements ActionListener {
 	 * @param msg Message to display
 	 * @param i The state of the Game
 	 */
-	public Dialog(GameFrame gameFrame, String title, String msg, String state, StrategyInterpreter dialogInterp) {
+	public Dialog(GameFrame gameFrame, String title, String msg, MainGameState state, StrategyInterpreter dialogInterp) {
 		super(gameFrame, title, true);
 
 
@@ -79,13 +80,8 @@ public class Dialog extends JDialog implements ActionListener {
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-		if(state.equals("inventory")){
+		if(state.equals(MainGameState.DISPLAY_INVENTORY)){
 			displayInventory();
-		}
-
-		else if(state.equals("avatars")){
-			parentFrame.setVisible(false);
-			displayAvatarOptions();
 		}
 
 		JButton ok = new JButton("OK");
@@ -111,7 +107,6 @@ public class Dialog extends JDialog implements ActionListener {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		if(state.equals(InitialisationState.SHOW_AVATAR_OPTIONS)){
-			//parentFrame.setVisible(false);
 			displayAvatarOptions();
 		}
 

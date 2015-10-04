@@ -110,6 +110,8 @@ public class ButtonPanel extends JPanel {
 
 
 
+
+
 	}
 
 	private void addLoadNewButtons() {
@@ -134,7 +136,7 @@ public class ButtonPanel extends JPanel {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					welcomePanel.transitionToNewState(InitialisationState.START_NEW_GAME);
+					welcomePanel.transitionToNewState(InitialisationState.CHOOSE_SLIDER_OPTIONS);
 				}
 			}
 

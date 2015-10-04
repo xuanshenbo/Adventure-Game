@@ -29,6 +29,9 @@ public class Initialisation extends StrategyInterpreter{
 	private JFrame frame;
 	private Main main;
 
+	public final static int maxTrees = 100;
+	public final static int maxBuildings = 20;
+
 	private InitialStrategy initStrategy = new InitialStrategy();
 
 	/**

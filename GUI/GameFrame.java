@@ -398,7 +398,8 @@ public class GameFrame extends JFrame{
 	}
 
 	public void addInventoryDialog() {
-		Dialog inventory = new Dialog(this, "Display Inventory", "Your inventory contains:", "inventory", this.dialogInterpreter);
+		Dialog inventory = new Dialog(this, "Display Inventory", "Your inventory contains:",
+				MainGameState.DISPLAY_INVENTORY, this.dialogInterpreter);
 	}
 
 	public StrategyInterpreter getKeyInterpreter() {
