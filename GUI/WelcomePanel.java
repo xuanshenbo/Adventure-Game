@@ -152,8 +152,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 				e.printStackTrace();
 			}
 		}
-		//parentFrame.pack();
-		revalidate();
+		revalidate(); //resize panel to make room for new panel
 		repaint();
 
 	}
@@ -164,6 +163,8 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	private void displayConnect() {
 		iPanel = new InputPanel(initialisation, "connect");
 		add(iPanel, buttonPanelConstraints);
+
+		revalidate();
 	}
 
 	/*
@@ -187,12 +188,10 @@ public class WelcomePanel extends JPanel implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				//if(state.equals(InitialisationState.START_NEW_GAME)){
 					Dialog avatarDialog = new Dialog("Avatar chooser", "These are your available options.", InitialisationState.SHOW_AVATAR_OPTIONS, initialisation, WelcomePanel.this);
-					try {
-						initialisation.notify("start");
+					/*try {
+//						initialisation.notify("start");
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					}*/
 					//transitionToNewState(InitialisationState.MAIN); should happen in dialog
 				//}
 			}

@@ -121,7 +121,7 @@ public class Dialog extends JDialog implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				welcomePanel.transitionToNewState(InitialisationState.MAIN);
-
+				Dialog.this.dispose();	//get rid of the dialog
 			}
 
 		});
@@ -180,7 +180,6 @@ public class Dialog extends JDialog implements ActionListener {
 
 			}
 		}
-
 	}
 
 

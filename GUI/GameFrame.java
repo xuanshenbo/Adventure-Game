@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import main.InitialisationState;
+import main.MainGameState;
 import model.items.Item;
 import model.items.Key;
 import model.logic.Game;
@@ -198,7 +199,7 @@ public class GameFrame extends JFrame{
 
 	private void addBottomPanel() {
 		//new JPanel(new BoxLayout(botPanel, BoxLayout.LINE_AXIS));
-		botPanel = new ButtonPanel(this, this.buttonInterpreter, InitialisationState.MAIN);
+		botPanel = new ButtonPanel(this, this.buttonInterpreter, MainGameState.MAIN);
 
 		//botPanel.add(buttons);
 
