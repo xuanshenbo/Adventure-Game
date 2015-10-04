@@ -2,17 +2,19 @@ package model.items;
 
 import model.state.Player;
 
+public class Cupcake extends Item{
 
-public class Key extends Item {
 
-	public Key(){
-		super("A Key", "key", 'k');
+
+	public Cupcake(String description, String imgpath, char c) {
+		super(description, imgpath, c);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public Item[] use(Player player) {
+		player.increaseHappiness();
 		return null;
-
 	}
 
 	@Override

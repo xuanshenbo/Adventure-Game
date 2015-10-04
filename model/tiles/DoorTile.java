@@ -51,4 +51,9 @@ public class DoorTile implements Tile {
 		return false;
 	}
 
+	@Override
+	public boolean isContainer() {
+		return false;
+	}
+
 }
