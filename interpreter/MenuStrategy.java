@@ -16,11 +16,7 @@ public class MenuStrategy implements StrategyInterpreter.Strategy{
 		String command = sc.next();
 		String filename = sc.next();
 
-		if(command.equals("open")){
-			//notify game passing it the filename
-
-		}
-		else if(command.equals("save")){
+		if(command.equals("save")){
 //			System.out.println("Saving the game...");
 //			try {
 //				Serializer.serialize(interpreter.getGame().getGameState());

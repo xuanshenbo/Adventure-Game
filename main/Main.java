@@ -6,6 +6,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import model.logic.Game;
 import control.Client;
 import control.ClockThread;
@@ -29,6 +31,8 @@ public class Main {
 	private static int uid;
 	private static Game game;
 	private static GameFrame frame;
+
+	private static boolean devMode = false;
 	//private static boolean initialised;
 
 	/**
@@ -37,9 +41,19 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		String ObjButtons[] = {"Yes", "No"};
+		int PromptResult = JOptionPane.showOptionDialog(null, "Do you want to enter Dev mode??", "DON'T DO IT!!!!!!!",
+				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
 
-		initial = new Initialisation();
-		initial.setGame(game);//debug
+		if (PromptResult == JOptionPane.YES_OPTION) {
+			devMode = true;
+			displayMainGameFrame();
+		}
+		else{
+			initial = new Initialisation();
+			initial.setGame(game);
+		}
+
 
 	}
 
@@ -83,7 +97,10 @@ public class Main {
 	}
 
 	public static void displayMainGameFrame(){
-		closeWelcome();
+		if(!devMode){closeWelcome();}
+		else{
+//			clientMode();
+		}
 
 		//frame.dispose();	//get rid of welcome frame
 
@@ -93,7 +110,7 @@ public class Main {
 		StrategyInterpreter buttonInterpreter = new StrategyInterpreter(frame, new ButtonStrategy(),client);
 		StrategyInterpreter menuInterpreter = new StrategyInterpreter(frame, new MenuStrategy(),client);
 
-		menuInterpreter.setGame(frame.getGame());
+		//menuInterpreter.setGame(frame.getGame());
 
 		//add the Strategy Interpreters to the GameFrame
 		frame.setKeyInterpreter(keyInterpreter);
@@ -119,7 +136,16 @@ public class Main {
 	}
 
 	/**
-	 * A getter for the client
+	 * Close the server so as to not have to manually terminate
+	 * TODO Felix to do this properly
+	 */
+	public static void closeServer() {
+		if(server != null){
+			server.closeServer();
+		}
+	}
+
+	/* A getter for the client
 	 * @return
 	 */
 	/*public static Client getClient() {

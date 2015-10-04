@@ -8,10 +8,13 @@ import interpreter.StrategyInterpreter;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.Writer;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import model.logic.Game;
 import control.Client;
@@ -44,6 +47,27 @@ public class Initialisation extends StrategyInterpreter{
 		frame = new JFrame("Welcome to Adventure Game");
 		WelcomePanel welcome = new WelcomePanel(this);
 		frame.add(welcome);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+		/*
+		 *Prompt the user to confirm if they click the close button
+		 */
+		frame.addWindowListener(new WindowAdapter() {
+
+			@Override
+			public void windowClosing(WindowEvent we) {
+
+				String ObjButtons[] = {"Yes", "No"};
+				int PromptResult = JOptionPane.showOptionDialog(null, "Are you sure you want to exit?", "Happiness Game",
+						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
+				if (PromptResult == JOptionPane.YES_OPTION) {
+					closeServer();
+					System.exit(0);
+				}
+			}
+		});
+
+
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
@@ -73,5 +97,13 @@ public class Initialisation extends StrategyInterpreter{
 
 	public void displayMainGameFrame(){
 		Main.displayMainGameFrame();
+	}
+
+
+
+
+	public void closeServer() {
+		Main.closeServer();
+
 	}
 }

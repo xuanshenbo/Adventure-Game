@@ -1,6 +1,7 @@
 package interpreter;
 
 import java.io.Writer;
+import java.util.Scanner;
 
 import main.Initialisation;
 import main.Main;
@@ -15,6 +16,13 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 			System.out.println("START");
 			s.displayMainGameFrame();
 		}
+		else if(text.startsWith("open")){
+			Scanner sc = new Scanner(text);
+			String command = sc.next();
+			String filename = sc.next();
+			//notify game passing it the filename
+
+		}
 		else{
 			if(text.equals("client")){
 				//let Felix know that the client option has been selected
@@ -23,6 +31,7 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 				Main.serverClient();
 			}
 		}
+
 
 	}
 
