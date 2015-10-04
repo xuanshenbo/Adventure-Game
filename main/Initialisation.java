@@ -71,7 +71,7 @@ public class Initialisation extends StrategyInterpreter{
 
 
 
-	public void displayMainGameFrame(Client c, Game g){
-		Main.displayMainGameFrame(c);
+	public void displayMainGameFrame(){
+		Main.displayMainGameFrame();
 	}
 }

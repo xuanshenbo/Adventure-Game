@@ -82,16 +82,16 @@ public class Main {
 		}
 	}
 
-	public static void displayMainGameFrame(Client c){
+	public static void displayMainGameFrame(){
 		closeWelcome();
 
 		//frame.dispose();	//get rid of welcome frame
 
 		frame = new GameFrame("Adventure Game", game);
 		//create the Strategy Interpreters with different Strategies as appropriate
-		StrategyInterpreter keyInterpreter = new StrategyInterpreter(frame, new KeyStrategy(),c);
-		StrategyInterpreter buttonInterpreter = new StrategyInterpreter(frame, new ButtonStrategy(),c);
-		StrategyInterpreter menuInterpreter = new StrategyInterpreter(frame, new MenuStrategy(),c);
+		StrategyInterpreter keyInterpreter = new StrategyInterpreter(frame, new KeyStrategy(),client);
+		StrategyInterpreter buttonInterpreter = new StrategyInterpreter(frame, new ButtonStrategy(),client);
+		StrategyInterpreter menuInterpreter = new StrategyInterpreter(frame, new MenuStrategy(),client);
 
 		menuInterpreter.setGame(frame.getGame());
 
@@ -99,7 +99,7 @@ public class Main {
 		frame.setKeyInterpreter(keyInterpreter);
 		frame.setButtonInterpreter(buttonInterpreter);
 		frame.setMenuInterpreter(menuInterpreter);
-		c.setGui(frame);
+		client.setGui(frame);
 		ClockThread clock = new ClockThread(20,frame);
 		clock.start();
 
