@@ -41,7 +41,6 @@ public class Initialisation extends StrategyInterpreter{
 		frame = new JFrame("Welcome to Adventure Game");
 		WelcomePanel welcome = new WelcomePanel(this);
 		frame.add(welcome);
-
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);

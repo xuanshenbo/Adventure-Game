@@ -39,7 +39,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		initial = new Initialisation();
-		initial.setGame(game);
+		initial.setGame(game);//debug
 
 	}
 
@@ -99,6 +99,7 @@ public class Main {
 		frame.setKeyInterpreter(keyInterpreter);
 		frame.setButtonInterpreter(buttonInterpreter);
 		frame.setMenuInterpreter(menuInterpreter);
+		c.setGui(frame);
 		ClockThread clock = new ClockThread(20,frame);
 		clock.start();
 
@@ -116,6 +117,15 @@ public class Main {
 	public static Initialisation getInitial() {
 		return initial;
 	}
+
+	/**
+	 * A getter for the client
+	 * @return
+	 */
+	/*public static Client getClient() {
+		return client;
+	}*/
+
 
 
 

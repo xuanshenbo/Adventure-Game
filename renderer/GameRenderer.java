@@ -16,14 +16,14 @@ public class GameRenderer{
 	private char[][] objects;
 	private double tileHeight;
 	private double tileWidth;
-	private ArrayList<Player> players;
+	//private ArrayList<Player> players;
 	private int animationIndex;
 	private BufferedImage outPut;
 	private Graphics2D graphic;
 
 	private Images images;
 
-	public GameRenderer(int width, int height, char[][] view, char[][] objects, ArrayList<Player> players){
+	public GameRenderer(int width, int height, char[][] view, char[][] objects){
 
 		this.outPut = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 //		this.width = width;
@@ -34,8 +34,8 @@ public class GameRenderer{
 		this.tileHeight = height/size;
 		this.view = view;
 		this.objects = objects;
-		this.players = players;
-		this.images = new Images(tileWidth, tileHeight, players);
+		//this.players = players;
+		this.images = new Images(tileWidth, tileHeight);
 
 		this.animationIndex = 0;
 
@@ -143,11 +143,11 @@ public class GameRenderer{
 //		return loadImage("tree.png", 3);
 //	}
 
-	public void update(char[][] view, char[][] objects, ArrayList<Player> players) {
+	public void update(char[][] view, char[][] objects) {
 		this.view = view;
 		this.objects = objects;
-		this.players = players;
-		
+		//this.players = players;
+
 		render();
 	}
 

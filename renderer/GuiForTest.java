@@ -45,7 +45,7 @@ public class GuiForTest extends JFrame implements KeyListener{
 
 //        generateGame(trees, buildings, caves, chests, width, height, playerCount, lootValue);
 //
-        renderer = new GameRenderer(800, 600, game.getGameView(1).get(0), game.getGameView(1).get(1), game.getPlayerList());
+        //renderer = new GameRenderer(800, 600, game.getGameView(1).get(0), game.getGameView(1).get(1), game.getPlayerList());
 
         can = new RendererCanvas(renderer.getImage());
 
@@ -69,7 +69,7 @@ public class GuiForTest extends JFrame implements KeyListener{
         char[][] map = game.getGameView(1).get(0);
         char[][] items = game.getGameView(1).get(1);
         //If press Left Arrow, go left
-        if (e.getKeyCode() == 37) {
+       /* if (e.getKeyCode() == 37) {
             p("Left");
             game.move(game.getGameState().getPlayer(1), Direction.LEFT);
             renderer.update(map, items, game.getGameState().getPlayerList());
@@ -95,7 +95,7 @@ public class GuiForTest extends JFrame implements KeyListener{
             game.move(game.getGameState().getPlayer(1), Direction.DOWN);
             renderer.update(map, items, game.getGameState().getPlayerList());
             can.repaint();
-        }
+        }*/
 
     }
 
