@@ -11,6 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +23,10 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
@@ -46,6 +51,9 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	private GridBagConstraints buttonPanelConstraints;
 	private GridBagConstraints sliderPanelConstraints;
 
+	//the image to be displayed on the opening welcome panel
+	private Image welcomeImage;
+
 	private InputPanel iPanel;
 
 	private Initialisation initialisation;
@@ -66,7 +74,10 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	private String instructions = "If you wish to start a new game, please click OK, to choose an Avatar!";
 
 	//how many trees the user wants
-	private int numTrees;
+	private int density = -1;
+
+	//0, 1 or 2 for easy, medium or hard
+	private int difficultyLevel = -1;
 
 	/**
 	 * Creates a dialog with a message, and different behaviour depending on the state
@@ -124,6 +135,10 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		setVisible(true);
 	}
 
+	/*
+	 * Add an image to the screen
+	 */
+
 	private void addWelcomeImage() {
 		GridBagConstraints gc=new GridBagConstraints();
 		gc.fill=GridBagConstraints.HORIZONTAL;
@@ -131,10 +146,10 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		gc.gridy = 3;
 		gc.gridwidth = 5;
 
-		Image image = ImageLoader.loadImage("welcomeImage.jpg");
-		image = image.getScaledInstance(imageSize.width, imageSize.height, -1);
+		welcomeImage = ImageLoader.loadImage("welcomeImage.jpg");
+		welcomeImage = welcomeImage.getScaledInstance(imageSize.width, imageSize.height, -1);
 
-		ImageIcon icon = new ImageIcon(image);
+		ImageIcon icon = new ImageIcon(welcomeImage);
 		JLabel thumb = new JLabel();
 		thumb.setIcon(icon);
 		//add(thumb, BorderLayout.CENTER);
@@ -144,7 +159,6 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 	public void transitionToNewState(InitialisationState state){
 		if(state.equals(InitialisationState.SHOW_LOAD_OR_NEW_OPTION)){
-			System.out.println("show l n");
 			displayLoadNew();
 		}
 		else if(state.equals(InitialisationState.CONNECT_TO_SERVER)){
@@ -156,12 +170,12 @@ public class WelcomePanel extends JPanel implements ActionListener {
 			displayAvatarOptions();
 		}
 		else if(state.equals(InitialisationState.LOAD_GAME)){
-			//load the saved game
+			loadSavedGame();
 		}
 		else if(state.equals(InitialisationState.CHOOSE_SLIDER_OPTIONS)){
 			displaySliderOptions();
 		}
-		else if(state.equals(InitialisationState.MAIN)){
+		else if(state.equals(InitialisationState.START_GAME)){
 			try {
 				initialisation.notify("start");
 			} catch (IOException e) {
@@ -169,32 +183,74 @@ public class WelcomePanel extends JPanel implements ActionListener {
 				e.printStackTrace();
 			}
 		}
-		revalidate(); //resize panel to make room for new panel
+		revalidate(); //resize panel to make room for any newly added panels
 		repaint();
 
 	}
 
+	private void loadSavedGame() {
+		//Create a file chooser
+		final JFileChooser fc = new JFileChooser();
+
+		int returnVal = fc.showOpenDialog(WelcomePanel.this);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			File file = fc.getSelectedFile();
+			System.out.println(file);
+			try {
+				initialisation.notify("open "+file);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+	}
+
 	private void displaySliderOptions() {
 		remove(bPanel); //move this to transition method?
-		final JSlider trees = new JSlider(JSlider.HORIZONTAL, 0, Initialisation.maxTrees, Initialisation.maxTrees/2);
+
+		//initialise the slider panel with a vertical box layout
 		sliderPanel = new JPanel();
 		sliderPanel.setLayout(new BoxLayout(sliderPanel, BoxLayout.PAGE_AXIS));
 
-		trees.addChangeListener(new ChangeListener(){
+		//add sliders
+		final JSlider GameObjectDensity = new JSlider(JSlider.HORIZONTAL, 0, Initialisation.maxTrees, Initialisation.maxTrees/2);
+		final JSlider difficulty = new JSlider(JSlider.HORIZONTAL, 0, 2, 1);
+
+		ChangeListener sliderListener = new ChangeListener(){
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				JSlider source = (JSlider)e.getSource();
+//				System.out.println("density: "+density+" diff: "+difficultyLevel);
+//				System.out.println("densityslider: "+GameObjectDensity.getValue()+" diffSlider: "+difficulty.getValue());
 				if (!source.getValueIsAdjusting()) {
-					if(source==trees){
-						numTrees = trees.getValue();
+					if(source == GameObjectDensity){
+						density = GameObjectDensity.getValue();
+					}
+					else if(source == difficulty){
+						difficultyLevel = difficulty.getValue();
+					}
+
+
+
+					//if both values chosen, move to the next stage: choosing an avatar
+					if(density != -1 && difficultyLevel != -1){
 						WelcomePanel.this.remove(sliderPanel);
 						transitionToNewState(InitialisationState.SHOW_AVATAR_OPTIONS);
 					}
 				}
+
 			}
-		});
-		sliderPanel.add(trees);
-		sliderPanel.add(new JLabel("Choose the amount of treeage from 0% to 100%"));
+		};
+
+		GameObjectDensity.addChangeListener(sliderListener);
+		difficulty.addChangeListener(sliderListener);
+
+
+		sliderPanel.add(new JLabel("Choose the density of the game wrt the number of objects from 0% to 100%"));
+		sliderPanel.add(GameObjectDensity);
+
+		sliderPanel.add(new JLabel("Choose the difficulty"));
+		sliderPanel.add(difficulty);
 
 
 		add(sliderPanel, sliderPanelConstraints);

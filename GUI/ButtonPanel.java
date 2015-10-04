@@ -265,6 +265,9 @@ public class ButtonPanel extends JPanel {
 		});
 
 		//makePretty(inventory, team, exchange);
+		makeButtonsPretty(inventory);
+		makeButtonsPretty(team);
+		makeButtonsPretty(exchange);
 
 		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingHorizontal,0))); //pad between buttons
 		add(inventory);
@@ -272,6 +275,35 @@ public class ButtonPanel extends JPanel {
 		add(team);
 		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingHorizontal,0))); //pad between buttons
 		add(exchange);
+
+	}
+
+
+	private void makeButtonsPretty(JButton b) {
+
+			System.out.println(b);
+			javax.swing.border.Border line, raisedbevel, loweredbevel;
+			TitledBorder title;
+			javax.swing.border.Border empty;
+	        line = BorderFactory.createLineBorder(Color.black);
+	        raisedbevel = BorderFactory.createRaisedBevelBorder();
+	        loweredbevel = BorderFactory.createLoweredBevelBorder();
+	        title = BorderFactory.createTitledBorder("");
+	        empty = BorderFactory.createEmptyBorder(1, 1, 1, 1);
+	        final CompoundBorder compound, compound1, compound2;
+	        Color crl = (new Color(202, 0, 0));
+	        compound = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl));
+	        Color crl1 = (Color.red);
+	        compound1 = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl1));
+	        Color crl2 = (Color.black);
+	        compound2 = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl2));
+	        b.setFont(new Font("Serif", Font.BOLD, 14));
+	        b.setForeground(Color.darkGray);
+	        b.setPreferredSize(new Dimension(50, 30));
+
+	        b.setBorderPainted(true);
+	        b.setFocusPainted(false);
+	        b.setBorder(compound);
 
 	}
 

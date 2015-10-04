@@ -6,6 +6,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import model.logic.Game;
 import control.Client;
 import control.ClockThread;
@@ -38,8 +40,16 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 
-		initial = new Initialisation();
-		initial.setGame(game);
+		String ObjButtons[] = {"Yes", "No"};
+		int PromptResult = JOptionPane.showOptionDialog(null, "Do you want to enter Dev mode??", "DON'T DO IT!!!!!!!",
+				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
+		if (PromptResult == JOptionPane.YES_OPTION) {
+			displayMainGameFrame();
+		}
+		else{
+			initial = new Initialisation();
+			initial.setGame(game);
+		}
 
 	}
 
@@ -115,6 +125,15 @@ public class Main {
 	 */
 	public static Initialisation getInitial() {
 		return initial;
+	}
+
+	/**
+	 * Close the server so as to not have to manually terminate
+	 * TODO Felix to do this properly
+	 */
+	public static void closeServer() {
+		server.destroy();
+		client.destroy();
 	}
 
 

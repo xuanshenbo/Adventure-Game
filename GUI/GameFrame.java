@@ -107,14 +107,13 @@ public class GameFrame extends JFrame{
 			public void windowClosing(WindowEvent we) {
 
 				String ObjButtons[] = {"Yes", "No"};
-				int PromptResult = JOptionPane.showOptionDialog(null, "Are you sure you want to exit?", "CluedoGame",
+				int PromptResult = JOptionPane.showOptionDialog(null, "Are you sure you want to exit?", "Happiness Game",
 						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
 				if (PromptResult == JOptionPane.YES_OPTION) {
 					System.exit(0);
 				}
 			}
 		});
-
 
 		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		manager.addKeyEventDispatcher(new MyDispatcher());
@@ -207,9 +206,12 @@ public class GameFrame extends JFrame{
 
 	}
 
+
 	private void addMenuBar() {
 		//create a new JMenuBar
-		JMenuBar bar = new JMenuBar();
+		MenuBar bar = new MenuBar(game);
+
+		/*JMenuBar bar = new JMenuBar();
 
 		//create a File menu
 		JMenu menu = new JMenu("File");
@@ -275,7 +277,9 @@ public class GameFrame extends JFrame{
 		menu.add(save);
 		menu.add(load);
 
-		bar.add(menu);
+		bar.add(menu);*/
+
+
 
 		setJMenuBar(bar);
 	}
@@ -479,6 +483,7 @@ public class GameFrame extends JFrame{
 		}*/
 
 	}
+
 
 
 	public Game getGame() {

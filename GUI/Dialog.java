@@ -115,7 +115,7 @@ public class Dialog extends JDialog implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				welcomePanel.transitionToNewState(InitialisationState.MAIN);
+				welcomePanel.transitionToNewState(InitialisationState.START_GAME);
 				Dialog.this.dispose();	//get rid of the dialog
 			}
 
