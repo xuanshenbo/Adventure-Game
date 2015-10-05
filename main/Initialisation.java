@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 
@@ -96,7 +97,12 @@ public class Initialisation extends StrategyInterpreter{
 
 
 	public void displayMainGameFrame(){
-		Main.displayMainGameFrame();
+		try {
+			Main.displayMainGameFrame();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 

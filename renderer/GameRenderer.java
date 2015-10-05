@@ -91,7 +91,6 @@ public class GameRenderer{
 			return;
 		}
 		
-		if(tile == 'Z'){p("char"+tile);}
 		switch (tile){
 
 			case 'T':

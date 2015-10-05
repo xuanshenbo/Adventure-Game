@@ -205,7 +205,6 @@ public class GameState {
 					}
 					for(Zombie z: zombieList){
 						if(z.getPosition().getX() == col && z.getPosition().getY() == row && z.getPosition().getArea() == a && !playerPos){
-							p("Zombie id"+z.getid());
 							view[r][c] = (char) (z.getid());
 							playerPos = true;
 						}
