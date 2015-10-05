@@ -40,7 +40,7 @@ public class Images {
     private  void loadImages(){
         //load environment images
         this.groundImage = loadImage("ground.png", 1, 1);
-        this.treeImage = loadImage("tree.png", 3, 3);
+        this.treeImage = loadImage("tree.png", 1, 1);
         this.buildingImage = loadImage("building.png", 1, 1);
         this.doorImage = loadImage("door.png", 1, 1);
 
@@ -68,31 +68,31 @@ public class Images {
         return img;
     }
 
-    public Image getGroundImage() {
+    public Image ground() {
         return groundImage;
     }
 
-    public Image getTreeImage() {
+    public Image tree() {
         return treeImage;
     }
 
-    public Image getChestImage(){
+    public Image chest(){
         return chestImage;
     }
 
-    public Image getBuildingImage(){
+    public Image building(){
         return buildingImage;
     }
 
-    public Image getDoorImage(){
+    public Image door(){
         return doorImage;
     }
 
-    public Image getKeyImage() {
+    public Image key() {
         return keyImage;
     }
 
-    public ArrayList<AvatarImages> getAvatarImages(){
+    public ArrayList<AvatarImages> avatar(){
         return avatarImages;
     }
 
