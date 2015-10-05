@@ -73,9 +73,9 @@ public class GameRenderer{
 ////			}
 //		}
 
-		double halfTileWidth = tileWidth/2;
-		double halfTileHeight = tileHeight/2;
-		double startX = width/2, startY = 0;
+		double halfTileWidth = tileWidth;
+		double halfTileHeight = tileHeight;
+		double startX = width/2, startY = -height/2;
 
 
 		for (int y = 0; y < view.length; y++) {
@@ -89,7 +89,7 @@ public class GameRenderer{
 		}
 
 		startX = width/2;
-		startY = 0;
+		startY = -height/2;
 
 		for (int y = 0; y < view.length; y++) {
 			for (int x = 0; x < view[y].length; x++) {
