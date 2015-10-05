@@ -18,5 +18,7 @@ public class InputPanel extends JPanel{
 			JLabel message = new JLabel(msg);
 			add(new TextFieldImpl());
 		}
+
+		revalidate();
 	}
 }

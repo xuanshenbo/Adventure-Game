@@ -74,10 +74,10 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	private String instructions = "If you wish to start a new game, please click OK, to choose an Avatar!";
 
 	//how many trees the user wants
-	private int density = -1;
+	private int density = 50;
 
 	//0, 1 or 2 for easy, medium or hard
-	private int difficultyLevel = -1;
+	private int difficultyLevel = 1;
 
 	/**
 	 * Creates a dialog with a message, and different behaviour depending on the state
@@ -125,8 +125,8 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		buttonPanelConstraints=new GridBagConstraints();
 		buttonPanelConstraints.gridx = 0;
 		buttonPanelConstraints.gridy = 10;
-		buttonPanelConstraints.gridwidth = 200;
-		buttonPanelConstraints.gridheight = 50;
+//		buttonPanelConstraints.gridwidth = 200;
+//		buttonPanelConstraints.gridheight = 50;
 
 		// button panel needs to store "this" to call the display next methods, and send it Initialisation too? Or Initialisation
 		// has access to buttonInterpreter?
@@ -248,15 +248,26 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 
 
-					//if both values chosen, move to the next stage: choosing an avatar
+					/*//if both values chosen, move to the next stage: choosing an avatar
 					if(density != -1 && difficultyLevel != -1){
 						WelcomePanel.this.remove(sliderPanel);
 						transitionToNewState(InitialisationState.LOAD_PLAYER_OR_CREATE_NEW_PLAYER);
-					}
+					}*/
 				}
 
 			}
 		};
+
+		JButton confirm = new JButton("OK");
+		confirm.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				remove(sliderPanel);
+				transitionToNewState(InitialisationState.LOAD_PLAYER_OR_CREATE_NEW_PLAYER);
+			}
+
+		});
 
 		GameObjectDensity.addChangeListener(sliderListener);
 		difficulty.addChangeListener(sliderListener);
@@ -268,6 +279,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		sliderPanel.add(new JLabel("Choose the difficulty"));
 		sliderPanel.add(difficulty);
 
+		sliderPanel.add(confirm);
 
 		add(sliderPanel, sliderPanelConstraints);
 

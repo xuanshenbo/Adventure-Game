@@ -33,7 +33,7 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 
 		}
 		else{
-			if(text.equals("client")){
+			/*if(text.equals("client")){
 				//testing for now to use a fixed IP
 				InetAddress adr = null;
 				try {
@@ -42,8 +42,8 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 					e.printStackTrace();
 				}
 				Main.clientMode(adr, 8888);
-			}
-			else if(text.equals("clientserver")){
+			}*/
+			if(text.equals("clientserver")){
 				Main.serverClient();
 			}
 		}

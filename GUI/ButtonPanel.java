@@ -34,7 +34,7 @@ import main.MainGameState;
 /**
  * A panel to store the button options
  * @author flanagdonn
- *
+ * TODO MAKE BUTTONS RESIZE PROPERLY
  */
 public class ButtonPanel extends JPanel {
 
@@ -357,7 +357,7 @@ public class ButtonPanel extends JPanel {
 	        compound1 = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl1));
 	        Color crl2 = (Color.black);
 	        compound2 = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl2));
-	        b.setFont(new Font("Sans-Serif", Font.BOLD, 8));
+	        b.setFont(new Font("Sans-Serif", Font.BOLD, 16));
 	        b.setForeground(Color.darkGray);
 	        b.setPreferredSize(new Dimension(50, 30));
 
