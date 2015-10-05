@@ -89,7 +89,7 @@ public class Game {
 		for(Player p: gameState.getPlayerList()){
 			sendToServer(p, 'M');
 		}
-		//p("Printing gameState");
+		p("Printing gameState");
 		gameState.printState(false);
 	}
 
@@ -104,7 +104,7 @@ public class Game {
 			addZombie();
 		}
 		for (Zombie zombie : gameState.getZombieList()) {
-			
+
 			if (gameState.getDay()) {
 				zombie.setStrategy(new RunZombie());
 			} else {

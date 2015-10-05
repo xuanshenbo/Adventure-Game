@@ -162,9 +162,12 @@ public class Server extends Thread{
 				writers[id] = out;
 				out.write("A"+address.getHostAddress().toString()+"X");// 'X' indicates the end of the message
 				//System.out.println(address.getHostAddress().toString());//debug
+				//out.flush();
+				//System.out.println("No id writing?");//debug
+				System.out.println("id: "+id);
+				out.write((char)(id+'0'));
 				out.flush();
-				out.write('I'+id);
-				out.flush();
+				//System.out.println("id flushed");//debug
 				Reader in = new InputStreamReader(connection.getInputStream());
 				//Date now = new Date();
 				// write the log entry first in case the client disconnects
