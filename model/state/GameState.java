@@ -203,6 +203,13 @@ public class GameState {
 							playerPos = true;
 						}
 					}
+					for(Zombie z: zombieList){
+						if(z.getPosition().getX() == col && z.getPosition().getY() == row && z.getPosition().getArea() == a && !playerPos){
+							p("Zombie id"+z.getid());
+							view[r][c] = (char) (z.getid());
+							playerPos = true;
+						}
+					}
 					if(!playerPos){
 						view[r][c] = a.getArea()[row][col].getType();
 					}

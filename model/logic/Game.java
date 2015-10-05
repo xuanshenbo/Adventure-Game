@@ -59,8 +59,8 @@ public class Game {
 		Area area = new Area(height, width, AreaType.OUTSIDE, null);
 		Generator g = new Generator(parameters);
 		area.generateWorld(g);
-		ArrayList<Player> playerList = placePlayers(
-				parameters.getPlayerCount(), height, width, area);
+		ArrayList<Player> playerList = placePlayers(parameters.getPlayerCount(), height, width, area);
+		playerList.get(0).makeActive();//FOR TESTING!!!!!!!
 		this.gameState = new GameState(area, playerList);
 		clock.start();
 	}
@@ -86,11 +86,15 @@ public class Game {
 			}
 		}
 		updateZombies();
+		for(Player p: gameState.getPlayerList()){
+			sendToServer(p, 'M');
+		}
+		//p("Printing gameState");
 		gameState.printState(false);
 	}
 
 	/**
-	 * This method checks how many sombeis are in the world and adds Zombies if
+	 * This method checks how many Zombies are in the world and adds Zombies if
 	 * needed, it then checks the time and changes the zombies actions based on
 	 * the time. From there is makes all the Zombies move.
 	 */
@@ -100,7 +104,7 @@ public class Game {
 			addZombie();
 		}
 		for (Zombie zombie : gameState.getZombieList()) {
-
+			
 			if (gameState.getDay()) {
 				zombie.setStrategy(new RunZombie());
 			} else {
@@ -149,6 +153,20 @@ public class Game {
 
 		if (toTile != null) {
 			toTile.move(player, direction);
+			//check other players are in range and send update to players as needed
+			for(Player otherPlayer: gameState.getPlayerList()){
+				if(player.isInGame()){
+					int playerX = player.getPosition().getX();
+					int playerY = player.getPosition().getY();
+					int otherPlayerX = otherPlayer.getPosition().getX();
+					int otherPlayerY = otherPlayer.getPosition().getY();
+
+					if(Math.abs(playerX-otherPlayerX) < 8 && Math.abs(playerY-otherPlayerY) < 8){
+						sendToServer(otherPlayer, 'M');
+					}
+				}
+			}
+			//update players view
 			sendToServer(player, 'M');
 		}
 		if (toTile != null && toTile.isContainer()) {
@@ -225,6 +243,7 @@ public class Game {
 			gameState.removeItem(playerPosition);
 		}
 		sendToServer(player, 'P');
+		sendToServer(player, 'M');
 	}
 
 	/**
@@ -304,7 +323,6 @@ public class Game {
 			int id) {
 		switch (message[0]) {
 		case 'M'://move [M, direction]
-			p();
 			move(gameState.getPlayer(id), parseDirection(message[1]));
 			break;
 		case 'U': //use [I, int inventorySlot)
@@ -340,7 +358,6 @@ public class Game {
 		char[] message;
 		if(action == 'M'){// map information
 			List<char[][]> view = getGameView(player.getId());
-			p();
 			message = new char[451];
 			message[0] = action;
 			int index = 1;

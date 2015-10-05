@@ -90,6 +90,8 @@ public class GameRenderer{
 		if (tile == '\u0000'){
 			return;
 		}
+		
+		if(tile == 'Z'){p("char"+tile);}
 		switch (tile){
 
 			case 'T':
@@ -130,6 +132,10 @@ public class GameRenderer{
 				break;
 			case 'k':
 				graphic.drawImage(images.getKeyImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
+				break;
+			case 'Z':
+				graphic.drawImage(images.getKeyImage(), (int) (x * tileWidth), (int) (y * tileHeight), null);
+				break;
 			default:
 				break;
 		}
