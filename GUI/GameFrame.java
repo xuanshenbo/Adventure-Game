@@ -312,10 +312,6 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					} //implement for all key presses
 
-					/*game.move(game.getGameState().getPlayer(1), Direction.UP);
-					map = game.getGameView(1).get(0);
-					items = game.getGameView(1).get(1);
-					renderer.update(map, items);*/
 					midPanel.repaint();
 
 					break;
@@ -326,12 +322,6 @@ public class GameFrame extends JFrame{
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-
-					/*game.move(game.getGameState().getPlayer(1), Direction.DOWN);
-
-					map = game.getGameView(1).get(0);
-					items = game.getGameView(1).get(1);
-					renderer.update(map, items);*/
 					midPanel.repaint();
 
 					break;
@@ -344,11 +334,7 @@ public class GameFrame extends JFrame{
 					}
 
 					//TODO refactor this using interpreter
-					/*game.move(game.getGameState().getPlayer(1), Direction.LEFT);
 
-					map = game.getGameView(1).get(0);
-					items = game.getGameView(1).get(1);
-					renderer.update(map, items);*/
 					midPanel.repaint();
 
 					break;
@@ -360,14 +346,21 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					}
 
-			/*		game.move(game.getGameState().getPlayer(1), Direction.RIGHT);
-
-					map = game.getGameView(1).get(0);
-					items = game.getGameView(1).get(1);
-					renderer.update(map, items);*/
 					midPanel.repaint();
 
 					break;
+				case KeyEvent.VK_P:
+					try {
+						keyInterpreter.notify("pickUp");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+					midPanel.repaint();
+
+					break;
+
 				}
 			}
 			else if (e.getID() == KeyEvent.KEY_RELEASED) {

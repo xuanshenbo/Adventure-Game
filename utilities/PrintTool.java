@@ -18,7 +18,7 @@ public class PrintTool {
 					+ stackTraceElements[2].getMethodName() + "() line:"
 					+ stackTraceElements[2].getLineNumber() + ": ");
 			outCleanUp();
-			System.err.print(s);
+			System.out.print(s);
 			errCleanUp();
 			System.out.println();
 			outCleanUp();
@@ -33,7 +33,7 @@ public class PrintTool {
 					+ stackTraceElements[2].getMethodName() + "() line:"
 					+ stackTraceElements[2].getLineNumber() + ": ");
 			outCleanUp();
-			System.err.print("I MADE IT HERE");
+			System.out.print("I MADE IT HERE");
 			errCleanUp();
 			System.out.println();
 			outCleanUp();
@@ -45,14 +45,14 @@ public class PrintTool {
 			StackTraceElement[] stackTraceElements = Thread.currentThread()
 					.getStackTrace();
 			if (o == null) {
-				System.err.println("NULL");
+				System.out.println("NULL");
 				errCleanUp();
 			} else {
 				System.out.print(stackTraceElements[2].getClassName() + "."
 						+ stackTraceElements[2].getMethodName() + "() line:"
 						+ stackTraceElements[2].getLineNumber() + ": ");
 				outCleanUp();
-				System.err.print(o.toString());
+				System.out.print(o.toString());
 				errCleanUp();
 				System.out.println();
 				outCleanUp();
@@ -63,7 +63,7 @@ public class PrintTool {
 	private static void errCleanUp() {
 		System.err.flush();
 		try {
-			Thread.sleep(1);
+			Thread.sleep(10);
 		} catch (InterruptedException e) {
 		}
 	}
@@ -71,7 +71,7 @@ public class PrintTool {
 	private static void outCleanUp() {
 		System.out.flush();
 		try {
-			Thread.sleep(1);
+			Thread.sleep(10);
 		} catch (InterruptedException e) {
 		}
 	}

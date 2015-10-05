@@ -22,7 +22,7 @@ import GUI.GameFrame;
  * @author yanlong
  *
  */
-public class Client extends Thread implements KeyListener {
+public class Client extends Thread {
 	private OutputStreamWriter output;
 	private InputStreamReader input;
 	private final Socket socket;
@@ -41,24 +41,6 @@ public class Client extends Thread implements KeyListener {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void run(){
@@ -157,10 +139,10 @@ public class Client extends Thread implements KeyListener {
 	 */
 	public void processMessage(char[] message){
 		switch(message[0]){
-		case 'I'://id
+/*		case 'I'://id
 			uid = Character.getNumericValue(message[1]);
-			break;
-		case 'A'://ip address
+			break;*/
+		case 'A'://ip address and id
 			readIP(message);
 			break;
 		case 'P'://player information
@@ -173,16 +155,21 @@ public class Client extends Thread implements KeyListener {
 	}
 
 	/**
-	 * The following reads ip address from the server and gives it to the gui
+	 * The following reads ip address and uid from the server and gives it to the gui
 	 * @param message
 	 */
 	public void readIP(char[] message){
 		String receive = "";
-		for(int i=1; i<message.length; i++){
-			if(message[i] == '\0'|| message[i] == '\r' || message[i] == '\n') break;
+		int i = 1;
+		for(; i<message.length; i++){
+			if(message[i] == 'X') break;
+			//System.out.println(message[i]);//debug
 			receive+=message[i];
 		}
 		IPaddress = receive;
+		uid = Character.getNumericValue(message[++i]);
+		System.out.println(IPaddress);//debug
+		System.out.println(uid);
 	}
 
 	/**
@@ -199,7 +186,7 @@ public class Client extends Thread implements KeyListener {
 				items[row][col] = message[index++];
 			}
 		}
-		p("reading map in the client");
+		//p("reading map in the client");
 		gui.updateRenderer(map, items);
 	}
 

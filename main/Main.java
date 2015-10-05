@@ -39,8 +39,9 @@ public class Main {
 	 * Displays welcome dialog and set up interpreters, before displaying the main GameFrame
 	 * @author flanagdonn
 	 * @param args
+	 * @throws IOException
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		String ObjButtons[] = {"Yes", "No"};
 		int PromptResult = JOptionPane.showOptionDialog(null, "Do you want to enter Dev mode??", "DON'T DO IT!!!!!!!",
 				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
@@ -61,7 +62,7 @@ public class Main {
 	 * Sets up the network for a server-client mode
 	 */
 	public static void serverClient(){
-		int height = 15, width = 15, players = 1, trees = 20;
+		int height = 15, width = 15, players = 4, trees = 20;
 		int buildings = 2, caves = 1, chests = 5, lootValue = 1;
 		int[] parameters = {height, width, players,trees, buildings, caves, chests, lootValue};
 		server = new Server(parameters);
@@ -84,8 +85,9 @@ public class Main {
 	 * Sets up the network for client only mode
 	 * @param adr
 	 * @param port
+	 * @throws IOException
 	 */
-	public static void clientMode(InetAddress adr, int port){
+	public static void clientMode(InetAddress adr, int port) throws IOException{
 		server = null;
 		try {
 			Socket socket = new Socket(adr, port);
@@ -94,9 +96,10 @@ public class Main {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		displayMainGameFrame();//debug
 	}
 
-	public static void displayMainGameFrame(){
+	public static void displayMainGameFrame() throws IOException{
 		if(!devMode){closeWelcome();}
 		else{
 //			clientMode();
@@ -117,6 +120,7 @@ public class Main {
 		frame.setButtonInterpreter(buttonInterpreter);
 		frame.setMenuInterpreter(menuInterpreter);
 		client.setGui(frame);
+		client.send("F");
 		ClockThread clock = new ClockThread(20,frame);
 		clock.start();
 

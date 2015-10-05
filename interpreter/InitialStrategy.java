@@ -1,6 +1,9 @@
 package interpreter;
 
+import java.io.IOException;
 import java.io.Writer;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 
 import main.Initialisation;
@@ -11,9 +14,9 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 	private Initialisation s;
 
 	@Override
-	public void notify(String text) {
+	public void notify(String text) throws IOException {
 		if(text.equals("start")){
-			System.out.println("START");
+			//System.out.println("START");//debug
 			s.displayMainGameFrame();
 		}
 		else if(text.startsWith("open")){
@@ -25,7 +28,14 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 		}
 		else{
 			if(text.equals("client")){
-				//let Felix know that the client option has been selected
+				//testing for now to use a fixed IP
+				InetAddress adr = null;
+				try {
+					adr = InetAddress.getByName("130.195.4.151");
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+				}
+				Main.clientMode(adr, 8888);
 			}
 			else if(text.equals("clientserver")){
 				Main.serverClient();

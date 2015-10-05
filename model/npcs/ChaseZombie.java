@@ -43,8 +43,6 @@ public class ChaseZombie implements ZombieStrategy {
 				newPosition = oldPosition;
 			}
 		}
-
-		p("Chase Zombie Moving from: "+oldPosition+" to: "+newPosition);
 		return newPosition;
 	}
 

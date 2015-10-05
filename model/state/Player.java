@@ -39,6 +39,13 @@ public class Player {
 		}
 	}
 
+
+
+	public void makeActive() {
+		inGame = true;
+		
+	}
+
 	/**
 	 * Adds the item to the players inventory
 	 *

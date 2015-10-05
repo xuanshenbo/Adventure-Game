@@ -24,6 +24,9 @@ public class KeyStrategy implements StrategyInterpreter.Strategy{
 		else if(text.equals("right")){
 			interpreter.getClient().send("ME");
 		}
+		else if(text.equals("pickUp")){
+			interpreter.getClient().send("P");
+		}
 	}
 
 	@Override

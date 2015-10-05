@@ -117,6 +117,7 @@ public class GameRenderer{
 		if (tile == '\u0000'){
 			return;
 		}
+		
 		switch (tile){
 
 			case 'T':
@@ -157,6 +158,10 @@ public class GameRenderer{
 				break;
 			case 'k':
 				graphic.drawImage(images.key(), (int) (x), (int) (y), null);
+				break;
+			case 'Z':
+				graphic.drawImage(images.key(), (int) (x), (int) (y), null);
+				break;
 			default:
 				break;
 		}
