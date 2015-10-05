@@ -1,5 +1,6 @@
 package interpreter;
 
+import java.io.IOException;
 import java.io.Writer;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -13,7 +14,7 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 	private Initialisation s;
 
 	@Override
-	public void notify(String text) {
+	public void notify(String text) throws IOException {
 		if(text.equals("start")){
 			//System.out.println("START");//debug
 			s.displayMainGameFrame();

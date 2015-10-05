@@ -86,7 +86,7 @@ public class Game {
 			}
 		}
 		updateZombies();
-		gameState.printState(false);
+		//gameState.printState(false);
 	}
 
 	/**

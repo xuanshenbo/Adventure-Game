@@ -139,9 +139,9 @@ public class Client extends Thread {
 	 */
 	public void processMessage(char[] message){
 		switch(message[0]){
-		case 'I'://id
+/*		case 'I'://id
 			uid = Character.getNumericValue(message[1]);
-			break;
+			break;*/
 		case 'A'://ip address and id
 			readIP(message);
 			break;
