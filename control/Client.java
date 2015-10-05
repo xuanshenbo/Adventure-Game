@@ -142,7 +142,7 @@ public class Client extends Thread {
 		case 'I'://id
 			uid = Character.getNumericValue(message[1]);
 			break;
-		case 'A'://ip address
+		case 'A'://ip address and id
 			readIP(message);
 			break;
 		case 'P'://player information
@@ -155,18 +155,21 @@ public class Client extends Thread {
 	}
 
 	/**
-	 * The following reads ip address from the server and gives it to the gui
+	 * The following reads ip address and uid from the server and gives it to the gui
 	 * @param message
 	 */
 	public void readIP(char[] message){
 		String receive = "";
-		for(int i=1; i<message.length; i++){
+		int i = 1;
+		for(; i<message.length; i++){
 			if(message[i] == 'X') break;
 			//System.out.println(message[i]);//debug
 			receive+=message[i];
 		}
 		IPaddress = receive;
+		uid = Character.getNumericValue(message[++i]);
 		System.out.println(IPaddress);//debug
+		System.out.println(uid);
 	}
 
 	/**
