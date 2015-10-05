@@ -24,14 +24,15 @@ public class Images {
     private Image buildingImage;
     private Image doorImage;
     private Image keyImage;
+    private Image caveImage;
 
-    private ArrayList<AvatarImages> avatarImages;
+    private ArrayList<Image> avatarImages;
 
     public Images(double tileWidth, double tileHeight) {
         this.tileWidth = tileWidth;
         this.tileHeight = tileHeight;
 
-        this.avatarImages = new ArrayList<AvatarImages>();
+        this.avatarImages = new ArrayList<Image>();
 
         loadImages();
 
@@ -39,30 +40,33 @@ public class Images {
 
     private  void loadImages(){
         //load environment images
-        this.groundImage = loadImage("ground.png", 1, 1);
-        this.treeImage = loadImage("tree.png", 1, 1);
-        this.buildingImage = loadImage("building.png", 1, 1);
-        this.doorImage = loadImage("door.png", 1, 1);
+        this.groundImage = loadImage("ground.png", 2, 2.3f);
+        this.treeImage = loadImage("tree.png", 2, 2);
+        this.buildingImage = loadImage("building.png", 2, 2);
+        this.doorImage = loadImage("door.png", 2, 2);
+        this.caveImage = loadImage("cave.png", 4, 4);
 
         //load items images
-        this.chestImage = loadImage("chest.png", 1, 1);
-        this.keyImage = loadImage("key.png", 1, 1);
+        this.chestImage = loadImage("chest.png", 2, 2);
+        this.keyImage = loadImage("key.png", 2, 2);
 
         //load characters images
         for (int i = 0; i < 4; i++){
-            int avatarImageIndex = new Random().nextInt(3);
-            p(avatarImageIndex);
-            this.avatarImages.add(new AvatarImages("avatar" + avatarImageIndex + ".png", tileWidth));
+//            int avatarImageIndex = new Random().nextInt(3);
+//            p(avatarImageIndex);
+//            this.avatarImages.add(new AvatarImages("avatar" + avatarImageIndex + ".png", tileWidth));
+            this.avatarImages.add(loadImage("avatar.png", 2, 2));
         }
     }
 
-    private Image loadImage(String filename, int scaleW, int scaleH) {
+    private Image loadImage(String filename, int scaleW, float scaleH) {
         Image image = ImageLoader.loadImage(filename);
 
-        BufferedImage img = new BufferedImage((int)tileWidth*scaleW, (int)tileWidth*scaleH, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage img = new BufferedImage((int)tileWidth*scaleW, (int)(tileWidth*scaleH), BufferedImage.TYPE_INT_ARGB);
         //draw the image to bufferedImage
         Graphics2D g = img.createGraphics();
-        g.drawImage(image, 0, 0, (int) tileWidth * scaleW, (int) tileHeight * scaleH, null);
+//        g.drawImage(image, 0, 0, (int) tileWidth * scaleW, (int) tileHeight * scaleH, null);
+        g.drawImage(image, 0, 0, (int) tileWidth * scaleW, (int) (tileWidth *scaleH), null);
 //		g.drawImage(image, 0, 0, (int) (tileWidth * scale), (int) (tileHeight * scale), 0, 0, width, height, null);
         g.dispose();
         return img;
@@ -92,8 +96,10 @@ public class Images {
         return keyImage;
     }
 
-    public ArrayList<AvatarImages> avatar(){
+    public ArrayList<Image> avatar(){
         return avatarImages;
     }
 
+    public Image cave() { return caveImage;
+    }
 }

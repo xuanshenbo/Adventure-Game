@@ -124,31 +124,38 @@ public class GameRenderer{
 				graphic.drawImage(images.tree(), (int)(x), (int)(y), null);
 				break;
 			case '1':
-				graphic.drawImage(images.avatar().get(0).getImages()[0][(int) (animationIndex)],
+//				graphic.drawImage(images.avatar().get(0).getImages()[0][(int) (animationIndex)],
+				graphic.drawImage(images.avatar().get(0),
 						(int) (x)+offsetX,
-						(int) (y)+offsetY,
+						(int) (y+offsetY),
 						null);
 				break;
 			case '2':
-				graphic.drawImage(images.avatar().get(1).getImages()[0][(int) (animationIndex)],
+//				graphic.drawImage(images.avatar().get(1).getImages()[0][(int) (animationIndex)],
+				graphic.drawImage(images.avatar().get(1),
 						(int) (x),
 						(int) (y),
 						null);
 				break;
 			case '3':
-				graphic.drawImage(images.avatar().get(2).getImages()[0][(int) (animationIndex)],
+//				graphic.drawImage(images.avatar().get(2).getImages()[0][(int) (animationIndex)],
+				graphic.drawImage(images.avatar().get(2),
 						(int) (x),
 						(int) (y),
 						null);
 				break;
 			case '4':
-				graphic.drawImage(images.avatar().get(3).getImages()[0][(int) (animationIndex)],
+//				graphic.drawImage(images.avatar().get(3).getImages()[0][(int) (animationIndex)],
+				graphic.drawImage(images.avatar().get(3),
 						(int) (x),
 						(int) (y),
 						null);
 				break;
 			case 'O':
 				graphic.drawImage(images.chest(), (int) (x), (int) (y), null);
+				break;
+			case 'C':
+				graphic.drawImage(images.cave(), (int) (x), (int) (y), null);
 				break;
 			case 'B':
 				graphic.drawImage(images.building(), (int) (x), (int) (y), null);
