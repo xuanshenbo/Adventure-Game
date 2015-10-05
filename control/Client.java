@@ -187,9 +187,6 @@ public class Client extends Thread {
 			}
 		}
 		//p("reading map in the client");
-		p("guui: "+gui);
-		p("map: "+map);
-		p("items: "+items);
 		gui.updateRenderer(map, items);
 	}
 

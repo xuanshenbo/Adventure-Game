@@ -32,6 +32,7 @@ public class Game {
 	private GameState gameState;
 	private Server server;
 	private Clock clock;
+	private boolean frameActivated = false;
 
 	public enum Direction {
 		UP, DOWN, LEFT, RIGHT;
@@ -86,11 +87,13 @@ public class Game {
 			}
 		}
 		updateZombies();
-		for(Player p: gameState.getPlayerList()){
-			sendToServer(p, 'M');
+		if(frameActivated){
+			for(Player p: gameState.getPlayerList()){
+				sendToServer(p, 'M');
+			}
 		}
-		p("Printing gameState");
-		gameState.printState(false);
+//		p("Printing gameState");
+//		gameState.printState(false);
 	}
 
 	/**
@@ -168,6 +171,7 @@ public class Game {
 			}
 			//update players view
 			sendToServer(player, 'M');
+			gameState.printView(1);
 		}
 		if (toTile != null && toTile.isContainer()) {
 			Item[] items = ((Cabinet) toTile).open();
@@ -330,7 +334,12 @@ public class Game {
 			break;
 		case 'P'://Pickup [P, _]
 			pickUp(gameState.getPlayer(id));
+			break;
+		case 'F'://activating frame
+			frameActivated  = true;
+			break;
 		}
+		
 	}
 
 	/**

@@ -125,6 +125,8 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		buttonPanelConstraints=new GridBagConstraints();
 		buttonPanelConstraints.gridx = 0;
 		buttonPanelConstraints.gridy = 10;
+		buttonPanelConstraints.gridwidth = 200;
+		buttonPanelConstraints.gridheight = 50;
 
 		// button panel needs to store "this" to call the display next methods, and send it Initialisation too? Or Initialisation
 		// has access to buttonInterpreter?
@@ -158,22 +160,29 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	}
 
 	public void transitionToNewState(InitialisationState state){
+		bPanel.setVisible(false);
 		if(state.equals(InitialisationState.SHOW_LOAD_OR_NEW_OPTION)){
 			displayLoadNew();
 		}
 		else if(state.equals(InitialisationState.CONNECT_TO_SERVER)){
-			bPanel.setVisible(false); //don't want to see loadNew options anymore
 			displayConnect();
 		}
-		else if(state.equals(InitialisationState.SHOW_AVATAR_OPTIONS)){
-			bPanel.setVisible(false); //don't want to see loadNew options anymore
-			displayAvatarOptions();
+		else if(state.equals(InitialisationState.LOAD_PLAYER_OR_CREATE_NEW_PLAYER)){
+			displayLoadCreatePlayerOptions();
 		}
 		else if(state.equals(InitialisationState.LOAD_GAME)){
 			loadSavedGame();
 		}
 		else if(state.equals(InitialisationState.CHOOSE_SLIDER_OPTIONS)){
 			displaySliderOptions();
+		}
+		else if(state.equals(InitialisationState.LOAD_SAVED_PLAYER)){
+			displayAvatarOptions(true);
+
+		}
+		else if(state.equals(InitialisationState.CREATE_NEW_PLAYER)){
+			displayAvatarOptions(false);
+
 		}
 		else if(state.equals(InitialisationState.START_GAME)){
 			try {
@@ -185,6 +194,13 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		}
 		revalidate(); //resize panel to make room for any newly added panels
 		repaint();
+
+	}
+
+	private void displayLoadCreatePlayerOptions() {
+		remove(bPanel);
+		bPanel = new ButtonPanel(this, InitialisationState.LOAD_PLAYER_OR_CREATE_NEW_PLAYER, initialisation);
+		add(bPanel, buttonPanelConstraints);
 
 	}
 
@@ -235,7 +251,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 					//if both values chosen, move to the next stage: choosing an avatar
 					if(density != -1 && difficultyLevel != -1){
 						WelcomePanel.this.remove(sliderPanel);
-						transitionToNewState(InitialisationState.SHOW_AVATAR_OPTIONS);
+						transitionToNewState(InitialisationState.LOAD_PLAYER_OR_CREATE_NEW_PLAYER);
 					}
 				}
 
@@ -280,19 +296,28 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	/*
 	 * Displays option dialog to get user to choose Avatar
 	 */
-	private void displayAvatarOptions() {
+	private void displayAvatarOptions(boolean b) {
+		final boolean loadingSavedPlayer = b;
+		final String loadSavedMessage = "Select the avatar associated with your Player";
+		final String createNewMessage = "Choose an avatar for your Player";
+
+		final InitialisationState create = InitialisationState.CREATE_NEW_PLAYER;
+		final InitialisationState load = InitialisationState.LOAD_SAVED_PLAYER;
+
+
 		JButton chooseAvatar = new JButton("Choose my Avatar");
 		chooseAvatar.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Dialog avatarDialog = new Dialog("Avatar chooser", "These are your available options.",
-						InitialisationState.SHOW_AVATAR_OPTIONS, initialisation, WelcomePanel.this);
+				Dialog avatarDialog = new Dialog("Available Avatars", loadingSavedPlayer ? loadSavedMessage : createNewMessage,
+						loadingSavedPlayer ? load : create, initialisation, WelcomePanel.this);
 
 			}
 		});
 
 		remove(bPanel); //remove the previous buttons
+		ButtonPanel.makeButtonPretty(chooseAvatar);
 		add(chooseAvatar, buttonPanelConstraints);
 
 	}
