@@ -77,11 +77,33 @@ public class GameRenderer{
 		double halfTileHeight = tileHeight;
 		double startX = width/2, startY = -height/2;
 
+		//draw ground
+
+		Image groundImage;
+		char groundType = '\u0000';
+
+		for (int y = 0; y < view.length; y++) {
+			if (groundType == 'R'){
+				break;
+			}
+			for (int x = 0; x < view[y].length; x++) {
+				if (view[y][x] == 'R'){
+					groundType = 'R';
+					break;
+				}
+			}
+		}
+
+		if (groundType == 'R'){
+			groundImage = images.caveGround();
+		} else {
+			groundImage = images.ground();
+		}
 
 		for (int y = 0; y < view.length; y++) {
 			for (int x = 0; x < view[y].length; x++) {
 				if(view[y][x] != '\u0000') {
-					graphic.drawImage(images.ground(), (int) (startX + halfTileWidth*x - images.ground().getWidth(null)/2), (int) (startY + halfTileHeight*x + tileWidth), null);
+					graphic.drawImage(groundImage, (int) (startX + halfTileWidth*x - images.ground().getWidth(null)/2), (int) (startY + halfTileHeight*x + tileWidth), null);
 				}
 			}
 			startX -= halfTileWidth;
@@ -198,8 +220,12 @@ public class GameRenderer{
 		for (int y = 0; y < view.length; y++) {
 			for (int x = 0; x < view[y].length; x++) {
 				if (view[y][x] == 'C'){
-					view[y][x+1] = 'N';
-					view[y+1][x] = 'N';
+					if (x < 14) {
+						view[y][x + 1] = 'N';
+					}
+					if (y < 14) {
+						view[y + 1][x] = 'N';
+					}
 				}
 			}
 		}

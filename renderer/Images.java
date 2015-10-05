@@ -5,7 +5,6 @@ import GUI.ImageLoader;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Random;
 
 import model.state.Player;
 import static utilities.PrintTool.p;
@@ -18,13 +17,17 @@ public class Images {
     private double tileWidth, tileHeight;
     private ArrayList<Player> players;
 
+    //ground images
+    private Image worldGroundImage;
+    private Image caveGroundImage;
+
     private Image treeImage;
-    private Image groundImage;
     private Image chestImage;
     private Image buildingImage;
     private Image doorImage;
     private Image keyImage;
     private Image caveImage;
+
 
     private ArrayList<Image> avatarImages;
 
@@ -40,11 +43,12 @@ public class Images {
 
     private  void loadImages(){
         //load environment images
-        this.groundImage = loadImage("ground.png", 2, 2.1f);
+        this.worldGroundImage = loadImage("worldground.png", 2, 2.1f);
+        this.caveGroundImage = loadImage("caveground.png", 2, 2.1f);
         this.treeImage = loadImage("tree.png", 2, 2);
         this.buildingImage = loadImage("building.png", 2, 2);
         this.doorImage = loadImage("door.png", 2, 2);
-        this.caveImage = loadImage("cave.png", 4, 4);
+        this.caveImage = loadImage("cave2.png", 4, 4);
 
         //load items images
         this.chestImage = loadImage("chest.png", 2, 2);
@@ -74,7 +78,7 @@ public class Images {
     }
 
     public Image ground() {
-        return groundImage;
+        return worldGroundImage;
     }
 
     public Image tree() {
@@ -102,5 +106,8 @@ public class Images {
     }
 
     public Image cave() { return caveImage;
+    }
+
+    public Image caveGround() { return caveGroundImage;
     }
 }
