@@ -53,6 +53,8 @@ public class Dialog extends JDialog implements ActionListener {
 
 	private WelcomePanel welcomePanel;
 
+	private boolean loadingSavedPlayer;
+
 
 	/**
 	 * Creates a dialog with a message, and different behaviour depending on the state
@@ -63,8 +65,6 @@ public class Dialog extends JDialog implements ActionListener {
 	 */
 	public Dialog(GameFrame gameFrame, String title, String msg, MainGameState state, StrategyInterpreter dialogInterp) {
 		super(gameFrame, title, true);
-
-
 
 		this.state = state;
 
@@ -106,8 +106,11 @@ public class Dialog extends JDialog implements ActionListener {
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-		if(state.equals(InitialisationState.SHOW_AVATAR_OPTIONS)){
-			displayAvatarOptions();
+		if(state.equals(InitialisationState.CREATE_NEW_PLAYER)){
+			displayAvatarOptions(false);
+		}
+		else if(state.equals(InitialisationState.LOAD_SAVED_PLAYER)){
+			displayAvatarOptions(true);
 		}
 
 		JButton ok = new JButton("OK");
@@ -130,7 +133,10 @@ public class Dialog extends JDialog implements ActionListener {
 	}
 
 
-	private void displayAvatarOptions() {
+	private void displayAvatarOptions(boolean b) {
+
+		this.loadingSavedPlayer = b;
+
 		JPanel avatarOptions = new JPanel();
 		List<Avatar> availAvatars= initialisation.getAvailableAvatars();
 
@@ -184,7 +190,11 @@ public class Dialog extends JDialog implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		boolean validInput = false;
-		if(state.equals("avatars") && chosenAvatar != null){
+		if(state.equals(MainGameState.DISPLAY_INVENTORY)){
+			validInput = true;
+		}
+
+		if(state.equals("")){
 			try {
 				dialogInterpreter.notify(chosenAvatar.toString());
 			} catch (IOException e1) {
@@ -192,8 +202,8 @@ public class Dialog extends JDialog implements ActionListener {
 				e1.printStackTrace();
 			}
 			validInput = true;
-
 		}
+
 		if(validInput){
 			setVisible(false);
 			dispose();

@@ -204,6 +204,8 @@ public class GameFrame extends JFrame{
 		//new JPanel(new BoxLayout(botPanel, BoxLayout.LINE_AXIS));
 		botPanel = new ButtonPanel(this, this.buttonInterpreter, MainGameState.MAIN);
 
+		botPanel.setVisible(true);
+
 		//botPanel.add(buttons);
 
 		add(botPanel);
@@ -215,7 +217,7 @@ public class GameFrame extends JFrame{
 		//create a new JMenuBar
 		//MenuBar bar = new MenuBar(game);
 
-		/*JMenuBar bar = new JMenuBar();
+		JMenuBar bar = new JMenuBar();
 
 		//create a File menu
 		JMenu menu = new JMenu("File");
@@ -281,11 +283,11 @@ public class GameFrame extends JFrame{
 		menu.add(save);
 		menu.add(load);
 
-		bar.add(menu);*/
+		bar.add(menu);
 
 
 
-		//setJMenuBar(bar);
+		setJMenuBar(bar);
 	}
 
 

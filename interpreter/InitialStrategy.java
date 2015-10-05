@@ -26,6 +26,12 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 			//notify game passing it the filename
 
 		}
+		else if(text.equals("loadPlayer")){
+
+		}
+		else if(text.equals("createPlayer")){
+
+		}
 		else{
 			if(text.equals("client")){
 				//testing for now to use a fixed IP
@@ -41,6 +47,7 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 				Main.serverClient();
 			}
 		}
+
 
 
 	}
