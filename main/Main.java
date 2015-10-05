@@ -94,6 +94,7 @@ public class Main {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		displayMainGameFrame();//debug
 	}
 
 	public static void displayMainGameFrame(){

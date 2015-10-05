@@ -15,7 +15,7 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 	@Override
 	public void notify(String text) {
 		if(text.equals("start")){
-			System.out.println("START");
+			//System.out.println("START");//debug
 			s.displayMainGameFrame();
 		}
 		else if(text.startsWith("open")){
