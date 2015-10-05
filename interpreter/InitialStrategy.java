@@ -1,6 +1,8 @@
 package interpreter;
 
 import java.io.Writer;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 
 import main.Initialisation;
@@ -25,7 +27,14 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 		}
 		else{
 			if(text.equals("client")){
-				//testing for now
+				//testing for now to use a fixed IP
+				InetAddress adr = null;
+				try {
+					adr = InetAddress.getByName("130.195.4.151");
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+				}
+				Main.clientMode(adr, 8888);
 			}
 			else if(text.equals("clientserver")){
 				Main.serverClient();

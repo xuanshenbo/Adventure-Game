@@ -148,24 +148,6 @@ public class Server extends Thread{
 		}
 	}
 
-	/**
-	 * The following determines what the server should send to the client depends on the input
-	 */
-	/*public void feedback(String input, Writer out, int id){
-		switch(input.substring(0, 3)){
-		case "dir":
-			sendMap(input, out, id);
-			break;
-		default:
-
-		}
-		game.processClientEvent(input, out, id);
-	}*/
-
-	/*private void sendMap(String input, Writer out, int id) {
-
-	}*/
-
 	private class Task implements Callable<Void> {
 		private Socket connection;
 		private int id;

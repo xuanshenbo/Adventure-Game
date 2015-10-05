@@ -162,7 +162,7 @@ public class Client extends Thread {
 		String receive = "";
 		for(int i=1; i<message.length; i++){
 			if(message[i] == 'X') break;
-			System.out.println(message[i]);
+			//System.out.println(message[i]);//debug
 			receive+=message[i];
 		}
 		IPaddress = receive;
@@ -183,7 +183,7 @@ public class Client extends Thread {
 				items[row][col] = message[index++];
 			}
 		}
-		p("reading map in the client");
+		//p("reading map in the client");
 		gui.updateRenderer(map, items);
 	}
 
