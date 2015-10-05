@@ -81,7 +81,7 @@ public class GameRenderer{
 		for (int y = 0; y < view.length; y++) {
 			for (int x = 0; x < view[y].length; x++) {
 				if(view[y][x] != '\u0000') {
-					graphic.drawImage(images.ground(), (int) (startX + halfTileWidth*x), (int) (startY + halfTileHeight*x), null);
+					graphic.drawImage(images.ground(), (int) (startX + halfTileWidth*x - images.ground().getWidth(null)/2), (int) (startY + halfTileHeight*x + tileWidth), null);
 				}
 			}
 			startX -= halfTileWidth;
@@ -91,10 +91,12 @@ public class GameRenderer{
 		startX = width/2;
 		startY = -height/2;
 
+		//draw view and objects
 		for (int y = 0; y < view.length; y++) {
 			for (int x = 0; x < view[y].length; x++) {
-				drawTile(view[y][x], startX + halfTileWidth*x, startY + halfTileHeight*x);
+				drawTile(view[y][x], startX + halfTileWidth * x, startY + halfTileHeight * x);
 				drawTile(objects[y][x], startX + halfTileWidth*x, startY + halfTileHeight*x);
+
 			}
 			startX -= halfTileWidth;
 			startY += halfTileHeight;
@@ -121,53 +123,53 @@ public class GameRenderer{
 		switch (tile){
 
 			case 'T':
-				graphic.drawImage(images.tree(), (int)(x), (int)(y), null);
+				graphic.drawImage(images.tree(), (int)(x)-images.tree().getWidth(null)/2, (int)(y), null);
 				break;
 			case '1':
 //				graphic.drawImage(images.avatar().get(0).getImages()[0][(int) (animationIndex)],
 				graphic.drawImage(images.avatar().get(0),
-						(int) (x)+offsetX,
+						(int) (x)+offsetX-images.avatar().get(0).getWidth(null)/2,
 						(int) (y+offsetY),
 						null);
 				break;
 			case '2':
 //				graphic.drawImage(images.avatar().get(1).getImages()[0][(int) (animationIndex)],
 				graphic.drawImage(images.avatar().get(1),
-						(int) (x),
+						(int) (x)-images.avatar().get(1).getWidth(null)/2,
 						(int) (y),
 						null);
 				break;
 			case '3':
 //				graphic.drawImage(images.avatar().get(2).getImages()[0][(int) (animationIndex)],
 				graphic.drawImage(images.avatar().get(2),
-						(int) (x),
+						(int) (x)-images.avatar().get(2).getWidth(null)/2,
 						(int) (y),
 						null);
 				break;
 			case '4':
 //				graphic.drawImage(images.avatar().get(3).getImages()[0][(int) (animationIndex)],
 				graphic.drawImage(images.avatar().get(3),
-						(int) (x),
+						(int) (x)-images.avatar().get(3).getWidth(null)/2,
 						(int) (y),
 						null);
 				break;
 			case 'O':
-				graphic.drawImage(images.chest(), (int) (x), (int) (y), null);
+				graphic.drawImage(images.chest(), (int) (x)-images.chest().getWidth(null)/2, (int) (y), null);
 				break;
 			case 'C':
-				graphic.drawImage(images.cave(), (int) (x), (int) (y), null);
+				graphic.drawImage(images.cave(), (int) (x)-images.cave().getWidth(null)/2, (int) (y), null);
 				break;
 			case 'B':
-				graphic.drawImage(images.building(), (int) (x), (int) (y), null);
+				graphic.drawImage(images.building(), (int) (x)-images.building().getWidth(null)/2, (int) (y), null);
 				break;
 			case 'D':
-				graphic.drawImage(images.door(), (int) (x), (int) (y), null);
+				graphic.drawImage(images.door(), (int) (x)-images.door().getWidth(null)/2, (int) (y), null);
 				break;
 			case 'k':
-				graphic.drawImage(images.key(), (int) (x), (int) (y), null);
+				graphic.drawImage(images.key(), (int) (x)-images.key().getWidth(null)/2, (int) (y), null);
 				break;
 			case 'Z':
-				graphic.drawImage(images.key(), (int) (x), (int) (y), null);
+				graphic.drawImage(images.key(), (int) (x)-images.key().getWidth(null)/2, (int) (y), null);
 				break;
 			default:
 				break;
@@ -186,8 +188,21 @@ public class GameRenderer{
 		this.view = view;
 		this.objects = objects;
 		//this.players = players;
+		
+		setRenderingMap();
 
 		render();
+	}
+
+	private void setRenderingMap() {
+		for (int y = 0; y < view.length; y++) {
+			for (int x = 0; x < view[y].length; x++) {
+				if (view[y][x] == 'C'){
+					view[y][x+1] = 'N';
+					view[y+1][x] = 'N';
+				}
+			}
+		}
 	}
 
 //	public int getOffsetX(){

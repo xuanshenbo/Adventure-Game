@@ -40,7 +40,7 @@ public class Images {
 
     private  void loadImages(){
         //load environment images
-        this.groundImage = loadImage("ground.png", 2, 2.3f);
+        this.groundImage = loadImage("ground.png", 2, 2.1f);
         this.treeImage = loadImage("tree.png", 2, 2);
         this.buildingImage = loadImage("building.png", 2, 2);
         this.doorImage = loadImage("door.png", 2, 2);
@@ -68,6 +68,7 @@ public class Images {
 //        g.drawImage(image, 0, 0, (int) tileWidth * scaleW, (int) tileHeight * scaleH, null);
         g.drawImage(image, 0, 0, (int) tileWidth * scaleW, (int) (tileWidth *scaleH), null);
 //		g.drawImage(image, 0, 0, (int) (tileWidth * scale), (int) (tileHeight * scale), 0, 0, width, height, null);
+        g.drawImage(image, 0, 0, 2, 2, null);
         g.dispose();
         return img;
     }

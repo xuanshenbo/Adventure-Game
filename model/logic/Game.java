@@ -171,6 +171,7 @@ public class Game {
 			}
 			//update players view
 			sendToServer(player, 'M');
+			gameState.printView(1);
 		}
 		if (toTile != null && toTile.isContainer()) {
 			Item[] items = ((Cabinet) toTile).open();
