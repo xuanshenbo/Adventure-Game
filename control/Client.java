@@ -22,7 +22,7 @@ import GUI.GameFrame;
  * @author yanlong
  *
  */
-public class Client extends Thread implements KeyListener {
+public class Client extends Thread {
 	private OutputStreamWriter output;
 	private InputStreamReader input;
 	private final Socket socket;
@@ -41,24 +41,6 @@ public class Client extends Thread implements KeyListener {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void run(){
@@ -179,10 +161,12 @@ public class Client extends Thread implements KeyListener {
 	public void readIP(char[] message){
 		String receive = "";
 		for(int i=1; i<message.length; i++){
-			if(message[i] == '\0'|| message[i] == '\r' || message[i] == '\n') break;
+			if(message[i] == 'X') break;
+			System.out.println(message[i]);
 			receive+=message[i];
 		}
 		IPaddress = receive;
+		System.out.println(IPaddress);//debug
 	}
 
 	/**

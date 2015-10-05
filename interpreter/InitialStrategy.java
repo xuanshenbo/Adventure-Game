@@ -25,7 +25,7 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 		}
 		else{
 			if(text.equals("client")){
-				//let Felix know that the client option has been selected
+				//testing for now
 			}
 			else if(text.equals("clientserver")){
 				Main.serverClient();

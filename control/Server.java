@@ -178,7 +178,8 @@ public class Server extends Thread{
 			try {
 				Writer out = new OutputStreamWriter(connection.getOutputStream());
 				writers[id] = out;
-				out.write('A'+address.getHostAddress().toString());
+				out.write("A"+address.getHostAddress().toString()+"X");// 'X' indicates the end of the message
+				//System.out.println(address.getHostAddress().toString());//debug
 				out.flush();
 				out.write('I'+id);
 				out.flush();
