@@ -6,6 +6,10 @@ public class KeyStrategy implements StrategyInterpreter.Strategy{
 
 	private StrategyInterpreter interpreter;
 
+	public KeyStrategy(StrategyInterpreter keyInterpreter) {
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * Sends information to the "Model" via the network, depending on what key the user pressed
 	 * @throws IOException

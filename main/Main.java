@@ -105,20 +105,31 @@ public class Main {
 //			clientMode();
 		}
 
+		/*
+		 * Initialise here so as to pass the interpreter to the Strategy constructors
+		 */
+		StrategyInterpreter keyInterpreter = null;
+		StrategyInterpreter buttonInterpreter = null;
+		StrategyInterpreter menuInterpreter = null;
+
+
 		//frame.dispose();	//get rid of welcome frame
 
-		frame = new GameFrame("Adventure Game", game);
+		frame = new GameFrame("Adventure Game");
 		//create the Strategy Interpreters with different Strategies as appropriate
-		StrategyInterpreter keyInterpreter = new StrategyInterpreter(frame, new KeyStrategy(),client);
-		StrategyInterpreter buttonInterpreter = new StrategyInterpreter(frame, new ButtonStrategy(),client);
-		StrategyInterpreter menuInterpreter = new StrategyInterpreter(frame, new MenuStrategy(),client);
+		keyInterpreter = new StrategyInterpreter(frame, new KeyStrategy(keyInterpreter),client);
+		buttonInterpreter = new StrategyInterpreter(frame, new ButtonStrategy(buttonInterpreter),client);
+		menuInterpreter = new StrategyInterpreter(frame, new MenuStrategy(menuInterpreter),client);
 
-		//menuInterpreter.setGame(frame.getGame());
 
 		//add the Strategy Interpreters to the GameFrame
 		frame.setKeyInterpreter(keyInterpreter);
 		frame.setButtonInterpreter(buttonInterpreter);
 		frame.setMenuInterpreter(menuInterpreter);
+		System.out.println("Menu interp assigned");
+
+		frame.setUpLayoutAndDisplay();
+
 		client.setGui(frame);
 		client.send("F");
 		ClockThread clock = new ClockThread(20,frame);

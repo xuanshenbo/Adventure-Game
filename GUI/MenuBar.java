@@ -1,10 +1,13 @@
 package GUI;
 
+import interpreter.StrategyInterpreter;
+
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
@@ -22,10 +25,15 @@ import dataStorage.Serializer;
 public class MenuBar extends JMenuBar {
 	private GameFrame gameFrame;
 
+	private StrategyInterpreter menuInterpreter;
+
 	/**
 	 * Creates a simple Menubar with an Exit option and adds an ActionListener which exits the program
 	 */
-	public MenuBar(final Game g){
+	public MenuBar(StrategyInterpreter interp){
+
+		this.menuInterpreter = interp;
+
 		//create a File menu
 		JMenu menu = new JMenu("File");
 
@@ -68,17 +76,24 @@ public class MenuBar extends JMenuBar {
 				}
 
 				//TODO implement this (Shenbo)
-				/*else if(e.getSource()==save){
-					System.out.println("Saving the game...");
+				else if(e.getSource()==save){
+					try {
+						System.out.println(menuInterpreter);
+						menuInterpreter.notify("save");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					/*System.out.println("Saving the game...");
+
 					try {
 						Serializer.serialize(g.getGameState());
 					} catch (JAXBException ex) {
 						System.out.println("Saving failed...");
 						return;
 					}
-					System.out.println("Done!");
+					System.out.println("Done!");*/
 
-				}*/
+				}
 			}
 		};
 
@@ -91,6 +106,12 @@ public class MenuBar extends JMenuBar {
 		//menu.add(load);
 
 		add(menu);
+	}
+
+	public void setInterpreter(StrategyInterpreter interp) {
+		menuInterpreter = interp;
+		System.out.println("MENU INTERPRETER SAVED");
+
 	}
 
 }

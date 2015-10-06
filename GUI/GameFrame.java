@@ -55,11 +55,14 @@ public class GameFrame extends JFrame{
 
 	private Dimension gamePanelSize = new Dimension(800, 600);
 
-	public static final int buttonPaddingHorizontal = 0;	//public as needs to be accessed from ButtonPanel
+	public static final int buttonPaddingHorizontal = 50;	//public as needs to be accessed from ButtonPanel
 	public static final int buttonPaddingVertical = 50;
 
 	private PlayerInfo player = new PlayerInfo("Donald Duck", Avatar.DONALD_DUCK);
 
+	/*
+	 * TODO Initialise these interpreters here rather than in Main method?
+	 */
 	private StrategyInterpreter keyInterpreter;
 	private StrategyInterpreter menuInterpreter;
 	private StrategyInterpreter buttonInterpreter;
@@ -82,7 +85,7 @@ public class GameFrame extends JFrame{
 	 * the constructor sets up the KeyListener using the KeyboardFocusManager, sets up the layout with all the appropriate Panels.
 	 * @param title The title of the GameFrame, used in the super constructor
 	 */
-	public GameFrame(String title, Game g) {
+	public GameFrame(String title) {
 		super(title);
 		//game = g;
 		/*try {
@@ -91,11 +94,9 @@ public class GameFrame extends JFrame{
 		    e.printStackTrace();
 		}*/
 
-		addMenuBar();
-
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
 
-		setUpLayout();
+		//setUpLayoutAndDisplay();
 
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
@@ -120,16 +121,16 @@ public class GameFrame extends JFrame{
 		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		manager.addKeyEventDispatcher(new MyDispatcher());
 
-		makePretty(topPanel.getPanels(), midPanel, botPanel);
+		//makePretty(topPanel.getPanels(), midPanel, botPanel);
 
-		pack();
-		setLocationRelativeTo(null);	//set the frame at the center of the screen
-		setVisible(true);
+
+
 	}
 
+	//add all the necessary panels with the appropriate GridBagConstraints. public visibility, for access in Main
+	public void setUpLayoutAndDisplay() {
 
-	//add all the necessary panels with the appropriate GridBagConstraints
-	private void setUpLayout() {
+		addMenuBar();
 
 		setupMiddlePanel();//need it set up so can use its width in Top Panel class
 
@@ -139,9 +140,9 @@ public class GameFrame extends JFrame{
 
 		addBottomPanel();
 
-		revalidate();
-		repaint();
-
+		pack();
+		setLocationRelativeTo(null);	//set the frame at the center of the screen
+		setVisible(true);
 
 	}
 
@@ -219,77 +220,9 @@ public class GameFrame extends JFrame{
 
 	private void addMenuBar() {
 		//create a new JMenuBar
-		//MenuBar bar = new MenuBar(game);
+		MenuBar bar = new MenuBar(menuInterpreter);
 
-		JMenuBar bar = new JMenuBar();
-
-		//create a File menu
-		JMenu menu = new JMenu("File");
-
-		//Create a file chooser
-		final JFileChooser fc = new JFileChooser();
-
-		//add an Exit option to the file menu
-		final JMenuItem exit = new JMenuItem("Exit");
-
-		//add Save option to the file menu
-		final JMenuItem save = new JMenuItem("Save");
-
-		//add Load option to the file menu
-		final JMenuItem load = new JMenuItem("Load");
-
-		//add a menu listener
-		ActionListener menuListener = new ActionListener(){
-
-			public void actionPerformed(ActionEvent e) {
-				//prompt the user if they choose exit, to ensure they want to exit the program
-				if(e.getSource()==exit){
-					String ObjButtons[] = {"Yes","No"};
-					int PromptResult = JOptionPane.showOptionDialog(null,"Are you sure you want to exit?","Adventure Game",
-							JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE,null,ObjButtons,ObjButtons[1]);
-					if(PromptResult==JOptionPane.YES_OPTION){
-						System.exit(0);
-					}
-				}
-				else if(e.getSource()==load){
-					int returnVal = fc.showOpenDialog(GameFrame.this);
-					if (returnVal == JFileChooser.APPROVE_OPTION) {
-						File file = fc.getSelectedFile();
-						System.out.println(file);
-						try {
-							menuInterpreter.notify("open "+file);
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					} else {
-						//do nothing
-					}
-				}
-//				else if(e.getSource()==save){
-//					System.out.println("Saving the game...");
-//					try {
-//						Serializer.serialize(game.getGameState());
-//					} catch (JAXBException ex) {
-//						System.out.println("Saving failed...");
-//						return;
-//					}
-//					System.out.println("Done!");
-//				}
-			}
-		};
-
-		exit.addActionListener(menuListener);
-		save.addActionListener(menuListener);
-		load.addActionListener(menuListener);
-
-		menu.add(exit);
-		menu.add(save);
-		menu.add(load);
-
-		bar.add(menu);
-
-
+		//bar.setInterpreter(menuInterpreter);
 
 		setJMenuBar(bar);
 	}
