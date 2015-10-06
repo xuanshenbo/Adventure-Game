@@ -1,4 +1,4 @@
-package GUI;
+/*package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -40,10 +40,10 @@ import main.Initialisation;
 import main.InitialisationState;
 import main.Main;
 
-/**
+*//**
  * A subclass of JDialog which welcomes a new player and invites them to choose an avatar
- */
-public class WelcomePanel extends JPanel implements ActionListener {
+ *//*
+public class WelcomePanelAltDONT_USE_ME extends JPanel implements ActionListener {
 
 	private JFrame parentFrame;
 
@@ -80,27 +80,27 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	//0, 1 or 2 for easy, medium or hard
 	private int difficultyLevel = 1;
 
-	/**
+	*//**
 	 * Creates a dialog with a message, and different behaviour depending on the state
 	 * @param gameFrame The parent frame of the dialog
 	 * @param title The title of the Dialog to be passed to super constructor
 	 * @param msg Message to display
 	 * @param i The state of the Game
-	 */
+	 *//*
 	public WelcomePanel(Initialisation i) {
 
 		this.initialisation = i;
 
 		this.state = InitialisationState.SHOW_CLIENT_SERVER_OPTION;
 
-		setLayout(new BorderLayout());
+		setLayout(new GridBagLayout());
 
 		this.parentFrame = i.getFrame();
 
-//		GridBagConstraints gc=new GridBagConstraints();
-//		gc.fill=GridBagConstraints.HORIZONTAL;
-//		gc.gridx = 0;
-//		gc.gridy = 0;
+		GridBagConstraints gc=new GridBagConstraints();
+		gc.fill=GridBagConstraints.HORIZONTAL;
+		gc.gridx = 0;
+		gc.gridy = 0;
 
 		//The message is put in a panel, in case new messages will be added later
 		JPanel messagePane = new JPanel();
@@ -114,41 +114,41 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		messagePane.add(welcomeMessage);
 
 		//add(messagePane, BorderLayout.PAGE_START);
-		add(messagePane, BorderLayout.PAGE_START);
+		add(messagePane, gc);
 
 		addWelcomeImage();
 
-//		sliderPanelConstraints = new GridBagConstraints();
-//		sliderPanelConstraints.gridx = 0;
-//		sliderPanelConstraints.gridx = 10;
-//		sliderPanelConstraints.gridheight = 50;
-//
-//
-//		buttonPanelConstraints=new GridBagConstraints();
-//		buttonPanelConstraints.gridx = 0;
-//		buttonPanelConstraints.gridy = 10;
+		sliderPanelConstraints = new GridBagConstraints();
+		sliderPanelConstraints.gridx = 0;
+		sliderPanelConstraints.gridx = 10;
+		sliderPanelConstraints.gridheight = 50;
+
+
+		buttonPanelConstraints=new GridBagConstraints();
+		buttonPanelConstraints.gridx = 0;
+		buttonPanelConstraints.gridy = 10;
 //		buttonPanelConstraints.gridwidth = 200;
 //		buttonPanelConstraints.gridheight = 50;
 
 		// button panel needs to store "this" to call the display next methods, and send it Initialisation too? Or Initialisation
 		// has access to buttonInterpreter?
 		bPanel = new ButtonPanel(this, state, initialisation);
-		add(bPanel, BorderLayout.SOUTH);
+		add(bPanel, buttonPanelConstraints);
 
 		//display the welcome panel
 		setVisible(true);
 	}
 
-	/*
+
 	 * Add an image to the screen
-	 */
+
 
 	private void addWelcomeImage() {
-//		GridBagConstraints gc=new GridBagConstraints();
-//		gc.fill=GridBagConstraints.HORIZONTAL;
-//		gc.gridx = 0;
-//		gc.gridy = 3;
-//		gc.gridwidth = 5;
+		GridBagConstraints gc=new GridBagConstraints();
+		gc.fill=GridBagConstraints.HORIZONTAL;
+		gc.gridx = 0;
+		gc.gridy = 3;
+		gc.gridwidth = 5;
 
 		welcomeImage = ImageLoader.loadImage("cupcake.jpg");
 		welcomeImage = welcomeImage.getScaledInstance(imageSize.width, imageSize.height, -1);
@@ -156,7 +156,8 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		ImageIcon icon = new ImageIcon(welcomeImage);
 		JLabel thumb = new JLabel();
 		thumb.setIcon(icon);
-		add(thumb, BorderLayout.CENTER);
+		//add(thumb, BorderLayout.CENTER);
+		add(thumb, gc);
 
 	}
 
@@ -201,7 +202,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	private void displayLoadCreatePlayerOptions() {
 		remove(bPanel);
 		bPanel = new ButtonPanel(this, InitialisationState.LOAD_PLAYER_OR_CREATE_NEW_PLAYER, initialisation);
-		add(bPanel, BorderLayout.SOUTH);
+		add(bPanel, buttonPanelConstraints);
 
 	}
 
@@ -249,11 +250,11 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 
 
-					/*//if both values chosen, move to the next stage: choosing an avatar
+					//if both values chosen, move to the next stage: choosing an avatar
 					if(density != -1 && difficultyLevel != -1){
 						WelcomePanel.this.remove(sliderPanel);
 						transitionToNewState(InitialisationState.LOAD_PLAYER_OR_CREATE_NEW_PLAYER);
-					}*/
+					}
 				}
 
 			}
@@ -282,35 +283,33 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 		sliderPanel.add(confirm);
 
-		sliderPanel.setAlignmentY(CENTER_ALIGNMENT);
-
-		add(sliderPanel, BorderLayout.SOUTH);
+		add(sliderPanel, sliderPanelConstraints);
 
 	}
 
-	/*
+
 	 * Displays option dialog to get user input on which server to connect to
-	 */
+
 	private void displayConnect() {
 		iPanel = new InputPanel(initialisation, "connect");
-		add(iPanel, BorderLayout.SOUTH);
+		add(iPanel, buttonPanelConstraints);
 
 		revalidate();
 	}
 
-	/*
+
 	 * Displays option dialog to get user to decide to load a game, or start a new game
 	 * TODO why is this panel not being displayed?
-	 */
+
 	private void displayLoadNew() {
 		remove(bPanel);
 		bPanel = new ButtonPanel(this, InitialisationState.SHOW_LOAD_OR_NEW_OPTION, initialisation);
-		add(bPanel, BorderLayout.SOUTH);
+		add(bPanel, buttonPanelConstraints);
 	}
 
-	/*
+
 	 * Displays option dialog to get user to choose Avatar
-	 */
+
 	private void displayAvatarOptions(boolean b) {
 		final boolean loadingSavedPlayer = b;
 		final String loadSavedMessage = "Select the avatar associated with your Player";
@@ -333,20 +332,20 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 		remove(bPanel); //remove the previous buttons
 		ButtonPanel.makeButtonPretty(chooseAvatar);
-		add(chooseAvatar, BorderLayout.SOUTH);
+		add(chooseAvatar, buttonPanelConstraints);
 
 	}
-	/**
+	*//**
 	 * Called when the user clicks "Choose Avatar" on the dialog
-	 */
+	 *//*
 	public void actionPerformed(ActionEvent e) {
 
 	}
 
-	/**	 *
+	*//**	 *
 	 * @param c TextField to store in a field
-	 */
+	 *//*
 	public void setTextField(JTextField c){
 
 	}
-}
+}*/

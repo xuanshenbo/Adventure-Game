@@ -46,6 +46,8 @@ public class GameInfoPanel extends JPanel{
 		setBorder(blackline);
 
 		setSize(size);
+
+		setBackground(new Color(204, 255, 229));
 	}
 
 	private void fillGameInfoPanel() {

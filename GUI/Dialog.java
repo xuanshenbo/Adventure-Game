@@ -169,16 +169,23 @@ public class Dialog extends JDialog implements ActionListener {
 	 * Add pictures
 	 */
 	private void displayInventory() {
+
 		if(parentFrame.getInventoryContents()!=null){
+			for(String i: parentFrame.getInventoryContents()){
+				JLabel item;
+				if(i != null){
+				String name = i.substring(0, 1).toUpperCase() + i.substring(1, i.length() -1);
 
-			for(Item i: parentFrame.getInventoryContents()){
-
-				JLabel item = new JLabel(i.getDescription());
-				Image image= i.getPicture();
+				item = new JLabel(name);
+				Image image= ImageLoader.loadImage(i+".png");
 				ImageIcon icon = new ImageIcon(image);
 				item.setIcon(icon);
-				add(item);
 
+				}
+				else{
+					item = new JLabel("Empty slot");
+				}
+				add(item);
 			}
 		}
 	}
