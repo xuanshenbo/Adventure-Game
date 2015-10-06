@@ -60,12 +60,11 @@ public class PlayerProfilePanel extends JPanel{
 		picturePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(picturePanel);
 
-
-
-
 		//add a plain black border around the whole panel
 		Border blackline = BorderFactory.createLineBorder(Color.black);
 		setBorder(blackline);
+
+		setBackground(new Color(204, 255, 229));
 
 		//setPreferredSize(size);
 	}

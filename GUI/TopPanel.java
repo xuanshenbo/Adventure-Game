@@ -2,6 +2,7 @@ package GUI;
 
 import interpreter.StrategyInterpreter;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.HashSet;
@@ -31,6 +32,8 @@ public class TopPanel extends JPanel{
 		//add player info panel to the right
 		playerProf = new PlayerProfilePanel(gameframe.getPlayer());
 		add(playerProf); //add to the right
+
+		setBackground(Color.PINK);
 
 	}
 

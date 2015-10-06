@@ -23,6 +23,7 @@ import model.state.Player;
 import model.state.Position;
 import model.state.Area.AreaType;
 import model.tiles.Cabinet;
+import model.tiles.ChestTile;
 import model.tiles.Tile;
 import control.Server;
 import static utilities.PrintTool.p;
@@ -33,6 +34,7 @@ public class Game {
 	private Server server;
 	private Clock clock;
 	private boolean frameActivated = false;
+	private ServerParser parser;
 
 	public enum Direction {
 		UP, DOWN, LEFT, RIGHT;
@@ -63,6 +65,7 @@ public class Game {
 		ArrayList<Player> playerList = placePlayers(parameters.getPlayerCount(), height, width, area);
 		playerList.get(0).makeActive();//FOR TESTING!!!!!!!
 		this.gameState = new GameState(area, playerList);
+		parser = new ServerParser(this, server);
 		clock.start();
 	}
 
@@ -90,7 +93,7 @@ public class Game {
 		//gameState.printState(false);
 		if(frameActivated){
 			for(Player p: gameState.getPlayerList()){
-				sendToServer(p, 'M');
+				parser.sendToServer(p, 'M');
 			}
 		}
 //		p("Printing gameState");
@@ -166,21 +169,21 @@ public class Game {
 					int otherPlayerY = otherPlayer.getPosition().getY();
 
 					if(Math.abs(playerX-otherPlayerX) < 8 && Math.abs(playerY-otherPlayerY) < 8){
-						sendToServer(otherPlayer, 'M');
+						parser.sendToServer(otherPlayer, 'M');
 					}
 				}
 			}
 			//update players view
-			sendToServer(player, 'M');
+			parser.sendToServer(player, 'M');
 			gameState.printView(1);
 		}
 		if (toTile != null && toTile.isContainer()) {
-			Item[] items = ((Cabinet) toTile).open();
+			Item[] items = ((ChestTile) toTile).open();
 			char[] itemArray = new char[items.length];
 			for (int i = 0; i < items.length; i++) {
 				itemArray[i] = items[i].getType();
 			}
-			sendToServer(player, 'P');
+			parser.sendInventory(player, itemArray);
 		}
 	}
 
@@ -232,7 +235,7 @@ public class Game {
 
 	public void use(Player player, int inventorySlot){
 		player.use(inventorySlot);
-		sendToServer(player, 'P');
+		parser.sendToServer(player, 'P');
 	}
 
 	/**
@@ -247,8 +250,8 @@ public class Game {
 			player.collect(item);
 			gameState.removeItem(playerPosition);
 		}
-		sendToServer(player, 'P');
-		sendToServer(player, 'M');
+		parser.sendToServer(player, 'P');
+		parser.sendToServer(player, 'M');
 	}
 
 	/**
@@ -261,11 +264,21 @@ public class Game {
 		gameState.addZombie(z);
 	}
 
-	/*********************************
+
+	/**
+	 * Activates the gameFrame when the game starts to prevent the
+	 * game from drawing before the client has started the frame
+	 */
+	public void activateFrame(){
+		frameActivated = true;
+	}
+
+
+	/*=================================
 	 *
 	 * GETTERS AND SETTERS
 	 *
-	 * *******************************
+	 *=================================
 	 */
 
 	public List<char[][]> getGameView(int id) {
@@ -283,6 +296,10 @@ public class Game {
 
 	public GameState getGameState() {
 		return gameState;
+	}
+
+	public ServerParser getParser() {
+		return parser;
 	}
 
 	/**
@@ -315,89 +332,4 @@ public class Game {
 		}
 		return list;
 	}
-
-	/**
-	 * The following receives the user event from the client and process the
-	 * logic needed to update the game.
-	 *
-	 * @param input
-	 * @param out
-	 * @param id
-	 */
-	public synchronized void processClientEvent(char[] message, Writer out,
-			int id) {
-		switch (message[0]) {
-		case 'M'://move [M, direction]
-			move(gameState.getPlayer(id), parseDirection(message[1]));
-			break;
-		case 'U': //use [I, int inventorySlot)
-			use(gameState.getPlayer(id), message[1]);
-			break;
-		case 'P'://Pickup [P, _]
-			pickUp(gameState.getPlayer(id));
-			break;
-		case 'F'://activating frame
-			frameActivated  = true;
-			break;
-		}
-
-	}
-
-	/**
-	 * The following transferred a char sent from the client into a Direction
-	 *
-	 * @param dir
-	 * @return
-	 */
-	public synchronized Direction parseDirection(char dir) {
-		switch (dir) {
-		case 'N':
-			return Direction.UP;
-		case 'S':
-			return Direction.DOWN;
-		case 'W':
-			return Direction.LEFT;
-		case 'E':
-			return Direction.RIGHT;
-		default:
-			return null;
-		}
-	}
-
-	public void sendToServer(Player player, char action){
-		char[] message;
-		if(action == 'M'){// map information
-			List<char[][]> view = getGameView(player.getId());
-			message = new char[451];
-			message[0] = action;
-			int index = 1;
-			for(int r = 0; r < 15; r++){
-				for(int c = 0; c < 15; c++){
-					message[index++] = view.get(0)[r][c];
-					message[index++] = view.get(1)[r][c];
-				}
-			}
-		}else if(action == 'P'){// player information
-			char[] inventory = new char[player.getInventory().length];
-			int happiness = player.getHappiness();
-			message = new char[inventory.length+2];
-			message[0] = action;
-			message[1] = (char)(happiness +'0');
-			for(int i = 2; i < inventory.length; i++){
-				message[i] = inventory[i];
-			}
-
-		}else{
-			message = new char[0];
-		}
-
-		try {
-			//p();
-			server.getWriters()[player.getId()].write(message);
-			server.getWriters()[player.getId()].flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 }

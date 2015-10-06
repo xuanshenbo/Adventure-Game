@@ -69,6 +69,8 @@ public class GameFrame extends JFrame{
 	private StrategyInterpreter menuInterpreter;
 	private StrategyInterpreter buttonInterpreter;
 
+	private ArrayList<String> inventoryContents;
+
 	//have to initialise this here for use in WelcomeDialog
 	private StrategyInterpreter dialogInterpreter = new StrategyInterpreter(this, new DialogStrategy(), null);
 
@@ -142,6 +144,7 @@ public class GameFrame extends JFrame{
 
 		addBottomPanel();
 
+
 		pack();
 		setLocationRelativeTo(null);	//set the frame at the center of the screen
 		setVisible(true);
@@ -162,10 +165,10 @@ public class GameFrame extends JFrame{
 
 		//generate a Game for testing
 		//this.game = generateGame(20, 2, 1, 5, 20, 20, 4, 1);
-/*
+		/*
 		char[][] view = game.getGameView(1).get(0);
 		char[][] objects = game.getGameView(1).get(1);
-*/
+		 */
 		char[][] view = new char[15][15];
 		char[][] objects = new char[15][15];
 		renderer = new GameRenderer(800, 600, view, objects);
@@ -173,6 +176,8 @@ public class GameFrame extends JFrame{
 		Image renderWindow = renderer.getImage(); //need to set the size??
 		JLabel renderLabel = new JLabel(new ImageIcon(renderWindow));
 		midPanel.add(renderLabel);
+
+		midPanel.setBackground(new Color(204, 255, 229));
 
 		//data = new testRenderer(20, 0, 0, 15, 20, 20, 4, 0);
 
@@ -212,6 +217,8 @@ public class GameFrame extends JFrame{
 		botPanel.setVisible(true);
 
 		//botPanel.add(buttons);
+
+		botPanel.setBackground(Color.PINK);
 
 		add(botPanel);
 
@@ -324,25 +331,27 @@ public class GameFrame extends JFrame{
 		while(PromptResult==JOptionPane.NO_OPTION){
 			PromptResult = JOptionPane.showConfirmDialog(this, "Yes you did!");
 		}
-
 	}
 
 	/**
 	 * Get contents of this player's inventory from Game, via network
 	 * @return
 	 */
-	public Set<Item> getInventoryContents() {
-
-		//for testing, display random num of key images
-
-		Set<Item> items = new HashSet<Item>();
-		for(int i = 0; i<(int)(Math.random()*5 +1); i++){
-			items.add(new Key());
-		}
-
-		return items;
+	public ArrayList<String> getInventoryContents() {
+			return inventoryContents;
 	}
 
+	/**
+	 * Set the inventory contents
+	 * @param inventory The list of items as lower-case Strings
+	 */
+	public void setInventoryContents(ArrayList<String> inventory){
+		inventoryContents = inventory;
+	}
+
+	/**
+	 * Set contents of inventory
+	 */
 	public void addInventoryDialog() {
 		Dialog inventory = new Dialog(this, "Display Inventory", "Your inventory contains:",
 				MainGameState.DISPLAY_INVENTORY, this.dialogInterpreter);
