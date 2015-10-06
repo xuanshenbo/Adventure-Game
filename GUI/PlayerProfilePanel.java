@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.io.File;
@@ -29,13 +30,23 @@ public class PlayerProfilePanel extends JPanel{
 	private JPanel picturePanel;
 	private JPanel statusPanel;
 
+	private int bar_left = 5;
+	private int bar_top = 5;
+	private int bar_width = 100;
+	private int bar_height = 20;
+
+	private int lifelineValue = 50;
+
 	private PlayerInfo playerInfo;
 
 	//change this, as more pictures and avatars are added
 	private int numAvatars = 1;
 
 	public PlayerProfilePanel(PlayerInfo info){
+
 		playerInfo = info;
+
+		//lifelineValue = info.getLifeline();
 
 		//load all the images for the different available avatars
 		avatars = new Image[numAvatars];
@@ -47,6 +58,7 @@ public class PlayerProfilePanel extends JPanel{
 
 		//a panel which displays lifeline, name etc in one column
 		statusPanel = new JPanel();
+		statusPanel.setBackground(new Color(204, 255, 229));
 		BoxLayout boxLayout = new BoxLayout(statusPanel, BoxLayout.PAGE_AXIS);
 		statusPanel.setLayout(boxLayout);
 		fillStatusPanel();
@@ -64,7 +76,7 @@ public class PlayerProfilePanel extends JPanel{
 		Border blackline = BorderFactory.createLineBorder(Color.black);
 		setBorder(blackline);
 
-		setBackground(new Color(204, 255, 229));
+
 
 		//setPreferredSize(size);
 	}
@@ -78,14 +90,31 @@ public class PlayerProfilePanel extends JPanel{
 		name.setFont(new Font("Serif", Font.BOLD, 20));
 		statusPanel.add(name);
 
-		JLabel lifeline = new JLabel("Lifeline");
+		JLabel lifelineMsg = new JLabel("Lifeline");
+		JLabel lifeline = lifelineLabel();
+
+		statusPanel.add(lifelineMsg);
 		statusPanel.add(lifeline);
 
 		JLabel happiness = new JLabel("Happiness level");
 		statusPanel.add(happiness);
 
+		repaint();
+	}
 
+	private JLabel lifelineLabel() {
+		JLabel lifeline = new JLabel(){
+			@Override
+			public void paintComponent(Graphics g){
+			    super.paintComponent(g);
+			    g.setColor(Color.BLACK);
+			    g.drawRect(bar_left, bar_top, bar_width, bar_height);
+			    g.setColor(Color.RED);
+			    g.fillRect(bar_left, bar_top, lifelineValue, bar_height);
 
+			}
+		};
+		return lifeline;
 	}
 
 	private void loadImages() {
