@@ -8,6 +8,7 @@ package GUI;
 public class PlayerInfo {
 	private String playerName;
 	private Avatar avatar;
+	private int lifeline;
 
 	public PlayerInfo(String pName, Avatar avatar){
 		this.playerName = pName;
@@ -20,6 +21,11 @@ public class PlayerInfo {
 
 	public Avatar getAvatar() {
 		return avatar;
+	}
+
+	public int getLifeline() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 
