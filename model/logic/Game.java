@@ -64,6 +64,7 @@ public class Game {
 		area.generateWorld(g);
 		ArrayList<Player> playerList = placePlayers(parameters.getPlayerCount(), height, width, area);
 		playerList.get(0).makeActive();//FOR TESTING!!!!!!!
+		//playerList.get(1).makeActive();
 		this.gameState = new GameState(area, playerList);
 		parser = new ServerParser(this, server);
 		clock.start();
@@ -181,7 +182,9 @@ public class Game {
 			Item[] items = ((ChestTile) toTile).open();
 			char[] itemArray = new char[items.length];
 			for (int i = 0; i < items.length; i++) {
-				itemArray[i] = items[i].getType();
+				if(items[i] != null){
+					itemArray[i] = items[i].getType();
+				}
 			}
 			parser.sendInventory(player, itemArray);
 		}

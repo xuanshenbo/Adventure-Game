@@ -5,6 +5,7 @@ import model.logic.Game.Direction;
 import model.state.Container;
 import model.state.Player;
 import model.state.Position;
+import static utilities.PrintTool.p;
 
 public class ChestTile implements Tile, Container{
 

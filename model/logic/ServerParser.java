@@ -10,6 +10,7 @@ import control.Server;
 import dataStorage.Serializer;
 import model.logic.Game.Direction;
 import model.state.Player;
+import static utilities.PrintTool.p;
 
 public class ServerParser {
 

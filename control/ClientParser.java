@@ -3,6 +3,7 @@ package control;
 import java.util.ArrayList;
 
 import GUI.GameFrame;
+import static utilities.PrintTool.p;
 
 /**
  * The following does the parsing job in the client when it receives a message from the server.

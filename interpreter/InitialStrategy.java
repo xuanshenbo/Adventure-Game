@@ -33,16 +33,16 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 
 		}
 		else{
-			/*if(text.equals("client")){
+			if(text.equals("client")){
 				//testing for now to use a fixed IP
 				InetAddress adr = null;
 				try {
-					adr = InetAddress.getByName("130.195.4.151");
+					adr = InetAddress.getByName("130.195.4.170");
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
 				}
 				Main.clientMode(adr, 8888);
-			}*/
+			}
 			if(text.equals("clientserver")){
 				Main.serverClient();
 			}
