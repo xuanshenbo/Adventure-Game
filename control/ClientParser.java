@@ -62,7 +62,7 @@ public class ClientParser {
 				inventory.add("null");
 			}
 		}
-
+		frame.setInventoryContents(inventory);
 	}
 
 	/**
