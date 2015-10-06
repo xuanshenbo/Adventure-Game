@@ -87,6 +87,7 @@ public class Game {
 			}
 		}
 		updateZombies();
+		//gameState.printState(false);
 		if(frameActivated){
 			for(Player p: gameState.getPlayerList()){
 				sendToServer(p, 'M');
@@ -339,7 +340,7 @@ public class Game {
 			frameActivated  = true;
 			break;
 		}
-		
+
 	}
 
 	/**
