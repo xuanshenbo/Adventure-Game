@@ -30,7 +30,7 @@ public class GameState {
 	@XmlElement(name="zombie")
 	private ArrayList<Zombie> zombieList = new ArrayList<Zombie>(); // list of zombies in the game
 	private Area world; // The game world
-	private int viewPortSize = 15;
+	private int viewPortSize = 21;
 	private int time;
 	private boolean day;
 

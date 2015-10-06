@@ -7,9 +7,12 @@ import static utilities.PrintTool.p;
 
 public class GameRenderer{
 
-	private int size = 15;
+	private int size;
 	private int offsetX, offsetY;
 	private int width,height;
+
+	private int imageScale = 1;
+
 	private char[][] view;
 	private char[][] objects;
 	private double tileHeight;
@@ -24,6 +27,7 @@ public class GameRenderer{
 
 	public GameRenderer(int width, int height, char[][] view, char[][] objects){
 
+		size = view.length;
 		this.outPut = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		this.width = width;
 		this.height = height;
@@ -34,7 +38,7 @@ public class GameRenderer{
 		this.view = view;
 		this.objects = objects;
 		//this.players = players;
-		this.images = new Images(tileWidth, tileHeight);
+		this.images = new Images(tileWidth, tileHeight, imageScale);
 
 		this.animationIndex = 0;
 
@@ -50,33 +54,9 @@ public class GameRenderer{
 		graphic = outPut.createGraphics();
 		graphic.clearRect(0,0,outPut.getWidth(), outPut.getHeight());
 
-//		for (int y = 0; y < view.length; y++) {
-//			for (int x = 0; x < view[y].length; x++) {
-//				if(view[y][x] != '\u0000') {
-//					graphic.drawImage(images.ground(), (int) (x * tileWidth), (int) (y * tileHeight), null);
-//				}
-//			}
-//		}
-//
-//
-//		for (int y = 0; y < view[0].length; y++) {
-//			for (int x = 0; x < view.length; x++) {
-//				drawTile(view[y][x], x, y);
-//				drawTile(objects[y][x], x, y);
-//			}
-////			for (int i = 0; i < players.size(); i++){
-////				if (players.get(i).getPosition().getY() == y) {
-////					graphic.drawImage(avatarImages.get(i).getImages()[0][(int) (animationIndex)],
-////							(int) (players.get(i).getPosition().getX() * tileWidth),
-////							(int) (players.get(i).getPosition().getY() * tileHeight - avatarImages.get(i).avatarHeight() + tileHeight),
-////							null);
-////				}
-////			}
-//		}
-
-		double halfTileWidth = tileWidth;
-		double halfTileHeight = tileHeight;
-		double startX = width/2, startY = -height/2;
+		double halfTileWidth = tileWidth/2 * imageScale;
+		double halfTileHeight = tileHeight/2 *imageScale;
+		double startX = width/2, startY = -tileWidth*imageScale/2;
 
 		//draw ground
 
@@ -104,7 +84,7 @@ public class GameRenderer{
 		for (int y = 0; y < view.length; y++) {
 			for (int x = 0; x < view[y].length; x++) {
 				if(view[y][x] != '\u0000') {
-					graphic.drawImage(groundImage, (int) (startX + halfTileWidth*x - images.ground().getWidth(null)/2), (int) (startY + halfTileHeight*x + tileWidth), null);
+					graphic.drawImage(groundImage, (int) (startX + halfTileWidth*x - images.ground().getWidth(null)/2), (int) (startY + halfTileHeight*x + tileWidth*imageScale/2), null);
 				}
 			}
 			startX -= halfTileWidth;
@@ -112,7 +92,7 @@ public class GameRenderer{
 		}
 
 		startX = width/2;
-		startY = -height/2;
+		startY = -tileWidth*imageScale/2;
 
 		//draw view and objects
 		for (int y = 0; y < view.length; y++) {
@@ -154,6 +134,7 @@ public class GameRenderer{
 						(int) (x)+offsetX-images.avatar().get(0).getWidth(null)/2,
 						(int) (y+offsetY),
 						null);
+				p((y+offsetY));
 				break;
 			case '2':
 //				graphic.drawImage(images.avatar().get(1).getImages()[0][(int) (animationIndex)],
