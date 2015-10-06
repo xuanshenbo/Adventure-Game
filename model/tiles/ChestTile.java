@@ -1,7 +1,9 @@
 package model.tiles;
 
 import model.items.Item;
+import model.items.Key;
 import model.logic.Game.Direction;
+import model.logic.Generator;
 import model.state.Container;
 import model.state.Player;
 import model.state.Position;
@@ -13,8 +15,27 @@ public class ChestTile implements Tile, Container{
 	private Position position;
 	private Item[] inventory = new Item[10];
 
-	public ChestTile(Position position){
+	public ChestTile(Position position, String difficulty){
 		this.position = position;
+		fillChest(difficulty);
+	}
+
+	/**
+	 * This method fills the chest with random objects when it is
+	 * first created
+	 * @param difficulty
+	 */
+	private void fillChest(String difficulty) {
+		for(int i = 0; i<inventory.length; i++){
+			int random = (int) (Math.random()*100)+1;
+			if(difficulty.equals("easy") && random < 50){
+				inventory[i] = Generator.randomItem();
+			}else if(difficulty.equals("medium") && random < 30){
+				inventory[i] = Generator.randomItem();
+			}else if(difficulty.equals("hard") && random < 10){
+				inventory[i] = Generator.randomItem();
+			}
+		}
 	}
 
 	@Override

@@ -20,6 +20,7 @@ public class GameRenderer{
 	private Graphics2D graphic;
 
 	private Images images;
+	private char type;
 
 	public GameRenderer(int width, int height, char[][] view, char[][] objects){
 
@@ -141,7 +142,7 @@ public class GameRenderer{
 		if (tile == '\u0000'){
 			return;
 		}
-		
+
 		switch (tile){
 
 			case 'T':
@@ -206,11 +207,12 @@ public class GameRenderer{
 //		return loadImage("tree.png", 3);
 //	}
 
-	public void update(char[][] view, char[][] objects) {
+	public void update(char type, char[][] view, char[][] objects) {
+		this.type = type;
 		this.view = view;
 		this.objects = objects;
 		//this.players = players;
-		
+
 		setRenderingMap();
 
 		render();

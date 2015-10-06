@@ -321,8 +321,9 @@ public class GameFrame extends JFrame{
 
 	}
 
-	public void updateRenderer(char[][] map, char[][] items){
-		renderer.update(map, items);
+	public void updateRenderer(char type, char[][] map, char[][] items){
+
+		renderer.update(type, map, items);
 	}
 
 	private void showDialog(String string) {

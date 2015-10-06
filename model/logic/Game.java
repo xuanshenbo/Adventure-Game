@@ -22,7 +22,6 @@ import model.state.GameState;
 import model.state.Player;
 import model.state.Position;
 import model.state.Area.AreaType;
-import model.tiles.Cabinet;
 import model.tiles.ChestTile;
 import model.tiles.Tile;
 import control.Server;
@@ -61,7 +60,12 @@ public class Game {
 		int width = parameters.getWidth();
 		Area area = new Area(height, width, AreaType.OUTSIDE, null);
 		Generator g = new Generator(parameters);
+//		height = 200;
+//		width = 200;
+//		Generator g = new Generator("easy", 100, height, width);
+		p();
 		area.generateWorld(g);
+		p();
 		ArrayList<Player> playerList = placePlayers(parameters.getPlayerCount(), height, width, area);
 		playerList.get(0).makeActive();//FOR TESTING!!!!!!!
 		//playerList.get(1).makeActive();

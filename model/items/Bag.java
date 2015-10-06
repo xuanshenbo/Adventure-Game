@@ -1,5 +1,6 @@
 package model.items;
 
+import model.logic.Generator;
 import model.state.Container;
 import model.state.Player;
 
@@ -7,19 +8,20 @@ public class Bag extends Item implements Container {
 
 	private Item[] inventory = new Item[3];
 
-	public Bag(String description) {
-		super(description, "", 'B');
+	public Bag() {
+		super('b');
+		fillBag();
+	}
+	
+	public void fillBag(){
+		for(int i = 0; i < inventory.length; i++){	
+			inventory[i] = Generator.randomItem();
+		}
 	}
 
 	@Override
 	public Item[] use(Player player) {
 		return inventory;
-	}
-
-	@Override
-	public String getUseDescription() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
