@@ -38,6 +38,8 @@ import model.state.GameState;
 import model.state.Player;
 import model.state.Position;
 
+import static utilities.PrintTool.p;
+
 /**
  * NEW version of GameFrame doesn't use GridBagLayout, but instead uses a BoxLayout with 3 Jpanels, each of
  * which has its own Layout
@@ -258,9 +260,8 @@ public class GameFrame extends JFrame{
 					System.out.println("Saving the game...");
 					try {
 						Serializer.serialize(game.getGameState());
-					} catch (JAXBException ex) {
-						System.out.println("Saving failed...");
-						return;
+					} catch (JAXBException e1) {
+						e1.printStackTrace();
 					}
 					System.out.println("Done!");
 				}

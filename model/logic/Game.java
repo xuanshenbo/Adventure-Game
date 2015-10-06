@@ -40,7 +40,7 @@ public class Game{
 	public Game(GameState state) {
 		this.gameState = state;
 	}
-	
+
 	/**
 	 * Creates a new game. Creates a new World for the players
 	 * and places the players in the world. Also starts a clock thread
@@ -82,22 +82,22 @@ public class Game{
 			}
 		}
 		updateZombies();
-		gameState.printState(false);
+		//gameState.printState(false);
 	}
-	
+
 	/**
 	 * This method checks how many sombeis are in the world and adds
 	 * Zombies if needed, it then checks the time and changes the zombies
 	 * actions based on the time. From there is makes all the Zombies
 	 * move.
 	 */
-	
+
 	public void updateZombies(){
 		if(gameState.getZombieList().size() < 5){
 			addZombie();
 		}
 		for(Zombie zombie:gameState.getZombieList()){
-			
+
 			if(gameState.getDay()){
 				zombie.setStrategy(new RunZombie());
 			}else{

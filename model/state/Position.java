@@ -16,7 +16,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Position {
 
-	@XmlTransient
 	private Area a;
 	private int x;
 	private int y;
@@ -105,12 +104,10 @@ public class Position {
 		return a;
 	}
 
-	@XmlElement
 	public int getX() {
 		return x;
 	}
 
-	@XmlElement
 	public int getY() {
 		return y;
 	}
