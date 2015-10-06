@@ -188,7 +188,7 @@ public class Server extends Thread{
 
 					//System.out.println("server printed input");//debug
 					//feedback(input, out, id);
-					game.processClientEvent(message, out, id);
+					game.getParser().processClientEvent(message, out, id);
 
 					//p("mapRow"+String.format("%s",mapRow).charAt(0)+String.format("%s",mapRow).charAt(1));
 					//p("colRow"+(char)('0' + mapCol));
