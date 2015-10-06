@@ -133,7 +133,7 @@ public class Main {
 		client.setGui(frame);
 		client.getParser().setFrame(frame);
 		client.send("F");
-		ClockThread clock = new ClockThread(20,frame);
+		ClockThread clock = new ClockThread(40,frame);
 		clock.start();
 
 	}

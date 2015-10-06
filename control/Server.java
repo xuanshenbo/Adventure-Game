@@ -39,7 +39,7 @@ public class Server extends Thread{
 	private int uid = 1; //uid starts from 1
 	private Writer[] writers = new Writer[5];//writer[0] will be null. only 1-4 will be used
 
-	private Queue<char[]> instructions = new ArrayDeque<char[]>();//debug
+	private Queue<char[]> instructions = new ArrayDeque<char[]>();//debug, should be commented out
 	//private int[] parameters;
 	private Game game;
 

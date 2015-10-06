@@ -1,5 +1,7 @@
 package control;
 
+import java.util.ArrayList;
+
 import GUI.GameFrame;
 
 /**
@@ -39,8 +41,28 @@ public class ClientParser {
 		case 'M'://map
 			readMap(message);
 			break;
+		case 'I'://inventory information
+			readInventory(message);
+			break;
 		default:
 		}
+	}
+
+	/**
+	 * The following parses the inventory information and passes it the frame
+	 * @param message
+	 */
+	private void readInventory(char[] message) {
+		ArrayList<String> inventory = new ArrayList<String>();
+		for(int i=1; i<message.length; i++){
+			switch(message[i]){
+			case 'k':
+				inventory.add("key");
+			case '\0':
+				inventory.add("null");
+			}
+		}
+
 	}
 
 	/**
