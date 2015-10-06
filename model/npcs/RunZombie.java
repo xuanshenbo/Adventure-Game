@@ -16,9 +16,9 @@ public class RunZombie implements ZombieStrategy {
 		int oldY = oldPosition.getY();
 		int caveX = caveEntrance.getX();
 		int caveY = caveEntrance.getY();
-		
+
 		Position newPosition;
-		
+
 		if(oldX > caveX){
 			//move left if possible
 			newPosition = new Position (oldX-1, oldY, oldPosition.getArea());
@@ -44,19 +44,7 @@ public class RunZombie implements ZombieStrategy {
 				return newPosition;
 			}
 		}
-		//nothing is possible so now move either left or right to get around the obstacle
-		
-		//try right
-		newPosition = new Position(oldX+1, oldY, oldPosition.getArea());
-		if(newPosition.isValid()){
-			return newPosition;
-		}
-		//or left
-		newPosition = new Position(oldX-1, oldY, oldPosition.getArea());
-		if(newPosition.isValid()){
-			return newPosition;
-		}
-		
+
 		return oldPosition;
 	}
 

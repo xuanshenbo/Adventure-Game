@@ -36,7 +36,7 @@ public class Server extends Thread{
 	private char[] map;
 	private int mapRow;
 	private int mapCol;
-	private int uid;
+	private int uid = 1; //uid starts from 1
 	private Writer[] writers = new Writer[5];//writer[0] will be null. only 1-4 will be used
 
 	private Queue<char[]> instructions = new ArrayDeque<char[]>();//debug
@@ -138,22 +138,15 @@ public class Server extends Thread{
 	}
 
 	/**
-	 * The following determines what the server should send to the client depends on the input
+	 * The following closes the server socket
 	 */
-	/*public void feedback(String input, Writer out, int id){
-		switch(input.substring(0, 3)){
-		case "dir":
-			sendMap(input, out, id);
-			break;
-		default:
-
+	public void closeServer(){
+		try {
+			server.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		game.processClientEvent(input, out, id);
-	}*/
-
-	/*private void sendMap(String input, Writer out, int id) {
-
-	}*/
+	}
 
 	private class Task implements Callable<Void> {
 		private Socket connection;
@@ -167,10 +160,14 @@ public class Server extends Thread{
 			try {
 				Writer out = new OutputStreamWriter(connection.getOutputStream());
 				writers[id] = out;
-				out.write("Server address: "+address.getHostAddress().toString());
+				out.write("A"+address.getHostAddress().toString()+"X");// 'X' indicates the end of the message
+				//System.out.println(address.getHostAddress().toString());//debug
+				//out.flush();
+				//System.out.println("No id writing?");//debug
+				System.out.println("id: "+id);
+				out.write((char)(id+'0'));
 				out.flush();
-				out.write("ID: "+id);
-				out.flush();
+				//System.out.println("id flushed");//debug
 				Reader in = new InputStreamReader(connection.getInputStream());
 				//Date now = new Date();
 				// write the log entry first in case the client disconnects

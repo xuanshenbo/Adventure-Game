@@ -56,4 +56,10 @@ public class GroundTile implements Tile {
 		return true;
 	}
 
+
+	@Override
+	public boolean isContainer() {
+		return false;
+	}
+
 }

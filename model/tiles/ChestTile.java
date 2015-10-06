@@ -8,7 +8,7 @@ public class ChestTile implements Tile {
 
 	private char id = 'O';
 	private Position position;
-	
+
 	public ChestTile(Position position){
 		this.position = position;
 	}
@@ -41,6 +41,11 @@ public class ChestTile implements Tile {
 
 	@Override
 	public boolean isGround() {
+		return false;
+	}
+
+	@Override
+	public boolean isContainer() {
 		return false;
 	}
 

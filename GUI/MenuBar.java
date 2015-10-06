@@ -11,6 +11,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.xml.bind.JAXBException;
+
+import model.logic.Game;
+import dataStorage.Serializer;
 
 /**
  * A simple Menubar with an Exit option
@@ -21,7 +25,7 @@ public class MenuBar extends JMenuBar {
 	/**
 	 * Creates a simple Menubar with an Exit option and adds an ActionListener which exits the program
 	 */
-	public MenuBar(){
+	public MenuBar(final Game g){
 		//create a File menu
 		JMenu menu = new JMenu("File");
 
@@ -64,16 +68,17 @@ public class MenuBar extends JMenuBar {
 				}
 
 				//TODO implement this (Shenbo)
-				else if(e.getSource()==save){
-					int returnVal = fc.showSaveDialog(MenuBar.this);
-					if (returnVal == JFileChooser.APPROVE_OPTION) {
-						File file = fc.getSelectedFile();
-						//notify interpreter to save file
-					} else {
-						//do nothing
+				/*else if(e.getSource()==save){
+					System.out.println("Saving the game...");
+					try {
+						Serializer.serialize(g.getGameState());
+					} catch (JAXBException ex) {
+						System.out.println("Saving failed...");
+						return;
 					}
+					System.out.println("Done!");
 
-				}
+				}*/
 			}
 		};
 
@@ -82,7 +87,7 @@ public class MenuBar extends JMenuBar {
 		load.addActionListener(menuListener);
 
 		menu.add(exit);
-		//menu.add(save); this choice is now taken care of at the start
+		menu.add(save);
 		//menu.add(load);
 
 		add(menu);

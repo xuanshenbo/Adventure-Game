@@ -9,7 +9,7 @@ public class TreeTile implements Tile {
 
 	private Position position;
 	private char id = 'T';
-	
+
 	public TreeTile(Position position){
 		this.position = position;
 	}
@@ -41,6 +41,11 @@ public class TreeTile implements Tile {
 
 	@Override
 	public boolean isGround() {
+		return false;
+	}
+
+	@Override
+	public boolean isContainer() {
 		return false;
 	}
 

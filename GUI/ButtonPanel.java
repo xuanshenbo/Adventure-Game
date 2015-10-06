@@ -34,7 +34,7 @@ import main.MainGameState;
 /**
  * A panel to store the button options
  * @author flanagdonn
- *
+ * TODO MAKE BUTTONS RESIZE PROPERLY
  */
 public class ButtonPanel extends JPanel {
 
@@ -48,8 +48,11 @@ public class ButtonPanel extends JPanel {
 	private GameFrame containerFrame;
 
 
-	private JButton load = new JButton("Load saved game");
+	private JButton loadGame = new JButton("Load saved game");
 	private JButton newGame = new JButton("Start new game");
+
+	private JButton loadPlayer = new JButton("Load saved player");
+	private JButton createPlayer = new JButton("Create new player");
 
 	private JButton client = new JButton("Client");
 	private JButton serverclient = new JButton("Server + Client");
@@ -70,7 +73,7 @@ public class ButtonPanel extends JPanel {
 		//make buttons layout top to bottom
 
 
-		if(state.equals("main")){
+		if(state.equals(MainGameState.MAIN)){
 			if(containerFrame!=null){
 				BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS);	//display main game-play buttons horizontally
 				setLayout(boxLayout);
@@ -108,7 +111,62 @@ public class ButtonPanel extends JPanel {
 			addLoadNewButtons();
 		}
 
+		else if(state.equals(InitialisationState.LOAD_PLAYER_OR_CREATE_NEW_PLAYER)){
+			BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS); //display client server buttons vertically
+			setLayout(boxLayout);
+			addLoadCreatePlayerButtons();
+		}
 
+
+
+
+
+	}
+
+	private void addLoadCreatePlayerButtons() {
+		ActionListener loadcreate = new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource()==loadPlayer){
+					try {
+						initialisation.notify("loadPlayer");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					welcomePanel.transitionToNewState(InitialisationState.LOAD_SAVED_PLAYER);
+				}
+				else if(e.getSource()==createPlayer){	//conditional not strictly necessary, but added for completion
+					try {
+						initialisation.notify("createPlayer");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					welcomePanel.transitionToNewState(InitialisationState.CREATE_NEW_PLAYER);
+				}
+			}
+
+		};
+
+		loadPlayer.addActionListener(loadcreate);
+		createPlayer.addActionListener(loadcreate);
+
+		makeButtonPretty(loadPlayer);
+		makeButtonPretty(createPlayer);
+
+		removeAllButtons();
+
+		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical,0))); //pad between buttons
+		add(loadPlayer);
+		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical,0))); //pad between buttons
+		add(createPlayer);
+
+
+		setVisible(true);
+
+		repaint();
 
 	}
 
@@ -118,7 +176,7 @@ public class ButtonPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(e.getSource()==load){
+				if(e.getSource()==loadGame){
 					try {
 						initialisation.notify("load");
 					} catch (IOException e1) {
@@ -134,21 +192,22 @@ public class ButtonPanel extends JPanel {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					welcomePanel.transitionToNewState(InitialisationState.START_NEW_GAME);
+					welcomePanel.transitionToNewState(InitialisationState.CHOOSE_SLIDER_OPTIONS);
 				}
 			}
 
 		};
 
-		load.addActionListener(loadnewListener);
+		loadGame.addActionListener(loadnewListener);
 		newGame.addActionListener(loadnewListener);
 
 		removeAllButtons();
 
-		System.out.println("HERE");
+		makeButtonPretty(loadGame);
+		makeButtonPretty(newGame);
 
 		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical,0))); //pad between buttons
-		add(load);
+		add(loadGame);
 		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical,0))); //pad between buttons
 		add(newGame);
 
@@ -203,6 +262,9 @@ public class ButtonPanel extends JPanel {
 		client.addActionListener(serverclientListener);
 		serverclient.addActionListener(serverclientListener);
 
+		makeButtonPretty(client);
+		makeButtonPretty(serverclient);
+
 		removeAllButtons();
 
 		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical,0))); //pad between buttons
@@ -214,10 +276,8 @@ public class ButtonPanel extends JPanel {
 	private void removeAllButtons() {
 		remove(client);
 		remove(serverclient);
-		remove(load);
+		remove(loadGame);
 		remove(newGame);
-
-
 	}
 
 	private void CreateMainButtons() {
@@ -263,6 +323,9 @@ public class ButtonPanel extends JPanel {
 		});
 
 		//makePretty(inventory, team, exchange);
+		makeButtonPretty(inventory);
+		makeButtonPretty(team);
+		makeButtonPretty(exchange);
 
 		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingHorizontal,0))); //pad between buttons
 		add(inventory);
@@ -270,6 +333,39 @@ public class ButtonPanel extends JPanel {
 		add(team);
 		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingHorizontal,0))); //pad between buttons
 		add(exchange);
+
+		revalidate();
+
+	}
+
+//used in WelcomePanel, hence 'package' visibility
+	static void makeButtonPretty(JButton b) {
+
+			System.out.println(b);
+			javax.swing.border.Border line, raisedbevel, loweredbevel;
+			TitledBorder title;
+			javax.swing.border.Border empty;
+	        line = BorderFactory.createLineBorder(Color.black);
+	        raisedbevel = BorderFactory.createRaisedBevelBorder();
+	        loweredbevel = BorderFactory.createLoweredBevelBorder();
+	        title = BorderFactory.createTitledBorder("");
+	        empty = BorderFactory.createEmptyBorder(1, 1, 1, 1);
+	        final CompoundBorder compound, compound1, compound2;
+	        Color crl = (new Color(202, 0, 0));
+	        compound = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl));
+	        Color crl1 = (Color.GREEN.darker());
+	        compound1 = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl1));
+	        Color crl2 = (Color.black);
+	        compound2 = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl2));
+	        b.setFont(new Font("Sans-Serif", Font.BOLD, 16));
+	        b.setForeground(Color.darkGray);
+	        b.setPreferredSize(new Dimension(50, 30));
+
+	        b.setBorderPainted(true);
+	        b.setFocusPainted(false);
+	        b.setBorder(compound);
+
+	        b.revalidate();
 
 	}
 

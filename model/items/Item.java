@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlTransient;
 
+import model.state.Player;
 import GUI.ImageLoader;
 
 /**
@@ -39,7 +40,7 @@ public abstract class Item {
 		type = c;
 	}
 
-	public abstract void use();
+	public abstract Item[] use(Player player);
 
 	/**
 	 * This method used to display available options to the user

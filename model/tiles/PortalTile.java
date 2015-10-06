@@ -5,7 +5,7 @@ import model.state.Player;
 import model.state.Position;
 
 public class PortalTile implements Tile {
-	
+
 	private Position entry;
 	private Position exit;
 
@@ -42,6 +42,11 @@ public class PortalTile implements Tile {
 
 	@Override
 	public boolean isGround() {
+		return false;
+	}
+
+	@Override
+	public boolean isContainer() {
 		return false;
 	}
 

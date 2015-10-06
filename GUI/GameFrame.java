@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import main.InitialisationState;
+import main.Main;
 import main.MainGameState;
 import model.items.Item;
 import model.items.Key;
@@ -50,13 +51,13 @@ public class GameFrame extends JFrame{
 	private int frameWidth = 800;
 	private int frameHeight = 800;
 
-	private Game game; //TODO initalise this WHERE?
+	//private Game game; //TODO initalise this WHERE?
 
 	private Dimension mapSize = new Dimension(750, 400);
 
 	private Dimension gamePanelSize = new Dimension(800, 600);
 
-	public static final int buttonPaddingHorizontal = 50;	//public as needs to be accessed from ButtonPanel
+	public static final int buttonPaddingHorizontal = 0;	//public as needs to be accessed from ButtonPanel
 	public static final int buttonPaddingVertical = 50;
 
 	private PlayerInfo player = new PlayerInfo("Donald Duck", Avatar.DONALD_DUCK);
@@ -85,7 +86,7 @@ public class GameFrame extends JFrame{
 	 */
 	public GameFrame(String title, Game g) {
 		super(title);
-		game = g;
+		//game = g;
 		/*try {
 		    UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
 		} catch (Exception e) {
@@ -109,14 +110,14 @@ public class GameFrame extends JFrame{
 			public void windowClosing(WindowEvent we) {
 
 				String ObjButtons[] = {"Yes", "No"};
-				int PromptResult = JOptionPane.showOptionDialog(null, "Are you sure you want to exit?", "CluedoGame",
+				int PromptResult = JOptionPane.showOptionDialog(null, "Are you sure you want to exit?", "Happiness Game",
 						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
 				if (PromptResult == JOptionPane.YES_OPTION) {
+					Main.closeServer();
 					System.exit(0);
 				}
 			}
 		});
-
 
 		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		manager.addKeyEventDispatcher(new MyDispatcher());
@@ -140,13 +141,15 @@ public class GameFrame extends JFrame{
 
 		addBottomPanel();
 
+		revalidate();
+		repaint();
+
 
 	}
 
 	private void addTopPanel() {
 		topPanel = new TopPanel(this);
 		add(topPanel);
-
 	}
 
 	/*
@@ -158,11 +161,13 @@ public class GameFrame extends JFrame{
 
 		//generate a Game for testing
 		//this.game = generateGame(20, 2, 1, 5, 20, 20, 4, 1);
-
+/*
 		char[][] view = game.getGameView(1).get(0);
 		char[][] objects = game.getGameView(1).get(1);
-
-		renderer = new GameRenderer(800, 600, view, objects, game.getPlayerList());
+*/
+		char[][] view = new char[15][15];
+		char[][] objects = new char[15][15];
+		renderer = new GameRenderer(800, 600, view, objects);
 
 		Image renderWindow = renderer.getImage(); //need to set the size??
 		JLabel renderLabel = new JLabel(new ImageIcon(renderWindow));
@@ -173,7 +178,7 @@ public class GameFrame extends JFrame{
 	}
 
 	//taken from GUIForTest for testing purposes
-	private static Game generateGame(int trees, int buildings, int caves, int chests, int width, int height, int playerCount, int lootValue) {
+	/*private static Game generateGame(int trees, int buildings, int caves, int chests, int width, int height, int playerCount, int lootValue) {
 		Generator g = new Generator(trees, buildings, caves, chests, lootValue);
 		Area a = new Area(width, height, Area.AreaType.OUTSIDE, null);
 		a.generateWorld(g);
@@ -181,10 +186,10 @@ public class GameFrame extends JFrame{
 		GameState state = new GameState(a, p);
 		Game game = new Game(state);
 		return game;
-	}
+	}*/
 
 	//taken from GUIForTest for testing purposes
-	private static ArrayList<Player> placePlayers(int playerCount, int width, int height, Area a) {
+	/*private static ArrayList<Player> placePlayers(int playerCount, int width, int height, Area a) {
 		double[] xCoords = {0.5, 0, 0.5, 1};
 		double[] yCoords = {0, 0.5, 1, 0.5};
 		ArrayList<Player> list = new ArrayList<Player>();
@@ -197,20 +202,27 @@ public class GameFrame extends JFrame{
 			list.add(p);
 		}
 		return list;
-	}
+	}*/
 
 	private void addBottomPanel() {
 		//new JPanel(new BoxLayout(botPanel, BoxLayout.LINE_AXIS));
 		botPanel = new ButtonPanel(this, this.buttonInterpreter, MainGameState.MAIN);
 
+		botPanel.setVisible(true);
+
 		//botPanel.add(buttons);
 
 		add(botPanel);
 
+		botPanel.revalidate();	//will this change button size?
+
 	}
+
 
 	private void addMenuBar() {
 		//create a new JMenuBar
+		//MenuBar bar = new MenuBar(game);
+
 		JMenuBar bar = new JMenuBar();
 
 		//create a File menu
@@ -256,15 +268,16 @@ public class GameFrame extends JFrame{
 						//do nothing
 					}
 				}
-				else if(e.getSource()==save){
-					System.out.println("Saving the game...");
-					try {
-						Serializer.serialize(game.getGameState());
-					} catch (JAXBException e1) {
-						e1.printStackTrace();
-					}
-					System.out.println("Done!");
-				}
+//				else if(e.getSource()==save){
+//					System.out.println("Saving the game...");
+//					try {
+//						Serializer.serialize(game.getGameState());
+//					} catch (JAXBException ex) {
+//						System.out.println("Saving failed...");
+//						return;
+//					}
+//					System.out.println("Done!");
+//				}
 			}
 		};
 
@@ -277,6 +290,8 @@ public class GameFrame extends JFrame{
 		menu.add(load);
 
 		bar.add(menu);
+
+
 
 		setJMenuBar(bar);
 	}
@@ -305,10 +320,6 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					} //implement for all key presses
 
-					game.move(game.getGameState().getPlayer(1), Direction.UP);
-					map = game.getGameView(1).get(0);
-					items = game.getGameView(1).get(1);
-					renderer.update(map, items, game.getPlayerList());
 					midPanel.repaint();
 
 					break;
@@ -319,12 +330,6 @@ public class GameFrame extends JFrame{
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-
-					game.move(game.getGameState().getPlayer(1), Direction.DOWN);
-
-					map = game.getGameView(1).get(0);
-					items = game.getGameView(1).get(1);
-					renderer.update(map, items, game.getGameState().getPlayerList());
 					midPanel.repaint();
 
 					break;
@@ -337,11 +342,7 @@ public class GameFrame extends JFrame{
 					}
 
 					//TODO refactor this using interpreter
-					game.move(game.getGameState().getPlayer(1), Direction.LEFT);
 
-					map = game.getGameView(1).get(0);
-					items = game.getGameView(1).get(1);
-					renderer.update(map, items, game.getGameState().getPlayerList());
 					midPanel.repaint();
 
 					break;
@@ -353,14 +354,21 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					}
 
-					game.move(game.getGameState().getPlayer(1), Direction.RIGHT);
-
-					map = game.getGameView(1).get(0);
-					items = game.getGameView(1).get(1);
-					renderer.update(map, items, game.getGameState().getPlayerList());
 					midPanel.repaint();
 
 					break;
+				case KeyEvent.VK_P:
+					try {
+						keyInterpreter.notify("pickUp");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+					midPanel.repaint();
+
+					break;
+
 				}
 			}
 			else if (e.getID() == KeyEvent.KEY_RELEASED) {
@@ -371,6 +379,10 @@ public class GameFrame extends JFrame{
 		}
 
 
+	}
+
+	public void updateRenderer(char[][] map, char[][] items){
+		renderer.update(map, items);
 	}
 
 	private void showDialog(String string) {
@@ -399,7 +411,8 @@ public class GameFrame extends JFrame{
 	}
 
 	public void addInventoryDialog() {
-		Dialog inventory = new Dialog(this, "Display Inventory", "Your inventory contains:", "inventory", this.dialogInterpreter);
+		Dialog inventory = new Dialog(this, "Display Inventory", "Your inventory contains:",
+				MainGameState.DISPLAY_INVENTORY, this.dialogInterpreter);
 	}
 
 	public StrategyInterpreter getKeyInterpreter() {
@@ -478,10 +491,5 @@ public class GameFrame extends JFrame{
 
 		}*/
 
-	}
-
-
-	public Game getGame() {
-		return this.game;
 	}
 }

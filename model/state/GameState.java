@@ -83,7 +83,7 @@ public class GameState {
 		}
 		return closestPlayer;
 	}
-	
+
 	/**
 	 * Adding a zombie to the world
 	 * @param z: Zombie to be added
@@ -203,6 +203,12 @@ public class GameState {
 							playerPos = true;
 						}
 					}
+					for(Zombie z: zombieList){
+						if(z.getPosition().getX() == col && z.getPosition().getY() == row && z.getPosition().getArea() == a && !playerPos){
+							view[r][c] = (char) (z.getid());
+							playerPos = true;
+						}
+					}
 					if(!playerPos){
 						view[r][c] = a.getArea()[row][col].getType();
 					}
@@ -231,7 +237,14 @@ public class GameState {
 	// ================================================
 
 	public ArrayList<Player> getPlayerList(){
-		return playerList;
+		ArrayList<Player> activePlayerList = new ArrayList<Player>();
+		for(Player player: playerList){
+			if(player.isInGame()){
+				activePlayerList.add(player);
+			}
+		}
+
+		return activePlayerList;
 	}
 
 	public Area getWorld() {
@@ -262,7 +275,7 @@ public class GameState {
 	/**
 	 * This method prints out the game state to the console
 	 * used for debugging.
-	 * @param innerAreas 
+	 * @param innerAreas
 	 */
 	public void printState(boolean innerAreas){
 		String suffix = "am";
@@ -324,9 +337,9 @@ public class GameState {
 					}
 					System.out.println("");
 				}
-			}	
+			}
 		}
-		System.out.println("");		
+		System.out.println("");
 	}
 
 	public void printView(int id){
