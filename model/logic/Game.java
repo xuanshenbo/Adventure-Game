@@ -90,6 +90,7 @@ public class Game {
 			}
 		}
 		updateZombies();
+		//gameState.printState(false);
 		if(frameActivated){
 			for(Player p: gameState.getPlayerList()){
 				parser.sendToServer(p, 'M');

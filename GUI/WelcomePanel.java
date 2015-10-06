@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -61,7 +62,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	private Dimension imageSize = new Dimension(850, 400);
 
 	//static so as to be used in parent constructor
-	private static String welcome = "Welcome to Happiness Game!";
+	private static String welcome = "Welcome to the Happiness Game!";
 
 	//this will display different buttons depending on what the user needs to choose
 	private ButtonPanel bPanel;
@@ -108,6 +109,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		//display welcome message in appropriate size.
 		JLabel welcomeMessage = new JLabel(welcome);
 		welcomeMessage.setFont(new Font("Serif", Font.BOLD, heading1Size));
+		welcomeMessage.setForeground(Color.pink);
 
 		messagePane.add(welcomeMessage);
 

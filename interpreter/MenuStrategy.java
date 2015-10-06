@@ -1,5 +1,6 @@
 package interpreter;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import javax.xml.bind.JAXBException;
@@ -10,13 +11,20 @@ public class MenuStrategy implements StrategyInterpreter.Strategy{
 
 	private StrategyInterpreter interpreter;
 
+	public MenuStrategy(StrategyInterpreter menuInterpreter) {
+		this.interpreter = menuInterpreter;
+	}
+
 	@Override
 	public void notify(String text) {
-		Scanner sc = new Scanner(text);
-		String command = sc.next();
-		String filename = sc.next();
 
-		if(command.equals("save")){
+		if(text.equals("save")){
+			System.out.println("Saving the game...");
+			try {
+				interpreter.getClient().send("Save");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 //			System.out.println("Saving the game...");
 //			try {
 //				Serializer.serialize(interpreter.getGame().getGameState());

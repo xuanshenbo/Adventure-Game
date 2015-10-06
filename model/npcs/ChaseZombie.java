@@ -15,9 +15,9 @@ public class ChaseZombie implements ZombieStrategy {
 		int oldY = oldPosition.getY();
 		int playerX = player.getX();
 		int playerY = player.getY();
-		
+
 		Position newPosition = oldPosition;
-		
+
 		if(oldX > playerX){
 			//move left if possible
 			newPosition = new Position (oldX-1, oldY, oldPosition.getArea());
@@ -43,6 +43,8 @@ public class ChaseZombie implements ZombieStrategy {
 				newPosition = oldPosition;
 			}
 		}
+
+		//p("Chase Zombie Moving from: "+oldPosition+" to: "+newPosition);
 		return newPosition;
 	}
 
