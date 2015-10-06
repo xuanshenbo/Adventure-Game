@@ -30,6 +30,7 @@ public class Client extends Thread {
 	private int uid;
 	private String IPaddress;
 	private GameFrame gui;
+	private ClientParser parser;
 
 	public Client(Socket s){
 		socket = s;
@@ -37,6 +38,7 @@ public class Client extends Thread {
 			socket.setTcpNoDelay(true);//Data is not buffered but sent immediately
 			output = new OutputStreamWriter(socket.getOutputStream());
 			input = new InputStreamReader(socket.getInputStream());
+			parser = new ClientParser(this);
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -58,7 +60,7 @@ public class Client extends Thread {
 				char[] message = new char[1024];
 				//System.out.println("client starts reading");//debug
 				input.read(message);
-				processMessage(message);
+				parser.processMessage(message);
 
 				//only do something if the message is not null
 				/*String receive = "";
@@ -133,62 +135,6 @@ public class Client extends Thread {
 		output.flush();
 	}
 
-	/**
-	 * The following processes the message received from the server
-	 * @param message
-	 */
-	public void processMessage(char[] message){
-		switch(message[0]){
-/*		case 'I'://id
-			uid = Character.getNumericValue(message[1]);
-			break;*/
-		case 'A'://ip address and id
-			readIP(message);
-			break;
-		case 'P'://player information
-			break;
-		case 'M'://map
-			readMap(message);
-			break;
-		default:
-		}
-	}
-
-	/**
-	 * The following reads ip address and uid from the server and gives it to the gui
-	 * @param message
-	 */
-	public void readIP(char[] message){
-		String receive = "";
-		int i = 1;
-		for(; i<message.length; i++){
-			if(message[i] == 'X') break;
-			//System.out.println(message[i]);//debug
-			receive+=message[i];
-		}
-		IPaddress = receive;
-		uid = Character.getNumericValue(message[++i]);
-		System.out.println(IPaddress);//debug
-		System.out.println(uid);
-	}
-
-	/**
-	 * The following reads the map data from the server and gives it to the gui
-	 * @param message
-	 */
-	public void readMap(char[] message){
-		char[][] map = new char[15][15];
-		char[][] items = new char[15][15];
-		int index = 1;
-		for(int row=0; row < map.length; row++){
-			for(int col=0; col < map[0].length; col++){
-				map[row][col] = message[index++];
-				items[row][col] = message[index++];
-			}
-		}
-		//p("reading map in the client");
-		gui.updateRenderer(map, items);
-	}
 
 	/**
 	 * a getter for uid
@@ -205,6 +151,40 @@ public class Client extends Thread {
 	public void setGui(GameFrame gui) {
 		this.gui = gui;
 	}
+
+	/**
+	 * a getter for IPaddress
+	 * @return
+	 */
+	public String getIPaddress() {
+		return IPaddress;
+	}
+
+	/**
+	 * a setter for IPaddress
+	 * @param iPaddress
+	 */
+	public void setIPaddress(String iPaddress) {
+		IPaddress = iPaddress;
+	}
+
+	/**
+	 * a setter for uid
+	 * @param uid
+	 */
+	public void setUid(int uid) {
+		this.uid = uid;
+	}
+
+	/**
+	 * a getter for the ClientParser
+	 * @return
+	 */
+	public ClientParser getParser() {
+		return parser;
+	}
+
+
 
 
 }
