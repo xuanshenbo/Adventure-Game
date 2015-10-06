@@ -23,6 +23,9 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
+import com.sun.xml.internal.bind.CycleRecoverable;
+
+import dataStorage.pointers.AreaPointer;
 import static utilities.PrintTool.p;
 import model.items.Item;
 import model.logic.Generator;
@@ -32,7 +35,7 @@ import model.tiles.GroundTile.TileType;
 
 //@XmlType(propOrder = { "type", "area", "items", "entrance", "internalAreas", "exitPosition" })
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Area {
+public class Area implements CycleRecoverable {
 
 	@XmlType(name = "AreaType")
 	@XmlEnum
@@ -60,12 +63,14 @@ public class Area {
 	@XmlTransient
 	private final Item[][] items; // the array of items in the area based on their location
 	private Position entrance; // the position on the parent of the entrance to this area
-	@XmlTransient
+	@XmlElementWrapper
+	@XmlElement(name="internalArea")
 	private ArrayList<Area> internalAreas = new ArrayList<Area>();
 	private Position exitPosition;
 	@XmlElementWrapper
 	@XmlElement(name="caveEntrance")
 	private ArrayList<Position> caveEntrances = new ArrayList<Position>();
+	@XmlTransient
 	private GameState gameState;// the gameState that stores this area.
 
 	public Area(int height, int width, AreaType t, Position p){
@@ -273,6 +278,15 @@ public class Area {
 			System.out.println(a.getEntrance());
 			a.printArea();
 		}
+	}
+
+	@Override
+	public Object onCycleDetected(Context arg0) {
+		AreaPointer areaPointer = new AreaPointer();
+		areaPointer.setType(type);
+		areaPointer.setArea(area);
+		areaPointer.setItems(items);
+		return areaPointer;
 	}
 
 }

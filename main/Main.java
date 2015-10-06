@@ -131,6 +131,7 @@ public class Main {
 		frame.setUpLayoutAndDisplay();
 
 		client.setGui(frame);
+		client.getParser().setFrame(frame);
 		client.send("F");
 		ClockThread clock = new ClockThread(20,frame);
 		clock.start();

@@ -39,6 +39,8 @@ import model.state.GameState;
 import model.state.Player;
 import model.state.Position;
 
+import static utilities.PrintTool.p;
+
 /**
  * NEW version of GameFrame doesn't use GridBagLayout, but instead uses a BoxLayout with 3 Jpanels, each of
  * which has its own Layout
