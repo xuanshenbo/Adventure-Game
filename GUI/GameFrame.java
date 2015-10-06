@@ -55,7 +55,7 @@ public class GameFrame extends JFrame{
 
 	private Dimension gamePanelSize = new Dimension(800, 600);
 
-	public static final int buttonPaddingHorizontal = 50;	//public as needs to be accessed from ButtonPanel
+	public static final int buttonPaddingHorizontal = 0;	//public as needs to be accessed from ButtonPanel
 	public static final int buttonPaddingVertical = 50;
 
 	private PlayerInfo player = new PlayerInfo("Donald Duck", Avatar.DONALD_DUCK);
@@ -139,13 +139,15 @@ public class GameFrame extends JFrame{
 
 		addBottomPanel();
 
+		revalidate();
+		repaint();
+
 
 	}
 
 	private void addTopPanel() {
 		topPanel = new TopPanel(this);
 		add(topPanel);
-
 	}
 
 	/*
@@ -209,6 +211,8 @@ public class GameFrame extends JFrame{
 		//botPanel.add(buttons);
 
 		add(botPanel);
+
+		botPanel.revalidate();	//will this change button size?
 
 	}
 
