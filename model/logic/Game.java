@@ -163,13 +163,15 @@ public class Game {
 			toTile.move(player, direction);
 			//check other players are in range and send update to players as needed
 			for(Player otherPlayer: gameState.getPlayerList()){
-				if(player.isInGame()){
+				p();
+				if(otherPlayer.isInGame()){
 					int playerX = player.getPosition().getX();
 					int playerY = player.getPosition().getY();
 					int otherPlayerX = otherPlayer.getPosition().getX();
 					int otherPlayerY = otherPlayer.getPosition().getY();
 
 					if(Math.abs(playerX-otherPlayerX) < 8 && Math.abs(playerY-otherPlayerY) < 8){
+						p("otherPlayer id:"+otherPlayer.getId());
 						parser.sendToServer(otherPlayer, 'M');
 					}
 				}
@@ -274,6 +276,13 @@ public class Game {
 	 */
 	public void activateFrame(){
 		frameActivated = true;
+	}
+
+
+
+	public void activatePlayer(int id) {
+		gameState.getPlayer(id).makeActive();
+
 	}
 
 

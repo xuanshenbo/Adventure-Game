@@ -58,6 +58,8 @@ public class ServerParser {
 			break;
 		case 'L'://Loading game
 			break;
+		case 'J'://Client joins the game
+			game.activatePlayer(id);
 		}
 
 
@@ -111,13 +113,16 @@ public class ServerParser {
 			message[0] = action;
 			for(int i = 1; i< tempItemArrayStorage.length; i++){
 				message[i] = tempItemArrayStorage[i];
-			}			
+			}
 		}else{
 			message = new char[0];
 		}
 
 		try {
-			//p();
+			p("server:"+server);
+			p("sever.getWriters:"+server.getWriters());
+			p("server.getWriters[player.getId()]:"+server.getWriters()[player.getId()]);
+			p("player.getId():"+player.getId());
 			server.getWriters()[player.getId()].write(message);
 			server.getWriters()[player.getId()].flush();
 		} catch (IOException e) {

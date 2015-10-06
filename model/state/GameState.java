@@ -243,7 +243,6 @@ public class GameState {
 				activePlayerList.add(player);
 			}
 		}
-
 		return activePlayerList;
 	}
 
@@ -267,10 +266,10 @@ public class GameState {
 		return day;
 	}
 
-	/**===================================
-	 * DEBUGGING AND TESTING METHODS
-	 * ===================================
-	 */
+	//===================================
+	// DEBUGGING AND TESTING METHODS
+	//===================================
+	 
 
 	/**
 	 * This method prints out the game state to the console
