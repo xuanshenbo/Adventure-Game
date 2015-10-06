@@ -12,11 +12,10 @@ public class GameRenderer{
 	private int width,height;
 
 	private int imageScale = 1;
-
-	private char[][] view;
+	
 	private char[][] objects;
-	private double tileHeight;
-	private double tileWidth;
+	private double tileHeight, tileWidth;
+	private int viewWidth, viewHeight;
 	//private ArrayList<Player> players;
 	private int animationIndex;
 	private BufferedImage outPut;
@@ -24,6 +23,7 @@ public class GameRenderer{
 
 	private Images images;
 	private char type;
+	private RenderState renderState;
 
 	public GameRenderer(int width, int height, char[][] view, char[][] objects){
 
@@ -35,7 +35,9 @@ public class GameRenderer{
 		offsetY = 0;
 		this.tileWidth = width/size;
 		this.tileHeight = height/size;
-		this.view = view;
+		this.viewWidth = view[0].length;
+		this.viewHeight = view.length;
+		this.renderState = new RenderState(view);
 		this.objects = objects;
 		//this.players = players;
 		this.images = new Images(tileWidth, tileHeight, imageScale);
@@ -57,34 +59,22 @@ public class GameRenderer{
 		double halfTileWidth = tileWidth/2 * imageScale;
 		double halfTileHeight = tileHeight/2 *imageScale;
 		double startX = width/2, startY = -tileWidth*imageScale/2;
+		int groundOffsetY = images.ground().getWidth(null)/2;
 
 		//draw ground
 
 		Image groundImage;
-		char groundType = '\u0000';
 
-		for (int y = 0; y < view.length; y++) {
-			if (groundType == 'R'){
-				break;
-			}
-			for (int x = 0; x < view[y].length; x++) {
-				if (view[y][x] == 'R'){
-					groundType = 'R';
-					break;
-				}
-			}
-		}
-
-		if (groundType == 'R'){
+		if (type == 'R'){
 			groundImage = images.caveGround();
 		} else {
 			groundImage = images.ground();
 		}
 
-		for (int y = 0; y < view.length; y++) {
-			for (int x = 0; x < view[y].length; x++) {
-				if(view[y][x] != '\u0000') {
-					graphic.drawImage(groundImage, (int) (startX + halfTileWidth*x - images.ground().getWidth(null)/2), (int) (startY + halfTileHeight*x + tileWidth*imageScale/2), null);
+		for (int y = 0; y < viewHeight; y++) {
+			for (int x = 0; x < viewWidth; x++) {
+				if(renderState.getMap()[y][x] != '\u0000') {
+					graphic.drawImage(groundImage, (int) (startX + halfTileWidth*x - groundOffsetY), (int) (startY + halfTileHeight*x + tileWidth*imageScale/2), null);
 				}
 			}
 			startX -= halfTileWidth;
@@ -95,9 +85,10 @@ public class GameRenderer{
 		startY = -tileWidth*imageScale/2;
 
 		//draw view and objects
-		for (int y = 0; y < view.length; y++) {
-			for (int x = 0; x < view[y].length; x++) {
-				drawTile(view[y][x], startX + halfTileWidth * x, startY + halfTileHeight * x);
+		for (int y = 0; y < viewHeight; y++) {
+			for (int x = 0; x < viewWidth; x++) {
+				drawTile(renderState.getMap()[y][x], startX + halfTileWidth * x, startY + halfTileHeight * x);
+				drawTile(renderState.getNpc()[y][x], startX + halfTileWidth * x, startY + halfTileHeight * x);
 				drawTile(objects[y][x], startX + halfTileWidth*x, startY + halfTileHeight*x);
 
 			}
@@ -134,7 +125,6 @@ public class GameRenderer{
 						(int) (x)+offsetX-images.avatar().get(0).getWidth(null)/2,
 						(int) (y+offsetY),
 						null);
-				p((y+offsetY));
 				break;
 			case '2':
 //				graphic.drawImage(images.avatar().get(1).getImages()[0][(int) (animationIndex)],
@@ -184,15 +174,10 @@ public class GameRenderer{
 		return outPut;
 	}
 
-//	public Image getOneImage(){
-//		return loadImage("tree.png", 3);
-//	}
-
 	public void update(char type, char[][] view, char[][] objects) {
 		this.type = type;
-		this.view = view;
+		this.renderState.initialize(view);
 		this.objects = objects;
-		//this.players = players;
 
 		setRenderingMap();
 
@@ -200,14 +185,14 @@ public class GameRenderer{
 	}
 
 	private void setRenderingMap() {
-		for (int y = 0; y < view.length; y++) {
-			for (int x = 0; x < view[y].length; x++) {
-				if (view[y][x] == 'C'){
+		for (int y = 0; y < viewHeight; y++) {
+			for (int x = 0; x < viewWidth; x++) {
+				if (renderState.getMap()[y][x] == 'C'){
 					if (x < 14) {
-						view[y][x + 1] = 'N';
+						renderState.getMap()[y][x + 1] = 'N';
 					}
 					if (y < 14) {
-						view[y + 1][x] = 'N';
+						renderState.getMap()[y + 1][x] = 'N';
 					}
 				}
 			}
