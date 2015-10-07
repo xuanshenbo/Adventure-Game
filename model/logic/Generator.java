@@ -71,19 +71,24 @@ public class Generator {
 		this.difficulty = difficulty;
 		int numberOfTiles = width*height;
 		if(difficulty.equals("easy")){
-			this.chests = numberOfTiles/10;
+			this.chests = numberOfTiles/50;
 			this.lootValue = 3;
 		}else if(difficulty.equals("medium")){
-			this.chests = numberOfTiles/50;
+			this.chests = numberOfTiles/100;
 			lootValue = 2;
 		}else if(difficulty.equals("hard")){
-			this.chests = numberOfTiles/100;
+			this.chests = numberOfTiles/200;
 			lootValue = 1;
-		}		
-		this.trees = 2000/density;
-		this.buildings = numberOfTiles/density;
-		this.caves = numberOfTiles/(density*100);
-		this.caves = 0;
+		}
+		this.trees = 1010-(density*10);
+		this.buildings = ((numberOfTiles/100)*density)/100;
+		if(buildings == 0){
+			buildings = 1;
+		}
+		this.caves = buildings/4;
+		if(caves == 0){
+			caves = 1;
+		}
 	}
 
 	/**
@@ -145,8 +150,9 @@ public class Generator {
 				}
 			}
 		}
-		p();
+
 		boolean[][] invalidPosition = new boolean[areaArray.length][areaArray[0].length];
+		int totalTiles = areaArray.length*areaArray[0].length;
 
 		//place the buildings
 		for(int count = 0; count < buildings; count++){
@@ -168,16 +174,18 @@ public class Generator {
 				}
 				//place the building down
 				if(placeClear){
-					p(count);
+					//p(count);
 					for(int row = randomRow; row < randomRow+3; row++){
 						for(int col = randomCol; col < randomCol+5; col++){
 							areaArray[row][col] = new BuildingTile(new Position(col, row, area));
 						}
 					}
 					//Create a boarder around the building so that no buildings can be side by side.
+					int invalidSize = 0;
 					for(int row = randomRow-1; row < randomRow+4; row++){
 						for(int col = randomCol-1; col < randomCol+6; col++){
 							invalidPosition[row][col] = true;
+							invalidSize++;
 						}
 					}
 
@@ -194,7 +202,6 @@ public class Generator {
 				}
 			}
 		}
-		p();
 		//place the caves
 		for(int count = 0; count < caves; count++){
 			boolean placed = false;

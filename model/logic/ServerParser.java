@@ -46,6 +46,9 @@ public class ServerParser {
 		case 'P'://Pickup [P, _]
 			game.pickUp(game.getGameState().getPlayer(id));
 			break;
+		case 'D'://Drop [D, int inventorySlot]
+			game.Drop(game.getGameState().getPlayer(id), (int) message[1]);
+			break;
 		case 'F'://activating frame
 			game.activateFrame();
 			break;
@@ -101,16 +104,19 @@ public class ServerParser {
 					message[index++] = view.get(1)[r][c];
 				}
 			}
-		}else if(action == 'P'){// player information
+		}else if(action == 'I'){// player inventory
 			char[] inventory = new char[player.getInventory().length];
-			int happiness = player.getHappiness();
 			message = new char[inventory.length+2];
 			message[0] = action;
-			message[1] = (char)(happiness +'0');
-			for(int i = 2; i < inventory.length; i++){
+			for(int i = 1; i < inventory.length; i++){
 				message[i] = inventory[i];
 			}
-		}else if(action == 'I'){// inventory information
+		}else if(action == 'H'){// player happiness
+			int happiness = player.getHappiness();
+			message = new char[2];
+			message[0] = action;
+			message[1] = (char)(happiness +'0');
+		}else if(action == 'C'){// container inventory information
 			message = new char[tempItemArrayStorage.length+1];
 			message[0] = action;
 			for(int i = 1; i< tempItemArrayStorage.length; i++){
@@ -127,7 +133,12 @@ public class ServerParser {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * Send the inventory of a container.
+	 * @param player: the player to send the inventory to
+	 * @param itemArray: the inventory of the container
+	 */
 	public void sendInventory(Player player, char[] itemArray) {
 		tempItemArrayStorage = itemArray;
 		sendToServer(player, 'I');

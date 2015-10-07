@@ -2,6 +2,7 @@ package GUI;
 
 import interpreter.StrategyInterpreter;
 
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -25,6 +26,9 @@ public class RadioButtonPanel extends JPanel {
 
 	private StrategyInterpreter radioInterpreter;
 
+
+	private Dimension imageSize = new Dimension(50, 50);
+
 	//this constructor not currently used
 	public RadioButtonPanel(GameFrame container, String type){
 		containerFrame = container;
@@ -34,6 +38,7 @@ public class RadioButtonPanel extends JPanel {
 	/**
 	 * This constructor show the options for the inventory: what items, and drop, move to bag, or use.
 	 * @param inventoryContents An array list of string descriptions of items in the inventory to display
+	 * @param radioInterp The strategyinterpreter which interprets radio button action events
 	 */
 	public RadioButtonPanel(ArrayList<String> inventoryContents, StrategyInterpreter radioInterp) {
 		this.radioInterpreter = radioInterp;
@@ -51,10 +56,10 @@ public class RadioButtonPanel extends JPanel {
 
 				//capitalise the first letter of the item description
 				if(i != null){
-					name = i.substring(0, 1).toUpperCase() + i.substring(1, i.length() -1);
+					name = i.substring(0, 1).toUpperCase() + i.substring(1, i.length());
 
 					//attach a picture of the item to the jlabel
-					Image image= ImageLoader.loadImage(i+".png");
+					Image image= ImageLoader.loadImage(i+".png").getScaledInstance(imageSize.width, imageSize.height, -1);
 					ImageIcon icon = new ImageIcon(image);
 					item.setIcon(icon);
 
@@ -63,14 +68,19 @@ public class RadioButtonPanel extends JPanel {
 					//if item is null, this is an empty slot in the inventory
 					name = "Empty";
 
-					Image image= ImageLoader.loadImage("emptyslot.png"); //load a blank white square
+					//load a blank white square
+					Image image= ImageLoader.loadImage("emptyslot.png").getScaledInstance(imageSize.width, imageSize.height, -1);
 					ImageIcon icon = new ImageIcon(image);
 					item.setIcon(icon);
 				}
 
 				//put this name -> jlabel pair in the map
-				jlabels.put(name, item);
+				jlabels.put(i, item);
 			}
+		}
+
+		else{
+			throw new IllegalArgumentException("The inventory shouldn't be null");
 		}
 
 		ButtonGroup inventoryGroup = new ButtonGroup();
@@ -78,7 +88,8 @@ public class RadioButtonPanel extends JPanel {
 		for(int i = 0; i<inventoryContents.size(); i++){
 			final JRadioButton item = new JRadioButton(inventoryContents.get(i));
 
-			final int index = i;	//has to be final to be used in anon class below
+			//has to be final to be used in anon class below
+			final int index = i;
 
 			//add radio button to button group
 			inventoryGroup.add(item);

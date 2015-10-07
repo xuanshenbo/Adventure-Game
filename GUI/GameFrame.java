@@ -309,7 +309,15 @@ public class GameFrame extends JFrame{
 	 * @return
 	 */
 	public ArrayList<String> getInventoryContents() {
-			return inventoryContents;
+		ArrayList<String> inventory = new ArrayList<String>();
+			if(inventoryContents != null) {
+				return inventoryContents;
+			}
+			else{
+				inventory.add("key");
+				inventory.add("cupcake");
+				return inventory;
+			}
 	}
 
 	/**

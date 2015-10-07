@@ -58,10 +58,15 @@ public class Dialog extends JDialog implements ActionListener {
 	private boolean loadingSavedPlayer;
 
 
+
 	/**
 	 * Creates a dialog with a message, and different behaviour depending on the state
 	 * @param gameFrame The parent frame of the dialog
-	 * @param title The title of the Dialog to be passed to super constructor
+	 * @param title The title of the Dialog to be
+
+
+			String testing1 = inventoryContents.get(i);
+			JLabel testing2 = jlabels.get(testing1);passed to super constructor
 	 * @param msg Message to display
 	 * @param i The state of the Game
 	 */
@@ -103,6 +108,7 @@ public class Dialog extends JDialog implements ActionListener {
 		getContentPane().setLayout( new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
 
 		JPanel messagePane = new JPanel();
+
 		messagePane.add(new JLabel(msg));
 		getContentPane().add(messagePane);
 
@@ -173,7 +179,7 @@ public class Dialog extends JDialog implements ActionListener {
 	 */
 	private void displayInventory() {
 		RadioButtonPanel radioPanel = new RadioButtonPanel(parentFrame.getInventoryContents(), parentFrame.getRadioInterpreter());
-
+		add(radioPanel);
 	}
 
 	/**

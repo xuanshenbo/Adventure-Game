@@ -34,6 +34,7 @@ public class Game {
 	private Clock clock;
 	private boolean frameActivated = false;
 	private ServerParser parser;
+	private int maxZombies = 0;
 
 	public enum Direction {
 		UP, DOWN, LEFT, RIGHT;
@@ -58,13 +59,17 @@ public class Game {
 		this.clock = new Clock(2000, this);
 		int height = parameters.getHeight();
 		int width = parameters.getWidth();
+//		Generator g = new Generator(parameters);
+		height = 200;
+		width = 200;
+		String difficulty = "easy";
+		maxZombies = getMaxZombies(height*width, difficulty);
+		
 		Area area = new Area(height, width, AreaType.OUTSIDE, null);
-		Generator g = new Generator(parameters);
-//		height = 200;
-//		width = 200;
-//		Generator g = new Generator("easy", 100, height, width);
+		Generator g = new Generator(difficulty, 1, height, width);
 		p();
 		area.generateWorld(g);
+		//gameState.printState(false);
 		p();
 		ArrayList<Player> playerList = placePlayers(parameters.getPlayerCount(), height, width, area);
 		playerList.get(0).makeActive();//FOR TESTING!!!!!!!
@@ -72,6 +77,19 @@ public class Game {
 		this.gameState = new GameState(area, playerList);
 		parser = new ServerParser(this, server);
 		clock.start();
+	}
+
+	private int getMaxZombies(int totalTiles, String difficulty) {
+		int maxZombies = 0;
+		
+		if(difficulty.equals("easy")){
+			maxZombies = totalTiles/100;
+		}else if(difficulty.equals("medium")){
+			maxZombies = totalTiles/70;
+		}else{
+			maxZombies = totalTiles/50;
+		}		
+		return maxZombies;
 	}
 
 	/**
@@ -95,14 +113,11 @@ public class Game {
 			}
 		}
 		updateZombies();
-		//gameState.printState(false);
 		if(frameActivated){
 			for(Player p: gameState.getPlayerList()){
 				parser.sendToServer(p, 'M');
 			}
 		}
-//		p("Printing gameState");
-//		gameState.printState(false);
 	}
 
 	/**
@@ -112,7 +127,7 @@ public class Game {
 	 */
 
 	public void updateZombies() {
-		if (gameState.getZombieList().size() < 5) {
+		if (gameState.getZombieList().size() < maxZombies) {
 			addZombie();
 		}
 		for (Zombie zombie : gameState.getZombieList()) {
@@ -167,7 +182,6 @@ public class Game {
 			toTile.move(player, direction);
 			//check other players are in range and send update to players as needed
 			for(Player otherPlayer: gameState.getPlayerList()){
-				p();
 				if(otherPlayer.isInGame()){
 					int playerX = player.getPosition().getX();
 					int playerY = player.getPosition().getY();
@@ -175,7 +189,6 @@ public class Game {
 					int otherPlayerY = otherPlayer.getPosition().getY();
 
 					if(Math.abs(playerX-otherPlayerX) < 8 && Math.abs(playerY-otherPlayerY) < 8){
-						p("otherPlayer id:"+otherPlayer.getId());
 						parser.sendToServer(otherPlayer, 'M');
 					}
 				}
@@ -244,7 +257,8 @@ public class Game {
 
 	public void use(Player player, int inventorySlot){
 		player.use(inventorySlot);
-		parser.sendToServer(player, 'P');
+		parser.sendToServer(player, 'I');
+		parser.sendToServer(player, 'H');
 	}
 
 	/**
@@ -256,11 +270,29 @@ public class Game {
 		Position playerPosition = player.getPosition();
 		Item item = gameState.getItem(playerPosition);
 		if (item != null) {
-			player.collect(item);
-			gameState.removeItem(playerPosition);
+			boolean pickedUp = player.collect(item);
+			if(pickedUp){
+				gameState.removeItem(playerPosition);
+			}
 		}
-		parser.sendToServer(player, 'P');
+		parser.sendToServer(player, 'I');
 		parser.sendToServer(player, 'M');
+	}
+
+	/**
+	 * Called when the player tries to drop an object on the ground
+	 * @param player
+	 */
+	public void Drop(Player player, int inventorySlot) {
+		Position playerPosition = player.getPosition();
+		Item item = player.getItemFromInventory(inventorySlot);
+		if(item != null){
+			player.removeItem(inventorySlot);
+			gameState.addItem(playerPosition, item);
+		}
+		parser.sendToServer(player, 'I');
+		parser.sendToServer(player, 'M');
+
 	}
 
 	/**
