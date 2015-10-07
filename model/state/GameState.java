@@ -180,7 +180,7 @@ public class GameState {
 		char[][] objects = new char[viewPortSize][viewPortSize];
 
 		Area a = getWorld(player);
-
+		// TODO Auto-generated method stub
 		int left = player.getPosition().getX() - (viewPortSize/2);
 		int right = player.getPosition().getX() + (viewPortSize/2);
 		int top = player.getPosition().getY() - (viewPortSize/2);
@@ -230,6 +230,13 @@ public class GameState {
 
 	public void setDay(boolean day){
 		this.day = day;
+	}
+
+	public void addItem(Position playerPosition, Item item) {
+		int col = playerPosition.getX();
+		int row = playerPosition.getY();
+		Area a = playerPosition.getArea();
+		a.getItems()[row][col] = item;
 	}
 
 	// ================================================
