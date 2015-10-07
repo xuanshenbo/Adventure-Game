@@ -29,6 +29,8 @@ public class RadioButtonPanel extends JPanel {
 
 	private Dimension imageSize = new Dimension(50, 50);
 
+	private Dialog containerDialog;
+
 	//this constructor not currently used
 	public RadioButtonPanel(GameFrame container, String type){
 		containerFrame = container;
@@ -40,7 +42,10 @@ public class RadioButtonPanel extends JPanel {
 	 * @param inventoryContents An array list of string descriptions of items in the inventory to display
 	 * @param radioInterp The strategyinterpreter which interprets radio button action events
 	 */
-	public RadioButtonPanel(ArrayList<String> inventoryContents, StrategyInterpreter radioInterp) {
+	public RadioButtonPanel(ArrayList<String> inventoryContents, StrategyInterpreter radioInterp, Dialog d) {
+
+		this.containerDialog = d;
+
 		this.radioInterpreter = radioInterp;
 
 		Map<String, JLabel> jlabels = new HashMap<String, JLabel>();
@@ -101,6 +106,10 @@ public class RadioButtonPanel extends JPanel {
 							try {
 								//notify that an item has been selected, and at which slot
 								radioInterpreter.notify("selected "+index);
+
+								//tell the dialog to display item options
+								containerDialog.displayItemOptions();
+
 							} catch (IOException e1) {
 								e1.printStackTrace();
 							}

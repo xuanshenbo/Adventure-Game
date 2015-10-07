@@ -1,6 +1,8 @@
 package interpreter;
 
+import java.io.IOException;
 import java.io.Writer;
+import java.util.Scanner;
 
 public class ButtonStrategy implements StrategyInterpreter.Strategy{
 
@@ -13,6 +15,22 @@ public class ButtonStrategy implements StrategyInterpreter.Strategy{
 	@Override
 	public void notify(String text) {
 
+		//if this action has been made to an item, work out what the action is
+		if(text.startsWith("item")){
+			Scanner sc = new Scanner(text);
+
+			//this should be 'item'
+			String reference = sc.next();
+
+			//this should be 'drop' 'moveToBag' or 'use'
+			String command = sc.next();
+
+			try {
+				interpreter.getClient().send(Translator.encode(command));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 
 	}
 

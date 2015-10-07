@@ -7,5 +7,5 @@ package main;
  *
  */
 public enum MainGameState {
-	MAIN, DISPLAY_INVENTORY
+	MAIN, DISPLAY_INVENTORY, DISPLAY_ITEM_OPTIONS
 }

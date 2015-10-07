@@ -136,7 +136,7 @@ public class ServerParser {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Send the inventory of a container.
 	 * @param player: the player to send the inventory to
