@@ -67,7 +67,6 @@ public class Generator {
 	 * Alternative Generator based on difficulty and density of objects.
 	 */
 	public Generator(String difficulty, int density, int width, int height){
-		p();
 		this.difficulty = difficulty;
 		int numberOfTiles = width*height;
 		if(difficulty.equals("easy")){
@@ -82,11 +81,11 @@ public class Generator {
 		}
 		this.trees = 1010-(density*10);
 		this.buildings = ((numberOfTiles/100)*density)/100;
-		if(buildings == 0){
+		if(buildings  < 1){
 			buildings = 1;
 		}
 		this.caves = buildings/4;
-		if(caves == 0){
+		if(caves < 1){
 			caves = 1;
 		}
 	}
@@ -174,7 +173,6 @@ public class Generator {
 				}
 				//place the building down
 				if(placeClear){
-					//p(count);
 					for(int row = randomRow; row < randomRow+3; row++){
 						for(int col = randomCol; col < randomCol+5; col++){
 							areaArray[row][col] = new BuildingTile(new Position(col, row, area));

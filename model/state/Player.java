@@ -26,6 +26,8 @@ public class Player {
 	private Item[] inventory = new Item[6]; // The inventory of the player
 	private int happiness = 5;
 	private boolean inGame = false;
+	private Item selectedItem = null;
+	private Container openContainer = null;
 
 	public Player(Position p, int id) {
 		this.position = p;
@@ -48,6 +50,15 @@ public class Player {
 	public void makeActive() {
 		inGame = true;
 
+	}
+	
+	public Item getSelectedItem(){
+		return selectedItem;
+	}
+	
+	
+	public void removeSelectedItem(){
+		selectedItem = null;
 	}
 
 	/**

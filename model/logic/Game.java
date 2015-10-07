@@ -63,17 +63,13 @@ public class Game {
 		height = 200;
 		width = 200;
 		String difficulty = "easy";
+		int density = 100;
 		maxZombies = getMaxZombies(height*width, difficulty);
 		
 		Area area = new Area(height, width, AreaType.OUTSIDE, null);
-		Generator g = new Generator(difficulty, 1, height, width);
-		p();
+		Generator g = new Generator(difficulty, density, height, width);
 		area.generateWorld(g);
-		//gameState.printState(false);
-		p();
 		ArrayList<Player> playerList = placePlayers(parameters.getPlayerCount(), height, width, area);
-		playerList.get(0).makeActive();//FOR TESTING!!!!!!!
-		//playerList.get(1).makeActive();
 		this.gameState = new GameState(area, playerList);
 		parser = new ServerParser(this, server);
 		clock.start();
@@ -283,16 +279,26 @@ public class Game {
 	 * Called when the player tries to drop an object on the ground
 	 * @param player
 	 */
-	public void Drop(Player player, int inventorySlot) {
+	public void Drop(Player player) {
 		Position playerPosition = player.getPosition();
-		Item item = player.getItemFromInventory(inventorySlot);
+		Item item = player.getSelectedItem();
 		if(item != null){
-			player.removeItem(inventorySlot);
+			player.removeSelectedItem();
 			gameState.addItem(playerPosition, item);
 		}
 		parser.sendToServer(player, 'I');
 		parser.sendToServer(player, 'M');
 
+	}
+	/**
+	 * Called when a player selects an item.
+	 * @param player
+	 * @param i
+	 */
+
+	public void select(Player player, int inventorySlot) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/**
