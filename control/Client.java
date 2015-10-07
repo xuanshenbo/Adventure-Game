@@ -47,7 +47,7 @@ public class Client extends Thread {
 
 	public void run(){
 		try {
-			output.write("This is the server machine!");
+			output.write("Join server!");
 			output.flush();
 			boolean exit = false;
 			while(!exit){

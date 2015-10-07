@@ -37,7 +37,7 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 				//testing for now to use a fixed IP
 				InetAddress adr = null;
 				try {
-					adr = InetAddress.getByName("130.195.4.151");
+					adr = InetAddress.getByName("130.195.6.190");
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
 				}

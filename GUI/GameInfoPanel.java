@@ -36,6 +36,7 @@ public class GameInfoPanel extends JPanel{
 
 		//a panel which displays player position, the time, etc in one column
 		gameInfo = new JPanel();
+		gameInfo.setBackground(new Color(204, 255, 229));
 		BoxLayout boxLayout = new BoxLayout(gameInfo, BoxLayout.PAGE_AXIS);
 		gameInfo.setLayout(boxLayout);
 		fillGameInfoPanel();

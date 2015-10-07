@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -80,6 +81,8 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	//0, 1 or 2 for easy, medium or hard
 	private int difficultyLevel = 1;
 
+	private Dimension sliderPaddingVertical= new Dimension(0, 20);
+
 	/**
 	 * Creates a dialog with a message, and different behaviour depending on the state
 	 * @param gameFrame The parent frame of the dialog
@@ -97,10 +100,10 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 		this.parentFrame = i.getFrame();
 
-//		GridBagConstraints gc=new GridBagConstraints();
-//		gc.fill=GridBagConstraints.HORIZONTAL;
-//		gc.gridx = 0;
-//		gc.gridy = 0;
+		//		GridBagConstraints gc=new GridBagConstraints();
+		//		gc.fill=GridBagConstraints.HORIZONTAL;
+		//		gc.gridx = 0;
+		//		gc.gridy = 0;
 
 		//The message is put in a panel, in case new messages will be added later
 		JPanel messagePane = new JPanel();
@@ -118,17 +121,17 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 		addWelcomeImage();
 
-//		sliderPanelConstraints = new GridBagConstraints();
-//		sliderPanelConstraints.gridx = 0;
-//		sliderPanelConstraints.gridx = 10;
-//		sliderPanelConstraints.gridheight = 50;
-//
-//
-//		buttonPanelConstraints=new GridBagConstraints();
-//		buttonPanelConstraints.gridx = 0;
-//		buttonPanelConstraints.gridy = 10;
-//		buttonPanelConstraints.gridwidth = 200;
-//		buttonPanelConstraints.gridheight = 50;
+		//		sliderPanelConstraints = new GridBagConstraints();
+		//		sliderPanelConstraints.gridx = 0;
+		//		sliderPanelConstraints.gridx = 10;
+		//		sliderPanelConstraints.gridheight = 50;
+		//
+		//
+		//		buttonPanelConstraints=new GridBagConstraints();
+		//		buttonPanelConstraints.gridx = 0;
+		//		buttonPanelConstraints.gridy = 10;
+		//		buttonPanelConstraints.gridwidth = 200;
+		//		buttonPanelConstraints.gridheight = 50;
 
 		// button panel needs to store "this" to call the display next methods, and send it Initialisation too? Or Initialisation
 		// has access to buttonInterpreter?
@@ -144,11 +147,11 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	 */
 
 	private void addWelcomeImage() {
-//		GridBagConstraints gc=new GridBagConstraints();
-//		gc.fill=GridBagConstraints.HORIZONTAL;
-//		gc.gridx = 0;
-//		gc.gridy = 3;
-//		gc.gridwidth = 5;
+		//		GridBagConstraints gc=new GridBagConstraints();
+		//		gc.fill=GridBagConstraints.HORIZONTAL;
+		//		gc.gridx = 0;
+		//		gc.gridy = 3;
+		//		gc.gridwidth = 5;
 
 		welcomeImage = ImageLoader.loadImage("cupcake.jpg");
 		welcomeImage = welcomeImage.getScaledInstance(imageSize.width, imageSize.height, -1);
@@ -229,16 +232,18 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		sliderPanel = new JPanel();
 		sliderPanel.setLayout(new BoxLayout(sliderPanel, BoxLayout.PAGE_AXIS));
 
-		//add sliders
+		/*
+		 * Create sliders and add vertical space for readability
+		 */
 		final JSlider GameObjectDensity = new JSlider(JSlider.HORIZONTAL, 0, Initialisation.maxTrees, Initialisation.maxTrees/2);
+		GameObjectDensity.add(Box.createRigidArea(sliderPaddingVertical)); //pad between sliders
 		final JSlider difficulty = new JSlider(JSlider.HORIZONTAL, 0, 2, 1);
+		difficulty.add(Box.createRigidArea(sliderPaddingVertical)); //pad between sliders
 
 		ChangeListener sliderListener = new ChangeListener(){
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				JSlider source = (JSlider)e.getSource();
-//				System.out.println("density: "+density+" diff: "+difficultyLevel);
-//				System.out.println("densityslider: "+GameObjectDensity.getValue()+" diffSlider: "+difficulty.getValue());
 				if (!source.getValueIsAdjusting()) {
 					if(source == GameObjectDensity){
 						density = GameObjectDensity.getValue();
@@ -246,20 +251,15 @@ public class WelcomePanel extends JPanel implements ActionListener {
 					else if(source == difficulty){
 						difficultyLevel = difficulty.getValue();
 					}
-
-
-
-					/*//if both values chosen, move to the next stage: choosing an avatar
-					if(density != -1 && difficultyLevel != -1){
-						WelcomePanel.this.remove(sliderPanel);
-						transitionToNewState(InitialisationState.LOAD_PLAYER_OR_CREATE_NEW_PLAYER);
-					}*/
 				}
 
 			}
 		};
 
 		JButton confirm = new JButton("OK");
+		confirm.add(Box.createRigidArea(new Dimension(this.getPreferredSize().width,20))); //centre confirm the button
+		ButtonPanel.makeButtonPretty(confirm);
+
 		confirm.addActionListener(new ActionListener(){
 
 			@Override
@@ -273,16 +273,21 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		GameObjectDensity.addChangeListener(sliderListener);
 		difficulty.addChangeListener(sliderListener);
 
+		/*
+		 * Create labels for the sliders, and create vertical space to make them more readable
+		 */
+		JLabel densityLabel = new JLabel("Choose the density of the game wrt the number of objects from 0% to 100%");
+		densityLabel.add(Box.createRigidArea(sliderPaddingVertical)); //pad between sliders
+		JLabel difficultyLabel = new JLabel("Choose the difficulty");
+		difficultyLabel.add(Box.createRigidArea(sliderPaddingVertical)); //pad between sliders
 
-		sliderPanel.add(new JLabel("Choose the density of the game wrt the number of objects from 0% to 100%"));
+		sliderPanel.add(densityLabel);
 		sliderPanel.add(GameObjectDensity);
 
-		sliderPanel.add(new JLabel("Choose the difficulty"));
+		sliderPanel.add(difficultyLabel);
 		sliderPanel.add(difficulty);
 
 		sliderPanel.add(confirm);
-
-		sliderPanel.setAlignmentY(CENTER_ALIGNMENT);
 
 		add(sliderPanel, BorderLayout.SOUTH);
 
@@ -319,21 +324,11 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		final InitialisationState create = InitialisationState.CREATE_NEW_PLAYER;
 		final InitialisationState load = InitialisationState.LOAD_SAVED_PLAYER;
 
+		Dialog avatarDialog = new Dialog("Available Avatars", loadingSavedPlayer ? loadSavedMessage : createNewMessage,
+				loadingSavedPlayer ? load : create, initialisation, WelcomePanel.this);
 
-		JButton chooseAvatar = new JButton("Choose my Avatar");
-		chooseAvatar.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Dialog avatarDialog = new Dialog("Available Avatars", loadingSavedPlayer ? loadSavedMessage : createNewMessage,
-						loadingSavedPlayer ? load : create, initialisation, WelcomePanel.this);
-
-			}
-		});
 
 		remove(bPanel); //remove the previous buttons
-		ButtonPanel.makeButtonPretty(chooseAvatar);
-		add(chooseAvatar, BorderLayout.SOUTH);
 
 	}
 	/**

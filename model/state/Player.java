@@ -12,7 +12,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
+import model.items.Bag;
 import model.items.Item;
+import model.items.Key;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Player {
@@ -28,6 +30,8 @@ public class Player {
 	public Player(Position p, int id) {
 		this.position = p;
 		this.id = id;
+		inventory[0] = new Bag();
+		inventory[1] = new Key();
 	}
 
 
