@@ -36,7 +36,9 @@ public class IAmJustTesting extends JMenuBar {
 	 */
 	public IAmJustTesting(StrategyInterpreter interp) {
 
-		initActions();
+		exitAction = new ExitAction();
+		saveAction = new SaveAction();
+		loadAction = new LoadAction();
 
 		this.menuInterpreter = interp;
 
@@ -61,12 +63,6 @@ public class IAmJustTesting extends JMenuBar {
 		menu.add(load);
 
 		add(menu);
-	}
-
-	private void initActions() {
-		exitAction = new ExitAction();
-		saveAction = new SaveAction();
-		loadAction = new LoadAction();
 	}
 
 	private void doExit() {
