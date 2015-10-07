@@ -23,63 +23,18 @@ public abstract class Item {
 
 	// every time an Item is created, generate an id for it using this field
 	private static int idCounter = 0;
-
-	private String description;
-	private String imgpath;
 	@XmlTransient
 	private Image img;
-	private Dimension size = new Dimension(40, 40);
 	private int id;
 	private char type;
 
-	public Item(String description, String imgpath, char c){
-		this.description = description;
-		this.imgpath = imgpath;
+	public Item(char c){
 		id = idCounter;
 		idCounter++;
 		type = c;
 	}
 
 	public abstract Item[] use(Player player);
-
-	/**
-	 * This method used to display available options to the user
-	 * @return The action specific to this item. Eg "unlock door" for a Key Item
-	 */
-	public abstract String getUseDescription();
-
-	// ================================================
-	// getters from here
-	// ================================================
-
-	public String getDescription() {
-
-		if(description==null){
-			return "Description here"; //testing purposes
-		}
-
-		return description;
-	}
-
-	public String getImgpath() {
-		return imgpath;
-	}
-
-	/**
-	 * Returns a picture of the item for displaying in the user inventory
-	 * @return The picture associated with this item
-	 */
-	public Image getPicture() {
-		if(img==null){
-			return ImageLoader.loadImage(imgpath+".png").getScaledInstance(size.width, size.height, -1);
-		}
-
-		return img;
-	}
-
-	public Dimension getSize() {
-		return size;
-	}
 
 	public int getId() {
 		return id;

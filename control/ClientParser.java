@@ -91,7 +91,8 @@ public class ClientParser {
 	public void readMap(char[] message){
 		char[][] map = new char[15][15];
 		char[][] items = new char[15][15];
-		int index = 1;
+		char type = message[1];
+		int index = 2;
 		for(int row=0; row < map.length; row++){
 			for(int col=0; col < map[0].length; col++){
 				map[row][col] = message[index++];
@@ -99,7 +100,7 @@ public class ClientParser {
 			}
 		}
 		//p("reading map in the client");
-		frame.updateRenderer(map, items);
+		frame.updateRenderer(type, map, items);
 	}
 
 

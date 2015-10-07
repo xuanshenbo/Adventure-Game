@@ -7,22 +7,27 @@ import static utilities.PrintTool.p;
 
 public class GameRenderer{
 
-	private int size = 15;
+	private int size;
 	private int offsetX, offsetY;
 	private int width,height;
-	private char[][] view;
+
+	private int imageScale = 1;
+	
 	private char[][] objects;
-	private double tileHeight;
-	private double tileWidth;
+	private double tileHeight, tileWidth;
+	private int viewWidth, viewHeight;
 	//private ArrayList<Player> players;
 	private int animationIndex;
 	private BufferedImage outPut;
 	private Graphics2D graphic;
 
 	private Images images;
+	private char type;
+	private RenderState renderState;
 
 	public GameRenderer(int width, int height, char[][] view, char[][] objects){
 
+		size = view.length;
 		this.outPut = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		this.width = width;
 		this.height = height;
@@ -30,10 +35,12 @@ public class GameRenderer{
 		offsetY = 0;
 		this.tileWidth = width/size;
 		this.tileHeight = height/size;
-		this.view = view;
+		this.viewWidth = view[0].length;
+		this.viewHeight = view.length;
+		this.renderState = new RenderState(view);
 		this.objects = objects;
 		//this.players = players;
-		this.images = new Images(tileWidth, tileHeight);
+		this.images = new Images(tileWidth, tileHeight, imageScale);
 
 		this.animationIndex = 0;
 
@@ -49,61 +56,25 @@ public class GameRenderer{
 		graphic = outPut.createGraphics();
 		graphic.clearRect(0,0,outPut.getWidth(), outPut.getHeight());
 
-//		for (int y = 0; y < view.length; y++) {
-//			for (int x = 0; x < view[y].length; x++) {
-//				if(view[y][x] != '\u0000') {
-//					graphic.drawImage(images.ground(), (int) (x * tileWidth), (int) (y * tileHeight), null);
-//				}
-//			}
-//		}
-//
-//
-//		for (int y = 0; y < view[0].length; y++) {
-//			for (int x = 0; x < view.length; x++) {
-//				drawTile(view[y][x], x, y);
-//				drawTile(objects[y][x], x, y);
-//			}
-////			for (int i = 0; i < players.size(); i++){
-////				if (players.get(i).getPosition().getY() == y) {
-////					graphic.drawImage(avatarImages.get(i).getImages()[0][(int) (animationIndex)],
-////							(int) (players.get(i).getPosition().getX() * tileWidth),
-////							(int) (players.get(i).getPosition().getY() * tileHeight - avatarImages.get(i).avatarHeight() + tileHeight),
-////							null);
-////				}
-////			}
-//		}
-
-		double halfTileWidth = tileWidth;
-		double halfTileHeight = tileHeight;
-		double startX = width/2, startY = -height/2;
+		double halfTileWidth = tileWidth/2 * imageScale;
+		double halfTileHeight = tileHeight/2 *imageScale;
+		double startX = width/2, startY = -tileWidth*imageScale/2;
+		int groundOffsetY = images.ground().getWidth(null)/2;
 
 		//draw ground
 
 		Image groundImage;
-		char groundType = '\u0000';
 
-		for (int y = 0; y < view.length; y++) {
-			if (groundType == 'R'){
-				break;
-			}
-			for (int x = 0; x < view[y].length; x++) {
-				if (view[y][x] == 'R'){
-					groundType = 'R';
-					break;
-				}
-			}
-		}
-
-		if (groundType == 'R'){
+		if (type == 'R'){
 			groundImage = images.caveGround();
 		} else {
 			groundImage = images.ground();
 		}
 
-		for (int y = 0; y < view.length; y++) {
-			for (int x = 0; x < view[y].length; x++) {
-				if(view[y][x] != '\u0000') {
-					graphic.drawImage(groundImage, (int) (startX + halfTileWidth*x - images.ground().getWidth(null)/2), (int) (startY + halfTileHeight*x + tileWidth), null);
+		for (int y = 0; y < viewHeight; y++) {
+			for (int x = 0; x < viewWidth; x++) {
+				if(renderState.getMap()[y][x] != '\u0000') {
+					graphic.drawImage(groundImage, (int) (startX + halfTileWidth*x - groundOffsetY), (int) (startY + halfTileHeight*x + tileWidth*imageScale/2), null);
 				}
 			}
 			startX -= halfTileWidth;
@@ -111,12 +82,13 @@ public class GameRenderer{
 		}
 
 		startX = width/2;
-		startY = -height/2;
+		startY = -tileWidth*imageScale/2;
 
 		//draw view and objects
-		for (int y = 0; y < view.length; y++) {
-			for (int x = 0; x < view[y].length; x++) {
-				drawTile(view[y][x], startX + halfTileWidth * x, startY + halfTileHeight * x);
+		for (int y = 0; y < viewHeight; y++) {
+			for (int x = 0; x < viewWidth; x++) {
+				drawTile(renderState.getMap()[y][x], startX + halfTileWidth * x, startY + halfTileHeight * x);
+				drawTile(renderState.getNpc()[y][x], startX + halfTileWidth * x, startY + halfTileHeight * x);
 				drawTile(objects[y][x], startX + halfTileWidth*x, startY + halfTileHeight*x);
 
 			}
@@ -141,7 +113,7 @@ public class GameRenderer{
 		if (tile == '\u0000'){
 			return;
 		}
-		
+
 		switch (tile){
 
 			case 'T':
@@ -202,29 +174,25 @@ public class GameRenderer{
 		return outPut;
 	}
 
-//	public Image getOneImage(){
-//		return loadImage("tree.png", 3);
-//	}
-
-	public void update(char[][] view, char[][] objects) {
-		this.view = view;
+	public void update(char type, char[][] view, char[][] objects) {
+		this.type = type;
+		this.renderState.initialize(view);
 		this.objects = objects;
-		//this.players = players;
-		
+
 		setRenderingMap();
 
 		render();
 	}
 
 	private void setRenderingMap() {
-		for (int y = 0; y < view.length; y++) {
-			for (int x = 0; x < view[y].length; x++) {
-				if (view[y][x] == 'C'){
+		for (int y = 0; y < viewHeight; y++) {
+			for (int x = 0; x < viewWidth; x++) {
+				if (renderState.getMap()[y][x] == 'C'){
 					if (x < 14) {
-						view[y][x + 1] = 'N';
+						renderState.getMap()[y][x + 1] = 'N';
 					}
 					if (y < 14) {
-						view[y + 1][x] = 'N';
+						renderState.getMap()[y + 1][x] = 'N';
 					}
 				}
 			}

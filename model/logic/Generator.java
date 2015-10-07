@@ -16,6 +16,8 @@ import static utilities.PrintTool.p;
 import java.util.ArrayList;
 import java.util.Random;
 
+import model.items.Bag;
+import model.items.Cupcake;
 import model.items.Item;
 import model.items.Key;
 import model.state.Area;
@@ -38,6 +40,7 @@ public class Generator {
 	private int caves;
 	private int chests;
 	private int lootValue;
+	private String difficulty = "easy";
 
 	public Generator(int trees, int buildings, int caves, int chests, int lootValue){
 		this.trees = trees;
@@ -46,9 +49,9 @@ public class Generator {
 		this.chests = chests;
 		this.lootValue = lootValue;
 	}
-	
+
 	/**
-	 * Alternative Constructor that takes a worldParameters object that holds the 
+	 * Alternative Constructor that takes a worldParameters object that holds the
 	 * parameters for the generation.
 	 * @param parameters
 	 */
@@ -58,43 +61,67 @@ public class Generator {
 		this.caves = parameters.getCaves();
 		this.chests = parameters.getChests();
 		this.lootValue = parameters.getLootValue();
-	}	
-	
+	}
+
+	/**
+	 * Alternative Generator based on difficulty and density of objects.
+	 */
+	public Generator(String difficulty, int density, int width, int height){
+		p();
+		this.difficulty = difficulty;
+		int numberOfTiles = width*height;
+		if(difficulty.equals("easy")){
+			this.chests = numberOfTiles/10;
+			this.lootValue = 3;
+		}else if(difficulty.equals("medium")){
+			this.chests = numberOfTiles/50;
+			lootValue = 2;
+		}else if(difficulty.equals("hard")){
+			this.chests = numberOfTiles/100;
+			lootValue = 1;
+		}		
+		this.trees = 2000/density;
+		this.buildings = numberOfTiles/density;
+		this.caves = numberOfTiles/(density*100);
+		this.caves = 0;
+	}
+
 	/**
 	 * this places the loot in the game as objects on the ground
 	 * @param area: the area for the loot to be placed in.
 	 */
-	
+
 	public void placeLoot(Area area){
 		ArrayList<Area> children = area.getInternalAreas();
 		for(int row = 0; row<area.getArea().length; row++){
 			for(int col = 0; col < area.getArea()[0].length; col++){
 				if(area.getArea()[row][col].isGround()){
-					if(Math.random()*100 < lootValue){
+					if(Math.random()*200 < lootValue){
 						area.getItems()[row][col] = randomItem();
 					}
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * This creates a random item of varying value to the game.
 	 * @return
 	 */
 
-	private Item randomItem() {
+	public static Item randomItem() {
 		int itemValue = (int) (Math.random()*10);
 		if(itemValue < 2){
-			//return amazing item
+			return new Bag();
 		}else if(itemValue < 5){
-			//return ok item
+			return new Cupcake();
+		}else{
+			return new Key();
 		}
-		return new Key();
 	}
-	
+
 	/**
-	 * Fills the tiles of the game space with random tiles based on the 
+	 * Fills the tiles of the game space with random tiles based on the
 	 * parameters that were given in. It creates buildings and caves, this
 	 * could be refactored out of the method in the future.
 	 * @param area
@@ -118,6 +145,7 @@ public class Generator {
 				}
 			}
 		}
+		p();
 		boolean[][] invalidPosition = new boolean[areaArray.length][areaArray[0].length];
 
 		//place the buildings
@@ -140,6 +168,7 @@ public class Generator {
 				}
 				//place the building down
 				if(placeClear){
+					p(count);
 					for(int row = randomRow; row < randomRow+3; row++){
 						for(int col = randomCol; col < randomCol+5; col++){
 							areaArray[row][col] = new BuildingTile(new Position(col, row, area));
@@ -165,6 +194,7 @@ public class Generator {
 				}
 			}
 		}
+		p();
 		//place the caves
 		for(int count = 0; count < caves; count++){
 			boolean placed = false;
@@ -217,7 +247,7 @@ public class Generator {
 				int randomCol = new Random().nextInt(areaArray[0].length-2)+1;
 
 				if(!invalidPosition[randomRow][randomCol]){
-					areaArray[randomRow][randomCol] = new ChestTile(new Position(randomCol, randomRow, area));
+					areaArray[randomRow][randomCol] = new ChestTile(new Position(randomCol, randomRow, area), difficulty);
 					invalidPosition[randomRow][randomCol] = true;
 					placed = true;
 
@@ -230,7 +260,7 @@ public class Generator {
 	 * GETTERS AND SETTERS
 	 * ================================
 	 */
-	
+
 	public int treeRatio(){
 		return trees;
 	}

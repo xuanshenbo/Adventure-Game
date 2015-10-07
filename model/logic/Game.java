@@ -22,7 +22,6 @@ import model.state.GameState;
 import model.state.Player;
 import model.state.Position;
 import model.state.Area.AreaType;
-import model.tiles.Cabinet;
 import model.tiles.ChestTile;
 import model.tiles.Tile;
 import control.Server;
@@ -61,7 +60,12 @@ public class Game {
 		int width = parameters.getWidth();
 		Area area = new Area(height, width, AreaType.OUTSIDE, null);
 		Generator g = new Generator(parameters);
+//		height = 200;
+//		width = 200;
+//		Generator g = new Generator("easy", 100, height, width);
+		p();
 		area.generateWorld(g);
+		p();
 		ArrayList<Player> playerList = placePlayers(parameters.getPlayerCount(), height, width, area);
 		playerList.get(0).makeActive();//FOR TESTING!!!!!!!
 		//playerList.get(1).makeActive();
@@ -163,20 +167,22 @@ public class Game {
 			toTile.move(player, direction);
 			//check other players are in range and send update to players as needed
 			for(Player otherPlayer: gameState.getPlayerList()){
-				if(player.isInGame()){
+				p();
+				if(otherPlayer.isInGame()){
 					int playerX = player.getPosition().getX();
 					int playerY = player.getPosition().getY();
 					int otherPlayerX = otherPlayer.getPosition().getX();
 					int otherPlayerY = otherPlayer.getPosition().getY();
 
 					if(Math.abs(playerX-otherPlayerX) < 8 && Math.abs(playerY-otherPlayerY) < 8){
+						p("otherPlayer id:"+otherPlayer.getId());
 						parser.sendToServer(otherPlayer, 'M');
 					}
 				}
 			}
 			//update players view
 			parser.sendToServer(player, 'M');
-			gameState.printView(1);
+//			gameState.printView(1);
 		}
 		if (toTile != null && toTile.isContainer()) {
 			Item[] items = ((ChestTile) toTile).open();
@@ -274,6 +280,13 @@ public class Game {
 	 */
 	public void activateFrame(){
 		frameActivated = true;
+	}
+
+
+
+	public void activatePlayer(int id) {
+		gameState.getPlayer(id).makeActive();
+
 	}
 
 

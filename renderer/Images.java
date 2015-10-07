@@ -15,6 +15,8 @@ import static utilities.PrintTool.p;
 public class Images {
 
     private double tileWidth, tileHeight;
+    private int imageScale;
+
     private ArrayList<Player> players;
 
     //ground images
@@ -31,9 +33,10 @@ public class Images {
 
     private ArrayList<Image> avatarImages;
 
-    public Images(double tileWidth, double tileHeight) {
+    public Images(double tileWidth, double tileHeight, int imageScale) {
         this.tileWidth = tileWidth;
         this.tileHeight = tileHeight;
+        this.imageScale = imageScale;
 
         this.avatarImages = new ArrayList<Image>();
 
@@ -43,23 +46,23 @@ public class Images {
 
     private  void loadImages(){
         //load environment images
-        this.worldGroundImage = loadImage("worldground.png", 2, 2.1f);
-        this.caveGroundImage = loadImage("caveground.png", 2, 2.1f);
-        this.treeImage = loadImage("tree.png", 2, 2);
-        this.buildingImage = loadImage("building.png", 2, 2);
-        this.doorImage = loadImage("door.png", 2, 2);
-        this.caveImage = loadImage("cave2.png", 4, 4);
+        this.worldGroundImage = loadImage("worldground.png", imageScale, imageScale*1.05f);
+        this.caveGroundImage = loadImage("caveground.png", imageScale, imageScale*1.05f);
+        this.treeImage = loadImage("tree.png", imageScale, imageScale);
+        this.buildingImage = loadImage("building.png", imageScale, imageScale);
+        this.doorImage = loadImage("door.png", imageScale, imageScale);
+        this.caveImage = loadImage("cave2.png", imageScale*2, imageScale*2);
 
         //load items images
-        this.chestImage = loadImage("chest.png", 2, 2);
-        this.keyImage = loadImage("key.png", 2, 2);
+        this.chestImage = loadImage("chest.png", imageScale, imageScale);
+        this.keyImage = loadImage("key.png", imageScale, imageScale);
 
         //load characters images
         for (int i = 0; i < 4; i++){
 //            int avatarImageIndex = new Random().nextInt(3);
 //            p(avatarImageIndex);
 //            this.avatarImages.add(new AvatarImages("avatar" + avatarImageIndex + ".png", tileWidth));
-            this.avatarImages.add(loadImage("avatar.png", 2, 2));
+            this.avatarImages.add(loadImage("avatar.png", imageScale, imageScale));
         }
     }
 

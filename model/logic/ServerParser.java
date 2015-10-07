@@ -58,6 +58,8 @@ public class ServerParser {
 			break;
 		case 'L'://Loading game
 			break;
+		case 'J'://Client joins the game
+			game.activatePlayer(id);
 		}
 
 
@@ -88,9 +90,11 @@ public class ServerParser {
 		char[] message = null;
 		if(action == 'M'){// map information
 			List<char[][]> view = game.getGameView(player.getId());
-			message = new char[451];
+			char type = player.getPosition().getArea().getType().id;
+			message = new char[452];
 			message[0] = action;
-			int index = 1;
+			message[1] = type;
+			int index = 2;
 			for(int r = 0; r < 15; r++){
 				for(int c = 0; c < 15; c++){
 					message[index++] = view.get(0)[r][c];
@@ -111,13 +115,12 @@ public class ServerParser {
 			message[0] = action;
 			for(int i = 1; i< tempItemArrayStorage.length; i++){
 				message[i] = tempItemArrayStorage[i];
-			}			
+			}
 		}else{
 			message = new char[0];
 		}
 
 		try {
-			//p();
 			server.getWriters()[player.getId()].write(message);
 			server.getWriters()[player.getId()].flush();
 		} catch (IOException e) {
