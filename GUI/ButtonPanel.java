@@ -38,7 +38,6 @@ import main.MainGameState;
  */
 public class ButtonPanel extends JPanel {
 
-
 	private int height = 100;
 	private int width = 300;
 
@@ -341,7 +340,7 @@ public class ButtonPanel extends JPanel {
 //used in WelcomePanel, hence 'package' visibility
 	static void makeButtonPretty(JButton b) {
 
-			System.out.println(b);
+			//System.out.println(b);
 			javax.swing.border.Border line, raisedbevel, loweredbevel;
 			TitledBorder title;
 			javax.swing.border.Border empty;

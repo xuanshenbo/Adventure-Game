@@ -269,7 +269,7 @@ public class GameState {
 	//===================================
 	// DEBUGGING AND TESTING METHODS
 	//===================================
-	 
+
 
 	/**
 	 * This method prints out the game state to the console
@@ -291,21 +291,21 @@ public class GameState {
 				boolean playerPos = false;
 				for(Player p: playerList){
 					if(p.getPosition().getX() == col && p.getPosition().getY() == row && p.getPosition().getArea() == world){
-						System.out.print(p);
+						//System.out.print(p);
 						playerPos = true;
 					}
 				}
 				for(Zombie z: zombieList){
 					if(z.getPosition().getX() == col && z.getPosition().getY() == row && z.getPosition().getArea() == world && !playerPos){
-						System.out.print(z.getid());
+						//System.out.print(z.getid());
 						playerPos = true;
 					}
 				}
 				if(!playerPos){
-					System.out.print(a[row][col]);
+					//System.out.print(a[row][col]);
 				}
 			}
-			System.out.println("");
+			//System.out.println("");
 		}
 
 //		for(int row = 0; row<a.length; row++){
@@ -326,33 +326,33 @@ public class GameState {
 						boolean playerPos = false;
 						for(Player p: playerList){
 							if(p.getPosition().getX() == col && p.getPosition().getY() == row && p.getPosition().getArea() == innerArea){
-								System.out.print(p);
+								//System.out.print(p);
 								playerPos = true;
 							}
 						}
 						if(!playerPos){
-							System.out.print(innerTiles[row][col]);
+							//System.out.print(innerTiles[row][col]);
 						}
 					}
-					System.out.println("");
+					//System.out.println("");
 				}
 			}
 		}
-		System.out.println("");
+		//System.out.println("");
 	}
 
 	public void printView(int id){
 		char[][] playerOneView = getGameView(playerList.get(0)).get(0);
-		System.out.println("\nPlayer 1 view");
+		//System.out.println("\nPlayer 1 view");
 		for(int row = 0; row<playerOneView.length; row++){
 			for(int col = 0; col<playerOneView[0].length; col++){
 				if(playerOneView[row][col] != '\u0000'){
-					System.out.print(playerOneView[row][col]);
+					//System.out.print(playerOneView[row][col]);
 				}else{
-					System.out.print("N");
+					//System.out.print("N");
 				}
 			}
-			System.out.println("");
+			//System.out.println("");
 		}
 	}
 }
