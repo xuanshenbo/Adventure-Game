@@ -57,6 +57,8 @@ public class Dialog extends JDialog implements ActionListener {
 
 	private boolean loadingSavedPlayer;
 
+	private ButtonPanel itemOptions;
+
 
 
 	/**
@@ -178,8 +180,9 @@ public class Dialog extends JDialog implements ActionListener {
 	 * Add pictures
 	 */
 	private void displayInventory() {
-		RadioButtonPanel radioPanel = new RadioButtonPanel(parentFrame.getInventoryContents(), parentFrame.getRadioInterpreter());
+		RadioButtonPanel radioPanel = new RadioButtonPanel(parentFrame.getInventoryContents(), parentFrame.getRadioInterpreter(), this);
 		add(radioPanel);
+		revalidate();
 	}
 
 	/**
@@ -196,7 +199,6 @@ public class Dialog extends JDialog implements ActionListener {
 			try {
 				dialogInterpreter.notify(chosenAvatar.toString());
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			validInput = true;
@@ -213,6 +215,13 @@ public class Dialog extends JDialog implements ActionListener {
 	 * @param c TextField to store in a field
 	 */
 	public void setTextField(JTextField c){
+
+	}
+
+
+	public void displayItemOptions() {
+		this.itemOptions = new ButtonPanel(MainGameState.DISPLAY_ITEM_OPTIONS, parentFrame.getButtonInterpreter());
+		add(itemOptions);
 
 	}
 }

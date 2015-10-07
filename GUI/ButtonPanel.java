@@ -122,6 +122,63 @@ public class ButtonPanel extends JPanel {
 
 	}
 
+	public ButtonPanel(MainGameState state, StrategyInterpreter buttonInterp) {
+		this.buttonInterpreter = buttonInterp;
+
+		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS);	//display main game-play buttons horizontally
+		setLayout(boxLayout);
+
+		if(state.equals(MainGameState.DISPLAY_ITEM_OPTIONS)){
+			displayItemOptions();
+		}
+	}
+
+	private void displayItemOptions() {
+		final JButton drop = new JButton("Drop item");
+		final JButton use = new JButton("Use item");
+		final JButton moveToBag = new JButton("Move item to bag");
+
+		ActionListener itemActionListener = new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource()==drop){
+					try {
+						buttonInterpreter.notify("item drop");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+				else if(e.getSource()==use){
+					try {
+						buttonInterpreter.notify("item use");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+				else if(e.getSource()==moveToBag){
+					try {
+						buttonInterpreter.notify("item moveToBag");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+
+		};
+
+		drop.addActionListener(itemActionListener);
+		moveToBag.addActionListener(itemActionListener);
+		use.addActionListener(itemActionListener);
+
+		add(drop);
+		add(use);
+		add(moveToBag);
+
+
+
+	}
+
 	private void addLoadCreatePlayerButtons() {
 		ActionListener loadcreate = new ActionListener(){
 
@@ -337,34 +394,34 @@ public class ButtonPanel extends JPanel {
 
 	}
 
-//used in WelcomePanel, hence 'package' visibility
+	//used in WelcomePanel, hence 'package' visibility
 	static void makeButtonPretty(JButton b) {
 
-			//System.out.println(b);
-			javax.swing.border.Border line, raisedbevel, loweredbevel;
-			TitledBorder title;
-			javax.swing.border.Border empty;
-	        line = BorderFactory.createLineBorder(Color.black);
-	        raisedbevel = BorderFactory.createRaisedBevelBorder();
-	        loweredbevel = BorderFactory.createLoweredBevelBorder();
-	        title = BorderFactory.createTitledBorder("");
-	        empty = BorderFactory.createEmptyBorder(1, 1, 1, 1);
-	        final CompoundBorder compound, compound1, compound2;
-	        Color crl = (new Color(202, 0, 0));
-	        compound = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl));
-	        Color crl1 = (Color.GREEN.darker());
-	        compound1 = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl1));
-	        Color crl2 = (Color.black);
-	        compound2 = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl2));
-	        b.setFont(new Font("Sans-Serif", Font.BOLD, 16));
-	        b.setForeground(Color.darkGray);
-	        b.setPreferredSize(new Dimension(50, 30));
+		//System.out.println(b);
+		javax.swing.border.Border line, raisedbevel, loweredbevel;
+		TitledBorder title;
+		javax.swing.border.Border empty;
+		line = BorderFactory.createLineBorder(Color.black);
+		raisedbevel = BorderFactory.createRaisedBevelBorder();
+		loweredbevel = BorderFactory.createLoweredBevelBorder();
+		title = BorderFactory.createTitledBorder("");
+		empty = BorderFactory.createEmptyBorder(1, 1, 1, 1);
+		final CompoundBorder compound, compound1, compound2;
+		Color crl = (new Color(202, 0, 0));
+		compound = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl));
+		Color crl1 = (Color.GREEN.darker());
+		compound1 = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl1));
+		Color crl2 = (Color.black);
+		compound2 = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl2));
+		b.setFont(new Font("Sans-Serif", Font.BOLD, 16));
+		b.setForeground(Color.darkGray);
+		b.setPreferredSize(new Dimension(50, 30));
 
-	        b.setBorderPainted(true);
-	        b.setFocusPainted(false);
-	        b.setBorder(compound);
+		b.setBorderPainted(true);
+		b.setFocusPainted(false);
+		b.setBorder(compound);
 
-	        b.revalidate();
+		b.revalidate();
 
 	}
 

@@ -422,4 +422,8 @@ public class GameFrame extends JFrame{
 		this.radioInterpreter = menuInterpreter;
 
 	}
+
+	public StrategyInterpreter getButtonInterpreter() {
+		return this.buttonInterpreter;
+	}
 }

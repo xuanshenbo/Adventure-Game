@@ -40,7 +40,7 @@ public class ServerParser {
 		case 'M'://move [M, direction]
 			game.move(game.getGameState().getPlayer(id), parseDirection(message[1]));
 			break;
-		case 'U': //use [I, int inventorySlot)
+		case 'U': //use [U, int inventorySlot)
 			game.use(game.getGameState().getPlayer(id), message[1]);
 			break;
 		case 'P'://Pickup [P, _]
