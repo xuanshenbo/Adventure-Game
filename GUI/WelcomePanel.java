@@ -153,7 +153,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		//		gc.gridy = 3;
 		//		gc.gridwidth = 5;
 
-		welcomeImage = ImageLoader.loadImage("cupcake.jpg");
+		welcomeImage = ImageLoader.loadImage("cupcake.png");
 		welcomeImage = welcomeImage.getScaledInstance(imageSize.width, imageSize.height, -1);
 
 		ImageIcon icon = new ImageIcon(welcomeImage);

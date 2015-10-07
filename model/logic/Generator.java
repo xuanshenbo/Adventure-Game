@@ -79,7 +79,7 @@ public class Generator {
 		}else if(difficulty.equals("hard")){
 			this.chests = numberOfTiles/200;
 			lootValue = 1;
-		}		
+		}
 		this.trees = 1010-(density*10);
 		this.buildings = ((numberOfTiles/100)*density)/100;
 		if(buildings == 0){
@@ -150,10 +150,10 @@ public class Generator {
 				}
 			}
 		}
-		//an array of positions that are not valid
+
 		boolean[][] invalidPosition = new boolean[areaArray.length][areaArray[0].length];
 		int totalTiles = areaArray.length*areaArray[0].length;
-		
+
 		//place the buildings
 		for(int count = 0; count < buildings; count++){
 			boolean placed = false;
@@ -174,7 +174,7 @@ public class Generator {
 				}
 				//place the building down
 				if(placeClear){
-					p(count);
+					//p(count);
 					for(int row = randomRow; row < randomRow+3; row++){
 						for(int col = randomCol; col < randomCol+5; col++){
 							areaArray[row][col] = new BuildingTile(new Position(col, row, area));

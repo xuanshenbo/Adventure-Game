@@ -200,7 +200,7 @@ public class Area implements CycleRecoverable {
 	}
 
 	public void printTile(Position p){
-		System.out.print(area[p.getY()][p.getX()]);
+		//System.out.print(area[p.getY()][p.getX()]);
 	}
 
 	@Override
@@ -266,9 +266,9 @@ public class Area implements CycleRecoverable {
 		for(int row = 0; row < area.length; row++){
 			for(int col = 0; col < area[0].length; col++){
 				if(area[row][col] == null){
-					System.out.print(type.id);
+					//System.out.print(type.id);
 				}else{
-					System.out.print(area[row][col]);
+					//System.out.print(area[row][col]);
 				}
 			}
 			System.out.println("");
