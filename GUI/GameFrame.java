@@ -414,4 +414,13 @@ public class GameFrame extends JFrame{
 		this.radioInterpreter = menuInterpreter;
 
 	}
+
+	/**
+	 * a getter for the MidPanel
+	 * @return
+	 */
+	public JPanel getMidPanel() {
+		return midPanel;
+	}
+
 }

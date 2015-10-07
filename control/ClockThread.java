@@ -33,7 +33,7 @@ public class ClockThread extends Thread{
 				Thread.sleep(delay);
 				//game.tick();
 				if(frame != null) {
-					frame.repaint();
+					frame.getMidPanel().repaint();
 				}
 			} catch(InterruptedException e) {
 				// should never happen
