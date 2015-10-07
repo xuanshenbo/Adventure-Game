@@ -239,7 +239,7 @@ public class GameFrame extends JFrame{
 
 
 	/**
-	 * Shows a dialog if the user presses an arrow key
+	 * Sends a message to server if the user presses an arrow key
 	 */
 
 	//for testing renderer
@@ -248,8 +248,8 @@ public class GameFrame extends JFrame{
 		public boolean dispatchKeyEvent(KeyEvent e){
 
 			if (e.getID() == KeyEvent.KEY_PRESSED) {
-				char[][] map;
-				char[][] items;
+				//char[][] map;
+				//char[][] items;
 
 				switch( e.getKeyCode()) {
 				case KeyEvent.VK_UP:
@@ -260,7 +260,7 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					} //implement for all key presses
 
-					midPanel.repaint();
+					//midPanel.repaint();
 
 					break;
 				case KeyEvent.VK_DOWN:
@@ -270,7 +270,7 @@ public class GameFrame extends JFrame{
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					midPanel.repaint();
+					//midPanel.repaint();
 
 					break;
 				case KeyEvent.VK_LEFT:
@@ -283,7 +283,7 @@ public class GameFrame extends JFrame{
 
 					//TODO refactor this using interpreter
 
-					midPanel.repaint();
+					//midPanel.repaint();
 
 					break;
 				case KeyEvent.VK_RIGHT :
@@ -294,7 +294,7 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					}
 
-					midPanel.repaint();
+					//midPanel.repaint();
 
 					break;
 				case KeyEvent.VK_P:
@@ -305,7 +305,7 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					}
 
-					midPanel.repaint();
+					//midPanel.repaint();
 
 					break;
 
