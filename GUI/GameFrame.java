@@ -68,6 +68,7 @@ public class GameFrame extends JFrame{
 	private StrategyInterpreter keyInterpreter;
 	private StrategyInterpreter menuInterpreter;
 	private StrategyInterpreter buttonInterpreter;
+	private StrategyInterpreter radioInterpreter;
 
 	private ArrayList<String> inventoryContents;
 
@@ -144,7 +145,6 @@ public class GameFrame extends JFrame{
 
 		addBottomPanel();
 
-
 		pack();
 		setLocationRelativeTo(null);	//set the frame at the center of the screen
 		setVisible(true);
@@ -182,33 +182,6 @@ public class GameFrame extends JFrame{
 		//data = new testRenderer(20, 0, 0, 15, 20, 20, 4, 0);
 
 	}
-
-	//taken from GUIForTest for testing purposes
-	/*private static Game generateGame(int trees, int buildings, int caves, int chests, int width, int height, int playerCount, int lootValue) {
-		Generator g = new Generator(trees, buildings, caves, chests, lootValue);
-		Area a = new Area(width, height, Area.AreaType.OUTSIDE, null);
-		a.generateWorld(g);
-		ArrayList<Player> p = placePlayers(playerCount, width, height, a);
-		GameState state = new GameState(a, p);
-		Game game = new Game(state);
-		return game;
-	}*/
-
-	//taken from GUIForTest for testing purposes
-	/*private static ArrayList<Player> placePlayers(int playerCount, int width, int height, Area a) {
-		double[] xCoords = {0.5, 0, 0.5, 1};
-		double[] yCoords = {0, 0.5, 1, 0.5};
-		ArrayList<Player> list = new ArrayList<Player>();
-		for(int count = 0; count < playerCount; count++){
-			int x = (int) ((width-1)*xCoords[count]);
-			int y = (int) ((height-1)*yCoords[count]);
-			int id = count+1;
-			Position position = new Position(x, y, a);
-			Player p = new Player(position, id);
-			list.add(p);
-		}
-		return list;
-	}*/
 
 	private void addBottomPanel() {
 		//new JPanel(new BoxLayout(botPanel, BoxLayout.LINE_AXIS));
@@ -317,12 +290,9 @@ public class GameFrame extends JFrame{
 			}
 			return false;
 		}
-
-
 	}
 
 	public void updateRenderer(char type, char[][] map, char[][] items){
-
 		renderer.update(type, map, items);
 	}
 
@@ -433,6 +403,15 @@ public class GameFrame extends JFrame{
 
 
 		}*/
+
+	}
+
+	public StrategyInterpreter getRadioInterpreter() {
+		return radioInterpreter;
+	}
+
+	public void setRadioInterpreter(StrategyInterpreter menuInterpreter) {
+		this.radioInterpreter = menuInterpreter;
 
 	}
 }

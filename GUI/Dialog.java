@@ -17,7 +17,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -123,6 +125,7 @@ public class Dialog extends JDialog implements ActionListener {
 			}
 
 		});
+
 		add(ok);
 
 		//display the dialog
@@ -169,27 +172,9 @@ public class Dialog extends JDialog implements ActionListener {
 	 * Add pictures
 	 */
 	private void displayInventory() {
+		RadioButtonPanel radioPanel = new RadioButtonPanel(parentFrame.getInventoryContents(), parentFrame.getRadioInterpreter());
 
-		if(parentFrame.getInventoryContents()!=null){
-			for(String i: parentFrame.getInventoryContents()){
-				JLabel item;
-				if(i != null){
-				String name = i.substring(0, 1).toUpperCase() + i.substring(1, i.length() -1);
-
-				item = new JLabel(name);
-				Image image= ImageLoader.loadImage(i+".png");
-				ImageIcon icon = new ImageIcon(image);
-				item.setIcon(icon);
-
-				}
-				else{
-					item = new JLabel("Empty slot");
-				}
-				add(item);
-			}
-		}
 	}
-
 
 	/**
 	 * Called when the user clicks OK on the dialog
