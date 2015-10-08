@@ -1,5 +1,7 @@
 package interpreter;
 
+import interpreter.Translator.Command;
+
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -40,6 +42,12 @@ public class MenuStrategy implements StrategyInterpreter.Strategy{
 	@Override
 	public void setInterpreter(StrategyInterpreter i) {
 		this.interpreter = i;
+
+	}
+
+	@Override
+	public void notify(Command cmd) {
+		// TODO Auto-generated method stub
 
 	}
 }

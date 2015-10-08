@@ -112,7 +112,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		//display welcome message in appropriate size.
 		JLabel welcomeMessage = new JLabel(welcome);
 		welcomeMessage.setFont(new Font("Serif", Font.BOLD, heading1Size));
-		welcomeMessage.setForeground(Color.pink);
+		welcomeMessage.setForeground(GameFrame.col2);
 
 		messagePane.add(welcomeMessage);
 

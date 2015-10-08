@@ -93,6 +93,10 @@ public class Dialog extends JDialog implements ActionListener {
 			displayInventory();
 		}
 
+		else if(state.equals(MainGameState.DISPLAY_CONTAINER)){
+			displayContainer();
+		}
+
 		JButton ok = new JButton("OK");
 		ok.addActionListener(this);
 		add(ok);
@@ -102,6 +106,9 @@ public class Dialog extends JDialog implements ActionListener {
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
+
+
+
 
 
 	public Dialog(String title, String msg, InitialisationState state, Initialisation i, WelcomePanel wPanel) {
@@ -183,6 +190,13 @@ public class Dialog extends JDialog implements ActionListener {
 		RadioButtonPanel radioPanel = new RadioButtonPanel(parentFrame.getInventoryContents(), parentFrame.getRadioInterpreter(), this);
 		add(radioPanel);
 		revalidate();
+	}
+
+	private void displayContainer() {
+		RadioButtonPanel radioPanel = new RadioButtonPanel(parentFrame.getContainerContents(), parentFrame.getRadioInterpreter(), this);
+		add(radioPanel);
+		revalidate();
+
 	}
 
 	/**

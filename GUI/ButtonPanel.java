@@ -2,6 +2,7 @@ package GUI;
 
 
 import interpreter.StrategyInterpreter;
+import interpreter.Translator;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -115,11 +116,6 @@ public class ButtonPanel extends JPanel {
 			setLayout(boxLayout);
 			addLoadCreatePlayerButtons();
 		}
-
-
-
-
-
 	}
 
 	public ButtonPanel(MainGameState state, StrategyInterpreter buttonInterp) {
@@ -144,21 +140,21 @@ public class ButtonPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==drop){
 					try {
-						buttonInterpreter.notify("item drop");
+						buttonInterpreter.notify(Translator.Command.DROP);
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
 				}
 				else if(e.getSource()==use){
 					try {
-						buttonInterpreter.notify("item use");
+						buttonInterpreter.notify(Translator.Command.USE);
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
 				}
 				else if(e.getSource()==moveToBag){
 					try {
-						buttonInterpreter.notify("item moveToBag");
+						buttonInterpreter.notify(Translator.Command.MOVE_ITEM);
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -344,7 +340,11 @@ public class ButtonPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e){
-				containerFrame.addInventoryDialog();
+				try {
+					buttonInterpreter.notify(Translator.Command.DISPLAY_INVENTORY);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 

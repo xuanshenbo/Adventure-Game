@@ -44,6 +44,7 @@ public class RadioButtonPanel extends JPanel {
 	 */
 	public RadioButtonPanel(ArrayList<String> inventoryContents, StrategyInterpreter radioInterp, Dialog d) {
 
+
 		this.containerDialog = d;
 
 		this.radioInterpreter = radioInterp;
@@ -85,7 +86,7 @@ public class RadioButtonPanel extends JPanel {
 		}
 
 		else{
-			throw new IllegalArgumentException("The inventory shouldn't be null");
+			throw new IllegalArgumentException("The inventory/container shouldn't be null");
 		}
 
 		ButtonGroup inventoryGroup = new ButtonGroup();

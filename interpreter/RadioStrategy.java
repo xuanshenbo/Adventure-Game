@@ -1,5 +1,7 @@
 package interpreter;
 
+import interpreter.Translator.Command;
+
 import java.io.IOException;
 
 public class RadioStrategy implements StrategyInterpreter.Strategy {
@@ -19,6 +21,12 @@ public class RadioStrategy implements StrategyInterpreter.Strategy {
 	@Override
 	public void setInterpreter(StrategyInterpreter i) {
 		//TODO get rid of this in interface?
+
+	}
+
+	@Override
+	public void notify(Command cmd) {
+		// TODO Auto-generated method stub
 
 	}
 

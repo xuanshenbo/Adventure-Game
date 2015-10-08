@@ -1,5 +1,7 @@
 package interpreter;
 
+import interpreter.Translator.Command;
+
 import java.io.IOException;
 
 public class KeyStrategy implements StrategyInterpreter.Strategy{
@@ -36,6 +38,12 @@ public class KeyStrategy implements StrategyInterpreter.Strategy{
 	@Override
 	public void setInterpreter(StrategyInterpreter i) {
 		this.interpreter = i;
+
+	}
+
+	@Override
+	public void notify(Command cmd) {
+		// TODO Auto-generated method stub
 
 	}
 

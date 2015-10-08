@@ -21,7 +21,7 @@ public class TextFieldImpl extends JTextField {
 	public TextFieldImpl(){
 		//input = i;
 		setPreferredSize(new Dimension(200,50));
-		setBackground(Color.PINK);	//not working
+		setBackground(GameFrame.col2);	//not working
 		addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {

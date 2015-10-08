@@ -1,5 +1,7 @@
 package interpreter;
 
+import interpreter.Translator.Command;
+
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Scanner;
@@ -34,10 +36,17 @@ public class ButtonStrategy implements StrategyInterpreter.Strategy{
 
 	}
 
+
 	@Override
 	public void setInterpreter(StrategyInterpreter i) {
 		this.interpreter = i;
 
+	}
+
+	@Override
+	public void notify(Command cmd) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

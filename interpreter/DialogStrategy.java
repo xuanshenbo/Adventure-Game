@@ -1,5 +1,6 @@
 package interpreter;
 
+import interpreter.Translator.Command;
 import GUI.*;
 
 public class DialogStrategy implements StrategyInterpreter.Strategy{
@@ -17,6 +18,12 @@ public class DialogStrategy implements StrategyInterpreter.Strategy{
 	@Override
 	public void setInterpreter(StrategyInterpreter i) {
 		this.interpreter = i;
+
+	}
+
+	@Override
+	public void notify(Command cmd) {
+		// TODO Auto-generated method stub
 
 	}
 
