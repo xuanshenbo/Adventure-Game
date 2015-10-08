@@ -56,15 +56,15 @@ public class MenuBar extends JMenuBar {
 
 		menu.setMnemonic('F');
 
-		menu.add(exit);
-		menu.addSeparator();
 		menu.add(save);
-		menu.addSeparator();
 		menu.add(load);
+		menu.addSeparator();
+		menu.add(exit);
 
 		add(menu);
 	}
 
+	// action on exit
 	private void doExit() {
 		String ObjButtons[] = { "Yes", "No" };
 		int PromptResult = JOptionPane.showOptionDialog(null,
@@ -76,6 +76,7 @@ public class MenuBar extends JMenuBar {
 		}
 	}
 
+	// aciton on save
 	private void doSave() {
 		try {
 			System.out.println(menuInterpreter);
@@ -85,6 +86,7 @@ public class MenuBar extends JMenuBar {
 		}
 	}
 
+	// action on laod
 	private void doLoad() {
 		// Create a file chooser
 		final JFileChooser fc = new JFileChooser();
@@ -103,6 +105,7 @@ public class MenuBar extends JMenuBar {
 			putValue(ACCELERATOR_KEY, getKeyStroke("ctrl Q"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent evt) {
 			doExit();
 		}
@@ -115,6 +118,7 @@ public class MenuBar extends JMenuBar {
 			putValue(ACCELERATOR_KEY, getKeyStroke("ctrl S"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent evt) {
 			doSave();
 		}
@@ -127,6 +131,7 @@ public class MenuBar extends JMenuBar {
 			putValue(ACCELERATOR_KEY, getKeyStroke("ctrl L"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent evt) {
 			doLoad();
 		}
