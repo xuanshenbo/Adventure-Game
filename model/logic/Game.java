@@ -18,6 +18,7 @@ import model.npcs.RandomZombie;
 import model.npcs.RunZombie;
 import model.npcs.Zombie;
 import model.state.Area;
+import model.state.Container;
 import model.state.GameState;
 import model.state.Player;
 import model.state.Position;
@@ -54,37 +55,39 @@ public class Game {
 	 * @param parameters
 	 *            : the parameters of the game world to be created
 	 */
-	public Game(Server server, WorldParameters parameters) {
+	public Game(Server server, WorldParameters parameters, boolean test) {
 		this.server = server;
 		this.clock = new Clock(2000, this);
 		int height = parameters.getHeight();
 		int width = parameters.getWidth();
-//		Generator g = new Generator(parameters);
-		height = 200;
-		width = 200;
+		Generator g = new Generator(parameters);
+//		height = 200;
+//		width = 200;
 		String difficulty = "easy";
-		int density = 100;
-		maxZombies = getMaxZombies(height*width, difficulty);
-		
+//		int density = 100;
+//		maxZombies = getMaxZombies(height*width, difficulty);
+
 		Area area = new Area(height, width, AreaType.OUTSIDE, null);
-		Generator g = new Generator(difficulty, density, height, width);
+//		Generator g = new Generator(difficulty, density, height, width);
 		area.generateWorld(g);
 		ArrayList<Player> playerList = placePlayers(parameters.getPlayerCount(), height, width, area);
 		this.gameState = new GameState(area, playerList);
-		parser = new ServerParser(this, server);
-		clock.start();
+		parser = new ServerParser(this, server, test);
+		if(!test){
+			clock.start();
+		}
 	}
 
 	private int getMaxZombies(int totalTiles, String difficulty) {
 		int maxZombies = 0;
-		
+
 		if(difficulty.equals("easy")){
 			maxZombies = totalTiles/100;
 		}else if(difficulty.equals("medium")){
 			maxZombies = totalTiles/70;
 		}else{
 			maxZombies = totalTiles/50;
-		}		
+		}
 		return maxZombies;
 	}
 
@@ -194,7 +197,9 @@ public class Game {
 //			gameState.printView(1);
 		}
 		if (toTile != null && toTile.isContainer()) {
-			Item[] items = ((ChestTile) toTile).open();
+			Container container = (Container) toTile;
+			player.setOpenContainer(container);
+			Item[] items = container.open();
 			char[] itemArray = new char[items.length];
 			for (int i = 0; i < items.length; i++) {
 				if(items[i] != null){
@@ -252,7 +257,7 @@ public class Game {
 	 */
 
 	public void use(Player player, int inventorySlot){
-		player.use(inventorySlot);
+		Item[] inventory = player.use(inventorySlot);
 		parser.sendToServer(player, 'I');
 		parser.sendToServer(player, 'H');
 	}
@@ -279,7 +284,7 @@ public class Game {
 	 * Called when the player tries to drop an object on the ground
 	 * @param player
 	 */
-	public void Drop(Player player) {
+	public void drop(Player player) {
 		Position playerPosition = player.getPosition();
 		Item item = player.getSelectedItem();
 		if(item != null){
@@ -297,8 +302,8 @@ public class Game {
 	 */
 
 	public void select(Player player, int inventorySlot) {
-		// TODO Auto-generated method stub
-		
+		player.setSelected(inventorySlot);
+
 	}
 
 	/**

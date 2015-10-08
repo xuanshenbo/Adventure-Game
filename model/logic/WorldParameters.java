@@ -15,20 +15,26 @@ public class WorldParameters {
 	private int chests;
 	private int playerCount;
 	private int trees;
+	
+	
 
 	public WorldParameters(int height, int width, int playerCount, boolean test){
 		this.height = height;
 		this.width = width;
 		this.playerCount = playerCount;
+		buildings = 2;
+		lootValue = 5;
+		caves = 1;
+		chests = 5;
+		trees = 20;
 		if(test){
-			buildings = 2;
-			lootValue = 5;
-			caves = 1;
-			chests = 5;
-			trees = 20;
+			buildings = 0;
+			lootValue = 0;
+			caves = 0;
+			trees = 0;
 		}
 	}
-	
+
 	public int getTrees() {
 		return trees;
 	}

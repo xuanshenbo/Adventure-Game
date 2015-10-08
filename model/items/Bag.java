@@ -49,4 +49,9 @@ public class Bag extends Item implements Container {
 		}
 		return null;
 	}
+
+	@Override
+	public Item[] open() {
+		return inventory;
+	}
 }

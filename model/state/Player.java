@@ -16,6 +16,8 @@ import model.items.Bag;
 import model.items.Item;
 import model.items.Key;
 
+import static utilities.PrintTool.p;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Player {
 
@@ -32,8 +34,8 @@ public class Player {
 	public Player(Position p, int id) {
 		this.position = p;
 		this.id = id;
-		inventory[0] = new Bag();
-		inventory[1] = new Key();
+//		inventory[0] = new Bag();
+//		inventory[1] = new Key();
 	}
 
 
@@ -84,6 +86,9 @@ public class Player {
 
 	public Item[] use(int inventorySlot){
 		Item item = inventory[inventorySlot];
+		if(item != null){
+			openContainer = (Container) item;
+		}
 		return item.use(this);
 	}
 
@@ -99,6 +104,18 @@ public class Player {
 
 	public void setPosition(Position newPosition) {
 		position = newPosition;
+	}
+
+	public void setSelected(Item item) {
+		selectedItem = item;		
+	}
+	
+	public void setSelected(int inventorySlot) {
+		selectedItem = inventory[inventorySlot];
+	}
+	
+	public void setOpenContainer(Container container){
+		openContainer = container;
 	}
 
 	public String toString() {
@@ -147,15 +164,17 @@ public class Player {
 		return inventory[inventorySlot];
 	}
 
-
-
 	public int getHappiness() {
 		return happiness;
 	}
 
-
-
 	public boolean isInGame() {
 		return inGame;
 	}
+	
+	public Container getOpenContainer(){
+		return openContainer;
+	}
+
+
 }

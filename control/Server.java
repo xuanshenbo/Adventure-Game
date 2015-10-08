@@ -42,6 +42,9 @@ public class Server extends Thread{
 	private Queue<char[]> instructions = new ArrayDeque<char[]>();//debug, should be commented out
 	//private int[] parameters;
 	private Game game;
+	
+	
+	
 
 	public Server(int[] para) {
 		//System.out.println(Server.class.getClassLoader().getResource("requests"));
@@ -52,7 +55,7 @@ public class Server extends Thread{
 		world.setChests(para[6]);
 		world.setLootValue(para[7]);
 
-		game= new Game(this, world);
+		game= new Game(this, world, false);
 		try{
 			server = new ServerSocket(PORT, 50, InetAddress.getLocalHost());
 			address = server.getInetAddress();
@@ -61,6 +64,13 @@ public class Server extends Thread{
 		} catch (RuntimeException ex) {
 			errorLogger.log(Level.SEVERE, "Couldn't start server: " + ex.getMessage(), ex);
 		}
+	}
+	
+	/**
+	 * Alternative Constructor for testing the game();
+	 */
+	public Server(){
+		
 	}
 
 	/**

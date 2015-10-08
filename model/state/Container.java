@@ -6,5 +6,6 @@ public interface Container {
 
 	public boolean addItem(Item item);
 	public  Item removeItem(int id);
+	public Item[] open();
 
 }

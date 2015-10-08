@@ -20,10 +20,12 @@ public class ServerParser {
 	private Game game;
 	private Server server;
 	private char[] tempItemArrayStorage = null;
+	private boolean testing;
 
-	public ServerParser(Game game, Server server) {
+	public ServerParser(Game game, Server server, boolean testing) {
 		this.game = game;
 		this.server = server;
+		this.testing = testing;
 	}
 
 	/**
@@ -41,16 +43,19 @@ public class ServerParser {
 			game.move(game.getGameState().getPlayer(id), parseDirection(message[1]));
 			break;
 		case 'U': //use [I, int inventorySlot)
-			game.use(game.getGameState().getPlayer(id), (int) message[1]);
+			game.use(game.getGameState().getPlayer(id), Character.getNumericValue(message[1]));
 			break;
 		case 'P'://Pickup [P, _]
 			game.pickUp(game.getGameState().getPlayer(id));
 			break;
 		case 'C'://Selected [C, int inventorySlot]
-			game.select(game.getGameState().getPlayer(id), (int) message[1]);
+			game.select(game.getGameState().getPlayer(id), Character.getNumericValue(message[1]));
+			break;
+		case 'm'://Selected [C, int inventorySlot]
+			game.select(game.getGameState().getPlayer(id), Character.getNumericValue(message[1]));
 			break;
 		case 'D'://Drop [D, _]
-			game.Drop(game.getGameState().getPlayer(id));
+			game.drop(game.getGameState().getPlayer(id));
 			break;
 		case 'F'://activating frame
 			game.activateFrame();
@@ -130,8 +135,10 @@ public class ServerParser {
 		}
 
 		try {
-			server.getWriters()[player.getId()].write(message);
-			server.getWriters()[player.getId()].flush();
+			if(!testing){
+				server.getWriters()[player.getId()].write(message);
+				server.getWriters()[player.getId()].flush();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
