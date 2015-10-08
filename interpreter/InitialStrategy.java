@@ -1,5 +1,7 @@
 package interpreter;
 
+import interpreter.Translator.Command;
+
 import java.io.IOException;
 import java.io.Writer;
 import java.net.InetAddress;
@@ -55,6 +57,12 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 	@Override
 	public void setInterpreter(StrategyInterpreter i) {
 		this.s = (Initialisation) i;
+	}
+
+	@Override
+	public void notify(Command cmd) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

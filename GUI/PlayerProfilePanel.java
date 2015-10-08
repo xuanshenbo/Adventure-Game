@@ -58,7 +58,7 @@ public class PlayerProfilePanel extends JPanel{
 
 		//a panel which displays lifeline, name etc in one column
 		statusPanel = new JPanel();
-		statusPanel.setBackground(new Color(204, 255, 229));
+		statusPanel.setBackground(GameFrame.col1);
 		BoxLayout boxLayout = new BoxLayout(statusPanel, BoxLayout.PAGE_AXIS);
 		statusPanel.setLayout(boxLayout);
 		fillStatusPanel();

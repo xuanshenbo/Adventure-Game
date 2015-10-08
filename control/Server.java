@@ -164,7 +164,7 @@ public class Server extends Thread{
 				//System.out.println(address.getHostAddress().toString());//debug
 				//out.flush();
 				//System.out.println("No id writing?");//debug
-				System.out.println("id: "+id);
+				//System.out.println("id: "+id);
 				out.write((char)(id+'0'));
 				out.flush();
 				//System.out.println("id flushed");//debug
@@ -184,7 +184,7 @@ public class Server extends Thread{
 						input += message[i];
 					}
 
-					System.out.println("======================"+input+"====================");//debug
+					//System.out.println("======================"+input+"====================");//debug
 
 					//System.out.println("server printed input");//debug
 					//feedback(input, out, id);

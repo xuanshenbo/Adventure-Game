@@ -1,4 +1,6 @@
 package interpreter;
+import interpreter.Translator.Command;
+
 import java.io.IOException;
 import java.io.Writer;
 
@@ -38,6 +40,7 @@ public class StrategyInterpreter implements Observer{
 		public void notify(String text) throws IOException;
 		public void setInterpreter(StrategyInterpreter i);
 		//public void setOutput(Writer writer);
+		public void notify(Command cmd);
 	}
 
 	/**
@@ -78,6 +81,13 @@ public class StrategyInterpreter implements Observer{
 	public Game getGame(){
 		return this.game;
 	}
+
+	@Override
+	public void notify(Command cmd) throws IOException {
+		strategy.notify(cmd);
+
+	}
+
 
 
 

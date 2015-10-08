@@ -51,6 +51,13 @@ public class GameFrame extends JFrame{
 	private int frameWidth = 800;
 	private int frameHeight = 800;
 
+	public static final Color col1 = Color.GRAY;
+	public static final Color col2 = Color.PINK;
+
+	private Dialog ContainerDialog;
+
+	private ArrayList<Avatar> avatars;
+
 	//private Game game; //TODO initalise this WHERE?
 
 	private Dimension mapSize = new Dimension(750, 400);
@@ -60,6 +67,9 @@ public class GameFrame extends JFrame{
 	public static final int buttonPaddingHorizontal = 50;	//public as needs to be accessed from ButtonPanel
 	public static final int buttonPaddingVertical = 50;
 
+	public void setContainer(){
+
+	}
 	private PlayerInfo player = new PlayerInfo("Donald Duck", Avatar.DONALD_DUCK);
 
 	/*
@@ -68,8 +78,10 @@ public class GameFrame extends JFrame{
 	private StrategyInterpreter keyInterpreter;
 	private StrategyInterpreter menuInterpreter;
 	private StrategyInterpreter buttonInterpreter;
+	private StrategyInterpreter radioInterpreter;
 
 	private ArrayList<String> inventoryContents;
+	private ArrayList<String> containerContents;
 
 	//have to initialise this here for use in WelcomeDialog
 	private StrategyInterpreter dialogInterpreter = new StrategyInterpreter(this, new DialogStrategy(), null);
@@ -144,7 +156,6 @@ public class GameFrame extends JFrame{
 
 		addBottomPanel();
 
-
 		pack();
 		setLocationRelativeTo(null);	//set the frame at the center of the screen
 		setVisible(true);
@@ -177,38 +188,11 @@ public class GameFrame extends JFrame{
 		JLabel renderLabel = new JLabel(new ImageIcon(renderWindow));
 		midPanel.add(renderLabel);
 
-		midPanel.setBackground(new Color(204, 255, 229));
+		midPanel.setBackground(col1);
 
 		//data = new testRenderer(20, 0, 0, 15, 20, 20, 4, 0);
 
 	}
-
-	//taken from GUIForTest for testing purposes
-	/*private static Game generateGame(int trees, int buildings, int caves, int chests, int width, int height, int playerCount, int lootValue) {
-		Generator g = new Generator(trees, buildings, caves, chests, lootValue);
-		Area a = new Area(width, height, Area.AreaType.OUTSIDE, null);
-		a.generateWorld(g);
-		ArrayList<Player> p = placePlayers(playerCount, width, height, a);
-		GameState state = new GameState(a, p);
-		Game game = new Game(state);
-		return game;
-	}*/
-
-	//taken from GUIForTest for testing purposes
-	/*private static ArrayList<Player> placePlayers(int playerCount, int width, int height, Area a) {
-		double[] xCoords = {0.5, 0, 0.5, 1};
-		double[] yCoords = {0, 0.5, 1, 0.5};
-		ArrayList<Player> list = new ArrayList<Player>();
-		for(int count = 0; count < playerCount; count++){
-			int x = (int) ((width-1)*xCoords[count]);
-			int y = (int) ((height-1)*yCoords[count]);
-			int id = count+1;
-			Position position = new Position(x, y, a);
-			Player p = new Player(position, id);
-			list.add(p);
-		}
-		return list;
-	}*/
 
 	private void addBottomPanel() {
 		//new JPanel(new BoxLayout(botPanel, BoxLayout.LINE_AXIS));
@@ -218,7 +202,7 @@ public class GameFrame extends JFrame{
 
 		//botPanel.add(buttons);
 
-		botPanel.setBackground(Color.PINK);
+		botPanel.setBackground(col2);
 
 		add(botPanel);
 
@@ -239,7 +223,7 @@ public class GameFrame extends JFrame{
 
 
 	/**
-	 * Shows a dialog if the user presses an arrow key
+	 * Sends a message to server if the user presses an arrow key
 	 */
 
 	//for testing renderer
@@ -248,8 +232,8 @@ public class GameFrame extends JFrame{
 		public boolean dispatchKeyEvent(KeyEvent e){
 
 			if (e.getID() == KeyEvent.KEY_PRESSED) {
-				char[][] map;
-				char[][] items;
+				//char[][] map;
+				//char[][] items;
 
 				switch( e.getKeyCode()) {
 				case KeyEvent.VK_UP:
@@ -260,7 +244,7 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					} //implement for all key presses
 
-					midPanel.repaint();
+					//midPanel.repaint();
 
 					break;
 				case KeyEvent.VK_DOWN:
@@ -270,7 +254,7 @@ public class GameFrame extends JFrame{
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					midPanel.repaint();
+					//midPanel.repaint();
 
 					break;
 				case KeyEvent.VK_LEFT:
@@ -283,7 +267,7 @@ public class GameFrame extends JFrame{
 
 					//TODO refactor this using interpreter
 
-					midPanel.repaint();
+					//midPanel.repaint();
 
 					break;
 				case KeyEvent.VK_RIGHT :
@@ -294,7 +278,7 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					}
 
-					midPanel.repaint();
+					//midPanel.repaint();
 
 					break;
 				case KeyEvent.VK_P:
@@ -305,7 +289,7 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					}
 
-					midPanel.repaint();
+					//midPanel.repaint();
 
 					break;
 
@@ -317,12 +301,9 @@ public class GameFrame extends JFrame{
 			}
 			return false;
 		}
-
-
 	}
 
 	public void updateRenderer(char type, char[][] map, char[][] items){
-
 		renderer.update(type, map, items);
 	}
 
@@ -339,11 +320,42 @@ public class GameFrame extends JFrame{
 	 * @return
 	 */
 	public ArrayList<String> getInventoryContents() {
-			return inventoryContents;
+		ArrayList<String> inventory = new ArrayList<String>();
+			if(inventoryContents != null) {
+				return inventoryContents;
+			}
+			else{
+				inventory.add("key");
+				inventory.add("cupcake");
+				return inventory;
+			}
 	}
 
 	/**
-	 * Set the inventory contents
+	 * Get contents of this player's container from Game, via network
+	 * @return
+	 */
+	public ArrayList<String> getContainerContents() {
+		ArrayList<String> container = new ArrayList<String>();
+			if(containerContents != null) {
+				return containerContents;
+			}
+			else{
+				container.add("key");
+				container.add("cupcake");
+				return container;
+			}
+	}
+
+/*******************************************************************************************************
+ * TODO Server needs to do the following:
+ * 1) set Inventory/Container Contents
+ * 2) add Inventory/Container Dialog
+ *
+ *******************************************************************************************************/
+
+	/**
+	 * Set the inventory contents.
 	 * @param inventory The list of items as lower-case Strings
 	 */
 	public void setInventoryContents(ArrayList<String> inventory){
@@ -351,7 +363,21 @@ public class GameFrame extends JFrame{
 	}
 
 	/**
-	 * Set contents of inventory
+	 * Set the container contents.
+	 * @param inventory The list of items as lower-case Strings
+	 */
+	public void setContainerContents(ArrayList<String> containerItems){
+		containerContents = containerItems;
+	}
+
+	private void addContainerDialog() {
+		Dialog inventory = new Dialog(this, "Display Container", "This container contains:",
+				MainGameState.DISPLAY_CONTAINER, this.dialogInterpreter);
+
+	}
+
+	/**
+	 * Create a dialog showing the inventory.
 	 */
 	public void addInventoryDialog() {
 		Dialog inventory = new Dialog(this, "Display Inventory", "Your inventory contains:",
@@ -389,13 +415,32 @@ public class GameFrame extends JFrame{
 		return this.midPanel.getWidth();
 	}
 
+	/**
+	 * TODO Server calls setAvailableAvatars after the new game/load avatars button chosen.
+	 * Then Server calls displayAvatarptions
+	 * @return
+	 */
+
+	public void setAvatars(ArrayList<Avatar> avatarOptions) {
+		this.avatars = avatarOptions;
+	}
+
+
+
 	public ArrayList<Avatar> getAvailableAvatars() {
-		ArrayList<Avatar> avatars= new ArrayList<Avatar>();
-		// ask Model for the available Avatars to display as options to the user
 
-		avatars.add(Avatar.DONALD_DUCK);	//for testing purposes
+		//if the game hasn't yet sent the available avatars
+		if(avatars == null){
 
-		return avatars;
+		ArrayList<Avatar> avatarsTest= new ArrayList<Avatar>();
+		avatarsTest.add(Avatar.DONALD_DUCK);	//for testing purposes
+
+		return avatarsTest;
+
+		}
+		else{
+			return avatars;
+		}
 	}
 
 
@@ -435,4 +480,26 @@ public class GameFrame extends JFrame{
 		}*/
 
 	}
+
+	public StrategyInterpreter getRadioInterpreter() {
+		return radioInterpreter;
+	}
+
+	public void setRadioInterpreter(StrategyInterpreter menuInterpreter) {
+		this.radioInterpreter = menuInterpreter;
+
+	}
+
+	public StrategyInterpreter getButtonInterpreter() {
+		return this.buttonInterpreter;
+	}
+
+	/**
+	 * a getter for the MidPanel
+	 * @return
+	 */
+	public JPanel getMidPanel() {
+		return midPanel;
+	}
+
 }

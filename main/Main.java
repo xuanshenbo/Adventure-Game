@@ -16,6 +16,7 @@ import interpreter.ButtonStrategy;
 import interpreter.KeyStrategy;
 import interpreter.MenuStrategy;
 import interpreter.InitialStrategy;
+import interpreter.RadioStrategy;
 import interpreter.StrategyInterpreter;
 import GUI.GameFrame;
 
@@ -111,6 +112,7 @@ public class Main {
 		StrategyInterpreter keyInterpreter = null;
 		StrategyInterpreter buttonInterpreter = null;
 		StrategyInterpreter menuInterpreter = null;
+		StrategyInterpreter radioInterpreter = null;
 
 
 		//frame.dispose();	//get rid of welcome frame
@@ -121,11 +123,15 @@ public class Main {
 		buttonInterpreter = new StrategyInterpreter(frame, new ButtonStrategy(buttonInterpreter),client);
 		menuInterpreter = new StrategyInterpreter(frame, new MenuStrategy(menuInterpreter),client);
 
+		radioInterpreter = new StrategyInterpreter(frame, new RadioStrategy(radioInterpreter), client);
+
 
 		//add the Strategy Interpreters to the GameFrame
 		frame.setKeyInterpreter(keyInterpreter);
 		frame.setButtonInterpreter(buttonInterpreter);
 		frame.setMenuInterpreter(menuInterpreter);
+		frame.setRadioInterpreter(radioInterpreter);
+
 		System.out.println("Menu interp assigned");
 
 		frame.setUpLayoutAndDisplay();
@@ -133,7 +139,7 @@ public class Main {
 		client.setGui(frame);
 		client.getParser().setFrame(frame);
 		client.send("F");
-		ClockThread clock = new ClockThread(40,frame);
+		ClockThread clock = new ClockThread(150,frame);
 		clock.start();
 
 	}

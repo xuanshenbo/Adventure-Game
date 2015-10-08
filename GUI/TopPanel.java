@@ -33,7 +33,7 @@ public class TopPanel extends JPanel{
 		playerProf = new PlayerProfilePanel(gameframe.getPlayer());
 		add(playerProf); //add to the right
 
-		setBackground(Color.PINK);
+		setBackground(GameFrame.col2);
 
 	}
 
