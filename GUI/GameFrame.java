@@ -2,6 +2,7 @@ package GUI;
 
 import interpreter.DialogStrategy;
 import interpreter.StrategyInterpreter;
+import interpreter.Translator;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -27,9 +28,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import main.InitialisationState;
 import main.Main;
-import main.MainGameState;
 import model.items.Item;
 import model.items.Key;
 import model.logic.Game;
@@ -39,7 +38,6 @@ import model.state.Area;
 import model.state.GameState;
 import model.state.Player;
 import model.state.Position;
-
 import static utilities.PrintTool.p;
 
 /**
@@ -193,7 +191,7 @@ public class GameFrame extends JFrame{
 
 	private void addBottomPanel() {
 		//new JPanel(new BoxLayout(botPanel, BoxLayout.LINE_AXIS));
-		botPanel = new ButtonPanel(this, this.buttonInterpreter, MainGameState.MAIN);
+		botPanel = new ButtonPanel(this, this.buttonInterpreter, Translator.MainGameState.MAIN);
 
 		botPanel.setVisible(true);
 
@@ -360,7 +358,7 @@ public class GameFrame extends JFrame{
 
 	private void addContainerDialog() {
 		Dialog inventory = new Dialog(this, "Display Container", "This container contains:",
-				MainGameState.DISPLAY_CONTAINER, this.dialogInterpreter);
+				Translator.Command.DISPLAY_CONTAINER, this.dialogInterpreter);
 
 	}
 
@@ -369,7 +367,7 @@ public class GameFrame extends JFrame{
 	 */
 	public void addInventoryDialog() {
 		Dialog inventory = new Dialog(this, "Display Inventory", "Your inventory contains:",
-				MainGameState.DISPLAY_INVENTORY, this.dialogInterpreter);
+				Translator.Command.DISPLAY_INVENTORY, this.dialogInterpreter);
 	}
 
 	public StrategyInterpreter getKeyInterpreter() {

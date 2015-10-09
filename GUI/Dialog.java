@@ -1,6 +1,7 @@
 package GUI;
 
 import interpreter.StrategyInterpreter;
+import interpreter.Translator;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -34,8 +35,6 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import main.Initialisation;
-import main.InitialisationState;
-import main.MainGameState;
 import model.items.Item;
 
 /**
@@ -47,7 +46,7 @@ public class Dialog extends JDialog implements ActionListener {
 
 	private Avatar chosenAvatar;
 
-	private MainGameState state;
+	private Translator.Command state;
 
 	private StrategyInterpreter dialogInterpreter;
 
@@ -72,7 +71,7 @@ public class Dialog extends JDialog implements ActionListener {
 	 * @param msg Message to display
 	 * @param i The state of the Game
 	 */
-	public Dialog(GameFrame gameFrame, String title, String msg, MainGameState state, StrategyInterpreter dialogInterp) {
+	public Dialog(GameFrame gameFrame, String title, String msg, Translator.Command state, StrategyInterpreter dialogInterp) {
 		super(gameFrame, title, true);
 
 		this.state = state;
@@ -89,11 +88,11 @@ public class Dialog extends JDialog implements ActionListener {
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-		if(state.equals(MainGameState.DISPLAY_INVENTORY)){
+		if(state.equals(Translator.Command.DISPLAY_INVENTORY)){
 			displayInventory();
 		}
 
-		else if(state.equals(MainGameState.DISPLAY_CONTAINER)){
+		else if(state.equals(Translator.Command.DISPLAY_CONTAINER)){
 			displayContainer();
 		}
 
@@ -111,7 +110,7 @@ public class Dialog extends JDialog implements ActionListener {
 
 
 
-	public Dialog(String title, String msg, InitialisationState state, Initialisation i, WelcomePanel wPanel) {
+	public Dialog(String title, String msg, Translator.InitialisationState state, Initialisation i, WelcomePanel wPanel) {
 		this.initialisation = i;
 		this.welcomePanel = wPanel;
 		getContentPane().setLayout( new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
@@ -123,10 +122,10 @@ public class Dialog extends JDialog implements ActionListener {
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-		if(state.equals(InitialisationState.CREATE_NEW_PLAYER)){
+		if(state.equals(Translator.InitialisationState.CREATE_NEW_PLAYER)){
 			displayAvatarOptions(false);
 		}
-		else if(state.equals(InitialisationState.LOAD_SAVED_PLAYER)){
+		else if(state.equals(Translator.InitialisationState.LOAD_SAVED_PLAYER)){
 			displayAvatarOptions(true);
 		}
 
@@ -135,7 +134,7 @@ public class Dialog extends JDialog implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				welcomePanel.transitionToNewState(InitialisationState.START_GAME);
+				welcomePanel.transitionToNewState(Translator.InitialisationState.START_GAME);
 				Dialog.this.dispose();	//get rid of the dialog
 			}
 
@@ -168,7 +167,11 @@ public class Dialog extends JDialog implements ActionListener {
 			ItemListener radioListener = new ItemListener(){
 				public void itemStateChanged(ItemEvent e) {
 					if(e.getStateChange()==1) { //then checked
-						chosenAvatar = a;
+						try {
+							initialisation.notify(a.toString());
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
 					}
 				}
 			};
@@ -205,7 +208,7 @@ public class Dialog extends JDialog implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		boolean validInput = false;
-		if(state.equals(MainGameState.DISPLAY_INVENTORY)){
+		if(state.equals(Translator.Command.DISPLAY_INVENTORY)){
 			validInput = true;
 		}
 
@@ -234,7 +237,7 @@ public class Dialog extends JDialog implements ActionListener {
 
 
 	public void displayItemOptions() {
-		this.itemOptions = new ButtonPanel(MainGameState.DISPLAY_ITEM_OPTIONS, parentFrame.getButtonInterpreter());
+		this.itemOptions = new ButtonPanel(Translator.Command.DISPLAY_ITEM_OPTIONS, parentFrame.getButtonInterpreter());
 		add(itemOptions);
 
 	}

@@ -12,6 +12,4 @@ public interface Observer {
 	 * @throws IOException
 	 */
 	public void notify(String text) throws IOException;
-
-	public void notify(Translator.Command cmd) throws IOException;
 }

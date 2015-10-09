@@ -29,8 +29,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 
 import main.Initialisation;
-import main.InitialisationState;
-import main.MainGameState;
 
 /**
  * A panel to store the button options
@@ -67,13 +65,13 @@ public class ButtonPanel extends JPanel {
 	 * @param container
 	 * @param boxLayout2
 	 */
-	public ButtonPanel(GameFrame container, StrategyInterpreter b, MainGameState state){
+	public ButtonPanel(GameFrame container, StrategyInterpreter b, Translator.MainGameState state){
 		buttonInterpreter = b;
 		containerFrame = container;
 		//make buttons layout top to bottom
 
 
-		if(state.equals(MainGameState.MAIN)){
+		if(state.equals(Translator.MainGameState.MAIN)){
 			if(containerFrame!=null){
 				BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS);	//display main game-play buttons horizontally
 				setLayout(boxLayout);
@@ -91,40 +89,40 @@ public class ButtonPanel extends JPanel {
 	 * @param welcomeDialog The Dialog which needs to be informed of any choice that is made
 	 * @param state Which buttons are to be displayed?
 	 */
-	public ButtonPanel(WelcomePanel welcomeDialog, InitialisationState state, Initialisation i) {
+	public ButtonPanel(WelcomePanel welcomeDialog, Translator.InitialisationState state, Initialisation i) {
 
 		this.welcomePanel = welcomeDialog;
 
 		this.initialisation = i;
 
 		//display server or server+client buttons
-		if(state.equals(InitialisationState.SHOW_CLIENT_SERVER_OPTION)){
+		if(state.equals(Translator.InitialisationState.SHOW_CLIENT_SERVER_OPTION)){
 			BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS); //display client server buttons vertically
 			setLayout(boxLayout);
 			createServerClientButtons();
 		}
 
 		//display option to load a game or start a new game
-		else if(state.equals(InitialisationState.SHOW_LOAD_OR_NEW_OPTION)){
+		else if(state.equals(Translator.InitialisationState.SHOW_LOAD_OR_NEW_OPTION)){
 			BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS); //display client server buttons vertically
 			setLayout(boxLayout);
 			addLoadNewButtons();
 		}
 
-		else if(state.equals(InitialisationState.LOAD_PLAYER_OR_CREATE_NEW_PLAYER)){
+		else if(state.equals(Translator.InitialisationState.LOAD_PLAYER_OR_CREATE_NEW_PLAYER)){
 			BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS); //display client server buttons vertically
 			setLayout(boxLayout);
 			addLoadCreatePlayerButtons();
 		}
 	}
 
-	public ButtonPanel(MainGameState state, StrategyInterpreter buttonInterp) {
+	public ButtonPanel(Translator.Command state, StrategyInterpreter buttonInterp) {
 		this.buttonInterpreter = buttonInterp;
 
 		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS);	//display main game-play buttons horizontally
 		setLayout(boxLayout);
 
-		if(state.equals(MainGameState.DISPLAY_ITEM_OPTIONS)){
+		if(state.equals(Translator.Command.DISPLAY_ITEM_OPTIONS)){
 			displayItemOptions();
 		}
 	}
@@ -140,21 +138,21 @@ public class ButtonPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==drop){
 					try {
-						buttonInterpreter.notify(Translator.Command.DROP);
+						buttonInterpreter.notify(Translator.Command.DROP.toString());
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
 				}
 				else if(e.getSource()==use){
 					try {
-						buttonInterpreter.notify(Translator.Command.USE);
+						buttonInterpreter.notify(Translator.Command.USE.toString());
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
 				}
 				else if(e.getSource()==moveToBag){
 					try {
-						buttonInterpreter.notify(Translator.Command.MOVE_ITEM);
+						buttonInterpreter.notify(Translator.Command.MOVE_ITEM.toString());
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -187,7 +185,7 @@ public class ButtonPanel extends JPanel {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					welcomePanel.transitionToNewState(InitialisationState.LOAD_SAVED_PLAYER);
+					welcomePanel.transitionToNewState(Translator.InitialisationState.LOAD_SAVED_PLAYER);
 				}
 				else if(e.getSource()==createPlayer){	//conditional not strictly necessary, but added for completion
 					try {
@@ -196,7 +194,7 @@ public class ButtonPanel extends JPanel {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					welcomePanel.transitionToNewState(InitialisationState.CREATE_NEW_PLAYER);
+					welcomePanel.transitionToNewState(Translator.InitialisationState.CREATE_NEW_PLAYER);
 				}
 			}
 
@@ -235,7 +233,7 @@ public class ButtonPanel extends JPanel {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					welcomePanel.transitionToNewState(InitialisationState.LOAD_GAME);
+					welcomePanel.transitionToNewState(Translator.InitialisationState.LOAD_GAME);
 				}
 				else if(e.getSource()==newGame){	//conditional not strictly necessary, but added for completion
 					try {
@@ -244,7 +242,7 @@ public class ButtonPanel extends JPanel {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					welcomePanel.transitionToNewState(InitialisationState.CHOOSE_SLIDER_OPTIONS);
+					welcomePanel.transitionToNewState(Translator.InitialisationState.CHOOSE_SLIDER_OPTIONS);
 				}
 			}
 
@@ -295,7 +293,7 @@ public class ButtonPanel extends JPanel {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					welcomePanel.transitionToNewState(InitialisationState.CONNECT_TO_SERVER);	//now display the option for which server to connect to
+					welcomePanel.transitionToNewState(Translator.InitialisationState.CONNECT_TO_SERVER);	//now display the option for which server to connect to
 				}
 				else if(e.getSource()==serverclient){	//conditional not strictly necessary, but added for completion
 					try {
@@ -304,7 +302,7 @@ public class ButtonPanel extends JPanel {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					welcomePanel.transitionToNewState(InitialisationState.SHOW_LOAD_OR_NEW_OPTION); //now display the options of loading a game, or starting a new one
+					welcomePanel.transitionToNewState(Translator.InitialisationState.SHOW_LOAD_OR_NEW_OPTION); //now display the options of loading a game, or starting a new one
 				}
 
 			}
@@ -341,7 +339,7 @@ public class ButtonPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e){
 				try {
-					buttonInterpreter.notify(Translator.Command.DISPLAY_INVENTORY);
+					buttonInterpreter.notify(Translator.Command.DISPLAY_INVENTORY.toString());
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}

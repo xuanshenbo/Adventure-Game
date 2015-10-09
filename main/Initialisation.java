@@ -39,6 +39,8 @@ public class Initialisation extends StrategyInterpreter{
 
 	private InitialStrategy initStrategy = new InitialStrategy();
 
+	private ArrayList<Avatar> avatars = new ArrayList<Avatar>();
+
 	/**
 	 * Create an Initialisation object using the StrategyInterpreter super constructor
 	 * Create a new frame in which to display the WelcomePanel
@@ -63,7 +65,11 @@ public class Initialisation extends StrategyInterpreter{
 				int PromptResult = JOptionPane.showOptionDialog(null, "Are you sure you want to exit?", "Happiness Game",
 						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
 				if (PromptResult == JOptionPane.YES_OPTION) {
-					initStrategy.notify(Translator.Command.EXIT);
+					try {
+						initStrategy.notify(Translator.Command.EXIT.toString());
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		});
@@ -78,12 +84,25 @@ public class Initialisation extends StrategyInterpreter{
 
 
 	public ArrayList<Avatar> getAvailableAvatars() {
-		ArrayList<Avatar> avatars= new ArrayList<Avatar>();
-		// ask Model for the available Avatars to display as options to the user
+		ArrayList<Avatar> avatarOptions = this.avatars;
 
-		avatars.add(Avatar.DONALD_DUCK);	//for testing purposes
+		if(this.avatars == null){
+			//for testing purposes
+			avatarOptions.add(Avatar.DONALD_DUCK);
+			avatarOptions.add(Avatar.MICKEY_MOUSE);
+			avatarOptions.add(Avatar.BOTTOMLEY_POTTS);
+			avatarOptions.add(Avatar.HAIRY_MACLARY);
+		}
 
-		return avatars;
+		return avatarOptions;
+	}
+
+	/**
+	 * Used to set the available avatar options
+	 * @param avatars The available avatars for selection
+	 */
+	public void setAvatars(ArrayList<Avatar> avatars){
+		this.avatars = avatars;
 	}
 
 	/**

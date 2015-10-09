@@ -8,16 +8,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import main.Initialisation;
-import main.InitialisationState;
 
 public class InputPanel extends JPanel{
 
 	private String msg = "Please choose a server to connect to";
 
-	public InputPanel(Initialisation initialisation, InitialisationState state) {
+	public InputPanel(Initialisation initialisation, Translator.InitialisationState state) {
 		setLayout(new FlowLayout());
 
-		if(state.equals(InitialisationState.CONNECT_TO_SERVER)){
+		if(state.equals(Translator.InitialisationState.CONNECT_TO_SERVER)){
 			JLabel message = new JLabel(msg);
 			add(message);
 			add(new TextFieldImpl(initialisation));

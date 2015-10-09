@@ -8,6 +8,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
+import GUI.Avatar;
 import main.Initialisation;
 import main.Main;
 
@@ -17,7 +18,17 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 
 	@Override
 	public void notify(String text) throws IOException {
-		if(text.equals("start")){
+
+		if(Translator.isInitialisationState(text)){
+			notifyInitState(text);
+		}
+		else if(Translator.isCommand(text)){
+			notifyCommand(text);
+		}
+		else if(Avatar.isAvatar(text)){
+			notifyAvatar(text);
+		}
+		else if(text.equals("start")){
 			//System.out.println("START");//debug
 			s.displayMainGameFrame();
 		}
@@ -58,18 +69,33 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 
 	}
 
+	private void notifyAvatar(String text) {
+		Avatar a = Avatar.toAvatar(text);
+		int avatarInteger = Avatar.getAvatarAsInteger(a);
+		//TODO notify felix of the avatar integer
+
+
+	}
+
+	private void notifyCommand(String text) {
+		Translator.Command cmd = Translator.toCommand(text);
+		if(cmd.equals(Translator.Command.EXIT)){
+			Main.closeServer(); //TODO is this right?
+			System.exit(0);
+		}
+	}
+
+	private void notifyInitState(String text) {
+		Translator.InitialisationState initState = Translator.toInitState(text);
+
+	}
+
 	@Override
 	public void setInterpreter(StrategyInterpreter i) {
 		this.s = (Initialisation) i;
 	}
 
-	@Override
-	public void notify(Command cmd) {
-		if(cmd.equals(Translator.Command.EXIT)){
-			Main.closeServer(); //TODO is this right?
-			System.exit(0);
-		}
 
-	}
+
 
 }
