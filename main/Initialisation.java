@@ -5,6 +5,7 @@ import interpreter.InitialStrategy;
 import interpreter.KeyStrategy;
 import interpreter.MenuStrategy;
 import interpreter.StrategyInterpreter;
+import interpreter.Translator;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -62,8 +63,7 @@ public class Initialisation extends StrategyInterpreter{
 				int PromptResult = JOptionPane.showOptionDialog(null, "Are you sure you want to exit?", "Happiness Game",
 						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
 				if (PromptResult == JOptionPane.YES_OPTION) {
-					closeServer();
-					System.exit(0);
+					initStrategy.notify(Translator.Command.EXIT);
 				}
 			}
 		});
@@ -112,4 +112,5 @@ public class Initialisation extends StrategyInterpreter{
 		Main.closeServer();
 
 	}
+
 }

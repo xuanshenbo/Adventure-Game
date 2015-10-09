@@ -4,7 +4,6 @@ import static java.awt.event.KeyEvent.VK_E;
 import static java.awt.event.KeyEvent.VK_S;
 import static java.awt.event.KeyEvent.VK_L;
 import static javax.swing.KeyStroke.getKeyStroke;
-
 import interpreter.StrategyInterpreter;
 
 import java.awt.event.ActionEvent;
@@ -18,6 +17,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+
+import main.Main;
 
 /**
  * A simple Menubar with an Exit option
@@ -72,6 +73,12 @@ public class MenuBar extends JMenuBar {
 				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null,
 				ObjButtons, ObjButtons[1]);
 		if (PromptResult == JOptionPane.YES_OPTION) {
+			try {
+				menuInterpreter.notify("exit");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			System.exit(0);
 		}
 	}

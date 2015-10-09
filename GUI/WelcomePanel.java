@@ -297,8 +297,9 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	 * Displays option dialog to get user input on which server to connect to
 	 */
 	private void displayConnect() {
-		iPanel = new InputPanel(initialisation, "connect");
+		iPanel = new InputPanel(initialisation, InitialisationState.CONNECT_TO_SERVER);
 		add(iPanel, BorderLayout.SOUTH);
+		System.out.println("HERES");
 
 		revalidate();
 	}

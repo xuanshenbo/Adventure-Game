@@ -34,21 +34,25 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 		else if(text.equals("createPlayer")){
 
 		}
-		else{
-			if(text.equals("client")){
-				//testing for now to use a fixed IP
-				InetAddress adr = null;
-				try {
-					adr = InetAddress.getByName("130.195.6.190");
-				} catch (UnknownHostException e) {
-					e.printStackTrace();
-				}
-				Main.clientMode(adr, 8888);
+		else if(text.equals("client")){
+			//testing for now to use a fixed IP
+			InetAddress adr = null;
+			try {
+				adr = InetAddress.getByName("130.195.6.190");
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
 			}
-			if(text.equals("clientserver")){
-				Main.serverClient();
-			}
+			Main.clientMode(adr, 8888);
 		}
+		else if(text.equals("clientserver")){
+			Main.serverClient();
+		}
+
+		else{	//entered ipaddress
+			String ip = text;
+			//TODO notify felix of ip address
+		}
+
 
 
 
@@ -61,7 +65,10 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 
 	@Override
 	public void notify(Command cmd) {
-		// TODO Auto-generated method stub
+		if(cmd.equals(Translator.Command.EXIT)){
+			Main.closeServer(); //TODO is this right?
+			System.exit(0);
+		}
 
 	}
 

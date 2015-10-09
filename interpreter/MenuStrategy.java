@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import javax.xml.bind.JAXBException;
 
+import main.Main;
 import dataStorage.Serializer;
 
 public class MenuStrategy implements StrategyInterpreter.Strategy{
@@ -37,6 +38,7 @@ public class MenuStrategy implements StrategyInterpreter.Strategy{
 //			System.out.println("Done!");
 			//notify game
 		}
+		else if(text.equals("exit"));
 	}
 
 	@Override
@@ -47,7 +49,10 @@ public class MenuStrategy implements StrategyInterpreter.Strategy{
 
 	@Override
 	public void notify(Command cmd) {
-		// TODO Auto-generated method stub
+		if(cmd.equals(Translator.Command.EXIT)){
+			Main.closeServer(); //TODO is this right?
+			System.exit(0);
+		}
 
 	}
 }

@@ -3,7 +3,7 @@ package interpreter;
 public class Translator {
 
 	public enum Command{
-		DROP, USE, MOVE_ITEM, ITEM_SELECTED, DISPLAY_INVENTORY
+		DROP, USE, MOVE_ITEM, ITEM_SELECTED, DISPLAY_INVENTORY, EXIT
 	}
 
 	public static String encode(String command) {
