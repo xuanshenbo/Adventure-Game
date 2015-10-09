@@ -43,7 +43,7 @@ public class Main {
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
-		String ObjButtons[] = {"Yes", "No"};
+	/*	String ObjButtons[] = {"Yes", "No"};
 		int PromptResult = JOptionPane.showOptionDialog(null, "Do you want to enter Dev mode??", "DON'T DO IT!!!!!!!",
 				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
 
@@ -55,7 +55,10 @@ public class Main {
 			initial = new Initialisation();
 			initial.setGame(game);
 		}
+*/
 
+		initial = new Initialisation();
+		initial.setGame(game);
 
 	}
 

@@ -123,23 +123,16 @@ public class Dialog extends JDialog implements ActionListener {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		if(state.equals(Translator.InitialisationState.CREATE_NEW_PLAYER)){
+			this.state = Translator.Command.DISPLAY_AVATAR_OPTIONS;
 			displayAvatarOptions(false);
 		}
 		else if(state.equals(Translator.InitialisationState.LOAD_SAVED_PLAYER)){
+			this.state = Translator.Command.DISPLAY_AVATAR_OPTIONS;
 			displayAvatarOptions(true);
 		}
 
 		JButton ok = new JButton("OK");
-		ok.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				welcomePanel.transitionToNewState(Translator.InitialisationState.START_GAME);
-				Dialog.this.dispose();	//get rid of the dialog
-			}
-
-		});
-
+		ok.addActionListener(this);
 		add(ok);
 
 		//display the dialog
@@ -161,17 +154,14 @@ public class Dialog extends JDialog implements ActionListener {
 
 		List<JRadioButton> buttons = new ArrayList<JRadioButton>();
 
+		System.out.println("num avatars: "+availAvatars.size());
 		for(final Avatar a: availAvatars){
 			JRadioButton avatar = new JRadioButton(a.toString());
 
 			ItemListener radioListener = new ItemListener(){
 				public void itemStateChanged(ItemEvent e) {
 					if(e.getStateChange()==1) { //then checked
-						try {
-							initialisation.notify(a.toString());
-						} catch (IOException e1) {
-							e1.printStackTrace();
-						}
+						chosenAvatar = a;
 					}
 				}
 			};
@@ -208,17 +198,21 @@ public class Dialog extends JDialog implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		boolean validInput = false;
+
 		if(state.equals(Translator.Command.DISPLAY_INVENTORY)){
 			validInput = true;
 		}
 
-		if(state.equals("")){
-			try {
-				dialogInterpreter.notify(chosenAvatar.toString());
-			} catch (IOException e1) {
-				e1.printStackTrace();
+		if(state.equals(Translator.Command.DISPLAY_AVATAR_OPTIONS)){
+			if(chosenAvatar != null){
+				try {
+					initialisation.notify(chosenAvatar.toString());
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				welcomePanel.transitionToNewState(Translator.InitialisationState.START_GAME);
+				validInput = true;
 			}
-			validInput = true;
 		}
 
 		if(validInput){

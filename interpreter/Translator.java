@@ -6,7 +6,7 @@ import interpreter.Translator.InitialisationState;
 public class Translator {
 
 	public enum Command{
-		DROP, USE, MOVE_ITEM, ITEM_SELECTED, DISPLAY_INVENTORY, EXIT, DISPLAY_CONTAINER, DISPLAY_ITEM_OPTIONS
+		DROP, USE, MOVE_ITEM, ITEM_SELECTED, DISPLAY_INVENTORY, EXIT, DISPLAY_CONTAINER, DISPLAY_ITEM_OPTIONS, DISPLAY_AVATAR_OPTIONS
 	}
 
 	public enum InitialisationState {

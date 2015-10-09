@@ -39,7 +39,7 @@ public class Initialisation extends StrategyInterpreter{
 
 	private InitialStrategy initStrategy = new InitialStrategy();
 
-	private ArrayList<Avatar> avatars = new ArrayList<Avatar>();
+	private ArrayList<Avatar> avatars;
 
 	/**
 	 * Create an Initialisation object using the StrategyInterpreter super constructor
@@ -86,7 +86,8 @@ public class Initialisation extends StrategyInterpreter{
 	public ArrayList<Avatar> getAvailableAvatars() {
 		ArrayList<Avatar> avatarOptions = this.avatars;
 
-		if(this.avatars == null){
+		if(avatarOptions == null){
+			avatarOptions = new ArrayList<Avatar>();
 			//for testing purposes
 			avatarOptions.add(Avatar.DONALD_DUCK);
 			avatarOptions.add(Avatar.MICKEY_MOUSE);

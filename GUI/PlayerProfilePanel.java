@@ -132,8 +132,9 @@ public class PlayerProfilePanel extends JPanel{
 
 	private void addPictureToPanel() {
 		//display the image at the appropriate position in the array
-		Image image=avatars[Avatar.getAvatarAsInteger(playerInfo.getAvatar())];
+		//Image image=avatars[Avatar.getAvatarAsInteger(playerInfo.getAvatar())-1];
 
+		Image image=avatars[0];
 		ImageIcon icon = new ImageIcon(image);
 		JLabel thumb = new JLabel();
 		thumb.setIcon(icon);
