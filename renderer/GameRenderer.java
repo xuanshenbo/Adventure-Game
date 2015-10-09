@@ -205,7 +205,6 @@ public class GameRenderer{
 
 
 			setRenderingMap();
-			render();
 			doRender = false;
 		}
 	}

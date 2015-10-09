@@ -35,6 +35,7 @@ public class GameCanvas extends JPanel {
 
     public void updateImage(BufferedImage img){
         image = img;
+        repaint();
     }
 
     public GameRenderer getRenderer(){

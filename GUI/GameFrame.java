@@ -486,8 +486,8 @@ public class GameFrame extends JFrame{
 	 * a getter for the MidPanel
 	 * @return
 	 */
-	public JPanel getMidPanel() {
-		return midPanel;
+	public GameCanvas getCanvas() {
+		return canvas;
 	}
 
 }

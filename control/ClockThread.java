@@ -7,6 +7,7 @@ package control;
 
 import GUI.GameFrame;
 import model.logic.Game;
+import renderer.GameCanvas;
 import renderer.GameRenderer;
 
 /**
@@ -18,12 +19,12 @@ public class ClockThread extends Thread{
 
 	final int delay; // the delay between pulses.
 	//final Game game;
-	final GameFrame frame;
+	final GameCanvas canvas;
 
-	public ClockThread(int d, GameFrame f){
+	public ClockThread(int d, GameCanvas canvas){
 		this.delay = d;
 		//this.game = g;
-		this.frame = f;
+		this.canvas = canvas;
 	}
 
 	public void run(){
@@ -32,8 +33,8 @@ public class ClockThread extends Thread{
 			try {
 				Thread.sleep(delay);
 				//game.tick();
-				if(frame != null) {
-					frame.getMidPanel().repaint();
+				if(canvas != null) {
+					canvas.getRenderer().render();
 				}
 			} catch(InterruptedException e) {
 				// should never happen
