@@ -39,8 +39,8 @@ public class GameRenderer{
 		this.height = height;
 		offsetX = 0;
 		offsetY = 0;
-		this.tileWidth = width/size;
-		this.tileHeight = height/size;
+		this.tileWidth = width/size * imageScale;
+		this.tileHeight = height/size * imageScale;
 		this.viewWidth = view[0].length;
 		this.viewHeight = view.length;
 		this.renderState = new RenderState(view);
@@ -65,10 +65,12 @@ public class GameRenderer{
 		graphic.setColor(Color.BLACK);
 		graphic.fill(background);
 
-		double halfTileWidth = tileWidth/2 * imageScale;
-		double halfTileHeight = tileHeight/2 *imageScale;
-		double startX = width/2, startY = -tileWidth*imageScale/2;
+		double halfTileWidth = tileWidth/2;
+		double halfTileHeight = tileHeight/2;
+		double startX = width/2, startY = -tileHeight/2;
 		int groundOffsetY = images.ground().getWidth(null)/2;
+
+		double screenX, screenY;
 
 		//draw ground
 
@@ -83,10 +85,9 @@ public class GameRenderer{
 		for (int y = 0; y < viewHeight; y++) {
 			for (int x = 0; x < viewWidth; x++) {
 				if(renderState.getMap()[y][x] != '\u0000') {
-					graphic.drawImage(groundImage,
-							(int) (startX + halfTileWidth*x - groundOffsetY),
-							(int) (startY + halfTileHeight*x + tileWidth*imageScale/2),
-							null);
+					screenX = startX + halfTileWidth * x;
+					screenY = startY + halfTileHeight * x;
+					graphic.drawImage(groundImage, (int)screenX, (int)screenY, null);
 				}
 			}
 			startX -= halfTileWidth;
@@ -94,14 +95,16 @@ public class GameRenderer{
 		}
 
 		startX = width/2;
-		startY = -tileWidth*imageScale/2;
+		startY = 0;
 
 		//draw view and objects
 		for (int y = 0; y < viewHeight; y++) {
 			for (int x = 0; x < viewWidth; x++) {
-				drawTile(renderState.getMap()[y][x], startX + halfTileWidth * x, startY + halfTileHeight * x);
-				drawTile(renderState.getNpc()[y][x], startX + halfTileWidth * x, startY + halfTileHeight * x);
-				drawTile(objects[y][x], startX + halfTileWidth*x, startY + halfTileHeight*x);
+				screenX = startX + halfTileWidth * x;
+				screenY = startY + halfTileHeight * x;
+				drawTile(renderState.getMap()[y][x], screenX, screenY);
+				drawTile(renderState.getNpc()[y][x], screenX, screenY);
+				drawTile(objects[y][x], screenX, screenY);
 
 			}
 			startX -= halfTileWidth;
@@ -126,56 +129,79 @@ public class GameRenderer{
 			return;
 		}
 
-		switch (tile){
+		int imageX, imageY;
+		int shadowWidth, shadowHeight;
 
-			case 'T':
-				graphic.drawImage(images.tree(), (int)(x)-images.tree().getWidth(null)/2, (int)(y), null);
-				break;
+		switch (tile){
 			case '1':
-//				graphic.drawImage(images.avatar().get(0).getImages()[0][(int) (animationIndex)],
-				graphic.drawImage(images.avatar().get(0),
-						(int) (x)+offsetX-images.avatar().get(0).getWidth(null)/2,
-						(int) (y+offsetY),
-						null);
+				imageX = (int) x;
+				imageY = (int) (y - images.avatar().get(0).getHeight(null));
+				shadowWidth = images.avatar().get(0).getWidth(null);
+				shadowHeight = images.avatar().get(0).getHeight(null)/2;
+				graphic.drawImage(images.shadow(), imageX, imageY+shadowHeight*3/2, shadowWidth, shadowHeight, null);
+				graphic.drawImage(images.avatar().get(0), imageX, imageY, null);
 				break;
 			case '2':
-//				graphic.drawImage(images.avatar().get(1).getImages()[0][(int) (animationIndex)],
-				graphic.drawImage(images.avatar().get(1),
-						(int) (x)-images.avatar().get(1).getWidth(null)/2,
-						(int) (y),
-						null);
+				imageX = (int) x;
+				imageY = (int) (y - images.avatar().get(1).getHeight(null));
+				shadowWidth = images.avatar().get(0).getWidth(null);
+				shadowHeight = images.avatar().get(0).getHeight(null)/2;
+				graphic.drawImage(images.shadow(), imageX, imageY+shadowHeight*3/2, shadowWidth, shadowHeight, null);
+				graphic.drawImage(images.avatar().get(1), imageX, imageY, null);
 				break;
 			case '3':
-//				graphic.drawImage(images.avatar().get(2).getImages()[0][(int) (animationIndex)],
-				graphic.drawImage(images.avatar().get(2),
-						(int) (x)-images.avatar().get(2).getWidth(null)/2,
-						(int) (y),
-						null);
+				imageX = (int) x;
+				imageY = (int) (y - images.avatar().get(2).getHeight(null));
+				shadowWidth = images.avatar().get(0).getWidth(null);
+				shadowHeight = images.avatar().get(0).getHeight(null)/2;
+				graphic.drawImage(images.shadow(), imageX, imageY+shadowHeight*3/2, shadowWidth, shadowHeight, null);
+				graphic.drawImage(images.avatar().get(2), imageX, imageY, null);
 				break;
 			case '4':
-//				graphic.drawImage(images.avatar().get(3).getImages()[0][(int) (animationIndex)],
-				graphic.drawImage(images.avatar().get(3),
-						(int) (x)-images.avatar().get(3).getWidth(null)/2,
-						(int) (y),
-						null);
+				imageX = (int) x;
+				imageY = (int) (y - images.avatar().get(3).getHeight(null));
+				shadowWidth = images.avatar().get(0).getWidth(null);
+				shadowHeight = images.avatar().get(0).getHeight(null)/2;
+				graphic.drawImage(images.shadow(), imageX, imageY+shadowHeight*3/2, shadowWidth, shadowHeight, null);
+				graphic.drawImage(images.avatar().get(3), imageX, imageY, null);
 				break;
 			case 'O':
-				graphic.drawImage(images.chest(), (int) (x)-images.chest().getWidth(null)/2, (int) (y), null);
+				imageX = (int) x;
+				imageY = (int) (y - images.chest().getHeight(null));
+				graphic.drawImage(images.chest(), imageX, imageY, null);
+				break;
+			case 'T':
+				imageX = (int)(x-images.tree().getWidth(null)/2 + tileWidth/2);
+				imageY = (int)(y-images.tree().getHeight(null));
+				shadowWidth = images.tree().getWidth(null);
+				shadowHeight = images.tree().getHeight(null)/2;
+				graphic.drawImage(images.shadow(), imageX, imageY+shadowHeight*3/2, shadowWidth, shadowHeight, null);
+				graphic.drawImage(images.tree(), imageX, imageY, null);
 				break;
 			case 'C':
-				graphic.drawImage(images.cave(), (int) (x)-images.cave().getWidth(null)/2, (int) (y), null);
+				imageX = (int) x;
+				imageY = (int) (y - (images.cave().getHeight(null)-tileHeight));
+				graphic.drawImage(images.cave(), imageX, imageY, null);
 				break;
 			case 'B':
-				graphic.drawImage(images.building(), (int) (x)-images.building().getWidth(null)/2, (int) (y), null);
+				imageX = (int) (x - tileWidth);
+				imageY = (int) (y - images.building().getHeight(null) + tileHeight*2.5);
+				graphic.drawImage(images.building(), imageX, imageY, null);
 				break;
 			case 'D':
-				graphic.drawImage(images.door(), (int) (x)-images.door().getWidth(null)/2, (int) (y), null);
+				imageX = (int) x;
+				imageY = (int) (y - images.door().getHeight(null));
+				graphic.drawImage(images.door(), imageX, imageY, null);
 				break;
 			case 'k':
-				graphic.drawImage(images.key(), (int) (x)-images.key().getWidth(null)/2, (int) (y), null);
+				imageX = (int) x;
+				imageY = (int) (y - images.key().getHeight(null));
+				graphic.drawImage(images.key(), imageX, imageY, null);
 				break;
 			case 'Z':
-				graphic.drawImage(images.key(), (int) (x)-images.key().getWidth(null)/2, (int) (y), null);
+				imageX = (int) x;
+				imageY = (int) (y - images.key().getHeight(null));
+				graphic.drawImage(images.key(), imageX, imageY, null);
 				break;
 			default:
 				break;
@@ -200,10 +226,7 @@ public class GameRenderer{
 		if (doRender) {
 			this.view = view;
 			this.objects = objects;
-
 			this.renderState.initialize(view);
-
-
 			setRenderingMap();
 			doRender = false;
 		}
@@ -213,13 +236,37 @@ public class GameRenderer{
 		for (int y = 0; y < viewHeight; y++) {
 			for (int x = 0; x < viewWidth; x++) {
 				if (renderState.getMap()[y][x] == 'C'){
-					if (x < 14) {
-						renderState.getMap()[y][x + 1] = 'N';
+					int leftX = view[0].length - x;
+					int leftY = view.length - y;
+					if (leftX > 2) {
+						leftX = 2;
 					}
-					if (y < 14) {
-						renderState.getMap()[y + 1][x] = 'N';
+					if (leftY > 2) {
+						leftY = 2;
 					}
+					clearTile(x, y, leftX, leftY);
+					renderState.getMap()[y][x] = 'C';
 				}
+				if (renderState.getMap()[y][x] == 'B'){
+					int leftX = view[0].length - x;
+					int leftY = view.length - y;
+					if (leftX > 5) {
+						leftX = 5;
+					}
+					if (leftY > 3) {
+						leftY = 3;
+					}
+					clearTile(x, y, leftX, leftY);
+					renderState.getMap()[y][x] = 'B';
+				}
+			}
+		}
+	}
+
+	private void clearTile(int x, int y, int lengthX, int lengthY){
+		for (int j = 0; j < lengthY; j++){
+			for (int i = 0; i < lengthX; i++){
+				renderState.getMap()[y+j][x+i] = 'N';
 			}
 		}
 	}
