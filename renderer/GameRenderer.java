@@ -14,6 +14,7 @@ public class GameRenderer{
 	private int imageScale = 1;
 	
 	private char[][] objects;
+	private char[][] view;
 	private double tileHeight, tileWidth;
 	private int viewWidth, viewHeight;
 	//private ArrayList<Player> players;
@@ -24,6 +25,8 @@ public class GameRenderer{
 	private Images images;
 	private char type;
 	private RenderState renderState;
+
+	private boolean doRender = false;
 
 	public GameRenderer(int width, int height, char[][] view, char[][] objects){
 
@@ -39,6 +42,7 @@ public class GameRenderer{
 		this.viewHeight = view.length;
 		this.renderState = new RenderState(view);
 		this.objects = objects;
+		this.view = view;
 		//this.players = players;
 		this.images = new Images(tileWidth, tileHeight, imageScale);
 
@@ -176,12 +180,26 @@ public class GameRenderer{
 
 	public void update(char type, char[][] view, char[][] objects) {
 		this.type = type;
-		this.renderState.initialize(view);
-		this.objects = objects;
 
-		setRenderingMap();
+		for (int y = 0; y < viewHeight; y++) {
+			for (int x = 0; x < viewWidth; x++) {
+				if (view[y][x] != this.view[y][x] || objects[y][x] != this.objects[y][x]) {
+					doRender = true;
+				}
+			}
+		}
 
-		render();
+		if (doRender) {
+			this.view = view;
+			this.objects = objects;
+
+			this.renderState.initialize(view);
+
+
+			setRenderingMap();
+			render();
+			doRender = false;
+		}
 	}
 
 	private void setRenderingMap() {
