@@ -183,9 +183,7 @@ public class GameFrame extends JFrame{
 		 */
 		canvas = new GameCanvas(800, 600);
 
-		Image renderWindow = canvas.getRenderer().getImage(); //need to set the size??
-		JLabel renderLabel = new JLabel(new ImageIcon(renderWindow));
-		midPanel.add(renderLabel);
+		midPanel.add(canvas);
 
 		midPanel.setBackground(col1);
 
