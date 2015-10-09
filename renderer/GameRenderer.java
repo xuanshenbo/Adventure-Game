@@ -7,28 +7,31 @@ import static utilities.PrintTool.p;
 
 public class GameRenderer{
 
+	//all different sizes needed
 	private int size;
 	private int offsetX, offsetY;
 	private int width,height;
+	private double tileHeight, tileWidth;
+	private int viewWidth, viewHeight;
 
+	//image size
 	private int imageScale = 1;
 	
 	private char[][] objects;
 	private char[][] view;
-	private double tileHeight, tileWidth;
-	private int viewWidth, viewHeight;
-	//private ArrayList<Player> players;
 	private int animationIndex;
 	private BufferedImage outPut;
+	private Shape background;
 	private Graphics2D graphic;
 
 	private Images images;
 	private char type;
 	private RenderState renderState;
+	private GameCanvas canvas;
 
 	private boolean doRender = false;
 
-	public GameRenderer(int width, int height, char[][] view, char[][] objects){
+	public GameRenderer(int width, int height, char[][] view, char[][] objects, GameCanvas canvas){
 
 		size = view.length;
 		this.outPut = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -46,6 +49,9 @@ public class GameRenderer{
 		//this.players = players;
 		this.images = new Images(tileWidth, tileHeight, imageScale);
 
+		this.canvas = canvas;
+		this.background = new Rectangle(width, height);
+
 		this.animationIndex = 0;
 
 		render();
@@ -55,10 +61,9 @@ public class GameRenderer{
 	public void render() {
 		//draw the game board
 
-
-
 		graphic = outPut.createGraphics();
-		graphic.clearRect(0,0,outPut.getWidth(), outPut.getHeight());
+		graphic.setColor(Color.BLACK);
+		graphic.fill(background);
 
 		double halfTileWidth = tileWidth/2 * imageScale;
 		double halfTileHeight = tileHeight/2 *imageScale;
@@ -78,7 +83,10 @@ public class GameRenderer{
 		for (int y = 0; y < viewHeight; y++) {
 			for (int x = 0; x < viewWidth; x++) {
 				if(renderState.getMap()[y][x] != '\u0000') {
-					graphic.drawImage(groundImage, (int) (startX + halfTileWidth*x - groundOffsetY), (int) (startY + halfTileHeight*x + tileWidth*imageScale/2), null);
+					graphic.drawImage(groundImage,
+							(int) (startX + halfTileWidth*x - groundOffsetY),
+							(int) (startY + halfTileHeight*x + tileWidth*imageScale/2),
+							null);
 				}
 			}
 			startX -= halfTileWidth;
@@ -101,7 +109,7 @@ public class GameRenderer{
 		}
 
 		graphic.dispose();
-		updateAnimation();
+		canvas.updateImage(outPut);
 
 	}
 

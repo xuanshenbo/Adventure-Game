@@ -9,6 +9,7 @@ import javax.swing.border.TitledBorder;
 import javax.xml.bind.JAXBException;
 
 import dataStorage.Serializer;
+import renderer.GameCanvas;
 import renderer.GameRenderer;
 import renderer.GuiForTest;
 import renderer.testRenderer;
@@ -94,7 +95,7 @@ public class GameFrame extends JFrame{
 
 	private JPanel botPanel;
 
-	private GameRenderer renderer;
+	private GameCanvas canvas;
 
 	/**
 	 * First a WelcomeDialog is displayed and then
@@ -180,11 +181,9 @@ public class GameFrame extends JFrame{
 		char[][] view = game.getGameView(1).get(0);
 		char[][] objects = game.getGameView(1).get(1);
 		 */
-		char[][] view = new char[15][15];
-		char[][] objects = new char[15][15];
-		renderer = new GameRenderer(800, 600, view, objects);
+		canvas = new GameCanvas(800, 600);
 
-		Image renderWindow = renderer.getImage(); //need to set the size??
+		Image renderWindow = canvas.getRenderer().getImage(); //need to set the size??
 		JLabel renderLabel = new JLabel(new ImageIcon(renderWindow));
 		midPanel.add(renderLabel);
 
@@ -244,8 +243,6 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					} //implement for all key presses
 
-					//midPanel.repaint();
-
 					break;
 				case KeyEvent.VK_DOWN:
 					try {
@@ -254,7 +251,6 @@ public class GameFrame extends JFrame{
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					//midPanel.repaint();
 
 					break;
 				case KeyEvent.VK_LEFT:
@@ -267,8 +263,6 @@ public class GameFrame extends JFrame{
 
 					//TODO refactor this using interpreter
 
-					//midPanel.repaint();
-
 					break;
 				case KeyEvent.VK_RIGHT :
 					try {
@@ -278,8 +272,6 @@ public class GameFrame extends JFrame{
 						e1.printStackTrace();
 					}
 
-					//midPanel.repaint();
-
 					break;
 				case KeyEvent.VK_P:
 					try {
@@ -288,8 +280,6 @@ public class GameFrame extends JFrame{
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-
-					//midPanel.repaint();
 
 					break;
 
@@ -304,7 +294,7 @@ public class GameFrame extends JFrame{
 	}
 
 	public void updateRenderer(char type, char[][] map, char[][] items){
-		renderer.update(type, map, items);
+		canvas.getRenderer().update(type, map, items);
 	}
 
 	private void showDialog(String string) {
