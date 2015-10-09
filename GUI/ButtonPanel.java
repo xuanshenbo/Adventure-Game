@@ -288,16 +288,15 @@ public class ButtonPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==client){
 					try {
-						initialisation.notify("client");
+						initialisation.notify(Translator.InitialisationState.SELECTED_CLIENT.toString());
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					welcomePanel.transitionToNewState(Translator.InitialisationState.CONNECT_TO_SERVER);	//now display the option for which server to connect to
 				}
 				else if(e.getSource()==serverclient){	//conditional not strictly necessary, but added for completion
 					try {
-						initialisation.notify("clientserver");
+						initialisation.notify(Translator.InitialisationState.SELECTED_CLIENT_AND_SERVER.toString());
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

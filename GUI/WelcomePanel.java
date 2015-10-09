@@ -82,6 +82,9 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	//0, 1 or 2 for easy, medium or hard
 	private int difficultyLevel = 1;
 
+	//width and height of game
+	private int gameWidth = 50, gameHeight = 50;
+
 	private Dimension sliderPaddingVertical= new Dimension(0, 20);
 
 	/**
@@ -191,7 +194,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		}
 		else if(state.equals(Translator.InitialisationState.START_GAME)){
 			try {
-				initialisation.notify("start");
+				initialisation.notify(Translator.InitialisationState.START_GAME.toString());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -241,6 +244,14 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		final JSlider difficulty = new JSlider(JSlider.HORIZONTAL, 0, 2, 1);
 		difficulty.add(Box.createRigidArea(sliderPaddingVertical)); //pad between sliders
 
+		//height of game
+		final JSlider height = new JSlider(JSlider.HORIZONTAL, 10, 200, 50);
+		height.add(Box.createRigidArea(sliderPaddingVertical)); //pad between sliders
+
+		//width of game
+		final JSlider width = new JSlider(JSlider.HORIZONTAL, 10, 200, 50);
+		width.add(Box.createRigidArea(sliderPaddingVertical)); //pad between sliders
+
 		ChangeListener sliderListener = new ChangeListener(){
 			@Override
 			public void stateChanged(ChangeEvent e) {
@@ -251,6 +262,12 @@ public class WelcomePanel extends JPanel implements ActionListener {
 					}
 					else if(source == difficulty){
 						difficultyLevel = difficulty.getValue();
+					}
+					else if(source == height){
+						gameHeight = height.getValue();
+					}
+					else if(source == width){
+						gameWidth = width.getValue();
 					}
 				}
 
@@ -266,6 +283,11 @@ public class WelcomePanel extends JPanel implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				remove(sliderPanel);
+				try {
+					initialisation.notify("parameters "+gameHeight+" "+gameWidth+" "+difficultyLevel+" "+density);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 				transitionToNewState(Translator.InitialisationState.LOAD_PLAYER_OR_CREATE_NEW_PLAYER);
 			}
 
@@ -278,15 +300,28 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		 * Create labels for the sliders, and create vertical space to make them more readable
 		 */
 		JLabel densityLabel = new JLabel("Choose the density of the game wrt the number of objects from 0% to 100%");
-		densityLabel.add(Box.createRigidArea(sliderPaddingVertical)); //pad between sliders
+		densityLabel.add(Box.createRigidArea(sliderPaddingVertical));
+
 		JLabel difficultyLabel = new JLabel("Choose the difficulty");
-		difficultyLabel.add(Box.createRigidArea(sliderPaddingVertical)); //pad between sliders
+		difficultyLabel.add(Box.createRigidArea(sliderPaddingVertical));
+
+		JLabel gameHeightLabel = new JLabel("Choose the Game height");
+		gameHeightLabel.add(Box.createRigidArea(sliderPaddingVertical));
+
+		JLabel gameWidthLabel = new JLabel("Choose the Game Width");
+		gameWidthLabel.add(Box.createRigidArea(sliderPaddingVertical));
 
 		sliderPanel.add(densityLabel);
 		sliderPanel.add(GameObjectDensity);
 
 		sliderPanel.add(difficultyLabel);
 		sliderPanel.add(difficulty);
+
+		sliderPanel.add(gameHeightLabel);
+		sliderPanel.add(height);
+
+		sliderPanel.add(gameWidthLabel);
+		sliderPanel.add(width);
 
 		sliderPanel.add(confirm);
 

@@ -69,7 +69,9 @@ public class GameFrame extends JFrame{
 	public void setContainer(){
 
 	}
-	private PlayerInfo player = new PlayerInfo("Donald Duck", Avatar.DONALD_DUCK);
+
+	//for testing
+	private PlayerInfo player = new PlayerInfo(Avatar.BOTTOMLEY_POTTS);
 
 	/*
 	 * TODO Initialise these interpreters here rather than in Main method?
@@ -395,6 +397,10 @@ public class GameFrame extends JFrame{
 
 	public PlayerInfo getPlayer() {
 		return player;
+	}
+
+	public void setPlayer(PlayerInfo p){
+		this.player = p;
 	}
 
 	public int getMapWidth() {

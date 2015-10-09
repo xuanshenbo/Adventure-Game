@@ -28,35 +28,22 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 		else if(Avatar.isAvatar(text)){
 			notifyAvatar(text);
 		}
-		else if(text.equals("start")){
-			//System.out.println("START");//debug
-			s.displayMainGameFrame();
-		}
 		else if(text.startsWith("open")){
 			Scanner sc = new Scanner(text);
-			String command = sc.next();
+			String command = sc.next(); //should be "open"
 			String filename = sc.next();
 			//notify game passing it the filename
+		}
+		else if(text.startsWith("parameters")){
+			Scanner sc = new Scanner(text);
+			String command = sc.next(); //should be "parameters"
+			int height, width, difficulty, density;
+			height = sc.nextInt();
+			width = sc.nextInt();
+			difficulty = sc.nextInt();
+			density = sc.nextInt();
 
-		}
-		else if(text.equals("loadPlayer")){
-
-		}
-		else if(text.equals("createPlayer")){
-
-		}
-		else if(text.equals("client")){
-			//testing for now to use a fixed IP
-			InetAddress adr = null;
-			try {
-				adr = InetAddress.getByName("130.195.6.190");
-			} catch (UnknownHostException e) {
-				e.printStackTrace();
-			}
-			Main.clientMode(adr, 8888);
-		}
-		else if(text.equals("clientserver")){
-			Main.serverClient();
+			//TODO let game know the chosen parameters
 		}
 
 		else{	//entered ipaddress
@@ -87,6 +74,26 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 
 	private void notifyInitState(String text) {
 		Translator.InitialisationState initState = Translator.toInitState(text);
+
+		if(initState.equals(Translator.InitialisationState.SELECTED_CLIENT)){
+			//testing for now to use a fixed IP
+			InetAddress adr = null;
+			try {
+				adr = InetAddress.getByName("130.195.6.190");
+				Main.clientMode(adr, 8888);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+
+		else if(initState.equals(Translator.InitialisationState.SELECTED_CLIENT_AND_SERVER)){
+			Main.serverClient();
+		}
+
+		else if(initState.equals(Translator.InitialisationState.START_GAME)){
+			s.displayMainGameFrame();
+		}
 
 	}
 

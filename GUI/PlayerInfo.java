@@ -10,8 +10,8 @@ public class PlayerInfo {
 	private Avatar avatar;
 	private int lifeline;
 
-	public PlayerInfo(String pName, Avatar avatar){
-		this.playerName = pName;
+	public PlayerInfo(Avatar avatar){
+		this.playerName = avatar.toString();
 		this.avatar = avatar;
 	}
 
