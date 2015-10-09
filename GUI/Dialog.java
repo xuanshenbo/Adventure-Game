@@ -218,7 +218,7 @@ public class Dialog extends JDialog implements ActionListener {
 		if(validInput){
 			setVisible(false);
 			dispose();
-			parentFrame.setVisible(true);
+			if(parentFrame != null) parentFrame.setVisible(true);
 		}
 	}
 

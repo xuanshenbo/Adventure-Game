@@ -39,8 +39,7 @@ public class PlayerProfilePanel extends JPanel{
 
 	private PlayerInfo playerInfo;
 
-	//change this, as more pictures and avatars are added
-	private int numAvatars = 1;
+	private int numAvatars = 4;
 
 	public PlayerProfilePanel(PlayerInfo info){
 
@@ -119,7 +118,21 @@ public class PlayerProfilePanel extends JPanel{
 
 	private void loadImages() {
 		//this generates an image file and saves it to the array
-		avatars[0] = ImageLoader.loadImage("playerpictest.jpeg")
+
+		//image of Donald Duck
+		avatars[0] = ImageLoader.loadImage("donaldduck.png")
+				.getScaledInstance(pictureSize.width, pictureSize.height, -1);
+
+		//image of Mickey Mouse
+		avatars[1] = ImageLoader.loadImage("mickeymouse.png")
+				.getScaledInstance(pictureSize.width, pictureSize.height, -1);
+
+		//image of Hairy Maclary
+		avatars[2] = ImageLoader.loadImage("hairymaclary.png")
+				.getScaledInstance(pictureSize.width, pictureSize.height, -1);
+
+		//image of Bottomley Potts
+		avatars[3] = ImageLoader.loadImage("bottomleypotts.png")
 				.getScaledInstance(pictureSize.width, pictureSize.height, -1);
 
 	}
@@ -132,9 +145,8 @@ public class PlayerProfilePanel extends JPanel{
 
 	private void addPictureToPanel() {
 		//display the image at the appropriate position in the array
-		//Image image=avatars[Avatar.getAvatarAsInteger(playerInfo.getAvatar())-1];
+		Image image=avatars[Avatar.getAvatarAsInteger(playerInfo.getAvatar())-1];
 
-		Image image=avatars[0];
 		ImageIcon icon = new ImageIcon(image);
 		JLabel thumb = new JLabel();
 		thumb.setIcon(icon);
