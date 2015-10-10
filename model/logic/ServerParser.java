@@ -8,6 +8,7 @@ import javax.xml.bind.JAXBException;
 
 import control.Server;
 import dataStorage.Serializer;
+import model.items.Item;
 import model.logic.Game.Direction;
 import model.state.Player;
 import static utilities.PrintTool.p;
@@ -51,8 +52,8 @@ public class ServerParser {
 		case 'C'://Selected [C, int inventorySlot]
 			game.select(game.getGameState().getPlayer(id), Character.getNumericValue(message[1]));
 			break;
-		case 'm'://Selected [C, int inventorySlot]
-			game.select(game.getGameState().getPlayer(id), Character.getNumericValue(message[1]));
+		case 'm'://move Item [m, int inventorySlot, int containerSlot]
+			game.moveInventory(game.getGameState().getPlayer(id), Character.getNumericValue(message[1]), Character.getNumericValue(message[2]));
 			break;
 		case 'D'://Drop [D, _]
 			game.drop(game.getGameState().getPlayer(id));
@@ -97,6 +98,11 @@ public class ServerParser {
 		}
 	}
 
+	/**
+	 * This method is called when the server needs to pass information to the client
+	 * @param player: the Player that the information is being passed to
+	 * @param action: the action that has happened
+	 */
 	public void sendToServer(Player player, char action){
 		char[] message = null;
 		if(action == 'M'){// map information
@@ -149,9 +155,15 @@ public class ServerParser {
 	 * @param player: the player to send the inventory to
 	 * @param itemArray: the inventory of the container
 	 */
-	public void sendInventory(Player player, char[] itemArray) {
+	public void sendInventory(Player player, Item[] items) {
+		char[] itemArray = new char[items.length];
+		for (int i = 0; i < items.length; i++) {
+			if(items[i] != null){
+				itemArray[i] = items[i].getType();
+			}
+		}
 		tempItemArrayStorage = itemArray;
-		sendToServer(player, 'I');
+		sendToServer(player, 'C');
 
 	}
 

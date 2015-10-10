@@ -15,6 +15,9 @@ public class GroundTile implements Tile {
 		private TileType(char c){
 			id = c;
 		}
+		public char encode(){
+			return id;
+		}
 	}
 
 	private TileType type;

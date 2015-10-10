@@ -47,18 +47,26 @@ public class Player {
 		}
 	}
 
-
+	public boolean addItemToInventory(Item item){
+		for(int i = 0; i < inventory.length; i++){
+			if(inventory[i] == null){
+				inventory[i] = item;
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public void makeActive() {
 		inGame = true;
 
 	}
-	
+
 	public Item getSelectedItem(){
 		return selectedItem;
 	}
-	
-	
+
+
 	public void removeSelectedItem(){
 		selectedItem = null;
 	}
@@ -80,15 +88,13 @@ public class Player {
 	}
 
 	/**
-	 * Player uses the item that is passed in
-	 * @return
+	 * Player uses the item that is passed in. If it is a container
+	 * it will return the inventory of that container, else it will
+	 * return null
 	 */
 
 	public Item[] use(int inventorySlot){
 		Item item = inventory[inventorySlot];
-		if(item != null){
-			openContainer = (Container) item;
-		}
 		return item.use(this);
 	}
 
@@ -107,13 +113,13 @@ public class Player {
 	}
 
 	public void setSelected(Item item) {
-		selectedItem = item;		
+		selectedItem = item;
 	}
-	
+
 	public void setSelected(int inventorySlot) {
 		selectedItem = inventory[inventorySlot];
 	}
-	
+
 	public void setOpenContainer(Container container){
 		openContainer = container;
 	}
@@ -171,7 +177,7 @@ public class Player {
 	public boolean isInGame() {
 		return inGame;
 	}
-	
+
 	public Container getOpenContainer(){
 		return openContainer;
 	}

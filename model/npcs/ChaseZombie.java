@@ -8,6 +8,8 @@ import model.state.Position;
 import static utilities.PrintTool.p;
 
 public class ChaseZombie implements ZombieStrategy {
+	
+	
 	@Override
 	public Position move(Position oldPosition) {
 		Position player = oldPosition.getArea().getNearestPlayer(oldPosition);
