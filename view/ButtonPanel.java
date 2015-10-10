@@ -373,14 +373,12 @@ public class ButtonPanel extends JPanel {
 			title = BorderFactory.createTitledBorder("");
 			empty = BorderFactory.createEmptyBorder(1, 1, 1, 1);
 			final CompoundBorder compound, compound1, compound2;
-			Color crl = (new Color(202, 0, 0));
+
+			Color crl = GameFrame.col2;
 			compound = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl));
-			Color crl1 = (Color.GREEN.darker());
-			compound1 = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl1));
-			Color crl2 = (Color.black);
-			compound2 = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl2));
 			b.setFont(new Font("Sans-Serif", Font.BOLD, 16));
 			b.setForeground(Color.darkGray);
+
 			b.setPreferredSize(new Dimension(50, 30));
 
 			b.setBorderPainted(true);
@@ -388,6 +386,8 @@ public class ButtonPanel extends JPanel {
 			b.setBorder(compound);
 
 			b.revalidate();
+
+			b.setForeground(GameFrame.fontColor);
 		}
 
 	}
