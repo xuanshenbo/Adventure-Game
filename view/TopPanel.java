@@ -1,7 +1,8 @@
-package GUI;
+/*package view;
 
 import interpreter.StrategyInterpreter;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -15,19 +16,22 @@ import renderer.testRenderer;
 public class TopPanel extends JPanel{
 
 	private PlayerProfilePanel playerProf;
-	private GameInfoPanel gameInfo;
+	//	private GameInfoPanel gameInfo;
 	private GameFrame gameframe;
 
 	public TopPanel(GameFrame g){
 		this.gameframe = g;
 
-		int xPadding = (gameframe.getMapWidth() - new GameInfoPanel().getWidth() - new PlayerProfilePanel().getWidth())/2;
-		System.out.println(xPadding);
-		setLayout(new FlowLayout(FlowLayout.CENTER, 150, 10));
+		//int xPadding = (gameframe.getMapWidth() - new GameInfoPanel(gameframe).getWidth() - new PlayerProfilePanel().getWidth())/2;
+		//int xPadding = (size.width - new GameInfoPanel(gameframe).getWidth() - new PlayerProfilePanel().getWidth())/2;
+
+		//System.out.println("xPadding: "+xPadding); //-125
+	//	setLayout(new FlowLayout(FlowLayout.CENTER, 150, 10));
+		setLayout(new BorderLayout());
 
 		//add game info panel to the left
-		gameInfo = new GameInfoPanel();
-		add(gameInfo);
+		//		gameInfo = new GameInfoPanel(gameframe);
+		//		add(gameInfo);
 
 		//add player info panel to the right
 		playerProf = new PlayerProfilePanel(gameframe.getPlayer());
@@ -35,12 +39,7 @@ public class TopPanel extends JPanel{
 
 		setBackground(GameFrame.col2);
 
+
 	}
 
-	public Set<JPanel> getPanels() {
-		Set panels = new HashSet<JPanel>();
-		panels.add(gameInfo);
-		panels.add(playerProf);
-		return panels;
-	}
-}
+}*/

@@ -1,4 +1,4 @@
-package GUI;
+package view;
 
 
 import interpreter.StrategyInterpreter;
@@ -29,8 +29,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 
 import main.Initialisation;
-import main.InitialisationState;
-import main.MainGameState;
 
 /**
  * A panel to store the button options
@@ -67,64 +65,64 @@ public class ButtonPanel extends JPanel {
 	 * @param container
 	 * @param boxLayout2
 	 */
-	public ButtonPanel(GameFrame container, StrategyInterpreter b, MainGameState state){
+	public ButtonPanel(GameFrame container, StrategyInterpreter b, Translator.MainGameState state){
 		buttonInterpreter = b;
 		containerFrame = container;
+
 		//make buttons layout top to bottom
+		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS);	//display main game-play buttons horizontally
+		setLayout(boxLayout);
 
-
-		if(state.equals(MainGameState.MAIN)){
+		if(state.equals(Translator.MainGameState.MAIN)){
 			if(containerFrame!=null){
-				BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS);	//display main game-play buttons horizontally
-				setLayout(boxLayout);
 				CreateMainButtons();
 			}
 			else{
 				throw new IllegalArgumentException("The GameFrame hasn't been stored by the ButtonPanel");
 			}
 		}
+
 	}
 
 	/**
-	 * Displays the button choices for playing as a client or playing as a client + server
+	 * Displays the sequence of button choices after and including playing as a client or playing as a client + server
 	 * @param i An initialisation object, which implements StrategyInterpreter
 	 * @param welcomeDialog The Dialog which needs to be informed of any choice that is made
 	 * @param state Which buttons are to be displayed?
 	 */
-	public ButtonPanel(WelcomePanel welcomeDialog, InitialisationState state, Initialisation i) {
+	public ButtonPanel(WelcomePanel welcomeDialog, Translator.InitialisationCommand state, Initialisation i) {
 
 		this.welcomePanel = welcomeDialog;
 
 		this.initialisation = i;
 
+		//display options vertically
+		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS);
+		setLayout(boxLayout);
+
 		//display server or server+client buttons
-		if(state.equals(InitialisationState.SHOW_CLIENT_SERVER_OPTION)){
-			BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS); //display client server buttons vertically
-			setLayout(boxLayout);
+		if(state.equals(Translator.InitialisationCommand.SHOW_CLIENT_SERVER_OPTION)){
 			createServerClientButtons();
 		}
 
 		//display option to load a game or start a new game
-		else if(state.equals(InitialisationState.SHOW_LOAD_OR_NEW_OPTION)){
-			BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS); //display client server buttons vertically
-			setLayout(boxLayout);
+		else if(state.equals(Translator.InitialisationCommand.SHOW_LOAD_OR_NEW_OPTION)){
 			addLoadNewButtons();
 		}
 
-		else if(state.equals(InitialisationState.LOAD_PLAYER_OR_CREATE_NEW_PLAYER)){
-			BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS); //display client server buttons vertically
-			setLayout(boxLayout);
+		//display option to either load a player or create a new player
+		else if(state.equals(Translator.InitialisationCommand.LOAD_PLAYER_OR_CREATE_NEW_PLAYER)){
 			addLoadCreatePlayerButtons();
 		}
 	}
 
-	public ButtonPanel(MainGameState state, StrategyInterpreter buttonInterp) {
+	public ButtonPanel(Translator.Command state, StrategyInterpreter buttonInterp) {
 		this.buttonInterpreter = buttonInterp;
 
-		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS);	//display main game-play buttons horizontally
+		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS);
 		setLayout(boxLayout);
 
-		if(state.equals(MainGameState.DISPLAY_ITEM_OPTIONS)){
+		if(state.equals(Translator.Command.DISPLAY_ITEM_OPTIONS)){
 			displayItemOptions();
 		}
 	}
@@ -140,21 +138,21 @@ public class ButtonPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==drop){
 					try {
-						buttonInterpreter.notify(Translator.Command.DROP);
+						buttonInterpreter.notify(Translator.Command.DROP.toString());
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
 				}
 				else if(e.getSource()==use){
 					try {
-						buttonInterpreter.notify(Translator.Command.USE);
+						buttonInterpreter.notify(Translator.Command.USE.toString());
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
 				}
 				else if(e.getSource()==moveToBag){
 					try {
-						buttonInterpreter.notify(Translator.Command.MOVE_ITEM);
+						buttonInterpreter.notify(Translator.Command.MOVE_ITEM.toString());
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -167,12 +165,11 @@ public class ButtonPanel extends JPanel {
 		moveToBag.addActionListener(itemActionListener);
 		use.addActionListener(itemActionListener);
 
+		makeButtonsPretty(drop, moveToBag, use);
+
 		add(drop);
 		add(use);
 		add(moveToBag);
-
-
-
 	}
 
 	private void addLoadCreatePlayerButtons() {
@@ -182,31 +179,25 @@ public class ButtonPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==loadPlayer){
 					try {
-						initialisation.notify("loadPlayer");
+						initialisation.notify(Translator.InitialisationCommand.LOAD_SAVED_PLAYER.toString());
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					welcomePanel.transitionToNewState(InitialisationState.LOAD_SAVED_PLAYER);
 				}
 				else if(e.getSource()==createPlayer){	//conditional not strictly necessary, but added for completion
 					try {
-						initialisation.notify("createPlayer");
+						initialisation.notify(Translator.InitialisationCommand.CREATE_NEW_PLAYER.toString());
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					welcomePanel.transitionToNewState(InitialisationState.CREATE_NEW_PLAYER);
 				}
 			}
-
 		};
 
 		loadPlayer.addActionListener(loadcreate);
 		createPlayer.addActionListener(loadcreate);
 
-		makeButtonPretty(loadPlayer);
-		makeButtonPretty(createPlayer);
+		makeButtonsPretty(loadPlayer, createPlayer);
 
 		removeAllButtons();
 
@@ -214,7 +205,6 @@ public class ButtonPanel extends JPanel {
 		add(loadPlayer);
 		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical,0))); //pad between buttons
 		add(createPlayer);
-
 
 		setVisible(true);
 
@@ -230,21 +220,19 @@ public class ButtonPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==loadGame){
 					try {
-						initialisation.notify("load");
+						initialisation.notify(Translator.InitialisationCommand.LOAD_GAME.toString());
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					welcomePanel.transitionToNewState(InitialisationState.LOAD_GAME);
+
 				}
 				else if(e.getSource()==newGame){	//conditional not strictly necessary, but added for completion
 					try {
-						initialisation.notify("newGame");
+						initialisation.notify(Translator.InitialisationCommand.SELECTED_NEW_GAME.toString());
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					welcomePanel.transitionToNewState(InitialisationState.CHOOSE_SLIDER_OPTIONS);
+
 				}
 			}
 
@@ -255,8 +243,7 @@ public class ButtonPanel extends JPanel {
 
 		removeAllButtons();
 
-		makeButtonPretty(loadGame);
-		makeButtonPretty(newGame);
+		makeButtonsPretty(loadGame, newGame);
 
 		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical,0))); //pad between buttons
 		add(loadGame);
@@ -290,21 +277,19 @@ public class ButtonPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==client){
 					try {
-						initialisation.notify("client");
+						initialisation.notify(Translator.InitialisationCommand.SELECTED_CLIENT.toString());
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					welcomePanel.transitionToNewState(InitialisationState.CONNECT_TO_SERVER);	//now display the option for which server to connect to
+
 				}
 				else if(e.getSource()==serverclient){	//conditional not strictly necessary, but added for completion
 					try {
-						initialisation.notify("clientserver");
+						initialisation.notify(Translator.InitialisationCommand.SELECTED_CLIENT_AND_SERVER.toString());
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					welcomePanel.transitionToNewState(InitialisationState.SHOW_LOAD_OR_NEW_OPTION); //now display the options of loading a game, or starting a new one
+
 				}
 
 			}
@@ -314,8 +299,7 @@ public class ButtonPanel extends JPanel {
 		client.addActionListener(serverclientListener);
 		serverclient.addActionListener(serverclientListener);
 
-		makeButtonPretty(client);
-		makeButtonPretty(serverclient);
+		makeButtonsPretty(client, serverclient);
 
 		removeAllButtons();
 
@@ -341,7 +325,7 @@ public class ButtonPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e){
 				try {
-					buttonInterpreter.notify(Translator.Command.DISPLAY_INVENTORY);
+					buttonInterpreter.notify(Translator.Command.DISPLAY_INVENTORY.toString());
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -357,71 +341,52 @@ public class ButtonPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e){
 				JOptionPane.showMessageDialog(containerFrame,
-						"You have NO team",
-						"Sorry :(",
+						"Your team includes Ronald McDonald and Bottomley Potts",
+						"Team",
 						JOptionPane.WARNING_MESSAGE);
 			}
 		});
 
-
-		exchange = new JButton("Exchange");
-		exchange.setMnemonic(KeyEvent.VK_E);
-		exchange.setToolTipText("Exchange an item");
-		exchange.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e){
-				JOptionPane.showMessageDialog(containerFrame,
-						"You have NO items to display",
-						"Idiot!",
-						JOptionPane.WARNING_MESSAGE);
-			}
-		});
-
-		//makePretty(inventory, team, exchange);
-		makeButtonPretty(inventory);
-		makeButtonPretty(team);
-		makeButtonPretty(exchange);
+		makeButtonsPretty(inventory, team);
 
 		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingHorizontal,0))); //pad between buttons
 		add(inventory);
 		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingHorizontal,0))); //pad between buttons
 		add(team);
-		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingHorizontal,0))); //pad between buttons
-		add(exchange);
 
 		revalidate();
 
 	}
 
 	//used in WelcomePanel, hence 'package' visibility
-	static void makeButtonPretty(JButton b) {
+	static void makeButtonsPretty(JButton... buttons) {
 
-		//System.out.println(b);
-		javax.swing.border.Border line, raisedbevel, loweredbevel;
-		TitledBorder title;
-		javax.swing.border.Border empty;
-		line = BorderFactory.createLineBorder(Color.black);
-		raisedbevel = BorderFactory.createRaisedBevelBorder();
-		loweredbevel = BorderFactory.createLoweredBevelBorder();
-		title = BorderFactory.createTitledBorder("");
-		empty = BorderFactory.createEmptyBorder(1, 1, 1, 1);
-		final CompoundBorder compound, compound1, compound2;
-		Color crl = (new Color(202, 0, 0));
-		compound = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl));
-		Color crl1 = (Color.GREEN.darker());
-		compound1 = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl1));
-		Color crl2 = (Color.black);
-		compound2 = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl2));
-		b.setFont(new Font("Sans-Serif", Font.BOLD, 16));
-		b.setForeground(Color.darkGray);
-		b.setPreferredSize(new Dimension(50, 30));
+		for(JButton b: buttons){
+			javax.swing.border.Border line, raisedbevel, loweredbevel;
+			TitledBorder title;
+			javax.swing.border.Border empty;
+			line = BorderFactory.createLineBorder(Color.black);
+			raisedbevel = BorderFactory.createRaisedBevelBorder();
+			loweredbevel = BorderFactory.createLoweredBevelBorder();
+			title = BorderFactory.createTitledBorder("");
+			empty = BorderFactory.createEmptyBorder(1, 1, 1, 1);
+			final CompoundBorder compound, compound1, compound2;
+			Color crl = (new Color(202, 0, 0));
+			compound = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl));
+			Color crl1 = (Color.GREEN.darker());
+			compound1 = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl1));
+			Color crl2 = (Color.black);
+			compound2 = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl2));
+			b.setFont(new Font("Sans-Serif", Font.BOLD, 16));
+			b.setForeground(Color.darkGray);
+			b.setPreferredSize(new Dimension(50, 30));
 
-		b.setBorderPainted(true);
-		b.setFocusPainted(false);
-		b.setBorder(compound);
+			b.setBorderPainted(true);
+			b.setFocusPainted(false);
+			b.setBorder(compound);
 
-		b.revalidate();
+			b.revalidate();
+		}
 
 	}
 

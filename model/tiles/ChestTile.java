@@ -39,8 +39,13 @@ public class ChestTile implements Tile, Container{
 	}
 
 	@Override
+	public Item getItem(int containerSlot) {
+		return inventory[containerSlot];
+	}
+
+	@Override
 	public void move(Player player, Direction direction) {
-		Item[] items = inventory;
+		//Item[] items = inventory;
 	}
 
 	@Override
@@ -84,7 +89,7 @@ public class ChestTile implements Tile, Container{
 	}
 
 	@Override
-	public Item removeItem(int id) {
+	public Item removeItemId(int id) {
 		for(int i = 0; i<inventory.length; i++){
 			if(inventory[i].getId() == id){
 				Item item = inventory[i];
@@ -93,6 +98,12 @@ public class ChestTile implements Tile, Container{
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public void removeItemSlot(int containerSlot) {
+		inventory[containerSlot] = null;
+
 	}
 
 	public Item[] open(){

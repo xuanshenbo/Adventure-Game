@@ -28,7 +28,7 @@ public class ButtonStrategy implements StrategyInterpreter.Strategy{
 			String command = sc.next();
 
 			try {
-				interpreter.getClient().send(Translator.encode(command));
+				interpreter.getClient().send(Translator.encode(Translator.toCommand(command)));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -41,12 +41,6 @@ public class ButtonStrategy implements StrategyInterpreter.Strategy{
 	public void setInterpreter(StrategyInterpreter i) {
 		this.interpreter = i;
 
-	}
-
-	@Override
-	public void notify(Command cmd) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

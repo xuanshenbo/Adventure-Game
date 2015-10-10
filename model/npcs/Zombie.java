@@ -41,7 +41,14 @@ public class Zombie {
 	public char getid(){
 		return id;
 	}
-
+	
+	
+	/**
+	 * This method returns the position of the Zombie. It is called after the
+	 * Zombie has moved based on the strategy and then is used to draw the Zombie
+	 * into the view.
+	 * @return
+	 */
 	public Position getPosition() {
 		return position;
 	}

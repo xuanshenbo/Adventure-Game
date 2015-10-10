@@ -1,7 +1,8 @@
-package GUI;
+package view;
 
 import interpreter.DialogStrategy;
 import interpreter.StrategyInterpreter;
+import interpreter.Translator;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -9,6 +10,7 @@ import javax.swing.border.TitledBorder;
 import javax.xml.bind.JAXBException;
 
 import dataStorage.Serializer;
+import renderer.GameCanvas;
 import renderer.GameRenderer;
 import renderer.GuiForTest;
 import renderer.testRenderer;
@@ -26,9 +28,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import main.InitialisationState;
 import main.Main;
-import main.MainGameState;
 import model.items.Item;
 import model.items.Key;
 import model.logic.Game;
@@ -38,7 +38,6 @@ import model.state.Area;
 import model.state.GameState;
 import model.state.Player;
 import model.state.Position;
-
 import static utilities.PrintTool.p;
 
 /**
@@ -51,26 +50,37 @@ public class GameFrame extends JFrame{
 	private int frameWidth = 800;
 	private int frameHeight = 800;
 
-	public static final Color col1 = Color.GRAY;
+	private int gamePanelWidth = 800;
+	private int gamePanelHeight = 600;
+
+	private int bar_left = 20;
+	private int bar_top = 100;
+	private int bar_width = 100;
+	private int bar_height = 20;
+
+	private int lifelineValue = 50;
+
+	//These constants define the main colour scheme and are used throughout all the panels which form the GameFrame
+	public static final Color col1 = Color.CYAN.darker();
 	public static final Color col2 = Color.PINK;
 
 	private Dialog ContainerDialog;
 
 	private ArrayList<Avatar> avatars;
 
-	//private Game game; //TODO initalise this WHERE?
+	private String ip = "192...", time = "0100";
 
 	private Dimension mapSize = new Dimension(750, 400);
 
 	private Dimension gamePanelSize = new Dimension(800, 600);
 
-	public static final int buttonPaddingHorizontal = 50;	//public as needs to be accessed from ButtonPanel
+	//public as needs to be accessed from ButtonPanel
+	public static final int buttonPaddingHorizontal = 50;
 	public static final int buttonPaddingVertical = 50;
 
-	public void setContainer(){
 
-	}
-	private PlayerInfo player = new PlayerInfo("Donald Duck", Avatar.DONALD_DUCK);
+	//for testing
+	private PlayerInfo player = new PlayerInfo(Avatar.MUFFIN_MACLAY);
 
 	/*
 	 * TODO Initialise these interpreters here rather than in Main method?
@@ -88,13 +98,15 @@ public class GameFrame extends JFrame{
 
 	private testRenderer data;
 
-	private TopPanel topPanel;
+	private PlayerProfilePanel playerProfilePanel;
 
 	private JPanel midPanel;
 
+	private JLayeredPane middleLayeredPane;
+
 	private JPanel botPanel;
 
-	private GameRenderer renderer;
+	private GameCanvas canvas;
 
 	/**
 	 * First a WelcomeDialog is displayed and then
@@ -103,12 +115,12 @@ public class GameFrame extends JFrame{
 	 */
 	public GameFrame(String title) {
 		super(title);
-		//game = g;
-		/*try {
-		    UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
+
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
-		    e.printStackTrace();
-		}*/
+			e.printStackTrace();
+		}
 
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
 
@@ -129,7 +141,6 @@ public class GameFrame extends JFrame{
 						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
 				if (PromptResult == JOptionPane.YES_OPTION) {
 					Main.closeServer();
-					System.exit(0);
 				}
 			}
 		});
@@ -137,9 +148,15 @@ public class GameFrame extends JFrame{
 		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		manager.addKeyEventDispatcher(new MyDispatcher());
 
+
+
 		//makePretty(topPanel.getPanels(), midPanel, botPanel);
 
 
+
+	}
+
+	public void setContainer(){
 
 	}
 
@@ -148,11 +165,9 @@ public class GameFrame extends JFrame{
 
 		addMenuBar();
 
-		setupMiddlePanel();//need it set up so can use its width in Top Panel class
-
 		addTopPanel();
 
-		add(midPanel);	//as it has already been set up
+		addMiddlePanel();
 
 		addBottomPanel();
 
@@ -162,51 +177,84 @@ public class GameFrame extends JFrame{
 
 	}
 
-	private void addTopPanel() {
-		topPanel = new TopPanel(this);
-		add(topPanel);
+	private void addMiddlePanel() {
+		middleLayeredPane = new JLayeredPane();
+
+		canvas = new GameCanvas(gamePanelWidth, gamePanelHeight);
+
+		midPanel = new JPanel();
+
+		midPanel.add(canvas);
+
+		midPanel.setBounds(0, 0, gamePanelWidth, gamePanelHeight);
+
+		middleLayeredPane.add(midPanel, new Integer(0), 0);
+
+		JPanel happinessPanel = null;
+		happinessPanel = new JPanel(new BorderLayout());
+		JLabel hapLevel = new JLabel("Happiness Level");
+		JLabel ipAddress = new JLabel(ip);
+		JLabel timeLabel = new JLabel("The time is: "+time);
+
+		JLabel hapBar = new JLabel(){
+			@Override
+			public void paintComponent(Graphics g){
+				//draw the happiness level title
+				g.setColor(col2);
+				g.drawString("Happiness Level", bar_left, bar_top - 20);
+
+				//draw the bar in white
+				g.setColor(Color.WHITE);
+				g.fillRect(bar_left, bar_top, lifelineValue, bar_height);
+
+				//draw a pink outline around the bar
+				g.setColor(col2);
+				g.drawRect(bar_left, bar_top, bar_width, bar_height);
+
+				//draw the time info
+				g.setColor(col2);
+				g.drawString("The time is: "+time, bar_left, bar_top + 40);
+
+				//draw the player's ip address
+				g.setColor(col2);
+				g.drawString(ip+"", bar_left, bar_top + 60);
+
+			}
+
+		};
+
+		happinessPanel.add(hapBar, BorderLayout.CENTER);
+
+		//want to see the map behind panel, so make panel not opaque
+		happinessPanel.setOpaque(false);
+
+
+		Dimension hapPanelSize = new Dimension (500, 500);
+
+		happinessPanel.setBounds(20, -40, hapPanelSize.width, hapPanelSize.height);
+
+
+		middleLayeredPane.add(happinessPanel, new Integer(1), 0);
+
+		middleLayeredPane.setPreferredSize(new Dimension(gamePanelWidth, gamePanelHeight));
+
+		middleLayeredPane.revalidate();
+
+		add(middleLayeredPane);
+
 	}
 
-	/*
-	 * Sets up the Middle Panel, ready for displaying. But doesn't add it to the Frame yet.
-	 */
-	private void setupMiddlePanel() {
-
-		midPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-
-		//generate a Game for testing
-		//this.game = generateGame(20, 2, 1, 5, 20, 20, 4, 1);
-		/*
-		char[][] view = game.getGameView(1).get(0);
-		char[][] objects = game.getGameView(1).get(1);
-		 */
-		char[][] view = new char[15][15];
-		char[][] objects = new char[15][15];
-		renderer = new GameRenderer(800, 600, view, objects);
-
-		Image renderWindow = renderer.getImage(); //need to set the size??
-		JLabel renderLabel = new JLabel(new ImageIcon(renderWindow));
-		midPanel.add(renderLabel);
-
-		midPanel.setBackground(col1);
-
-		//data = new testRenderer(20, 0, 0, 15, 20, 20, 4, 0);
-
+	private void addTopPanel() {
+		playerProfilePanel = new PlayerProfilePanel(this);
+		add(playerProfilePanel);
 	}
 
 	private void addBottomPanel() {
-		//new JPanel(new BoxLayout(botPanel, BoxLayout.LINE_AXIS));
-		botPanel = new ButtonPanel(this, this.buttonInterpreter, MainGameState.MAIN);
+		botPanel = new ButtonPanel(this, this.buttonInterpreter, Translator.MainGameState.MAIN);
 
 		botPanel.setVisible(true);
 
-		//botPanel.add(buttons);
-
-		botPanel.setBackground(col2);
-
 		add(botPanel);
-
-		botPanel.revalidate();	//will this change button size?
 
 	}
 
@@ -232,64 +280,46 @@ public class GameFrame extends JFrame{
 		public boolean dispatchKeyEvent(KeyEvent e){
 
 			if (e.getID() == KeyEvent.KEY_PRESSED) {
-				//char[][] map;
-				//char[][] items;
 
 				switch( e.getKeyCode()) {
 				case KeyEvent.VK_UP:
 					try {
-						keyInterpreter.notify("up");
+						keyInterpreter.notify(Translator.Command.MOVE_NORTH.toString());
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
-					} //implement for all key presses
-
-					//midPanel.repaint();
+					}
 
 					break;
 				case KeyEvent.VK_DOWN:
 					try {
-						keyInterpreter.notify("down");
+						keyInterpreter.notify(Translator.Command.MOVE_SOUTH.toString());
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					//midPanel.repaint();
 
 					break;
 				case KeyEvent.VK_LEFT:
 					try {
-						keyInterpreter.notify("left");
+						keyInterpreter.notify(Translator.Command.MOVE_WEST.toString());
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-
-					//TODO refactor this using interpreter
-
-					//midPanel.repaint();
 
 					break;
 				case KeyEvent.VK_RIGHT :
 					try {
-						keyInterpreter.notify("right");
+						keyInterpreter.notify(Translator.Command.MOVE_EAST.toString());
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-
-					//midPanel.repaint();
 
 					break;
 				case KeyEvent.VK_P:
 					try {
-						keyInterpreter.notify("pickUp");
+						keyInterpreter.notify(Translator.Command.PICK_UP.toString());
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-
-					//midPanel.repaint();
 
 					break;
 
@@ -304,16 +334,16 @@ public class GameFrame extends JFrame{
 	}
 
 	public void updateRenderer(char type, char[][] map, char[][] items){
-		renderer.update(type, map, items);
+		canvas.getRenderer().update(type, map, items);
 	}
 
-	private void showDialog(String string) {
+	/*	private void showDialog(String string) {
 		int PromptResult = JOptionPane.showConfirmDialog(this, "You pressed: "+string);
 
 		while(PromptResult==JOptionPane.NO_OPTION){
 			PromptResult = JOptionPane.showConfirmDialog(this, "Yes you did!");
 		}
-	}
+	}*/
 
 	/**
 	 * Get contents of this player's inventory from Game, via network
@@ -321,14 +351,14 @@ public class GameFrame extends JFrame{
 	 */
 	public ArrayList<String> getInventoryContents() {
 		ArrayList<String> inventory = new ArrayList<String>();
-			if(inventoryContents != null) {
-				return inventoryContents;
-			}
-			else{
-				inventory.add("key");
-				inventory.add("cupcake");
-				return inventory;
-			}
+		if(inventoryContents != null) {
+			return inventoryContents;
+		}
+		else{
+			inventory.add("key");
+			inventory.add("cupcake");
+			return inventory;
+		}
 	}
 
 	/**
@@ -337,22 +367,22 @@ public class GameFrame extends JFrame{
 	 */
 	public ArrayList<String> getContainerContents() {
 		ArrayList<String> container = new ArrayList<String>();
-			if(containerContents != null) {
-				return containerContents;
-			}
-			else{
-				container.add("key");
-				container.add("cupcake");
-				return container;
-			}
+		if(containerContents != null) {
+			return containerContents;
+		}
+		else{
+			container.add("key");
+			container.add("cupcake");
+			return container;
+		}
 	}
 
-/*******************************************************************************************************
- * TODO Server needs to do the following:
- * 1) set Inventory/Container Contents
- * 2) add Inventory/Container Dialog
- *
- *******************************************************************************************************/
+	/*******************************************************************************************************
+	 * TODO Server needs to do the following:
+	 * 1) set Inventory/Container Contents
+	 * 2) add Inventory/Container Dialog
+	 *
+	 *******************************************************************************************************/
 
 	/**
 	 * Set the inventory contents.
@@ -372,7 +402,7 @@ public class GameFrame extends JFrame{
 
 	private void addContainerDialog() {
 		Dialog inventory = new Dialog(this, "Display Container", "This container contains:",
-				MainGameState.DISPLAY_CONTAINER, this.dialogInterpreter);
+				Translator.Command.DISPLAY_CONTAINER, this.dialogInterpreter);
 
 	}
 
@@ -381,34 +411,71 @@ public class GameFrame extends JFrame{
 	 */
 	public void addInventoryDialog() {
 		Dialog inventory = new Dialog(this, "Display Inventory", "Your inventory contains:",
-				MainGameState.DISPLAY_INVENTORY, this.dialogInterpreter);
+				Translator.Command.DISPLAY_INVENTORY, this.dialogInterpreter);
 	}
 
+	/**
+	 *
+	 * @return The Key-Action-Event Interpreter
+	 */
 	public StrategyInterpreter getKeyInterpreter() {
 		return keyInterpreter;
 	}
 
+	/**
+	 *
+	 * @return The Dialog-Action-Event Interpreter.
+	 */
 	public StrategyInterpreter getDialogInterpreter() {
 		return dialogInterpreter;
 	}
 
+	/**
+	 * Assigns the argument to the KeyInterpreter field
+	 * @param keyInterpreter The Key-Action-Event Interpreter
+	 */
 	public void setKeyInterpreter(StrategyInterpreter keyInterpreter) {
 		this.keyInterpreter = keyInterpreter;
 	}
+
+	/**
+	 * Assigns the argument to the ButtonInterpreter field
+	 * @param b The Button-Action-Event Interpreter
+	 */
 	public void setButtonInterpreter(StrategyInterpreter b) {
 		this.buttonInterpreter = b;
 	}
 
+	/**
+	 * Assigns the argument to the MenuInterpreter field
+	 * @param m The Menu-Action-Event Interpreter
+	 */
 	public void setMenuInterpreter(StrategyInterpreter m) {
 		this.menuInterpreter = m;
 	}
 
+	/**
+	 * Assigns the argument to the DialogInterpreter field
+	 * @param d The Dialog-Action-Event Interpreter
+	 */
 	public void setDialogInterpreter(StrategyInterpreter d) {
 		this.dialogInterpreter = d;
 	}
 
+	/**
+	 * Returns a PlayerInfo object which contains information about this player
+	 * @return PlayerInfo object which contains information about this player
+	 */
 	public PlayerInfo getPlayer() {
 		return player;
+	}
+
+	/**
+	 * Assigns the argument to the Player field
+	 * @param p The PlayerInfo object which contains information about this player
+	 */
+	public void setPlayer(PlayerInfo p){
+		this.player = p;
 	}
 
 	public int getMapWidth() {
@@ -432,10 +499,10 @@ public class GameFrame extends JFrame{
 		//if the game hasn't yet sent the available avatars
 		if(avatars == null){
 
-		ArrayList<Avatar> avatarsTest= new ArrayList<Avatar>();
-		avatarsTest.add(Avatar.DONALD_DUCK);	//for testing purposes
+			ArrayList<Avatar> avatarsTest= new ArrayList<Avatar>();
+			avatarsTest.add(Avatar.DONALD_DUCK);	//for testing purposes
 
-		return avatarsTest;
+			return avatarsTest;
 
 		}
 		else{
@@ -498,8 +565,24 @@ public class GameFrame extends JFrame{
 	 * a getter for the MidPanel
 	 * @return
 	 */
-	public JPanel getMidPanel() {
-		return midPanel;
+	public GameCanvas getCanvas() {
+		return canvas;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public String getIP() {
+		return ip;
+	}
+
+	public void setTime(String t) {
+		time = t;
+	}
+
+	public void setIP(String ipAddress) {
+		ip = ipAddress;
 	}
 
 }

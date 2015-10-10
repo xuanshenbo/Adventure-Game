@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import view.GameFrame;
 import model.logic.Game;
 import control.Client;
 import control.ClockThread;
@@ -18,7 +19,6 @@ import interpreter.MenuStrategy;
 import interpreter.InitialStrategy;
 import interpreter.RadioStrategy;
 import interpreter.StrategyInterpreter;
-import GUI.GameFrame;
 
 /**
  * The following is the main class for the whole game.
@@ -35,6 +35,7 @@ public class Main {
 
 	private static boolean devMode = false;
 	//private static boolean initialised;
+	private static String ipAddress;
 
 	/**
 	 * Displays welcome dialog and set up interpreters, before displaying the main GameFrame
@@ -43,7 +44,7 @@ public class Main {
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
-		String ObjButtons[] = {"Yes", "No"};
+	/*	String ObjButtons[] = {"Yes", "No"};
 		int PromptResult = JOptionPane.showOptionDialog(null, "Do you want to enter Dev mode??", "DON'T DO IT!!!!!!!",
 				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
 
@@ -55,7 +56,10 @@ public class Main {
 			initial = new Initialisation();
 			initial.setGame(game);
 		}
+*/
 
+		initial = new Initialisation();
+		initial.setGame(game);
 
 	}
 
@@ -107,23 +111,20 @@ public class Main {
 		}
 
 		/*
-		 * Initialise here so as to pass the interpreter to the Strategy constructors
+		 * Initialise StrategyInterpreters here so as to pass the interpreter to the Strategy constructors
 		 */
 		StrategyInterpreter keyInterpreter = null;
 		StrategyInterpreter buttonInterpreter = null;
 		StrategyInterpreter menuInterpreter = null;
 		StrategyInterpreter radioInterpreter = null;
 
-
-		//frame.dispose();	//get rid of welcome frame
-
 		frame = new GameFrame("Adventure Game");
+
 		//create the Strategy Interpreters with different Strategies as appropriate
 		keyInterpreter = new StrategyInterpreter(frame, new KeyStrategy(keyInterpreter),client);
 		buttonInterpreter = new StrategyInterpreter(frame, new ButtonStrategy(buttonInterpreter),client);
 		menuInterpreter = new StrategyInterpreter(frame, new MenuStrategy(menuInterpreter),client);
 		radioInterpreter = new StrategyInterpreter(frame, new RadioStrategy(radioInterpreter), client);
-
 
 		//add the Strategy Interpreters to the GameFrame
 		frame.setKeyInterpreter(keyInterpreter);
@@ -131,14 +132,15 @@ public class Main {
 		frame.setMenuInterpreter(menuInterpreter);
 		frame.setRadioInterpreter(radioInterpreter);
 
-		System.out.println("Menu interp assigned");
+		//set the ip address of the client for display
+		frame.setIP(ipAddress);
 
 		frame.setUpLayoutAndDisplay();
 
 		client.setGui(frame);
 		client.getParser().setFrame(frame);
 		client.send("F");
-		ClockThread clock = new ClockThread(150,frame);
+		ClockThread clock = new ClockThread(20,frame.getCanvas());
 		clock.start();
 
 	}
@@ -164,6 +166,11 @@ public class Main {
 		if(server != null){
 			server.closeServer();
 		}
+		System.exit(0);
+	}
+
+	public static void setIP(String ip) {
+		ipAddress = ip;
 	}
 
 	/* A getter for the client

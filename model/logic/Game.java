@@ -41,10 +41,6 @@ public class Game {
 		UP, DOWN, LEFT, RIGHT;
 	}
 
-	public Game(GameState state) {
-		this.gameState = state;
-	}
-
 	/**
 	 * Creates a new game. Creates a new World for the players and places the
 	 * players in the world. Also starts a clock thread that will keep the
@@ -61,14 +57,7 @@ public class Game {
 		int height = parameters.getHeight();
 		int width = parameters.getWidth();
 		Generator g = new Generator(parameters);
-//		height = 200;
-//		width = 200;
-		String difficulty = "easy";
-//		int density = 100;
-//		maxZombies = getMaxZombies(height*width, difficulty);
-
 		Area area = new Area(height, width, AreaType.OUTSIDE, null);
-//		Generator g = new Generator(difficulty, density, height, width);
 		area.generateWorld(g);
 		ArrayList<Player> playerList = placePlayers(parameters.getPlayerCount(), height, width, area);
 		this.gameState = new GameState(area, playerList);
@@ -78,6 +67,46 @@ public class Game {
 		}
 	}
 
+	/**
+	 * An alternative constructor that just creates a gameState to be checked,
+	 * this is used only for testing.
+	 * @param state
+	 */
+	public Game(GameState state) {
+		this.gameState = state;
+	}
+
+	/**
+	 * An alternative constructor that creates the game based on the size of the world, the
+	 * density of the objects(trees, caves, buildings) in the world and a difficulty
+	 * @param server: the server to connect with
+	 * @param height: the height of the world
+	 * @param width: the width of the world
+	 * @param difficulty: the difficulty("easy", "medium", "hard")
+	 * @param density: the density of the objects in the world.
+	 */
+
+	public Game(Server server, int height, int width, String difficulty, int density){
+		this.server = server;
+		this.clock = new Clock(2000, this);
+		Area area = new Area(height, width, AreaType.OUTSIDE, null);
+		maxZombies = getMaxZombies(height*width, difficulty);
+		Generator g = new Generator(difficulty, density, height, width);
+		area.generateWorld(g);
+		ArrayList<Player> playerList = placePlayers(4, height, width, area);
+		this.gameState = new GameState(area, playerList);
+		parser = new ServerParser(this, server, false);
+		clock.start();
+	}
+
+
+	/**
+	 * Sets the maximum Zombies allowed in the world at one time, this is based on the
+	 * difficulty that has been set when creating the game
+	 * @param totalTiles: total tiles of the world
+	 * @param difficulty: the difficulty setting
+	 * @return: how many Zombies there will be in the world at one time
+	 */
 	private int getMaxZombies(int totalTiles, String difficulty) {
 		int maxZombies = 0;
 
@@ -200,13 +229,7 @@ public class Game {
 			Container container = (Container) toTile;
 			player.setOpenContainer(container);
 			Item[] items = container.open();
-			char[] itemArray = new char[items.length];
-			for (int i = 0; i < items.length; i++) {
-				if(items[i] != null){
-					itemArray[i] = items[i].getType();
-				}
-			}
-			parser.sendInventory(player, itemArray);
+			parser.sendInventory(player, items);
 		}
 	}
 
@@ -260,6 +283,9 @@ public class Game {
 		Item[] inventory = player.use(inventorySlot);
 		parser.sendToServer(player, 'I');
 		parser.sendToServer(player, 'H');
+		if(inventory != null){
+			parser.sendInventory(player, inventory);
+		}
 	}
 
 	/**
@@ -295,6 +321,46 @@ public class Game {
 		parser.sendToServer(player, 'M');
 
 	}
+
+	/**
+	 * This method is called when a player moves an item from their inventory to the open container
+	 * or from the open Container to their inventory.
+	 * @param player
+	 * @param inventorySlot: the slot of the item in the players inventory
+	 * @param containerSlot: the slot of the item in the open container.
+	 */
+
+	public void moveInventory(Player player, int inventorySlot, int containerSlot) {
+		Item inventoryItem = player.getItemFromInventory(inventorySlot);
+		Container container = player.getOpenContainer();
+		Item containerItem = container.getItem(containerSlot);
+		//no items in either slot, do nothing
+		if(inventoryItem == null && containerItem == null){
+		}
+		//inventorySlot has an item and containerSlot does not, move item from inventory to
+		//container
+		else if(inventoryItem != null && containerItem == null){
+			player.removeItem(inventorySlot);
+			container.addItem(inventoryItem);
+		}
+		//ContainerSlot has an item and InventorySlot does not, move item from container to
+		//inventory
+		else if(containerItem != null && inventoryItem == null){
+			player.addItemToInventory(containerItem);
+			container.removeItemSlot(containerSlot);
+		}
+		//Else both InventorySlot and ContainerSlot are both full and we swap the items
+		else{
+			player.removeItem(inventorySlot);
+			container.addItem(inventoryItem);
+			player.addItemToInventory(containerItem);
+			container.removeItemSlot(containerSlot);
+		}
+
+
+	}
+
+
 	/**
 	 * Called when a player selects an item.
 	 * @param player

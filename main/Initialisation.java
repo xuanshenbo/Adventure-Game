@@ -5,6 +5,7 @@ import interpreter.InitialStrategy;
 import interpreter.KeyStrategy;
 import interpreter.MenuStrategy;
 import interpreter.StrategyInterpreter;
+import interpreter.Translator;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,11 +18,11 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import view.Avatar;
+import view.GameFrame;
+import view.WelcomePanel;
 import model.logic.Game;
 import control.Client;
-import GUI.Avatar;
-import GUI.GameFrame;
-import GUI.WelcomePanel;
 
 /**
  * The following initialises a game. It asks user to choose from creating a client or a server together with a client.
@@ -36,7 +37,11 @@ public class Initialisation extends StrategyInterpreter{
 	public final static int maxTrees = 100;
 	public final static int maxBuildings = 20;
 
-	private InitialStrategy initStrategy = new InitialStrategy();
+	private InitialStrategy initStrategy;
+
+	private ArrayList<Avatar> avatars;
+
+	private WelcomePanel welcome;
 
 	/**
 	 * Create an Initialisation object using the StrategyInterpreter super constructor
@@ -44,9 +49,16 @@ public class Initialisation extends StrategyInterpreter{
 	 * @author flanagdonn
 	 */
 	public Initialisation(){
-		super(null, new InitialStrategy(), null);
+		super(null, null, null);
+
+		initStrategy =  new InitialStrategy(this);
+
+		initStrategy.setInterpreter(this);
+
+		setStrategy(initStrategy);
+
 		frame = new JFrame("Welcome to Adventure Game");
-		WelcomePanel welcome = new WelcomePanel(this);
+		welcome = new WelcomePanel(this);
 		frame.add(welcome);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
@@ -62,12 +74,14 @@ public class Initialisation extends StrategyInterpreter{
 				int PromptResult = JOptionPane.showOptionDialog(null, "Are you sure you want to exit?", "Happiness Game",
 						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
 				if (PromptResult == JOptionPane.YES_OPTION) {
-					closeServer();
-					System.exit(0);
+					try {
+						initStrategy.notify(Translator.Command.EXIT.toString());
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		});
-
 
 		frame.pack();
 		frame.setLocationRelativeTo(null);
@@ -78,12 +92,26 @@ public class Initialisation extends StrategyInterpreter{
 
 
 	public ArrayList<Avatar> getAvailableAvatars() {
-		ArrayList<Avatar> avatars= new ArrayList<Avatar>();
-		// ask Model for the available Avatars to display as options to the user
+		ArrayList<Avatar> avatarOptions = this.avatars;
 
-		avatars.add(Avatar.DONALD_DUCK);	//for testing purposes
+		if(avatarOptions == null){
+			avatarOptions = new ArrayList<Avatar>();
+			//for testing purposes
+			avatarOptions.add(Avatar.DONALD_DUCK);
+			avatarOptions.add(Avatar.MICKEY_MOUSE);
+			avatarOptions.add(Avatar.MUFFIN_MACLAY);
+			avatarOptions.add(Avatar.HAIRY_MACLARY);
+		}
 
-		return avatars;
+		return avatarOptions;
+	}
+
+	/**
+	 * Used to set the available avatar options
+	 * @param avatars The available avatars for selection
+	 */
+	public void setAvatars(ArrayList<Avatar> avatars){
+		this.avatars = avatars;
 	}
 
 	/**
@@ -105,6 +133,10 @@ public class Initialisation extends StrategyInterpreter{
 		}
 	}
 
+	public WelcomePanel getWelcomePanel(){
+		return welcome;
+	}
+
 
 
 
@@ -112,4 +144,5 @@ public class Initialisation extends StrategyInterpreter{
 		Main.closeServer();
 
 	}
+
 }

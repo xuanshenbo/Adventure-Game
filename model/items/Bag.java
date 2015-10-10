@@ -12,9 +12,9 @@ public class Bag extends Item implements Container {
 		super('b');
 		fillBag();
 	}
-	
+
 	public void fillBag(){
-		for(int i = 0; i < inventory.length; i++){	
+		for(int i = 0; i < inventory.length; i++){
 			inventory[i] = Generator.randomItem();
 		}
 	}
@@ -22,6 +22,11 @@ public class Bag extends Item implements Container {
 	@Override
 	public Item[] use(Player player) {
 		return inventory;
+	}
+
+	@Override
+	public Item getItem(int containerSlot) {
+		return inventory[containerSlot];
 	}
 
 	@Override
@@ -39,7 +44,7 @@ public class Bag extends Item implements Container {
 	}
 
 	@Override
-	public Item removeItem(int id) {
+	public Item removeItemId(int id) {
 		for(int i = 0; i<inventory.length; i++){
 			if(inventory[i].getId() == id){
 				Item item = inventory[i];
@@ -51,7 +56,15 @@ public class Bag extends Item implements Container {
 	}
 
 	@Override
+	public void removeItemSlot(int containerSlot) {
+		inventory[containerSlot] = null;
+
+	}
+
+	@Override
 	public Item[] open() {
 		return inventory;
 	}
+
+
 }

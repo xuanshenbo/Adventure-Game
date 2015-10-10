@@ -1,11 +1,10 @@
 package renderer;
 
-import GUI.ImageLoader;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import view.ImageLoader;
 import model.state.Player;
 import static utilities.PrintTool.p;
 
@@ -29,6 +28,7 @@ public class Images {
     private Image doorImage;
     private Image keyImage;
     private Image caveImage;
+    private Image shadow;
 
 
     private ArrayList<Image> avatarImages;
@@ -48,10 +48,11 @@ public class Images {
         //load environment images
         this.worldGroundImage = loadImage("worldground.png", imageScale, imageScale*1.05f);
         this.caveGroundImage = loadImage("caveground.png", imageScale, imageScale*1.05f);
-        this.treeImage = loadImage("tree.png", imageScale, imageScale);
-        this.buildingImage = loadImage("building.png", imageScale, imageScale);
+        this.treeImage = loadImage("tree.png", imageScale*2, imageScale*2);
+        this.buildingImage = loadImage("building.png", imageScale*5, imageScale*5);
         this.doorImage = loadImage("door.png", imageScale, imageScale);
         this.caveImage = loadImage("cave2.png", imageScale*2, imageScale*2);
+        this.shadow = loadImage("shadow.png", imageScale, imageScale);
 
         //load items images
         this.chestImage = loadImage("chest.png", imageScale, imageScale);
@@ -112,5 +113,8 @@ public class Images {
     }
 
     public Image caveGround() { return caveGroundImage;
+    }
+
+    public Image shadow() { return shadow;
     }
 }

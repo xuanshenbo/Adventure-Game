@@ -24,12 +24,6 @@ public class RadioStrategy implements StrategyInterpreter.Strategy {
 
 	}
 
-	@Override
-	public void notify(Command cmd) {
-		// TODO Auto-generated method stub
-
-	}
-
 
 
 }

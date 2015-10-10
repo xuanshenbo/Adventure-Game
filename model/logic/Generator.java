@@ -41,6 +41,16 @@ public class Generator {
 	private int chests;
 	private int lootValue;
 	private String difficulty = "easy";
+	
+	
+	/**
+	 * Generator that creates the random world based on the values that are passed in
+	 * @param trees: the amount of tiles per tree
+	 * @param buildings: the amount of buildings in the world
+	 * @param caves: the amount of caves in the world
+	 * @param chests: the amount of chests in the world
+	 * @param lootValue: a percentage of loot in the world per tile.
+	 */
 
 	public Generator(int trees, int buildings, int caves, int chests, int lootValue){
 		this.trees = trees;

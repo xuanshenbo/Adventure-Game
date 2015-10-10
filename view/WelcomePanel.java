@@ -1,4 +1,6 @@
-package GUI;
+package view;
+
+import interpreter.Translator;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,6 +19,8 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.Box;
@@ -38,7 +42,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import main.Initialisation;
-import main.InitialisationState;
 import main.Main;
 
 /**
@@ -71,7 +74,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	private JPanel sliderPanel;
 
 	//the state decides what to display
-	private InitialisationState state;
+	private Translator.InitialisationCommand state;
 
 	private String instructions = "If you wish to start a new game, please click OK, to choose an Avatar!";
 
@@ -80,6 +83,9 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 	//0, 1 or 2 for easy, medium or hard
 	private int difficultyLevel = 1;
+
+	//width and height of game
+	private int gameWidth = 50, gameHeight = 50;
 
 	private Dimension sliderPaddingVertical= new Dimension(0, 20);
 
@@ -94,16 +100,11 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 		this.initialisation = i;
 
-		this.state = InitialisationState.SHOW_CLIENT_SERVER_OPTION;
+		this.state = Translator.InitialisationCommand.SHOW_CLIENT_SERVER_OPTION;
 
 		setLayout(new BorderLayout());
 
 		this.parentFrame = i.getFrame();
-
-		//		GridBagConstraints gc=new GridBagConstraints();
-		//		gc.fill=GridBagConstraints.HORIZONTAL;
-		//		gc.gridx = 0;
-		//		gc.gridy = 0;
 
 		//The message is put in a panel, in case new messages will be added later
 		JPanel messagePane = new JPanel();
@@ -116,27 +117,13 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 		messagePane.add(welcomeMessage);
 
-		//add(messagePane, BorderLayout.PAGE_START);
 		add(messagePane, BorderLayout.PAGE_START);
 
 		addWelcomeImage();
 
-		//		sliderPanelConstraints = new GridBagConstraints();
-		//		sliderPanelConstraints.gridx = 0;
-		//		sliderPanelConstraints.gridx = 10;
-		//		sliderPanelConstraints.gridheight = 50;
-		//
-		//
-		//		buttonPanelConstraints=new GridBagConstraints();
-		//		buttonPanelConstraints.gridx = 0;
-		//		buttonPanelConstraints.gridy = 10;
-		//		buttonPanelConstraints.gridwidth = 200;
-		//		buttonPanelConstraints.gridheight = 50;
-
-		// button panel needs to store "this" to call the display next methods, and send it Initialisation too? Or Initialisation
-		// has access to buttonInterpreter?
 		bPanel = new ButtonPanel(this, state, initialisation);
 		add(bPanel, BorderLayout.SOUTH);
+
 
 		//display the welcome panel
 		setVisible(true);
@@ -147,11 +134,6 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	 */
 
 	private void addWelcomeImage() {
-		//		GridBagConstraints gc=new GridBagConstraints();
-		//		gc.fill=GridBagConstraints.HORIZONTAL;
-		//		gc.gridx = 0;
-		//		gc.gridy = 3;
-		//		gc.gridwidth = 5;
 
 		welcomeImage = ImageLoader.loadImage("cupcake.png");
 		welcomeImage = welcomeImage.getScaledInstance(imageSize.width, imageSize.height, -1);
@@ -163,34 +145,36 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 	}
 
-	public void transitionToNewState(InitialisationState state){
+	public void transitionToNewState(Translator.InitialisationCommand state){
 		bPanel.setVisible(false);
-		if(state.equals(InitialisationState.SHOW_LOAD_OR_NEW_OPTION)){
+		if(state.equals(Translator.InitialisationCommand.SHOW_LOAD_OR_NEW_OPTION)){
 			displayLoadNew();
 		}
-		else if(state.equals(InitialisationState.CONNECT_TO_SERVER)){
+		else if(state.equals(Translator.InitialisationCommand.CONNECT_TO_SERVER)){
 			displayConnect();
 		}
-		else if(state.equals(InitialisationState.LOAD_PLAYER_OR_CREATE_NEW_PLAYER)){
+		else if(state.equals(Translator.InitialisationCommand.LOAD_PLAYER_OR_CREATE_NEW_PLAYER)){
 			displayLoadCreatePlayerOptions();
 		}
-		else if(state.equals(InitialisationState.LOAD_GAME)){
-			loadSavedGame();
+		else if(state.equals(Translator.InitialisationCommand.LOAD_GAME)){
+			if (!loadSavedGame()){	//if they cancelled the load option
+				transitionToNewState(Translator.InitialisationCommand.SHOW_LOAD_OR_NEW_OPTION);
+			}
 		}
-		else if(state.equals(InitialisationState.CHOOSE_SLIDER_OPTIONS)){
+		else if(state.equals(Translator.InitialisationCommand.CHOOSE_SLIDER_OPTIONS)){
 			displaySliderOptions();
 		}
-		else if(state.equals(InitialisationState.LOAD_SAVED_PLAYER)){
+		else if(state.equals(Translator.InitialisationCommand.LOAD_SAVED_PLAYER)){
 			displayAvatarOptions(true);
 
 		}
-		else if(state.equals(InitialisationState.CREATE_NEW_PLAYER)){
+		else if(state.equals(Translator.InitialisationCommand.CREATE_NEW_PLAYER)){
 			displayAvatarOptions(false);
 
 		}
-		else if(state.equals(InitialisationState.START_GAME)){
+		else if(state.equals(Translator.InitialisationCommand.START_GAME)){
 			try {
-				initialisation.notify("start");
+				initialisation.notify(Translator.InitialisationCommand.START_GAME.toString());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -203,19 +187,23 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 	private void displayLoadCreatePlayerOptions() {
 		remove(bPanel);
-		bPanel = new ButtonPanel(this, InitialisationState.LOAD_PLAYER_OR_CREATE_NEW_PLAYER, initialisation);
+		bPanel = new ButtonPanel(this, Translator.InitialisationCommand.LOAD_PLAYER_OR_CREATE_NEW_PLAYER, initialisation);
 		add(bPanel, BorderLayout.SOUTH);
 
 	}
 
-	private void loadSavedGame() {
+	private boolean loadSavedGame() {
+		boolean hasSelected = false;
+
 		//Create a file chooser
 		final JFileChooser fc = new JFileChooser();
 
 		int returnVal = fc.showOpenDialog(WelcomePanel.this);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();
-			System.out.println(file);
+			if(file != null){
+				hasSelected = true;
+			}
 			try {
 				initialisation.notify("open "+file);
 			} catch (IOException e1) {
@@ -223,6 +211,8 @@ public class WelcomePanel extends JPanel implements ActionListener {
 				e1.printStackTrace();
 			}
 		}
+
+		return hasSelected;
 	}
 
 	private void displaySliderOptions() {
@@ -235,21 +225,48 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		/*
 		 * Create sliders and add vertical space for readability
 		 */
-		final JSlider GameObjectDensity = new JSlider(JSlider.HORIZONTAL, 0, Initialisation.maxTrees, Initialisation.maxTrees/2);
-		GameObjectDensity.add(Box.createRigidArea(sliderPaddingVertical)); //pad between sliders
+		int tickSpacingDensity = 5, tickSpacingDifficulty = 1, tickSpacingWidth = 5, tickSpacingHeight = 5;
+
+		//density of game world
+		final JSlider gameObjectDensity = new JSlider(JSlider.HORIZONTAL, 0, Initialisation.maxTrees, Initialisation.maxTrees/2);
+		gameObjectDensity.add(Box.createRigidArea(sliderPaddingVertical));
+		gameObjectDensity.setPaintTicks(true);
+		gameObjectDensity.setMajorTickSpacing(tickSpacingDensity);
+
+		//difficulty: easy, medium or difficult
 		final JSlider difficulty = new JSlider(JSlider.HORIZONTAL, 0, 2, 1);
-		difficulty.add(Box.createRigidArea(sliderPaddingVertical)); //pad between sliders
+		difficulty.add(Box.createRigidArea(sliderPaddingVertical));
+		difficulty.setPaintTicks(true);
+		difficulty.setMajorTickSpacing(tickSpacingDifficulty);
+
+		//height of game
+		final JSlider height = new JSlider(JSlider.HORIZONTAL, 10, 200, 50);
+		height.add(Box.createRigidArea(sliderPaddingVertical));
+		height.setPaintTicks(true);
+		height.setMajorTickSpacing(tickSpacingHeight);
+
+		//width of game
+		final JSlider width = new JSlider(JSlider.HORIZONTAL, 10, 200, 50);
+		width.add(Box.createRigidArea(sliderPaddingVertical));
+		width.setPaintTicks(true);
+		width.setMajorTickSpacing(tickSpacingWidth);
 
 		ChangeListener sliderListener = new ChangeListener(){
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				JSlider source = (JSlider)e.getSource();
 				if (!source.getValueIsAdjusting()) {
-					if(source == GameObjectDensity){
-						density = GameObjectDensity.getValue();
+					if(source == gameObjectDensity){
+						density = gameObjectDensity.getValue();
 					}
 					else if(source == difficulty){
 						difficultyLevel = difficulty.getValue();
+					}
+					else if(source == height){
+						gameHeight = height.getValue();
+					}
+					else if(source == width){
+						gameWidth = width.getValue();
 					}
 				}
 
@@ -258,34 +275,55 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 		JButton confirm = new JButton("OK");
 		confirm.add(Box.createRigidArea(new Dimension(this.getPreferredSize().width,20))); //centre confirm the button
-		ButtonPanel.makeButtonPretty(confirm);
+		ButtonPanel.makeButtonsPretty(confirm);
 
 		confirm.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				remove(sliderPanel);
-				transitionToNewState(InitialisationState.LOAD_PLAYER_OR_CREATE_NEW_PLAYER);
+				try {
+					initialisation.notify("parameters "+gameHeight+" "+gameWidth+" "+difficultyLevel+" "+density);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				transitionToNewState(Translator.InitialisationCommand.LOAD_PLAYER_OR_CREATE_NEW_PLAYER);
 			}
 
 		});
 
-		GameObjectDensity.addChangeListener(sliderListener);
+		gameObjectDensity.addChangeListener(sliderListener);
 		difficulty.addChangeListener(sliderListener);
+		width.addChangeListener(sliderListener);
+		height.addChangeListener(sliderListener);
+
 
 		/*
 		 * Create labels for the sliders, and create vertical space to make them more readable
 		 */
 		JLabel densityLabel = new JLabel("Choose the density of the game wrt the number of objects from 0% to 100%");
-		densityLabel.add(Box.createRigidArea(sliderPaddingVertical)); //pad between sliders
+		densityLabel.add(Box.createRigidArea(sliderPaddingVertical));
+
 		JLabel difficultyLabel = new JLabel("Choose the difficulty");
-		difficultyLabel.add(Box.createRigidArea(sliderPaddingVertical)); //pad between sliders
+		difficultyLabel.add(Box.createRigidArea(sliderPaddingVertical));
+
+		JLabel gameHeightLabel = new JLabel("Choose the Game height");
+		gameHeightLabel.add(Box.createRigidArea(sliderPaddingVertical));
+
+		JLabel gameWidthLabel = new JLabel("Choose the Game Width");
+		gameWidthLabel.add(Box.createRigidArea(sliderPaddingVertical));
 
 		sliderPanel.add(densityLabel);
-		sliderPanel.add(GameObjectDensity);
+		sliderPanel.add(gameObjectDensity);
 
 		sliderPanel.add(difficultyLabel);
 		sliderPanel.add(difficulty);
+
+		sliderPanel.add(gameHeightLabel);
+		sliderPanel.add(height);
+
+		sliderPanel.add(gameWidthLabel);
+		sliderPanel.add(width);
 
 		sliderPanel.add(confirm);
 
@@ -297,7 +335,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	 * Displays option dialog to get user input on which server to connect to
 	 */
 	private void displayConnect() {
-		iPanel = new InputPanel(initialisation, "connect");
+		iPanel = new InputPanel(initialisation, Translator.InitialisationCommand.CONNECT_TO_SERVER);
 		add(iPanel, BorderLayout.SOUTH);
 
 		revalidate();
@@ -309,7 +347,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	 */
 	private void displayLoadNew() {
 		remove(bPanel);
-		bPanel = new ButtonPanel(this, InitialisationState.SHOW_LOAD_OR_NEW_OPTION, initialisation);
+		bPanel = new ButtonPanel(this, Translator.InitialisationCommand.SHOW_LOAD_OR_NEW_OPTION, initialisation);
 		add(bPanel, BorderLayout.SOUTH);
 	}
 
@@ -321,8 +359,8 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		final String loadSavedMessage = "Select the avatar associated with your Player";
 		final String createNewMessage = "Choose an avatar for your Player";
 
-		final InitialisationState create = InitialisationState.CREATE_NEW_PLAYER;
-		final InitialisationState load = InitialisationState.LOAD_SAVED_PLAYER;
+		final Translator.InitialisationCommand create = Translator.InitialisationCommand.CREATE_NEW_PLAYER;
+		final Translator.InitialisationCommand load = Translator.InitialisationCommand.LOAD_SAVED_PLAYER;
 
 		Dialog avatarDialog = new Dialog("Available Avatars", loadingSavedPlayer ? loadSavedMessage : createNewMessage,
 				loadingSavedPlayer ? load : create, initialisation, WelcomePanel.this);

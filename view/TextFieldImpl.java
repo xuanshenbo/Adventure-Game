@@ -1,4 +1,4 @@
-package GUI;
+package view;
 
 import interpreter.StrategyInterpreter;
 
@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.io.IOException;
 
 import javax.swing.JTextField;
 
@@ -16,16 +17,24 @@ import javax.swing.JTextField;
  *
  */
 public class TextFieldImpl extends JTextField {
-	//public final StrategyInterpreter input; do i need this?
+	public final StrategyInterpreter inputInterp;
 
-	public TextFieldImpl(){
-		//input = i;
+	public TextFieldImpl(StrategyInterpreter interp){
+
+		this.inputInterp = interp;
+
 		setPreferredSize(new Dimension(200,50));
-		setBackground(GameFrame.col2);	//not working
+		setBackground(GameFrame.col2);
 		addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String name = getText();
+				String IPAddress = getText();
+				try {
+					inputInterp.notify(IPAddress);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+
 			}
 
 		});

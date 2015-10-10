@@ -1,6 +1,7 @@
-package GUI;
+package view;
 
 import interpreter.StrategyInterpreter;
+import interpreter.Translator;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -34,8 +35,6 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import main.Initialisation;
-import main.InitialisationState;
-import main.MainGameState;
 import model.items.Item;
 
 /**
@@ -47,7 +46,7 @@ public class Dialog extends JDialog implements ActionListener {
 
 	private Avatar chosenAvatar;
 
-	private MainGameState state;
+	private Translator.Command state;
 
 	private StrategyInterpreter dialogInterpreter;
 
@@ -72,7 +71,7 @@ public class Dialog extends JDialog implements ActionListener {
 	 * @param msg Message to display
 	 * @param i The state of the Game
 	 */
-	public Dialog(GameFrame gameFrame, String title, String msg, MainGameState state, StrategyInterpreter dialogInterp) {
+	public Dialog(GameFrame gameFrame, String title, String msg, Translator.Command state, StrategyInterpreter dialogInterp) {
 		super(gameFrame, title, true);
 
 		this.state = state;
@@ -89,11 +88,11 @@ public class Dialog extends JDialog implements ActionListener {
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-		if(state.equals(MainGameState.DISPLAY_INVENTORY)){
+		if(state.equals(Translator.Command.DISPLAY_INVENTORY)){
 			displayInventory();
 		}
 
-		else if(state.equals(MainGameState.DISPLAY_CONTAINER)){
+		else if(state.equals(Translator.Command.DISPLAY_CONTAINER)){
 			displayContainer();
 		}
 
@@ -111,7 +110,7 @@ public class Dialog extends JDialog implements ActionListener {
 
 
 
-	public Dialog(String title, String msg, InitialisationState state, Initialisation i, WelcomePanel wPanel) {
+	public Dialog(String title, String msg, Translator.InitialisationCommand state, Initialisation i, WelcomePanel wPanel) {
 		this.initialisation = i;
 		this.welcomePanel = wPanel;
 		getContentPane().setLayout( new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
@@ -123,24 +122,17 @@ public class Dialog extends JDialog implements ActionListener {
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-		if(state.equals(InitialisationState.CREATE_NEW_PLAYER)){
+		if(state.equals(Translator.InitialisationCommand.CREATE_NEW_PLAYER)){
+			this.state = Translator.Command.DISPLAY_AVATAR_OPTIONS;
 			displayAvatarOptions(false);
 		}
-		else if(state.equals(InitialisationState.LOAD_SAVED_PLAYER)){
+		else if(state.equals(Translator.InitialisationCommand.LOAD_SAVED_PLAYER)){
+			this.state = Translator.Command.DISPLAY_AVATAR_OPTIONS;
 			displayAvatarOptions(true);
 		}
 
 		JButton ok = new JButton("OK");
-		ok.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				welcomePanel.transitionToNewState(InitialisationState.START_GAME);
-				Dialog.this.dispose();	//get rid of the dialog
-			}
-
-		});
-
+		ok.addActionListener(this);
 		add(ok);
 
 		//display the dialog
@@ -205,27 +197,31 @@ public class Dialog extends JDialog implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		boolean validInput = false;
-		if(state.equals(MainGameState.DISPLAY_INVENTORY)){
+
+		if(state.equals(Translator.Command.DISPLAY_INVENTORY)){
+			//notify that inventory closed?
 			validInput = true;
 		}
 
-		if(state.equals("")){
-			try {
-				dialogInterpreter.notify(chosenAvatar.toString());
-			} catch (IOException e1) {
-				e1.printStackTrace();
+		if(state.equals(Translator.Command.DISPLAY_AVATAR_OPTIONS)){
+			if(chosenAvatar != null){
+				try {
+					initialisation.notify(chosenAvatar.toString());
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				validInput = true;
 			}
-			validInput = true;
 		}
 
 		if(validInput){
 			setVisible(false);
 			dispose();
-			parentFrame.setVisible(true);
+			if(parentFrame != null) parentFrame.setVisible(true);
 		}
 	}
 
-	/**	 *
+	/**
 	 * @param c TextField to store in a field
 	 */
 	public void setTextField(JTextField c){
@@ -234,7 +230,7 @@ public class Dialog extends JDialog implements ActionListener {
 
 
 	public void displayItemOptions() {
-		this.itemOptions = new ButtonPanel(MainGameState.DISPLAY_ITEM_OPTIONS, parentFrame.getButtonInterpreter());
+		this.itemOptions = new ButtonPanel(Translator.Command.DISPLAY_ITEM_OPTIONS, parentFrame.getButtonInterpreter());
 		add(itemOptions);
 
 	}

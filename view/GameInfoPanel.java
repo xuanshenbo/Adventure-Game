@@ -1,4 +1,4 @@
-package GUI;
+package view;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -21,9 +21,13 @@ public class GameInfoPanel extends JPanel{
 	private String playerPosition = "(3, 5)";
 	private Dimension size = new Dimension(250, 100);
 
+	private GameFrame parentFrame;
+
 	private Dimension mapSize = new Dimension(100, 100);
 
-	public GameInfoPanel(){
+	public GameInfoPanel(GameFrame g){
+		parentFrame = g;
+
 		//set up the GridLayout with one row and two columns
 		GridLayout layout = new GridLayout(1,2);
 		setLayout(layout);
@@ -52,12 +56,14 @@ public class GameInfoPanel extends JPanel{
 	}
 
 	private void fillGameInfoPanel() {
-		JLabel clock = new JLabel("Time: "+time);
+		JLabel clock = new JLabel("Time: "+parentFrame.getTime());
 		gameInfo.add(clock);
 
-		JLabel position = new JLabel("Current Position: "+playerPosition);
-		gameInfo.add(position);
+		JLabel ip = new JLabel("Your ip address: "+parentFrame.getIP());
+		gameInfo.add(ip);
 	}
+
+
 
 	private void addMapToPanel() {
 		//display the map. Need to get this from Lucas.
@@ -69,4 +75,6 @@ public class GameInfoPanel extends JPanel{
 		map.add(thumb);
 
 	}
+
+
 }

@@ -10,7 +10,7 @@ import javax.xml.bind.Unmarshaller;
 import model.state.GameState;
 
 /**
- *
+ * Provide static load method to load a saved game.
  * @author Shenbo Xuan 300259386
  *
  */
@@ -19,6 +19,12 @@ public class Deserializer {
 	// So no one can accidently create a Serializer class
 	private Deserializer() {}
 
+	/**
+	 * Return a GameState that is stored in the given file
+	 * @param fileName
+	 * @return GameState
+	 * @throws JAXBException
+	 */
 	public static GameState deserialize(String fileName) throws JAXBException {
 		JAXBContext context = JAXBContext.newInstance(new Class[] {
 				GameState.class });

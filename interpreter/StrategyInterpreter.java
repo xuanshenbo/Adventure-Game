@@ -4,9 +4,9 @@ import interpreter.Translator.Command;
 import java.io.IOException;
 import java.io.Writer;
 
+import view.GameFrame;
 import model.logic.Game;
 import control.Client;
-import GUI.GameFrame;
 
 /**
  * An implementation of the Strategy design pattern. A StrategyInterpreter acts as an Observer
@@ -30,7 +30,7 @@ public class StrategyInterpreter implements Observer{
 		gameGUI = game;
 		strategy = s;
 		client = c;;
-		s.setInterpreter(this);
+		if( s!= null) s.setInterpreter(this);
 	}
 
 	/**
@@ -39,8 +39,6 @@ public class StrategyInterpreter implements Observer{
 	public interface Strategy{
 		public void notify(String text) throws IOException;
 		public void setInterpreter(StrategyInterpreter i);
-		//public void setOutput(Writer writer);
-		public void notify(Command cmd);
 	}
 
 	/**
@@ -56,6 +54,13 @@ public class StrategyInterpreter implements Observer{
 	 */
 	public Strategy getStrategy(){
 		return strategy;
+	}
+
+	/**
+	 * Sets the Strategy
+	 */
+	public void setStrategy(StrategyInterpreter.Strategy s){
+		this.strategy = s;
 	}
 
 	/**
@@ -81,16 +86,6 @@ public class StrategyInterpreter implements Observer{
 	public Game getGame(){
 		return this.game;
 	}
-
-	@Override
-	public void notify(Command cmd) throws IOException {
-		strategy.notify(cmd);
-
-	}
-
-
-
-
 
 
 }
