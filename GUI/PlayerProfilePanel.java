@@ -106,6 +106,7 @@ public class PlayerProfilePanel extends JPanel{
 			@Override
 			public void paintComponent(Graphics g){
 			    super.paintComponent(g);
+			    System.out.println("HERE");
 			    g.setColor(Color.BLACK);
 			    g.drawRect(bar_left, bar_top, bar_width, bar_height);
 			    g.setColor(Color.RED);

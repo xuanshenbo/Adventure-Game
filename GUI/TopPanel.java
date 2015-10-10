@@ -43,4 +43,5 @@ public class TopPanel extends JPanel{
 		panels.add(playerProf);
 		return panels;
 	}
+
 }

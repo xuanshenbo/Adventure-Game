@@ -53,6 +53,7 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 			try {
 				adr = InetAddress.getByName(ip);
 				Main.clientMode(adr, 8888);
+				Main.setIP(ip);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

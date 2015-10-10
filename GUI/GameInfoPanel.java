@@ -75,4 +75,6 @@ public class GameInfoPanel extends JPanel{
 		map.add(thumb);
 
 	}
+
+
 }

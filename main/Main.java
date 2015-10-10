@@ -35,6 +35,7 @@ public class Main {
 
 	private static boolean devMode = false;
 	//private static boolean initialised;
+	private static String ipAddress;
 
 	/**
 	 * Displays welcome dialog and set up interpreters, before displaying the main GameFrame
@@ -110,24 +111,20 @@ public class Main {
 		}
 
 		/*
-		 * Initialise here so as to pass the interpreter to the Strategy constructors
+		 * Initialise StrategyInterpreters here so as to pass the interpreter to the Strategy constructors
 		 */
 		StrategyInterpreter keyInterpreter = null;
 		StrategyInterpreter buttonInterpreter = null;
 		StrategyInterpreter menuInterpreter = null;
 		StrategyInterpreter radioInterpreter = null;
 
-
-		//frame.dispose();	//get rid of welcome frame
-
 		frame = new GameFrame("Adventure Game");
+
 		//create the Strategy Interpreters with different Strategies as appropriate
 		keyInterpreter = new StrategyInterpreter(frame, new KeyStrategy(keyInterpreter),client);
 		buttonInterpreter = new StrategyInterpreter(frame, new ButtonStrategy(buttonInterpreter),client);
 		menuInterpreter = new StrategyInterpreter(frame, new MenuStrategy(menuInterpreter),client);
-
 		radioInterpreter = new StrategyInterpreter(frame, new RadioStrategy(radioInterpreter), client);
-
 
 		//add the Strategy Interpreters to the GameFrame
 		frame.setKeyInterpreter(keyInterpreter);
@@ -135,7 +132,8 @@ public class Main {
 		frame.setMenuInterpreter(menuInterpreter);
 		frame.setRadioInterpreter(radioInterpreter);
 
-		System.out.println("Menu interp assigned");
+		//set the ip address of the client for display
+		frame.setIP(ipAddress);
 
 		frame.setUpLayoutAndDisplay();
 
@@ -169,6 +167,10 @@ public class Main {
 			server.closeServer();
 			System.exit(0);
 		}
+	}
+
+	public static void setIP(String ip) {
+		ipAddress = ip;
 	}
 
 	/* A getter for the client
