@@ -104,7 +104,7 @@ public class PlayerProfilePanel extends JPanel{
 		add(thumb, BorderLayout.CENTER);
 
 		//add a plain black border around the whole panel
-		Border blackline = BorderFactory.createLineBorder(Color.black);
+		Border blackline = BorderFactory.createLineBorder(Color.black, 2, true);
 		setBorder(blackline);
 	}
 

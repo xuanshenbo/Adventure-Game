@@ -63,14 +63,14 @@ public class GameFrame extends JFrame{
 
 
 	//These constants define the main colour scheme and are used throughout all the panels which form the GameFrame
-	public static final Color col1 = Color.GRAY;
+	public static final Color col1 = Color.CYAN.darker();
 	public static final Color col2 = Color.PINK;
 
 	private Dialog ContainerDialog;
 
 	private ArrayList<Avatar> avatars;
 
-	private String ip = "192...", time = "0100";
+	private String ip = "", time = "0100";
 
 	private Dimension mapSize = new Dimension(750, 400);
 
@@ -187,9 +187,6 @@ public class GameFrame extends JFrame{
 		midPanel = new JPanel(); //(new FlowLayout(FlowLayout.CENTER));
 
 		midPanel.add(canvas);
-
-		midPanel.setBackground(col1);
-
 
 		int midPanelX = (topPanel.WIDTH - gamePanelWidth)/2;
 		midPanelX = 150;

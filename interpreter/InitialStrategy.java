@@ -16,6 +16,11 @@ import main.Main;
 public class InitialStrategy implements StrategyInterpreter.Strategy{
 	private Initialisation s;
 	private String ip;
+	private Initialisation initialisation;
+
+	public InitialStrategy(Initialisation i){
+		initialisation = i;
+	}
 
 	@Override
 	public void notify(String text) throws IOException {
@@ -48,6 +53,7 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 		}
 
 		else{	//entered ipaddress
+			System.out.println("HERE");
 			ip = text;
 			InetAddress adr = null;
 			try {
@@ -81,7 +87,34 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 
 	private void notifyInitState(String text) {
 		Translator.InitialisationState initState = Translator.toInitState(text);
-/*
+
+		if(initState.equals(Translator.InitialisationState.LOAD_GAME)){
+			initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationState.LOAD_GAME);
+		}
+
+		else if(initState.equals(Translator.InitialisationState.SELECTED_NEW_GAME)){
+			initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationState.CHOOSE_SLIDER_OPTIONS);
+		}
+
+		else if(initState.equals(Translator.InitialisationState.LOAD_SAVED_PLAYER)){
+			initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationState.LOAD_SAVED_PLAYER);
+		}
+
+		else if(initState.equals(Translator.InitialisationState.CREATE_NEW_PLAYER)){
+			initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationState.CREATE_NEW_PLAYER);
+		}
+
+		else if(initState.equals(Translator.InitialisationState.SELECTED_CLIENT)){
+			//now display the option for which server to connect to
+			initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationState.CONNECT_TO_SERVER);
+		}
+
+		else if(initState.equals(Translator.InitialisationState.SELECTED_CLIENT_AND_SERVER)){
+			//now display the options of loading a game, or starting a new one
+			initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationState.SHOW_LOAD_OR_NEW_OPTION);
+		}
+
+		/*
 		if(initState.equals(Translator.InitialisationState.SELECTED_CLIENT)){
 			//testing for now to use a fixed IP
 			InetAddress adr = null;

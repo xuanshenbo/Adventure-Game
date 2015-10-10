@@ -30,7 +30,7 @@ public class StrategyInterpreter implements Observer{
 		gameGUI = game;
 		strategy = s;
 		client = c;;
-		s.setInterpreter(this);
+		if( s!= null) s.setInterpreter(this);
 	}
 
 	/**
@@ -54,6 +54,13 @@ public class StrategyInterpreter implements Observer{
 	 */
 	public Strategy getStrategy(){
 		return strategy;
+	}
+
+	/**
+	 * Sets the Strategy
+	 */
+	public void setStrategy(StrategyInterpreter.Strategy s){
+		this.strategy = s;
 	}
 
 	/**

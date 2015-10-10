@@ -15,7 +15,7 @@ import renderer.testRenderer;
 public class TopPanel extends JPanel{
 
 	private PlayerProfilePanel playerProf;
-	private GameInfoPanel gameInfo;
+	//	private GameInfoPanel gameInfo;
 	private GameFrame gameframe;
 
 	public TopPanel(GameFrame g){
@@ -28,8 +28,8 @@ public class TopPanel extends JPanel{
 		setLayout(new FlowLayout(FlowLayout.CENTER, 150, 10));
 
 		//add game info panel to the left
-		gameInfo = new GameInfoPanel(gameframe);
-		add(gameInfo);
+		//		gameInfo = new GameInfoPanel(gameframe);
+		//		add(gameInfo);
 
 		//add player info panel to the right
 		playerProf = new PlayerProfilePanel(gameframe.getPlayer());
@@ -37,15 +37,7 @@ public class TopPanel extends JPanel{
 
 		setBackground(GameFrame.col2);
 
-		System.out.println(getSize());
 
-	}
-
-	public Set<JPanel> getPanels() {
-		Set panels = new HashSet<JPanel>();
-		panels.add(gameInfo);
-		panels.add(playerProf);
-		return panels;
 	}
 
 }

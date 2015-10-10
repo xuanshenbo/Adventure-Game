@@ -180,21 +180,18 @@ public class ButtonPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==loadPlayer){
 					try {
-						initialisation.notify("loadPlayer");
+						initialisation.notify(Translator.InitialisationState.LOAD_SAVED_PLAYER.toString());
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					welcomePanel.transitionToNewState(Translator.InitialisationState.LOAD_SAVED_PLAYER);
 				}
 				else if(e.getSource()==createPlayer){	//conditional not strictly necessary, but added for completion
 					try {
-						initialisation.notify("createPlayer");
+						initialisation.notify(Translator.InitialisationState.CREATE_NEW_PLAYER.toString());
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					welcomePanel.transitionToNewState(Translator.InitialisationState.CREATE_NEW_PLAYER);
+
 				}
 			}
 
@@ -228,21 +225,19 @@ public class ButtonPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==loadGame){
 					try {
-						initialisation.notify("load");
+						initialisation.notify(Translator.InitialisationState.LOAD_GAME.toString());
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					welcomePanel.transitionToNewState(Translator.InitialisationState.LOAD_GAME);
+
 				}
 				else if(e.getSource()==newGame){	//conditional not strictly necessary, but added for completion
 					try {
-						initialisation.notify("newGame");
+						initialisation.notify(Translator.InitialisationState.SELECTED_NEW_GAME.toString());
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					welcomePanel.transitionToNewState(Translator.InitialisationState.CHOOSE_SLIDER_OPTIONS);
+
 				}
 			}
 
@@ -292,16 +287,15 @@ public class ButtonPanel extends JPanel {
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
-					welcomePanel.transitionToNewState(Translator.InitialisationState.CONNECT_TO_SERVER);	//now display the option for which server to connect to
+
 				}
 				else if(e.getSource()==serverclient){	//conditional not strictly necessary, but added for completion
 					try {
 						initialisation.notify(Translator.InitialisationState.SELECTED_CLIENT_AND_SERVER.toString());
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					welcomePanel.transitionToNewState(Translator.InitialisationState.SHOW_LOAD_OR_NEW_OPTION); //now display the options of loading a game, or starting a new one
+
 				}
 
 			}

@@ -37,9 +37,11 @@ public class Initialisation extends StrategyInterpreter{
 	public final static int maxTrees = 100;
 	public final static int maxBuildings = 20;
 
-	private InitialStrategy initStrategy = new InitialStrategy();
+	private InitialStrategy initStrategy;
 
 	private ArrayList<Avatar> avatars;
+
+	private WelcomePanel welcome;
 
 	/**
 	 * Create an Initialisation object using the StrategyInterpreter super constructor
@@ -47,9 +49,16 @@ public class Initialisation extends StrategyInterpreter{
 	 * @author flanagdonn
 	 */
 	public Initialisation(){
-		super(null, new InitialStrategy(), null);
+		super(null, null, null);
+
+		initStrategy =  new InitialStrategy(this);
+
+		initStrategy.setInterpreter(this);
+
+		setStrategy(initStrategy);
+
 		frame = new JFrame("Welcome to Adventure Game");
-		WelcomePanel welcome = new WelcomePanel(this);
+		welcome = new WelcomePanel(this);
 		frame.add(welcome);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
@@ -123,6 +132,10 @@ public class Initialisation extends StrategyInterpreter{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public WelcomePanel getWelcomePanel(){
+		return welcome;
 	}
 
 
