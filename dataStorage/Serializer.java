@@ -11,6 +11,8 @@ import dataStorage.pointers.AreaPointer;
 import model.state.GameState;
 
 /**
+ * Provide static save methods for the game. It uses the binding method to save
+ * the state of the game.
  *
  * @author Shenbo Xuan 300259386
  *
@@ -20,6 +22,13 @@ public class Serializer {
 	// So no one can accidently create a Serializer class
 	private Serializer() {}
 
+	/**
+	 * If the current game is loaded from a file, save the current game and
+	 * overwrite the file. Otherwise, call serializeAs() method.
+	 *
+	 * @param game The game that is to be saved.
+	 * @throws JAXBException
+	 */
 	public static void serialize(GameState game) throws JAXBException {
 		JAXBContext context = JAXBContext.newInstance(new Class[] {
 				GameState.class, AreaPointer.class });
@@ -40,6 +49,11 @@ public class Serializer {
 
 	}
 
+	/**
+	 * Save the game to a new file that is created by user.
+	 * @param game The game that is to be saved.
+	 * @throws JAXBException
+	 */
 	public static void serializeAs(GameState game) throws JAXBException {
 		JAXBContext context = JAXBContext.newInstance(new Class[] {
 				GameState.class, AreaPointer.class });
