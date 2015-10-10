@@ -233,8 +233,13 @@ public class GameFrame extends JFrame{
 
 		happinessPanel.setBounds(20, -40, hapPanelSize.width, hapPanelSize.height);
 
+		botPanel = new ButtonPanel(this, this.buttonInterpreter, Translator.MainGameState.MAIN);
+		botPanel.setOpaque(false);
+		botPanel.setBounds(530, 550, 400, 50);
+
 
 		middleLayeredPane.add(happinessPanel, new Integer(1), 0);
+		middleLayeredPane.add(botPanel, new Integer(1), 0);
 
 		middleLayeredPane.setPreferredSize(new Dimension(gamePanelWidth, gamePanelHeight));
 
@@ -250,11 +255,11 @@ public class GameFrame extends JFrame{
 	}
 
 	private void addBottomPanel() {
-		botPanel = new ButtonPanel(this, this.buttonInterpreter, Translator.MainGameState.MAIN);
-
-		botPanel.setVisible(true);
-
-		add(botPanel);
+//		botPanel = new ButtonPanel(this, this.buttonInterpreter, Translator.MainGameState.MAIN);
+//
+//		botPanel.setVisible(true);
+//
+//		add(botPanel);
 
 	}
 

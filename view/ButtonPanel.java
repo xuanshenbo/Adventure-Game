@@ -92,6 +92,8 @@ public class ButtonPanel extends JPanel {
 	 */
 	public ButtonPanel(WelcomePanel welcomeDialog, Translator.InitialisationCommand state, Initialisation i) {
 
+		setOpaque(false);
+
 		this.welcomePanel = welcomeDialog;
 
 		this.initialisation = i;
