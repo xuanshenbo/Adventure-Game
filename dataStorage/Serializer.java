@@ -59,7 +59,7 @@ public class Serializer {
 
 	private static void saveAs(Marshaller marshaller, GameState game)
 			throws JAXBException {
-		// prompt the user to enter their name
+		// prompt the user to enter the file's name
 		String fileName = JOptionPane.showInputDialog(null,
 				"Save as: (Please enter the file name without extension)");
 
