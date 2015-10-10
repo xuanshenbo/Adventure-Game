@@ -1,4 +1,4 @@
-package GUI;
+package view;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class ImageLoader {
-	/*
+	/**
 	 * Loads an image from file and handles exceptions
 	 */
 	public static Image loadImage(String filename) {

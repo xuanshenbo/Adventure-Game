@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import view.GameFrame;
 import model.logic.Game;
 import control.Client;
 import control.ClockThread;
@@ -18,7 +19,6 @@ import interpreter.MenuStrategy;
 import interpreter.InitialStrategy;
 import interpreter.RadioStrategy;
 import interpreter.StrategyInterpreter;
-import GUI.GameFrame;
 
 /**
  * The following is the main class for the whole game.
@@ -165,8 +165,8 @@ public class Main {
 	public static void closeServer() {
 		if(server != null){
 			server.closeServer();
-			System.exit(0);
 		}
+		System.exit(0);
 	}
 
 	public static void setIP(String ip) {

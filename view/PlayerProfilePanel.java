@@ -1,5 +1,6 @@
-package GUI;
+package view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -33,7 +34,7 @@ public class PlayerProfilePanel extends JPanel{
 	private int bar_left = 5;
 	private int bar_top = 5;
 	private int bar_width = 100;
-	private int bar_height = 20;
+	private int bar_height = 30;
 
 	private int lifelineValue = 50;
 
@@ -41,11 +42,11 @@ public class PlayerProfilePanel extends JPanel{
 
 	private int numAvatars = 4;
 
-	public PlayerProfilePanel(PlayerInfo info){
+	/*public PlayerProfilePanel(PlayerInfo info){
 
 		playerInfo = info;
 
-		//lifelineValue = info.getLifeline();
+		lifelineValue = info.getLifeline();
 
 		//load all the images for the different available avatars
 		avatars = new Image[numAvatars];
@@ -74,12 +75,40 @@ public class PlayerProfilePanel extends JPanel{
 		//add a plain black border around the whole panel
 		Border blackline = BorderFactory.createLineBorder(Color.black);
 		setBorder(blackline);
+	}*/
 
+	public PlayerProfilePanel(PlayerInfo info){
 
+		playerInfo = info;
 
-		//setPreferredSize(size);
+		lifelineValue = info.getLifeline();
+
+		//load all the images for the different available avatars
+		avatars = new Image[numAvatars];
+		loadImages();
+
+		setLayout(new BorderLayout());
+		setBackground(GameFrame.col1);
+
+		JLabel name = new JLabel(playerInfo.getName());
+		name.setFont(new Font("Serif", Font.BOLD, 20));
+		add(name, BorderLayout.NORTH);
+
+		//add image
+		Image image=avatars[Avatar.getAvatarAsInteger(playerInfo.getAvatar())-1];
+
+		ImageIcon icon = new ImageIcon(image);
+		JLabel thumb = new JLabel();
+		thumb.setIcon(icon);
+		thumb.setAlignmentX(Component.CENTER_ALIGNMENT);
+		add(thumb, BorderLayout.CENTER);
+
+		//add a plain black border around the whole panel
+		Border blackline = BorderFactory.createLineBorder(Color.black);
+		setBorder(blackline);
 	}
 
+	//used for determining the size of the top panel
 	public PlayerProfilePanel() {
 		// TODO Auto-generated constructor stub
 	}
@@ -89,24 +118,27 @@ public class PlayerProfilePanel extends JPanel{
 		name.setFont(new Font("Serif", Font.BOLD, 20));
 		statusPanel.add(name);
 
-		JLabel lifelineMsg = new JLabel("Lifeline");
-		JLabel lifeline = lifelineLabel();
-
-		statusPanel.add(lifelineMsg);
-		statusPanel.add(lifeline);
-
-		JLabel happiness = new JLabel("Happiness level");
-		statusPanel.add(happiness);
+//		JLabel lifelineMsg = new JLabel("Lifeline");
+//		JLabel lifeline = lifelineLabel();
+//
+//		statusPanel.add(lifelineMsg);
+//		statusPanel.add(lifeline);
+//
+//		JLabel happiness = new JLabel("Happiness level");
+//		statusPanel.add(happiness);
 
 		repaint();
 	}
 
+	/*
+	 * TODO make this work
+	 */
 	private JLabel lifelineLabel() {
-		JLabel lifeline = new JLabel(){
+
+		JLabel label = new JLabel(){
 			@Override
 			public void paintComponent(Graphics g){
 			    super.paintComponent(g);
-			    System.out.println("HERE");
 			    g.setColor(Color.BLACK);
 			    g.drawRect(bar_left, bar_top, bar_width, bar_height);
 			    g.setColor(Color.RED);
@@ -114,7 +146,7 @@ public class PlayerProfilePanel extends JPanel{
 
 			}
 		};
-		return lifeline;
+		return label;
 	}
 
 	private void loadImages() {
@@ -138,12 +170,6 @@ public class PlayerProfilePanel extends JPanel{
 
 	}
 
-	//TODO decide if this will be taken care of by a button
-	private void displayInventory() {
-		// TODO Auto-generated method stub
-
-	}
-
 	private void addPictureToPanel() {
 		//display the image at the appropriate position in the array
 		Image image=avatars[Avatar.getAvatarAsInteger(playerInfo.getAvatar())-1];
@@ -153,6 +179,8 @@ public class PlayerProfilePanel extends JPanel{
 		thumb.setIcon(icon);
 		picturePanel.add(thumb);
 	}
+
+
 
 
 }

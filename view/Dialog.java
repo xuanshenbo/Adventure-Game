@@ -1,4 +1,4 @@
-package GUI;
+package view;
 
 import interpreter.StrategyInterpreter;
 import interpreter.Translator;

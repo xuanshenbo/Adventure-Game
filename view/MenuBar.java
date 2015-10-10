@@ -1,4 +1,4 @@
-package GUI;
+package view;
 
 import static java.awt.event.KeyEvent.VK_E;
 import static java.awt.event.KeyEvent.VK_S;

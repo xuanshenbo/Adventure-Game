@@ -8,7 +8,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
-import GUI.Avatar;
+import view.Avatar;
 import main.Initialisation;
 import main.Main;
 

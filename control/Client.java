@@ -13,8 +13,9 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
+
+import view.GameFrame;
 import static utilities.PrintTool.p;
-import GUI.GameFrame;
 
 /**
  * A simple controller to send user actions to the server and receive notifications from the server.

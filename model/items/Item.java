@@ -9,8 +9,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlTransient;
 
+import view.ImageLoader;
 import model.state.Player;
-import GUI.ImageLoader;
 
 /**
  * 0..* of these inside a player inventory

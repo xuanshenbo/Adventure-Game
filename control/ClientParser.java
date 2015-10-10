@@ -2,7 +2,7 @@ package control;
 
 import java.util.ArrayList;
 
-import GUI.GameFrame;
+import view.GameFrame;
 import static utilities.PrintTool.p;
 
 /**

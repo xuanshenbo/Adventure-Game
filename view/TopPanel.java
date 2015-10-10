@@ -1,4 +1,4 @@
-package GUI;
+package view;
 
 import interpreter.StrategyInterpreter;
 
@@ -21,8 +21,10 @@ public class TopPanel extends JPanel{
 	public TopPanel(GameFrame g){
 		this.gameframe = g;
 
-		int xPadding = (gameframe.getMapWidth() - new GameInfoPanel(gameframe).getWidth() - new PlayerProfilePanel().getWidth())/2;
-		System.out.println(xPadding);
+		//int xPadding = (gameframe.getMapWidth() - new GameInfoPanel(gameframe).getWidth() - new PlayerProfilePanel().getWidth())/2;
+		//int xPadding = (size.width - new GameInfoPanel(gameframe).getWidth() - new PlayerProfilePanel().getWidth())/2;
+
+		//System.out.println("xPadding: "+xPadding); //-125
 		setLayout(new FlowLayout(FlowLayout.CENTER, 150, 10));
 
 		//add game info panel to the left
@@ -34,6 +36,8 @@ public class TopPanel extends JPanel{
 		add(playerProf); //add to the right
 
 		setBackground(GameFrame.col2);
+
+		System.out.println(getSize());
 
 	}
 

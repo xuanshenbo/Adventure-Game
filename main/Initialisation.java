@@ -18,11 +18,11 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import view.Avatar;
+import view.GameFrame;
+import view.WelcomePanel;
 import model.logic.Game;
 import control.Client;
-import GUI.Avatar;
-import GUI.GameFrame;
-import GUI.WelcomePanel;
 
 /**
  * The following initialises a game. It asks user to choose from creating a client or a server together with a client.

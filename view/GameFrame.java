@@ -1,4 +1,4 @@
-package GUI;
+package view;
 
 import interpreter.DialogStrategy;
 import interpreter.StrategyInterpreter;
@@ -50,6 +50,18 @@ public class GameFrame extends JFrame{
 	private int frameWidth = 800;
 	private int frameHeight = 800;
 
+	private int gamePanelWidth = 800;
+	private int gamePanelHeight = 600;
+
+	private int bar_left =100;
+	private int bar_top = 100;
+	private int bar_width = 100;
+	private int bar_height = 20;
+
+	private int lifelineValue = 50;
+
+
+
 	//These constants define the main colour scheme and are used throughout all the panels which form the GameFrame
 	public static final Color col1 = Color.GRAY;
 	public static final Color col2 = Color.PINK;
@@ -95,6 +107,8 @@ public class GameFrame extends JFrame{
 
 	private JPanel midPanel;
 
+	private JLayeredPane middleLayeredPane;
+
 	private JPanel botPanel;
 
 	private GameCanvas canvas;
@@ -106,12 +120,12 @@ public class GameFrame extends JFrame{
 	 */
 	public GameFrame(String title) {
 		super(title);
-		//game = g;
-		/*try {
-		    UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
+
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
-		    e.printStackTrace();
-		}*/
+			e.printStackTrace();
+		}
 
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
 
@@ -150,17 +164,116 @@ public class GameFrame extends JFrame{
 
 		addMenuBar();
 
-		setupMiddlePanel();//need it set up so can use its width in Top Panel class
+		//setupMiddlePanel();
 
 		addTopPanel();
 
-		add(midPanel);	//as it has already been set up
+		//add(midPanel);
+		addMiddlePanel();
 
 		addBottomPanel();
 
 		pack();
 		setLocationRelativeTo(null);	//set the frame at the center of the screen
 		setVisible(true);
+
+	}
+
+	private void addMiddlePanel() {
+		middleLayeredPane = new JLayeredPane();
+
+		canvas = new GameCanvas(gamePanelWidth, gamePanelHeight);
+
+		midPanel = new JPanel(); //(new FlowLayout(FlowLayout.CENTER));
+
+		midPanel.add(canvas);
+
+		midPanel.setBackground(col1);
+
+
+		int midPanelX = (topPanel.WIDTH - gamePanelWidth)/2;
+		midPanelX = 150;
+
+		midPanel.setBounds(midPanelX, 0, gamePanelWidth, gamePanelHeight);
+
+		middleLayeredPane.add(midPanel, new Integer(0), 0);
+
+		JPanel happinessPanel = null;
+		happinessPanel = new JPanel(new BorderLayout());
+		JLabel hapLevel = new JLabel("Happiness Level");
+		JLabel ipAddress = new JLabel(ip);
+		JLabel timeLabel = new JLabel("The time is: "+time);
+
+		JLabel hapBar = new JLabel(){
+			@Override
+			public void paintComponent(Graphics g){
+				//draw the happiness level title
+				g.setColor(col2);
+				g.drawString("Happiness Level", bar_left + 50, bar_top - 20);
+
+				//draw the bar in white
+				g.setColor(Color.WHITE);
+				g.fillRect(bar_left + 50, bar_top, lifelineValue, bar_height);
+
+				//draw a pink outline around the bar
+				g.setColor(col2);
+				g.drawRect(bar_left + 50, bar_top, bar_width, bar_height);
+
+				//draw the time info
+				g.setColor(col2);
+				g.drawString("The time is: "+time, bar_left + 50, bar_top + 40);
+
+				//draw the player's ip address
+				g.setColor(col2);
+				g.drawString(ip+time, bar_left + 50, bar_top + 60);
+
+			}
+
+		};
+
+		/*
+		 * Set the fonts and sizes of the JLabels
+		 */
+//		hapLevel.setFont(new Font("Serif", Font.BOLD, 16));
+//		hapLevel.setForeground(col2);
+//
+//		ipAddress.setFont(new Font("Serif", Font.BOLD, 14));
+//		ipAddress.setForeground(col2);
+//
+//		timeLabel.setFont(new Font("Serif", Font.BOLD, 14));
+//		timeLabel.setForeground(col2);
+
+		/*
+		 * Add the JLabels to the happinessPanel
+		 */
+
+		//happinessPanel.add(hapLevel, BorderLayout.NORTH);
+
+//		happinessPanel.add(ipAddress, BorderLayout.NORTH);
+//		happinessPanel.add(timeLabel, BorderLayout.SOUTH);
+
+		happinessPanel.add(hapBar, BorderLayout.CENTER);
+
+		//want to see the map behind panel, so make panel not opaque
+		happinessPanel.setOpaque(false);
+
+
+				Dimension hapPanelSize = new Dimension (500, 500);
+		//		happinessPanel.setPreferredSize(hapPanelSize);
+
+				happinessPanel.setBounds(20, -40, hapPanelSize.width, hapPanelSize.height);
+
+		//
+
+		middleLayeredPane.add(happinessPanel, new Integer(1), 0);
+
+		//		middleLayeredPane.revalidate();
+		//		middleLayeredPane.setVisible(true);
+
+		middleLayeredPane.setPreferredSize(new Dimension(gamePanelWidth, gamePanelHeight));
+
+		add(middleLayeredPane);
+		repaint();
 
 	}
 
@@ -172,25 +285,41 @@ public class GameFrame extends JFrame{
 	/*
 	 * Sets up the Middle Panel, ready for displaying. But doesn't add it to the Frame yet.
 	 */
-	private void setupMiddlePanel() {
+	/*private void setupMiddlePanel() {
 
 		midPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
 		//generate a Game for testing
 		//this.game = generateGame(20, 2, 1, 5, 20, 20, 4, 1);
-		/*
-		char[][] view = game.getGameView(1).get(0);
-		char[][] objects = game.getGameView(1).get(1);
-		 */
-		canvas = new GameCanvas(800, 600);
+
+		//		char[][] view = game.getGameView(1).get(0);
+		//		char[][] objects = game.getGameView(1).get(1);
+
+		canvas = new GameCanvas(gamePanelWidth, gamePanelHeight);
 
 		midPanel.add(canvas);
 
 		midPanel.setBackground(col1);
 
+		midPanel.setBounds(0, 0, 800, 600);
+
 		//data = new testRenderer(20, 0, 0, 15, 20, 20, 4, 0);
 
-	}
+		middleLayeredPane.add(midPanel, new Integer(0), 0);
+
+		JPanel happinessPanel = new JPanel();
+		happinessPanel.add(new JLabel("Happiness Level"));
+		happinessPanel.setBounds(gamePanelWidth - 100, gamePanelHeight - 50, 100, 30);
+
+		middleLayeredPane.add(happinessPanel, new Integer(1), 0);
+
+		middleLayeredPane.revalidate();
+		middleLayeredPane.setVisible(true);
+
+		midPanel.revalidate();
+
+
+	}*/
 
 	private void addBottomPanel() {
 		//new JPanel(new BoxLayout(botPanel, BoxLayout.LINE_AXIS));
@@ -310,14 +439,14 @@ public class GameFrame extends JFrame{
 	 */
 	public ArrayList<String> getInventoryContents() {
 		ArrayList<String> inventory = new ArrayList<String>();
-			if(inventoryContents != null) {
-				return inventoryContents;
-			}
-			else{
-				inventory.add("key");
-				inventory.add("cupcake");
-				return inventory;
-			}
+		if(inventoryContents != null) {
+			return inventoryContents;
+		}
+		else{
+			inventory.add("key");
+			inventory.add("cupcake");
+			return inventory;
+		}
 	}
 
 	/**
@@ -326,22 +455,22 @@ public class GameFrame extends JFrame{
 	 */
 	public ArrayList<String> getContainerContents() {
 		ArrayList<String> container = new ArrayList<String>();
-			if(containerContents != null) {
-				return containerContents;
-			}
-			else{
-				container.add("key");
-				container.add("cupcake");
-				return container;
-			}
+		if(containerContents != null) {
+			return containerContents;
+		}
+		else{
+			container.add("key");
+			container.add("cupcake");
+			return container;
+		}
 	}
 
-/*******************************************************************************************************
- * TODO Server needs to do the following:
- * 1) set Inventory/Container Contents
- * 2) add Inventory/Container Dialog
- *
- *******************************************************************************************************/
+	/*******************************************************************************************************
+	 * TODO Server needs to do the following:
+	 * 1) set Inventory/Container Contents
+	 * 2) add Inventory/Container Dialog
+	 *
+	 *******************************************************************************************************/
 
 	/**
 	 * Set the inventory contents.
@@ -425,10 +554,10 @@ public class GameFrame extends JFrame{
 		//if the game hasn't yet sent the available avatars
 		if(avatars == null){
 
-		ArrayList<Avatar> avatarsTest= new ArrayList<Avatar>();
-		avatarsTest.add(Avatar.DONALD_DUCK);	//for testing purposes
+			ArrayList<Avatar> avatarsTest= new ArrayList<Avatar>();
+			avatarsTest.add(Avatar.DONALD_DUCK);	//for testing purposes
 
-		return avatarsTest;
+			return avatarsTest;
 
 		}
 		else{

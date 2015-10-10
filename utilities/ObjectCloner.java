@@ -8,12 +8,12 @@ import java.util.*;
 
 import control.*;
 import dataStorage.*;
-import GUI.*;
 import interpreter.*;
 import model.logic.*;
 import model.state.*;
 import model.tiles.*;
 import renderer.*;
+import view.*;
 
 /**
  * Provides a static method deepCopy(Object) to deep clone an object using

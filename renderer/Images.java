@@ -1,11 +1,10 @@
 package renderer;
 
-import GUI.ImageLoader;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import view.ImageLoader;
 import model.state.Player;
 import static utilities.PrintTool.p;
 

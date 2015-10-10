@@ -4,9 +4,9 @@ import interpreter.Translator.Command;
 import java.io.IOException;
 import java.io.Writer;
 
+import view.GameFrame;
 import model.logic.Game;
 import control.Client;
-import GUI.GameFrame;
 
 /**
  * An implementation of the Strategy design pattern. A StrategyInterpreter acts as an Observer

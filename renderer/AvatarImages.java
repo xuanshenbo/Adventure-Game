@@ -1,9 +1,9 @@
 package renderer;
 
-import GUI.ImageLoader;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
+
+import view.ImageLoader;
 
 public class AvatarImages {
     private static final int avater_width = 70;

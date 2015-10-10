@@ -5,10 +5,10 @@
 
 package control;
 
-import GUI.GameFrame;
 import model.logic.Game;
 import renderer.GameCanvas;
 import renderer.GameRenderer;
+import view.GameFrame;
 
 /**
  * ClockThread is a clock trigger to display the game at a certain rate by updating the GameFrame
