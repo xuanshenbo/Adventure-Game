@@ -75,7 +75,7 @@ public class Main {
 			//Socket socket = new Socket(InetAddress.getByName("0.0.0.0"),ss.PORT);
 			Socket socket = new Socket(server.getAddress(), server.PORT);
 			client = new Client(socket);
-			//Writer output = client.getOutput();
+			//Writer output = client.getOutput()repaint;
 			client.start();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -122,7 +122,6 @@ public class Main {
 		keyInterpreter = new StrategyInterpreter(frame, new KeyStrategy(keyInterpreter),client);
 		buttonInterpreter = new StrategyInterpreter(frame, new ButtonStrategy(buttonInterpreter),client);
 		menuInterpreter = new StrategyInterpreter(frame, new MenuStrategy(menuInterpreter),client);
-
 		radioInterpreter = new StrategyInterpreter(frame, new RadioStrategy(radioInterpreter), client);
 
 
