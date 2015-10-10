@@ -33,6 +33,7 @@ public class GameState {
 	private int viewPortSize = 21;
 	private int time;
 	private boolean day;
+	private String loadedFile;
 
 	public GameState(Area a, ArrayList<Player> p){
 		this.world = a;
@@ -224,6 +225,10 @@ public class GameState {
 		return worldInfo;
 	}
 
+	public void setLoadedFile(String loadedFile) {
+		this.loadedFile = loadedFile;
+	}
+
 	public void setTime(int time){
 		this.time = time;
 	}
@@ -271,6 +276,10 @@ public class GameState {
 
 	public boolean getDay(){
 		return day;
+	}
+
+	public String getLoadedFile() {
+		return loadedFile;
 	}
 
 	//===================================
