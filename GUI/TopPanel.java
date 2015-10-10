@@ -21,12 +21,12 @@ public class TopPanel extends JPanel{
 	public TopPanel(GameFrame g){
 		this.gameframe = g;
 
-		int xPadding = (gameframe.getMapWidth() - new GameInfoPanel().getWidth() - new PlayerProfilePanel().getWidth())/2;
+		int xPadding = (gameframe.getMapWidth() - new GameInfoPanel(gameframe).getWidth() - new PlayerProfilePanel().getWidth())/2;
 		System.out.println(xPadding);
 		setLayout(new FlowLayout(FlowLayout.CENTER, 150, 10));
 
 		//add game info panel to the left
-		gameInfo = new GameInfoPanel();
+		gameInfo = new GameInfoPanel(gameframe);
 		add(gameInfo);
 
 		//add player info panel to the right

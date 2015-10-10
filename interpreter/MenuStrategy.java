@@ -47,8 +47,7 @@ public class MenuStrategy implements StrategyInterpreter.Strategy{
 	private void notifyCommand(String text) {
 		Translator.Command cmd = Translator.toCommand(text);
 		if(cmd.equals(Translator.Command.EXIT)){
-			Main.closeServer(); //TODO is this right?
-			System.exit(0);
+			Main.closeServer(); 
 		}
 
 	}

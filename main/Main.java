@@ -167,6 +167,7 @@ public class Main {
 	public static void closeServer() {
 		if(server != null){
 			server.closeServer();
+			System.exit(0);
 		}
 	}
 

@@ -50,6 +50,7 @@ public class GameFrame extends JFrame{
 	private int frameWidth = 800;
 	private int frameHeight = 800;
 
+	//These constants define the main colour scheme and are used throughout all the panels which form the GameFrame
 	public static final Color col1 = Color.GRAY;
 	public static final Color col2 = Color.PINK;
 
@@ -57,13 +58,14 @@ public class GameFrame extends JFrame{
 
 	private ArrayList<Avatar> avatars;
 
-	//private Game game; //TODO initalise this WHERE?
+	private String ip = "192...", time = "0100";
 
 	private Dimension mapSize = new Dimension(750, 400);
 
 	private Dimension gamePanelSize = new Dimension(800, 600);
 
-	public static final int buttonPaddingHorizontal = 50;	//public as needs to be accessed from ButtonPanel
+	//public as needs to be accessed from ButtonPanel
+	public static final int buttonPaddingHorizontal = 50;
 	public static final int buttonPaddingVertical = 50;
 
 	public void setContainer(){
@@ -130,7 +132,6 @@ public class GameFrame extends JFrame{
 						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
 				if (PromptResult == JOptionPane.YES_OPTION) {
 					Main.closeServer();
-					System.exit(0);
 				}
 			}
 		});
@@ -492,6 +493,22 @@ public class GameFrame extends JFrame{
 	 */
 	public GameCanvas getCanvas() {
 		return canvas;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public String getIP() {
+		return ip;
+	}
+
+	public void setTime(String t) {
+		time = t;
+	}
+
+	public void setIP(String ipAddress) {
+		ip = ipAddress;
 	}
 
 }

@@ -15,6 +15,7 @@ import main.Main;
 
 public class InitialStrategy implements StrategyInterpreter.Strategy{
 	private Initialisation s;
+	private String ip;
 
 	@Override
 	public void notify(String text) throws IOException {
@@ -47,8 +48,14 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 		}
 
 		else{	//entered ipaddress
-			String ip = text;
-			//TODO notify felix of ip address
+			ip = text;
+			InetAddress adr = null;
+			try {
+				adr = InetAddress.getByName(ip);
+				Main.clientMode(adr, 8888);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 
@@ -67,27 +74,27 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 	private void notifyCommand(String text) {
 		Translator.Command cmd = Translator.toCommand(text);
 		if(cmd.equals(Translator.Command.EXIT)){
-			Main.closeServer(); //TODO is this right?
-			System.exit(0);
+			Main.closeServer();
 		}
 	}
 
 	private void notifyInitState(String text) {
 		Translator.InitialisationState initState = Translator.toInitState(text);
-
+/*
 		if(initState.equals(Translator.InitialisationState.SELECTED_CLIENT)){
 			//testing for now to use a fixed IP
 			InetAddress adr = null;
 			try {
+
 				adr = InetAddress.getByName("130.195.6.190");
 				Main.clientMode(adr, 8888);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 
-		}
+		}*/
 
-		else if(initState.equals(Translator.InitialisationState.SELECTED_CLIENT_AND_SERVER)){
+		if(initState.equals(Translator.InitialisationState.SELECTED_CLIENT_AND_SERVER)){
 			Main.serverClient();
 		}
 

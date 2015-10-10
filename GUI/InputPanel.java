@@ -11,7 +11,7 @@ import main.Initialisation;
 
 public class InputPanel extends JPanel{
 
-	private String msg = "Please choose a server to connect to";
+	private String msg = "Please choose a server to connect to and then press enter";
 
 	public InputPanel(Initialisation initialisation, Translator.InitialisationState state) {
 		setLayout(new FlowLayout());
