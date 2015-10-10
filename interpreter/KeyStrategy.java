@@ -4,6 +4,15 @@ import interpreter.Translator.Command;
 
 import java.io.IOException;
 
+import main.Main;
+
+/**
+ * An implementation of the Observer and Strategy design patterns, combined to
+ * allow strict observation of the overarching MVC design pattern
+ * The KeyStrategy interprets Key ActionEvents, uses the Translator to encode an appropriate message
+ * which is then sent to the Model via the Network.
+ * @author flanagdonn
+ */
 public class KeyStrategy implements StrategyInterpreter.Strategy{
 
 	private StrategyInterpreter interpreter;
@@ -18,21 +27,20 @@ public class KeyStrategy implements StrategyInterpreter.Strategy{
 	 */
 	@Override
 	public void notify(String text) throws IOException {
-		if(text.equals("up")){
-			interpreter.getClient().send("MN");
+		if(Translator.isCommand(text)){
+			notifyCommand(text);
 		}
-		else if(text.equals("down")){
-			interpreter.getClient().send("MS");
+	}
+
+	private void notifyCommand(String text) {
+		Translator.Command cmd = Translator.toCommand(text);
+		String msg = Translator.encode(cmd);
+		try {
+			interpreter.getClient().send(msg);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		else if(text.equals("left")){
-			interpreter.getClient().send("MW");
-		}
-		else if(text.equals("right")){
-			interpreter.getClient().send("ME");
-		}
-		else if(text.equals("pickUp")){
-			interpreter.getClient().send("P");
-		}
+
 	}
 
 	@Override

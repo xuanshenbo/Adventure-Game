@@ -110,7 +110,7 @@ public class Dialog extends JDialog implements ActionListener {
 
 
 
-	public Dialog(String title, String msg, Translator.InitialisationState state, Initialisation i, WelcomePanel wPanel) {
+	public Dialog(String title, String msg, Translator.InitialisationCommand state, Initialisation i, WelcomePanel wPanel) {
 		this.initialisation = i;
 		this.welcomePanel = wPanel;
 		getContentPane().setLayout( new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
@@ -122,11 +122,11 @@ public class Dialog extends JDialog implements ActionListener {
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-		if(state.equals(Translator.InitialisationState.CREATE_NEW_PLAYER)){
+		if(state.equals(Translator.InitialisationCommand.CREATE_NEW_PLAYER)){
 			this.state = Translator.Command.DISPLAY_AVATAR_OPTIONS;
 			displayAvatarOptions(false);
 		}
-		else if(state.equals(Translator.InitialisationState.LOAD_SAVED_PLAYER)){
+		else if(state.equals(Translator.InitialisationCommand.LOAD_SAVED_PLAYER)){
 			this.state = Translator.Command.DISPLAY_AVATAR_OPTIONS;
 			displayAvatarOptions(true);
 		}
@@ -154,7 +154,6 @@ public class Dialog extends JDialog implements ActionListener {
 
 		List<JRadioButton> buttons = new ArrayList<JRadioButton>();
 
-		System.out.println("num avatars: "+availAvatars.size());
 		for(final Avatar a: availAvatars){
 			JRadioButton avatar = new JRadioButton(a.toString());
 
@@ -200,6 +199,7 @@ public class Dialog extends JDialog implements ActionListener {
 		boolean validInput = false;
 
 		if(state.equals(Translator.Command.DISPLAY_INVENTORY)){
+			//notify that inventory closed?
 			validInput = true;
 		}
 
@@ -210,7 +210,6 @@ public class Dialog extends JDialog implements ActionListener {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				welcomePanel.transitionToNewState(Translator.InitialisationState.START_GAME);
 				validInput = true;
 			}
 		}
@@ -222,7 +221,7 @@ public class Dialog extends JDialog implements ActionListener {
 		}
 	}
 
-	/**	 *
+	/**
 	 * @param c TextField to store in a field
 	 */
 	public void setTextField(JTextField c){

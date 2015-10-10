@@ -8,7 +8,7 @@ import interpreter.Translator.Command;
  *
  */
 public enum Avatar{
-	DONALD_DUCK, MICKEY_MOUSE, HAIRY_MACLARY, BOTTOMLEY_POTTS;
+	DONALD_DUCK, MICKEY_MOUSE, HAIRY_MACLARY, MUFFIN_MACLAY;
 	/**
 	 * Works out which integer the avatar String corresponds to.
 	 * @return an integer corresponding to the avatar to draw on screen
@@ -24,7 +24,7 @@ public enum Avatar{
 		else if(a==HAIRY_MACLARY){
 			return 3;
 		}
-		else if(a==BOTTOMLEY_POTTS){
+		else if(a==MUFFIN_MACLAY){
 			return 4;
 		}
 
@@ -48,8 +48,8 @@ public enum Avatar{
 		else if(this.equals(HAIRY_MACLARY)){
 			name = "Hairy Maclary";
 		}
-		else if(this.equals(BOTTOMLEY_POTTS)){
-			name = "Bottomley Potts";
+		else if(this.equals(MUFFIN_MACLAY)){
+			name = "Muffin Maclay";
 		}
 
 		return name;
@@ -65,7 +65,7 @@ public enum Avatar{
 		return(text.equals(DONALD_DUCK.toString()) ||
 				text.equals(MICKEY_MOUSE.toString()) ||
 				text.equals(HAIRY_MACLARY.toString()) ||
-				text.equals(BOTTOMLEY_POTTS.toString()));
+				text.equals(MUFFIN_MACLAY.toString()));
 	}
 
 	public static Avatar toAvatar(String text) {

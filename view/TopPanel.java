@@ -1,7 +1,8 @@
-package view;
+/*package view;
 
 import interpreter.StrategyInterpreter;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -25,7 +26,8 @@ public class TopPanel extends JPanel{
 		//int xPadding = (size.width - new GameInfoPanel(gameframe).getWidth() - new PlayerProfilePanel().getWidth())/2;
 
 		//System.out.println("xPadding: "+xPadding); //-125
-		setLayout(new FlowLayout(FlowLayout.CENTER, 150, 10));
+	//	setLayout(new FlowLayout(FlowLayout.CENTER, 150, 10));
+		setLayout(new BorderLayout());
 
 		//add game info panel to the left
 		//		gameInfo = new GameInfoPanel(gameframe);
@@ -40,4 +42,4 @@ public class TopPanel extends JPanel{
 
 	}
 
-}
+}*/

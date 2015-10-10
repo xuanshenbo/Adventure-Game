@@ -52,8 +52,9 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 			//TODO let game know the chosen parameters
 		}
 
+
+		//TODO fix bug here when I enter 130.195.6.190 as the address.
 		else{	//entered ipaddress
-			System.out.println("HERE");
 			ip = text;
 			InetAddress adr = null;
 			try {
@@ -70,10 +71,25 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 
 	}
 
+	//receive information about the avatar chosen, and select the encoded message to the Model via the network
 	private void notifyAvatar(String text) {
 		Avatar a = Avatar.toAvatar(text);
 		int avatarInteger = Avatar.getAvatarAsInteger(a);
-		//TODO notify felix of the avatar integer
+		Translator.InitialisationCommand cmd = Translator.InitialisationCommand.SELECTED_AVATAR;
+
+		//The msg contains the code for avatar selection
+		String msg = Translator.encode(cmd);
+		//add to the msg the integer corresponding to which avatar was chosen
+		msg += avatarInteger;
+
+		/*try {
+			initialisation.getClient().send(msg);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}*/
+
+		initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.START_GAME);
+
 
 
 	}
@@ -86,32 +102,32 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 	}
 
 	private void notifyInitState(String text) {
-		Translator.InitialisationState initState = Translator.toInitState(text);
+		Translator.InitialisationCommand initState = Translator.toInitState(text);
 
-		if(initState.equals(Translator.InitialisationState.LOAD_GAME)){
-			initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationState.LOAD_GAME);
+		if(initState.equals(Translator.InitialisationCommand.LOAD_GAME)){
+			initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.LOAD_GAME);
 		}
 
-		else if(initState.equals(Translator.InitialisationState.SELECTED_NEW_GAME)){
-			initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationState.CHOOSE_SLIDER_OPTIONS);
+		else if(initState.equals(Translator.InitialisationCommand.SELECTED_NEW_GAME)){
+			initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.CHOOSE_SLIDER_OPTIONS);
 		}
 
-		else if(initState.equals(Translator.InitialisationState.LOAD_SAVED_PLAYER)){
-			initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationState.LOAD_SAVED_PLAYER);
+		else if(initState.equals(Translator.InitialisationCommand.LOAD_SAVED_PLAYER)){
+			initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.LOAD_SAVED_PLAYER);
 		}
 
-		else if(initState.equals(Translator.InitialisationState.CREATE_NEW_PLAYER)){
-			initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationState.CREATE_NEW_PLAYER);
+		else if(initState.equals(Translator.InitialisationCommand.CREATE_NEW_PLAYER)){
+			initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.CREATE_NEW_PLAYER);
 		}
 
-		else if(initState.equals(Translator.InitialisationState.SELECTED_CLIENT)){
+		else if(initState.equals(Translator.InitialisationCommand.SELECTED_CLIENT)){
 			//now display the option for which server to connect to
-			initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationState.CONNECT_TO_SERVER);
+			initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.CONNECT_TO_SERVER);
 		}
 
-		else if(initState.equals(Translator.InitialisationState.SELECTED_CLIENT_AND_SERVER)){
+		else if(initState.equals(Translator.InitialisationCommand.SELECTED_CLIENT_AND_SERVER)){
 			//now display the options of loading a game, or starting a new one
-			initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationState.SHOW_LOAD_OR_NEW_OPTION);
+			initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.SHOW_LOAD_OR_NEW_OPTION);
 		}
 
 		/*
@@ -128,11 +144,11 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 
 		}*/
 
-		if(initState.equals(Translator.InitialisationState.SELECTED_CLIENT_AND_SERVER)){
+		if(initState.equals(Translator.InitialisationCommand.SELECTED_CLIENT_AND_SERVER)){
 			Main.serverClient();
 		}
 
-		else if(initState.equals(Translator.InitialisationState.START_GAME)){
+		else if(initState.equals(Translator.InitialisationCommand.START_GAME)){
 			s.displayMainGameFrame();
 		}
 

@@ -83,7 +83,6 @@ public class Initialisation extends StrategyInterpreter{
 			}
 		});
 
-
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
@@ -100,7 +99,7 @@ public class Initialisation extends StrategyInterpreter{
 			//for testing purposes
 			avatarOptions.add(Avatar.DONALD_DUCK);
 			avatarOptions.add(Avatar.MICKEY_MOUSE);
-			avatarOptions.add(Avatar.BOTTOMLEY_POTTS);
+			avatarOptions.add(Avatar.MUFFIN_MACLAY);
 			avatarOptions.add(Avatar.HAIRY_MACLARY);
 		}
 

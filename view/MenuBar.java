@@ -1,5 +1,6 @@
 package view;
 
+import static java.awt.event.KeyEvent.VK_A;
 import static java.awt.event.KeyEvent.VK_E;
 import static java.awt.event.KeyEvent.VK_S;
 import static java.awt.event.KeyEvent.VK_L;
@@ -18,16 +19,15 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-import main.Main;
-
 /**
  * A simple Menubar with an Exit option
  */
 public class MenuBar extends JMenuBar {
 
-	private Action exitAction;
 	private Action saveAction;
+	private Action saveAsAction;
 	private Action loadAction;
+	private Action exitAction;
 
 	private StrategyInterpreter menuInterpreter;
 
@@ -37,9 +37,10 @@ public class MenuBar extends JMenuBar {
 	 */
 	public MenuBar(StrategyInterpreter interp) {
 
-		exitAction = new ExitAction();
 		saveAction = new SaveAction();
+		saveAsAction = new SaveAsAction();
 		loadAction = new LoadAction();
+		exitAction = new ExitAction();
 
 		this.menuInterpreter = interp;
 
@@ -52,12 +53,16 @@ public class MenuBar extends JMenuBar {
 		// add Save option to the file menu
 		final JMenuItem save = new JMenuItem(saveAction);
 
+		// add Save as option to the file menu
+		final JMenuItem saveAs = new JMenuItem(saveAsAction);
+
 		// add Load option to the file menu
 		final JMenuItem load = new JMenuItem(loadAction);
 
 		menu.setMnemonic('F');
 
 		menu.add(save);
+		menu.add(saveAs);
 		menu.add(load);
 		menu.addSeparator();
 		menu.add(exit);
@@ -76,7 +81,6 @@ public class MenuBar extends JMenuBar {
 			try {
 				menuInterpreter.notify("exit");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			System.exit(0);
@@ -86,8 +90,16 @@ public class MenuBar extends JMenuBar {
 	// aciton on save
 	private void doSave() {
 		try {
-			System.out.println(menuInterpreter);
 			menuInterpreter.notify("save");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	// action on saveAs
+	private void doSaveAs() {
+		try {
+			menuInterpreter.notify("saveAs");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -128,6 +140,19 @@ public class MenuBar extends JMenuBar {
 		@Override
 		public void actionPerformed(ActionEvent evt) {
 			doSave();
+		}
+	}
+
+	private class SaveAsAction extends AbstractAction {
+		public SaveAsAction() {
+			super("Save as");
+			putValue(MNEMONIC_KEY, VK_A);
+			putValue(ACCELERATOR_KEY, getKeyStroke("ctrl A"));
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			doSaveAs();
 		}
 	}
 
