@@ -249,31 +249,19 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		/*
 		 * Create sliders and add vertical space for readability
 		 */
-
-
 		int tickSpacingDensity = 5, tickSpacingDifficulty = 1, tickSpacingWidth = 5, tickSpacingHeight = 5;
 
+		//density of game world
 		final JSlider gameObjectDensity = new JSlider(JSlider.HORIZONTAL, 0, Initialisation.maxTrees, Initialisation.maxTrees/2);
 		gameObjectDensity.add(Box.createRigidArea(sliderPaddingVertical));
 		gameObjectDensity.setPaintTicks(true);
 		gameObjectDensity.setMajorTickSpacing(tickSpacingDensity);
 
+		//difficulty: easy, medium or difficult
 		final JSlider difficulty = new JSlider(JSlider.HORIZONTAL, 0, 2, 1);
 		difficulty.add(Box.createRigidArea(sliderPaddingVertical));
 		difficulty.setPaintTicks(true);
 		difficulty.setMajorTickSpacing(tickSpacingDifficulty);
-
-//	    HashMap<Integer, JLabel> table = new HashMap<Integer, JLabel>();
-//
-//	    JLabel easy = new JLabel("Easy");
-//	    JLabel hard = new JLabel("Hard");
-//
-//	    // Set at desired positions
-//	    table.put(new Integer(difficulty.getMinimum()), easy);
-//	    table.put(new Integer(difficulty.getMaximum()), hard);
-//
-//	    // Force the slider to use the new labels
-//	    difficulty.setLabelTable(table);
 
 		//height of game
 		final JSlider height = new JSlider(JSlider.HORIZONTAL, 10, 200, 50);
@@ -330,6 +318,9 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 		gameObjectDensity.addChangeListener(sliderListener);
 		difficulty.addChangeListener(sliderListener);
+		width.addChangeListener(sliderListener);
+		height.addChangeListener(sliderListener);
+
 
 		/*
 		 * Create labels for the sliders, and create vertical space to make them more readable

@@ -70,7 +70,7 @@ public class GameFrame extends JFrame{
 
 	private ArrayList<Avatar> avatars;
 
-	private String ip = "", time = "0100";
+	private String ip = "192...", time = "0100";
 
 	private Dimension mapSize = new Dimension(750, 400);
 
@@ -103,7 +103,7 @@ public class GameFrame extends JFrame{
 
 	private testRenderer data;
 
-	private TopPanel topPanel;
+	private PlayerProfilePanel playerProfilePanel;
 
 	private JPanel midPanel;
 
@@ -153,6 +153,8 @@ public class GameFrame extends JFrame{
 		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		manager.addKeyEventDispatcher(new MyDispatcher());
 
+
+
 		//makePretty(topPanel.getPanels(), midPanel, botPanel);
 
 
@@ -164,11 +166,8 @@ public class GameFrame extends JFrame{
 
 		addMenuBar();
 
-		//setupMiddlePanel();
-
 		addTopPanel();
 
-		//add(midPanel);
 		addMiddlePanel();
 
 		addBottomPanel();
@@ -184,14 +183,11 @@ public class GameFrame extends JFrame{
 
 		canvas = new GameCanvas(gamePanelWidth, gamePanelHeight);
 
-		midPanel = new JPanel(); //(new FlowLayout(FlowLayout.CENTER));
+		midPanel = new JPanel();
 
 		midPanel.add(canvas);
 
-		int midPanelX = (topPanel.WIDTH - gamePanelWidth)/2;
-		midPanelX = 150;
-
-		midPanel.setBounds(midPanelX, 0, gamePanelWidth, gamePanelHeight);
+		midPanel.setBounds(0, 0, gamePanelWidth, gamePanelHeight);
 
 		middleLayeredPane.add(midPanel, new Integer(0), 0);
 
@@ -222,32 +218,11 @@ public class GameFrame extends JFrame{
 
 				//draw the player's ip address
 				g.setColor(col2);
-				g.drawString(ip+time, bar_left + 50, bar_top + 60);
+				g.drawString(ip+"", bar_left + 50, bar_top + 60);
 
 			}
 
 		};
-
-		/*
-		 * Set the fonts and sizes of the JLabels
-		 */
-//		hapLevel.setFont(new Font("Serif", Font.BOLD, 16));
-//		hapLevel.setForeground(col2);
-//
-//		ipAddress.setFont(new Font("Serif", Font.BOLD, 14));
-//		ipAddress.setForeground(col2);
-//
-//		timeLabel.setFont(new Font("Serif", Font.BOLD, 14));
-//		timeLabel.setForeground(col2);
-
-		/*
-		 * Add the JLabels to the happinessPanel
-		 */
-
-		//happinessPanel.add(hapLevel, BorderLayout.NORTH);
-
-//		happinessPanel.add(ipAddress, BorderLayout.NORTH);
-//		happinessPanel.add(timeLabel, BorderLayout.SOUTH);
 
 		happinessPanel.add(hapBar, BorderLayout.CENTER);
 
@@ -255,82 +230,32 @@ public class GameFrame extends JFrame{
 		happinessPanel.setOpaque(false);
 
 
-				Dimension hapPanelSize = new Dimension (500, 500);
-		//		happinessPanel.setPreferredSize(hapPanelSize);
+		Dimension hapPanelSize = new Dimension (500, 500);
 
-				happinessPanel.setBounds(20, -40, hapPanelSize.width, hapPanelSize.height);
+		happinessPanel.setBounds(20, -40, hapPanelSize.width, hapPanelSize.height);
 
-		//
 
 		middleLayeredPane.add(happinessPanel, new Integer(1), 0);
 
-		//		middleLayeredPane.revalidate();
-		//		middleLayeredPane.setVisible(true);
-
 		middleLayeredPane.setPreferredSize(new Dimension(gamePanelWidth, gamePanelHeight));
 
+		middleLayeredPane.revalidate();
+
 		add(middleLayeredPane);
-		repaint();
 
 	}
 
 	private void addTopPanel() {
-		topPanel = new TopPanel(this);
-		add(topPanel);
+		playerProfilePanel = new PlayerProfilePanel(this);
+		add(playerProfilePanel);
 	}
 
-	/*
-	 * Sets up the Middle Panel, ready for displaying. But doesn't add it to the Frame yet.
-	 */
-	/*private void setupMiddlePanel() {
-
-		midPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-
-		//generate a Game for testing
-		//this.game = generateGame(20, 2, 1, 5, 20, 20, 4, 1);
-
-		//		char[][] view = game.getGameView(1).get(0);
-		//		char[][] objects = game.getGameView(1).get(1);
-
-		canvas = new GameCanvas(gamePanelWidth, gamePanelHeight);
-
-		midPanel.add(canvas);
-
-		midPanel.setBackground(col1);
-
-		midPanel.setBounds(0, 0, 800, 600);
-
-		//data = new testRenderer(20, 0, 0, 15, 20, 20, 4, 0);
-
-		middleLayeredPane.add(midPanel, new Integer(0), 0);
-
-		JPanel happinessPanel = new JPanel();
-		happinessPanel.add(new JLabel("Happiness Level"));
-		happinessPanel.setBounds(gamePanelWidth - 100, gamePanelHeight - 50, 100, 30);
-
-		middleLayeredPane.add(happinessPanel, new Integer(1), 0);
-
-		middleLayeredPane.revalidate();
-		middleLayeredPane.setVisible(true);
-
-		midPanel.revalidate();
-
-
-	}*/
-
 	private void addBottomPanel() {
-		//new JPanel(new BoxLayout(botPanel, BoxLayout.LINE_AXIS));
 		botPanel = new ButtonPanel(this, this.buttonInterpreter, Translator.MainGameState.MAIN);
 
 		botPanel.setVisible(true);
 
-		//botPanel.add(buttons);
-
-		botPanel.setBackground(col2);
-
 		add(botPanel);
-
-		botPanel.revalidate();	//will this change button size?
 
 	}
 
@@ -413,7 +338,7 @@ public class GameFrame extends JFrame{
 		canvas.getRenderer().update(type, map, items);
 	}
 
-/*	private void showDialog(String string) {
+	/*	private void showDialog(String string) {
 		int PromptResult = JOptionPane.showConfirmDialog(this, "You pressed: "+string);
 
 		while(PromptResult==JOptionPane.NO_OPTION){
