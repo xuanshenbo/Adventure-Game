@@ -68,19 +68,20 @@ public class ButtonPanel extends JPanel {
 	public ButtonPanel(GameFrame container, StrategyInterpreter b, Translator.MainGameState state){
 		buttonInterpreter = b;
 		containerFrame = container;
-		//make buttons layout top to bottom
 
+		//make buttons layout top to bottom
+		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS);	//display main game-play buttons horizontally
+		setLayout(boxLayout);
 
 		if(state.equals(Translator.MainGameState.MAIN)){
 			if(containerFrame!=null){
-				BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS);	//display main game-play buttons horizontally
-				setLayout(boxLayout);
 				CreateMainButtons();
 			}
 			else{
 				throw new IllegalArgumentException("The GameFrame hasn't been stored by the ButtonPanel");
 			}
 		}
+
 	}
 
 	/**
@@ -169,9 +170,6 @@ public class ButtonPanel extends JPanel {
 		add(drop);
 		add(use);
 		add(moveToBag);
-
-
-
 	}
 
 	private void addLoadCreatePlayerButtons() {
@@ -192,10 +190,8 @@ public class ButtonPanel extends JPanel {
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
-
 				}
 			}
-
 		};
 
 		loadPlayer.addActionListener(loadcreate);
@@ -209,7 +205,6 @@ public class ButtonPanel extends JPanel {
 		add(loadPlayer);
 		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical,0))); //pad between buttons
 		add(createPlayer);
-
 
 		setVisible(true);
 
@@ -346,35 +341,18 @@ public class ButtonPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e){
 				JOptionPane.showMessageDialog(containerFrame,
-						"You have NO team",
-						"Sorry :(",
+						"Your team includes Ronald McDonald and Bottomley Potts",
+						"Team",
 						JOptionPane.WARNING_MESSAGE);
 			}
 		});
 
-
-		exchange = new JButton("Exchange");
-		exchange.setMnemonic(KeyEvent.VK_E);
-		exchange.setToolTipText("Exchange an item");
-		exchange.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e){
-				JOptionPane.showMessageDialog(containerFrame,
-						"You have NO items to display",
-						"Idiot!",
-						JOptionPane.WARNING_MESSAGE);
-			}
-		});
-
-		makeButtonsPretty(inventory, team, exchange);
+		makeButtonsPretty(inventory, team);
 
 		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingHorizontal,0))); //pad between buttons
 		add(inventory);
 		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingHorizontal,0))); //pad between buttons
 		add(team);
-		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingHorizontal,0))); //pad between buttons
-		add(exchange);
 
 		revalidate();
 

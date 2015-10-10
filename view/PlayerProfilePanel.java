@@ -40,6 +40,10 @@ public class PlayerProfilePanel extends JPanel{
 
 	private int numAvatars = 4;
 
+	/**
+	 * The PlayerProfilePanel displays the player name, avatar image, and game logo (cupcake)
+	 * @param gameFrame
+	 */
 	public PlayerProfilePanel(GameFrame gameFrame){
 
 		playerInfo = gameFrame.getPlayer();
@@ -54,15 +58,21 @@ public class PlayerProfilePanel extends JPanel{
 		JLabel name = new JLabel(playerInfo.getName());
 		name.setForeground(GameFrame.col2);
 		name.setFont(new Font("Serif", Font.BOLD, avatarFontSize));
-		add(name, BorderLayout.CENTER);
+		add(name, BorderLayout.WEST);
 
-		//add image
-		Image image=avatars[Avatar.getAvatarAsInteger(playerInfo.getAvatar())-1];
+		//add cupcake image
+		Image cupcake= ImageLoader.loadImage("cupcake2.png");
+		ImageIcon cupcakeicon = new ImageIcon(cupcake);
+		JLabel cupcakethumb = new JLabel();
+		cupcakethumb.setIcon(cupcakeicon);
+		add(cupcakethumb, BorderLayout.CENTER);
 
-		ImageIcon icon = new ImageIcon(image);
-		JLabel thumb = new JLabel();
-		thumb.setIcon(icon);
-		add(thumb, BorderLayout.EAST);
+		//add image of avatar
+		Image avatarImage=avatars[Avatar.getAvatarAsInteger(playerInfo.getAvatar())-1];
+		ImageIcon avataricon = new ImageIcon(avatarImage);
+		JLabel avatarthumb = new JLabel();
+		avatarthumb.setIcon(avataricon);
+		add(avatarthumb, BorderLayout.EAST);
 
 		//add a plain black border around the whole panel
 		Border blackline = BorderFactory.createLineBorder(Color.black, 2, true);
@@ -86,7 +96,7 @@ public class PlayerProfilePanel extends JPanel{
 				.getScaledInstance(pictureSize.width, pictureSize.height, -1);
 
 		//image of Bottomley Potts
-		avatars[3] = ImageLoader.loadImage("bottomleypotts.png")
+		avatars[3] = ImageLoader.loadImage("muffinmaclay.png")
 				.getScaledInstance(pictureSize.width, pictureSize.height, -1);
 
 	}

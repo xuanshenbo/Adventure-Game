@@ -53,14 +53,12 @@ public class GameFrame extends JFrame{
 	private int gamePanelWidth = 800;
 	private int gamePanelHeight = 600;
 
-	private int bar_left =100;
+	private int bar_left = 20;
 	private int bar_top = 100;
 	private int bar_width = 100;
 	private int bar_height = 20;
 
 	private int lifelineValue = 50;
-
-
 
 	//These constants define the main colour scheme and are used throughout all the panels which form the GameFrame
 	public static final Color col1 = Color.CYAN.darker();
@@ -80,12 +78,9 @@ public class GameFrame extends JFrame{
 	public static final int buttonPaddingHorizontal = 50;
 	public static final int buttonPaddingVertical = 50;
 
-	public void setContainer(){
-
-	}
 
 	//for testing
-	private PlayerInfo player = new PlayerInfo(Avatar.BOTTOMLEY_POTTS);
+	private PlayerInfo player = new PlayerInfo(Avatar.MUFFIN_MACLAY);
 
 	/*
 	 * TODO Initialise these interpreters here rather than in Main method?
@@ -161,6 +156,10 @@ public class GameFrame extends JFrame{
 
 	}
 
+	public void setContainer(){
+
+	}
+
 	//add all the necessary panels with the appropriate GridBagConstraints. public visibility, for access in Main
 	public void setUpLayoutAndDisplay() {
 
@@ -202,23 +201,23 @@ public class GameFrame extends JFrame{
 			public void paintComponent(Graphics g){
 				//draw the happiness level title
 				g.setColor(col2);
-				g.drawString("Happiness Level", bar_left + 50, bar_top - 20);
+				g.drawString("Happiness Level", bar_left, bar_top - 20);
 
 				//draw the bar in white
 				g.setColor(Color.WHITE);
-				g.fillRect(bar_left + 50, bar_top, lifelineValue, bar_height);
+				g.fillRect(bar_left, bar_top, lifelineValue, bar_height);
 
 				//draw a pink outline around the bar
 				g.setColor(col2);
-				g.drawRect(bar_left + 50, bar_top, bar_width, bar_height);
+				g.drawRect(bar_left, bar_top, bar_width, bar_height);
 
 				//draw the time info
 				g.setColor(col2);
-				g.drawString("The time is: "+time, bar_left + 50, bar_top + 40);
+				g.drawString("The time is: "+time, bar_left, bar_top + 40);
 
 				//draw the player's ip address
 				g.setColor(col2);
-				g.drawString(ip+"", bar_left + 50, bar_top + 60);
+				g.drawString(ip+"", bar_left, bar_top + 60);
 
 			}
 

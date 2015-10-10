@@ -106,11 +106,6 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 		this.parentFrame = i.getFrame();
 
-		//		GridBagConstraints gc=new GridBagConstraints();
-		//		gc.fill=GridBagConstraints.HORIZONTAL;
-		//		gc.gridx = 0;
-		//		gc.gridy = 0;
-
 		//The message is put in a panel, in case new messages will be added later
 		JPanel messagePane = new JPanel();
 		messagePane.setLayout(new BoxLayout(messagePane, BoxLayout.PAGE_AXIS));
@@ -122,27 +117,13 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 		messagePane.add(welcomeMessage);
 
-		//add(messagePane, BorderLayout.PAGE_START);
 		add(messagePane, BorderLayout.PAGE_START);
 
 		addWelcomeImage();
 
-		//		sliderPanelConstraints = new GridBagConstraints();
-		//		sliderPanelConstraints.gridx = 0;
-		//		sliderPanelConstraints.gridx = 10;
-		//		sliderPanelConstraints.gridheight = 50;
-		//
-		//
-		//		buttonPanelConstraints=new GridBagConstraints();
-		//		buttonPanelConstraints.gridx = 0;
-		//		buttonPanelConstraints.gridy = 10;
-		//		buttonPanelConstraints.gridwidth = 200;
-		//		buttonPanelConstraints.gridheight = 50;
-
-		// button panel needs to store "this" to call the display next methods, and send it Initialisation too? Or Initialisation
-		// has access to buttonInterpreter?
 		bPanel = new ButtonPanel(this, state, initialisation);
 		add(bPanel, BorderLayout.SOUTH);
+
 
 		//display the welcome panel
 		setVisible(true);
@@ -153,11 +134,6 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	 */
 
 	private void addWelcomeImage() {
-		//		GridBagConstraints gc=new GridBagConstraints();
-		//		gc.fill=GridBagConstraints.HORIZONTAL;
-		//		gc.gridx = 0;
-		//		gc.gridy = 3;
-		//		gc.gridwidth = 5;
 
 		welcomeImage = ImageLoader.loadImage("cupcake.png");
 		welcomeImage = welcomeImage.getScaledInstance(imageSize.width, imageSize.height, -1);

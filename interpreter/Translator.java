@@ -17,8 +17,13 @@ public class Translator {
 	 *
 	 */
 	public enum Command{
-		DROP, USE, MOVE_ITEM, ITEM_SELECTED, DISPLAY_INVENTORY, EXIT, DISPLAY_CONTAINER, PICK_UP,
-		DISPLAY_ITEM_OPTIONS, DISPLAY_AVATAR_OPTIONS, MOVE_WEST, MOVE_EAST, MOVE_NORTH, MOVE_SOUTH
+		DROP("D"), USE("U"), MOVE_ITEM("V"), ITEM_SELECTED("C"), DISPLAY_INVENTORY("I"), EXIT("DECIDE"), DISPLAY_CONTAINER("DECIDE"), PICK_UP("P"),
+		DISPLAY_ITEM_OPTIONS("DECIDE"), DISPLAY_AVATAR_OPTIONS("DECIDE"), MOVE_WEST("MW"), MOVE_EAST("ME"), MOVE_NORTH("MN"), MOVE_SOUTH("MS");
+
+		public String code = "";
+		private Command(String c){
+			code = c;
+		}
 	}
 
 	public enum InitialisationCommand {
@@ -33,40 +38,7 @@ public class Translator {
 	}
 
 	public static String encode(Command command) {
-
-		if(command.equals(Command.DROP)){
-			return "D";
-		}
-		else if(command.equals(Command.USE)){
-			return "U";
-		}
-		else if(command.equals(Command.MOVE_ITEM)){
-			return "V";
-		}
-		else if(command.equals(Command.ITEM_SELECTED)){
-			return "C";
-		}
-		else if(command.equals(Command.DISPLAY_INVENTORY)){
-			return "I";
-		}
-		else if(command.equals(Command.MOVE_EAST)){
-			return "ME";
-		}
-		else if(command.equals(Command.MOVE_NORTH)){
-			return "MN";
-		}
-		else if(command.equals(Command.MOVE_SOUTH)){
-			return "MS";
-		}
-		else if(command.equals(Command.MOVE_WEST)){
-			return "MW";
-		}
-		else if(command.equals(Command.PICK_UP)){
-			return "P";
-		}
-
-
-		return null;
+		return command.code;
 	}
 
 	public static String encode(InitialisationCommand command) {
