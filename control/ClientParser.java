@@ -70,7 +70,7 @@ public class ClientParser {
 				container.add("tree");
 				break;
 			case '\0':
-				container.add("null");
+				container.add("emptyslot");
 				break;
 			default:
 				System.out.println("unknown container item");
@@ -97,7 +97,7 @@ public class ClientParser {
 				inventory.add("tree");
 				break;
 			case '\0':
-				inventory.add("null");
+				inventory.add("emptyslot");
 				break;
 			default:
 				System.out.println("unknown inventory item");

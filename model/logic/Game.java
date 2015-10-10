@@ -226,6 +226,7 @@ public class Game {
 //			gameState.printView(1);
 		}
 		if (toTile != null && toTile.isContainer()) {
+			p();
 			Container container = (Container) toTile;
 			player.setOpenContainer(container);
 			Item[] items = container.open();
