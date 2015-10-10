@@ -74,7 +74,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	private JPanel sliderPanel;
 
 	//the state decides what to display
-	private Translator.InitialisationState state;
+	private Translator.InitialisationCommand state;
 
 	private String instructions = "If you wish to start a new game, please click OK, to choose an Avatar!";
 
@@ -100,7 +100,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 		this.initialisation = i;
 
-		this.state = Translator.InitialisationState.SHOW_CLIENT_SERVER_OPTION;
+		this.state = Translator.InitialisationCommand.SHOW_CLIENT_SERVER_OPTION;
 
 		setLayout(new BorderLayout());
 
@@ -169,36 +169,36 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 	}
 
-	public void transitionToNewState(Translator.InitialisationState state){
+	public void transitionToNewState(Translator.InitialisationCommand state){
 		bPanel.setVisible(false);
-		if(state.equals(Translator.InitialisationState.SHOW_LOAD_OR_NEW_OPTION)){
+		if(state.equals(Translator.InitialisationCommand.SHOW_LOAD_OR_NEW_OPTION)){
 			displayLoadNew();
 		}
-		else if(state.equals(Translator.InitialisationState.CONNECT_TO_SERVER)){
+		else if(state.equals(Translator.InitialisationCommand.CONNECT_TO_SERVER)){
 			displayConnect();
 		}
-		else if(state.equals(Translator.InitialisationState.LOAD_PLAYER_OR_CREATE_NEW_PLAYER)){
+		else if(state.equals(Translator.InitialisationCommand.LOAD_PLAYER_OR_CREATE_NEW_PLAYER)){
 			displayLoadCreatePlayerOptions();
 		}
-		else if(state.equals(Translator.InitialisationState.LOAD_GAME)){
+		else if(state.equals(Translator.InitialisationCommand.LOAD_GAME)){
 			if (!loadSavedGame()){	//if they cancelled the load option
-				transitionToNewState(Translator.InitialisationState.SHOW_LOAD_OR_NEW_OPTION);
+				transitionToNewState(Translator.InitialisationCommand.SHOW_LOAD_OR_NEW_OPTION);
 			}
 		}
-		else if(state.equals(Translator.InitialisationState.CHOOSE_SLIDER_OPTIONS)){
+		else if(state.equals(Translator.InitialisationCommand.CHOOSE_SLIDER_OPTIONS)){
 			displaySliderOptions();
 		}
-		else if(state.equals(Translator.InitialisationState.LOAD_SAVED_PLAYER)){
+		else if(state.equals(Translator.InitialisationCommand.LOAD_SAVED_PLAYER)){
 			displayAvatarOptions(true);
 
 		}
-		else if(state.equals(Translator.InitialisationState.CREATE_NEW_PLAYER)){
+		else if(state.equals(Translator.InitialisationCommand.CREATE_NEW_PLAYER)){
 			displayAvatarOptions(false);
 
 		}
-		else if(state.equals(Translator.InitialisationState.START_GAME)){
+		else if(state.equals(Translator.InitialisationCommand.START_GAME)){
 			try {
-				initialisation.notify(Translator.InitialisationState.START_GAME.toString());
+				initialisation.notify(Translator.InitialisationCommand.START_GAME.toString());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -211,7 +211,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 	private void displayLoadCreatePlayerOptions() {
 		remove(bPanel);
-		bPanel = new ButtonPanel(this, Translator.InitialisationState.LOAD_PLAYER_OR_CREATE_NEW_PLAYER, initialisation);
+		bPanel = new ButtonPanel(this, Translator.InitialisationCommand.LOAD_PLAYER_OR_CREATE_NEW_PLAYER, initialisation);
 		add(bPanel, BorderLayout.SOUTH);
 
 	}
@@ -311,7 +311,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 		JButton confirm = new JButton("OK");
 		confirm.add(Box.createRigidArea(new Dimension(this.getPreferredSize().width,20))); //centre confirm the button
-		ButtonPanel.makeButtonPretty(confirm);
+		ButtonPanel.makeButtonsPretty(confirm);
 
 		confirm.addActionListener(new ActionListener(){
 
@@ -323,7 +323,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				transitionToNewState(Translator.InitialisationState.LOAD_PLAYER_OR_CREATE_NEW_PLAYER);
+				transitionToNewState(Translator.InitialisationCommand.LOAD_PLAYER_OR_CREATE_NEW_PLAYER);
 			}
 
 		});
@@ -368,7 +368,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	 * Displays option dialog to get user input on which server to connect to
 	 */
 	private void displayConnect() {
-		iPanel = new InputPanel(initialisation, Translator.InitialisationState.CONNECT_TO_SERVER);
+		iPanel = new InputPanel(initialisation, Translator.InitialisationCommand.CONNECT_TO_SERVER);
 		add(iPanel, BorderLayout.SOUTH);
 
 		revalidate();
@@ -380,7 +380,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	 */
 	private void displayLoadNew() {
 		remove(bPanel);
-		bPanel = new ButtonPanel(this, Translator.InitialisationState.SHOW_LOAD_OR_NEW_OPTION, initialisation);
+		bPanel = new ButtonPanel(this, Translator.InitialisationCommand.SHOW_LOAD_OR_NEW_OPTION, initialisation);
 		add(bPanel, BorderLayout.SOUTH);
 	}
 
@@ -392,8 +392,8 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		final String loadSavedMessage = "Select the avatar associated with your Player";
 		final String createNewMessage = "Choose an avatar for your Player";
 
-		final Translator.InitialisationState create = Translator.InitialisationState.CREATE_NEW_PLAYER;
-		final Translator.InitialisationState load = Translator.InitialisationState.LOAD_SAVED_PLAYER;
+		final Translator.InitialisationCommand create = Translator.InitialisationCommand.CREATE_NEW_PLAYER;
+		final Translator.InitialisationCommand load = Translator.InitialisationCommand.LOAD_SAVED_PLAYER;
 
 		Dialog avatarDialog = new Dialog("Available Avatars", loadingSavedPlayer ? loadSavedMessage : createNewMessage,
 				loadingSavedPlayer ? load : create, initialisation, WelcomePanel.this);

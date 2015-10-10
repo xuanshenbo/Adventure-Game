@@ -13,10 +13,10 @@ public class InputPanel extends JPanel{
 
 	private String msg = "Please choose a server to connect to and then press enter";
 
-	public InputPanel(Initialisation initialisation, Translator.InitialisationState state) {
+	public InputPanel(Initialisation initialisation, Translator.InitialisationCommand state) {
 		setLayout(new FlowLayout());
 
-		if(state.equals(Translator.InitialisationState.CONNECT_TO_SERVER)){
+		if(state.equals(Translator.InitialisationCommand.CONNECT_TO_SERVER)){
 			JLabel message = new JLabel(msg);
 			add(message);
 			add(new TextFieldImpl(initialisation));

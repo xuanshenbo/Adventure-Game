@@ -356,53 +356,44 @@ public class GameFrame extends JFrame{
 		public boolean dispatchKeyEvent(KeyEvent e){
 
 			if (e.getID() == KeyEvent.KEY_PRESSED) {
-				//char[][] map;
-				//char[][] items;
 
 				switch( e.getKeyCode()) {
 				case KeyEvent.VK_UP:
 					try {
-						keyInterpreter.notify("up");
+						keyInterpreter.notify(Translator.Command.MOVE_NORTH.toString());
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
-					} //implement for all key presses
+					}
 
 					break;
 				case KeyEvent.VK_DOWN:
 					try {
-						keyInterpreter.notify("down");
+						keyInterpreter.notify(Translator.Command.MOVE_SOUTH.toString());
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 
 					break;
 				case KeyEvent.VK_LEFT:
 					try {
-						keyInterpreter.notify("left");
+						keyInterpreter.notify(Translator.Command.MOVE_WEST.toString());
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-
-					//TODO refactor this using interpreter
 
 					break;
 				case KeyEvent.VK_RIGHT :
 					try {
-						keyInterpreter.notify("right");
+						keyInterpreter.notify(Translator.Command.MOVE_EAST.toString());
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 
 					break;
 				case KeyEvent.VK_P:
 					try {
-						keyInterpreter.notify("pickUp");
+						keyInterpreter.notify(Translator.Command.PICK_UP.toString());
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 
@@ -422,13 +413,13 @@ public class GameFrame extends JFrame{
 		canvas.getRenderer().update(type, map, items);
 	}
 
-	private void showDialog(String string) {
+/*	private void showDialog(String string) {
 		int PromptResult = JOptionPane.showConfirmDialog(this, "You pressed: "+string);
 
 		while(PromptResult==JOptionPane.NO_OPTION){
 			PromptResult = JOptionPane.showConfirmDialog(this, "Yes you did!");
 		}
-	}
+	}*/
 
 	/**
 	 * Get contents of this player's inventory from Game, via network
@@ -499,33 +490,66 @@ public class GameFrame extends JFrame{
 				Translator.Command.DISPLAY_INVENTORY, this.dialogInterpreter);
 	}
 
+	/**
+	 *
+	 * @return The Key-Action-Event Interpreter
+	 */
 	public StrategyInterpreter getKeyInterpreter() {
 		return keyInterpreter;
 	}
 
+	/**
+	 *
+	 * @return The Dialog-Action-Event Interpreter.
+	 */
 	public StrategyInterpreter getDialogInterpreter() {
 		return dialogInterpreter;
 	}
 
+	/**
+	 * Assigns the argument to the KeyInterpreter field
+	 * @param keyInterpreter The Key-Action-Event Interpreter
+	 */
 	public void setKeyInterpreter(StrategyInterpreter keyInterpreter) {
 		this.keyInterpreter = keyInterpreter;
 	}
+
+	/**
+	 * Assigns the argument to the ButtonInterpreter field
+	 * @param b The Button-Action-Event Interpreter
+	 */
 	public void setButtonInterpreter(StrategyInterpreter b) {
 		this.buttonInterpreter = b;
 	}
 
+	/**
+	 * Assigns the argument to the MenuInterpreter field
+	 * @param m The Menu-Action-Event Interpreter
+	 */
 	public void setMenuInterpreter(StrategyInterpreter m) {
 		this.menuInterpreter = m;
 	}
 
+	/**
+	 * Assigns the argument to the DialogInterpreter field
+	 * @param d The Dialog-Action-Event Interpreter
+	 */
 	public void setDialogInterpreter(StrategyInterpreter d) {
 		this.dialogInterpreter = d;
 	}
 
+	/**
+	 * Returns a PlayerInfo object which contains information about this player
+	 * @return PlayerInfo object which contains information about this player
+	 */
 	public PlayerInfo getPlayer() {
 		return player;
 	}
 
+	/**
+	 * Assigns the argument to the Player field
+	 * @param p The PlayerInfo object which contains information about this player
+	 */
 	public void setPlayer(PlayerInfo p){
 		this.player = p;
 	}
