@@ -19,6 +19,8 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.Box;
@@ -179,7 +181,9 @@ public class WelcomePanel extends JPanel implements ActionListener {
 			displayLoadCreatePlayerOptions();
 		}
 		else if(state.equals(Translator.InitialisationState.LOAD_GAME)){
-			loadSavedGame();
+			if (!loadSavedGame()){	//if they cancelled the load option
+				transitionToNewState(Translator.InitialisationState.SHOW_LOAD_OR_NEW_OPTION);
+			}
 		}
 		else if(state.equals(Translator.InitialisationState.CHOOSE_SLIDER_OPTIONS)){
 			displaySliderOptions();
@@ -212,14 +216,18 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 	}
 
-	private void loadSavedGame() {
+	private boolean loadSavedGame() {
+		boolean hasSelected = false;
+
 		//Create a file chooser
 		final JFileChooser fc = new JFileChooser();
 
 		int returnVal = fc.showOpenDialog(WelcomePanel.this);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();
-			System.out.println(file);
+			if(file != null){
+				hasSelected = true;
+			}
 			try {
 				initialisation.notify("open "+file);
 			} catch (IOException e1) {
@@ -227,6 +235,8 @@ public class WelcomePanel extends JPanel implements ActionListener {
 				e1.printStackTrace();
 			}
 		}
+
+		return hasSelected;
 	}
 
 	private void displaySliderOptions() {
@@ -239,26 +249,51 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		/*
 		 * Create sliders and add vertical space for readability
 		 */
-		final JSlider GameObjectDensity = new JSlider(JSlider.HORIZONTAL, 0, Initialisation.maxTrees, Initialisation.maxTrees/2);
-		GameObjectDensity.add(Box.createRigidArea(sliderPaddingVertical)); //pad between sliders
+
+
+		int tickSpacingDensity = 5, tickSpacingDifficulty = 1, tickSpacingWidth = 5, tickSpacingHeight = 5;
+
+		final JSlider gameObjectDensity = new JSlider(JSlider.HORIZONTAL, 0, Initialisation.maxTrees, Initialisation.maxTrees/2);
+		gameObjectDensity.add(Box.createRigidArea(sliderPaddingVertical));
+		gameObjectDensity.setPaintTicks(true);
+		gameObjectDensity.setMajorTickSpacing(tickSpacingDensity);
+
 		final JSlider difficulty = new JSlider(JSlider.HORIZONTAL, 0, 2, 1);
-		difficulty.add(Box.createRigidArea(sliderPaddingVertical)); //pad between sliders
+		difficulty.add(Box.createRigidArea(sliderPaddingVertical));
+		difficulty.setPaintTicks(true);
+		difficulty.setMajorTickSpacing(tickSpacingDifficulty);
+
+//	    HashMap<Integer, JLabel> table = new HashMap<Integer, JLabel>();
+//
+//	    JLabel easy = new JLabel("Easy");
+//	    JLabel hard = new JLabel("Hard");
+//
+//	    // Set at desired positions
+//	    table.put(new Integer(difficulty.getMinimum()), easy);
+//	    table.put(new Integer(difficulty.getMaximum()), hard);
+//
+//	    // Force the slider to use the new labels
+//	    difficulty.setLabelTable(table);
 
 		//height of game
 		final JSlider height = new JSlider(JSlider.HORIZONTAL, 10, 200, 50);
-		height.add(Box.createRigidArea(sliderPaddingVertical)); //pad between sliders
+		height.add(Box.createRigidArea(sliderPaddingVertical));
+		height.setPaintTicks(true);
+		height.setMajorTickSpacing(tickSpacingHeight);
 
 		//width of game
 		final JSlider width = new JSlider(JSlider.HORIZONTAL, 10, 200, 50);
-		width.add(Box.createRigidArea(sliderPaddingVertical)); //pad between sliders
+		width.add(Box.createRigidArea(sliderPaddingVertical));
+		width.setPaintTicks(true);
+		width.setMajorTickSpacing(tickSpacingWidth);
 
 		ChangeListener sliderListener = new ChangeListener(){
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				JSlider source = (JSlider)e.getSource();
 				if (!source.getValueIsAdjusting()) {
-					if(source == GameObjectDensity){
-						density = GameObjectDensity.getValue();
+					if(source == gameObjectDensity){
+						density = gameObjectDensity.getValue();
 					}
 					else if(source == difficulty){
 						difficultyLevel = difficulty.getValue();
@@ -293,7 +328,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 		});
 
-		GameObjectDensity.addChangeListener(sliderListener);
+		gameObjectDensity.addChangeListener(sliderListener);
 		difficulty.addChangeListener(sliderListener);
 
 		/*
@@ -312,7 +347,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		gameWidthLabel.add(Box.createRigidArea(sliderPaddingVertical));
 
 		sliderPanel.add(densityLabel);
-		sliderPanel.add(GameObjectDensity);
+		sliderPanel.add(gameObjectDensity);
 
 		sliderPanel.add(difficultyLabel);
 		sliderPanel.add(difficulty);
