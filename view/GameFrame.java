@@ -148,6 +148,7 @@ public class GameFrame extends JFrame{
 		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		manager.addKeyEventDispatcher(new MyDispatcher());
 
+		setResizable(false);
 
 
 		//makePretty(topPanel.getPanels(), midPanel, botPanel);
@@ -233,8 +234,13 @@ public class GameFrame extends JFrame{
 
 		happinessPanel.setBounds(20, -40, hapPanelSize.width, hapPanelSize.height);
 
+		botPanel = new ButtonPanel(this, this.buttonInterpreter, Translator.MainGameState.MAIN);
+		botPanel.setOpaque(false);
+		botPanel.setBounds(530, 550, 400, 50);
+
 
 		middleLayeredPane.add(happinessPanel, new Integer(1), 0);
+		middleLayeredPane.add(botPanel, new Integer(1), 0);
 
 		middleLayeredPane.setPreferredSize(new Dimension(gamePanelWidth, gamePanelHeight));
 
@@ -250,11 +256,11 @@ public class GameFrame extends JFrame{
 	}
 
 	private void addBottomPanel() {
-		botPanel = new ButtonPanel(this, this.buttonInterpreter, Translator.MainGameState.MAIN);
-
-		botPanel.setVisible(true);
-
-		add(botPanel);
+//		botPanel = new ButtonPanel(this, this.buttonInterpreter, Translator.MainGameState.MAIN);
+//
+//		botPanel.setVisible(true);
+//
+//		add(botPanel);
 
 	}
 
@@ -390,6 +396,7 @@ public class GameFrame extends JFrame{
 	 */
 	public void setInventoryContents(ArrayList<String> inventory){
 		inventoryContents = inventory;
+		addInventoryDialog();
 	}
 
 	/**
@@ -397,13 +404,14 @@ public class GameFrame extends JFrame{
 	 * @param inventory The list of items as lower-case Strings
 	 */
 	public void setContainerContents(ArrayList<String> containerItems){
+		System.out.println("setting container content");//debug
 		containerContents = containerItems;
+		addContainerDialog();
 	}
 
 	private void addContainerDialog() {
 		Dialog inventory = new Dialog(this, "Display Container", "This container contains:",
 				Translator.Command.DISPLAY_CONTAINER, this.dialogInterpreter);
-
 	}
 
 	/**

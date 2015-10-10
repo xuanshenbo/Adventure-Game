@@ -36,7 +36,7 @@ public class Client extends Thread {
 	public Client(Socket s){
 		socket = s;
 		try {
-			socket.setTcpNoDelay(true);//Data is not buffered but sent immediately
+			//socket.setTcpNoDelay(true);//Data is not buffered but sent immediately
 			output = new OutputStreamWriter(socket.getOutputStream());
 			input = new InputStreamReader(socket.getInputStream());
 			parser = new ClientParser(this);

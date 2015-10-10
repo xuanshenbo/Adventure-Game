@@ -45,12 +45,42 @@ public class ClientParser {
 		case 'I'://inventory information
 			readInventory(message);
 			break;
+		case 'C'://container information
+			readContainer(message);
+			break;
 		default:
 		}
 	}
 
 	/**
-	 * The following parses the inventory information and passes it the frame
+	 * The following parses the container information and passes it to the frame
+	 * @param message
+	 */
+	private void readContainer(char[] message) {
+		ArrayList<String> container = new ArrayList<String>();
+		for(int i=1; i<message.length; i++){
+			switch(message[i]){
+			case 'k':
+				container.add("key");
+				break;
+			case 'c':
+				container.add("cupcake");
+				break;
+			case 'b':
+				container.add("tree");
+				break;
+			case '\0':
+				container.add("null");
+				break;
+			default:
+				System.out.println("unknown container item");
+			}
+		}
+		frame.setContainerContents(container);
+	}
+
+	/**
+	 * The following parses the inventory information and passes it to the frame
 	 * @param message
 	 */
 	private void readInventory(char[] message) {
@@ -59,8 +89,18 @@ public class ClientParser {
 			switch(message[i]){
 			case 'k':
 				inventory.add("key");
+				break;
+			case 'c':
+				inventory.add("cupcake");
+				break;
+			case 'b':
+				inventory.add("tree");
+				break;
 			case '\0':
 				inventory.add("null");
+				break;
+			default:
+				System.out.println("unknown inventory item");
 			}
 		}
 		frame.setInventoryContents(inventory);
