@@ -61,7 +61,7 @@ public class PlayerProfilePanel extends JPanel{
 		add(name, BorderLayout.WEST);
 
 		//add cupcake image
-		Image cupcake= ImageLoader.loadImage("cupcake2.png");
+		Image cupcake= ImageLoader.loadImage("gamelogo.png");
 		ImageIcon cupcakeicon = new ImageIcon(cupcake);
 		JLabel cupcakethumb = new JLabel();
 		cupcakethumb.setIcon(cupcakeicon);

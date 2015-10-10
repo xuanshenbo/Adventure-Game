@@ -148,6 +148,7 @@ public class GameFrame extends JFrame{
 		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		manager.addKeyEventDispatcher(new MyDispatcher());
 
+		setResizable(false);
 
 
 		//makePretty(topPanel.getPanels(), midPanel, botPanel);
@@ -395,6 +396,7 @@ public class GameFrame extends JFrame{
 	 */
 	public void setInventoryContents(ArrayList<String> inventory){
 		inventoryContents = inventory;
+		addInventoryDialog();
 	}
 
 	/**
@@ -403,12 +405,12 @@ public class GameFrame extends JFrame{
 	 */
 	public void setContainerContents(ArrayList<String> containerItems){
 		containerContents = containerItems;
+		addContainerDialog();
 	}
 
 	private void addContainerDialog() {
 		Dialog inventory = new Dialog(this, "Display Container", "This container contains:",
 				Translator.Command.DISPLAY_CONTAINER, this.dialogInterpreter);
-
 	}
 
 	/**
