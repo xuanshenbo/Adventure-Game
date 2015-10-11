@@ -387,7 +387,7 @@ public class ButtonPanel extends JPanel {
 
 			b.revalidate();
 
-			b.setForeground(GameFrame.fontColor);
+			b.setForeground(GameFrame.buttonFontColor);
 		}
 
 	}

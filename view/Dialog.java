@@ -97,6 +97,7 @@ public class Dialog extends JDialog implements ActionListener {
 		}
 
 		JButton ok = new JButton("OK");
+		ButtonPanel.makeButtonsPretty(ok);
 		ok.addActionListener(this);
 		add(ok);
 
@@ -132,6 +133,7 @@ public class Dialog extends JDialog implements ActionListener {
 		}
 
 		JButton ok = new JButton("OK");
+		ButtonPanel.makeButtonsPretty(ok);
 		ok.addActionListener(this);
 		add(ok);
 
