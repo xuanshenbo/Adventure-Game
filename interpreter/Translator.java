@@ -44,7 +44,7 @@ public class Translator {
 	public static String encode(InitialisationCommand command) {
 
 		if(command.equals(InitialisationCommand.SELECTED_AVATAR)){
-			//
+			return "J";
 		}
 		return null;
 	}

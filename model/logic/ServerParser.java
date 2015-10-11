@@ -159,7 +159,7 @@ public class ServerParser {
 	 * @param player: the player to send the inventory to
 	 * @param itemArray: the inventory of the container
 	 */
-	public void sendInventory(Player player, Item[] items) {
+	public void sendContainer(Player player, Item[] items) {
 		char[] itemArray = new char[items.length];
 		for (int i = 0; i < items.length; i++) {
 			if(items[i] != null){
@@ -168,6 +168,23 @@ public class ServerParser {
 		}
 		tempItemArrayStorage = itemArray;
 		sendToServer(player, 'C');
+
+	}
+	
+	/**
+	 * Send the inventory of a player.
+	 * @param player: the player to send the inventory to
+	 * @param itemArray: the inventory of the container
+	 */
+	public void sendInventory(Player player, Item[] items) {
+		char[] itemArray = new char[items.length];
+		for (int i = 0; i < items.length; i++) {
+			if(items[i] != null){
+				itemArray[i] = items[i].getType();
+			}
+		}
+		tempItemArrayStorage = itemArray;
+		sendToServer(player, 'I');
 
 	}
 

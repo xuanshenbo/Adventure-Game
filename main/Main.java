@@ -81,6 +81,7 @@ public class Main {
 			client = new Client(socket);
 			//Writer output = client.getOutput()repaint;
 			client.start();
+			initial.setClient(client);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -147,7 +148,6 @@ public class Main {
 
 	public static void closeWelcome() {
 		initial.getFrame().dispose();
-		initial.setClient(client);
 	}
 
 	/**

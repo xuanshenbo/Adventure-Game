@@ -31,13 +31,14 @@ public class ClientParser {
 	 */
 	public void processMessage(char[] message){
 		switch(message[0]){
-/*		case 'I'://id
+		/*		case 'I'://id
 			uid = Character.getNumericValue(message[1]);
 			break;*/
 		case 'A'://ip address and id
 			readIP(message);
 			break;
-		case 'P'://player information
+		case 'H'://happiness level
+			readHappiness(message);
 			break;
 		case 'M'://map
 			readMap(message);
@@ -53,12 +54,20 @@ public class ClientParser {
 	}
 
 	/**
+	 * The following parses the happiness level and passes it to the frame
+	 * @param message
+	 */
+	private void readHappiness(char[] message) {
+
+	}
+
+	/**
 	 * The following parses the container information and passes it to the frame
 	 * @param message
 	 */
 	private void readContainer(char[] message) {
 		ArrayList<String> container = new ArrayList<String>();
-		for(int i=1; i<message.length; i++){
+		loop: for(int i=1; i<message.length; i++){
 			switch(message[i]){
 			case 'k':
 				container.add("key");
@@ -67,11 +76,15 @@ public class ClientParser {
 				container.add("cupcake");
 				break;
 			case 'b':
-				container.add("tree");
+				container.add("bag");
 				break;
 			case '\0':
-				container.add("null");
+				container.add("emptyslot");
 				break;
+			case 'X':
+				char[] newMessage = separateMessage(message, i);
+				if(newMessage != null) processMessage(newMessage);
+				break loop;
 			default:
 				System.out.println("unknown container item");
 			}
@@ -84,8 +97,9 @@ public class ClientParser {
 	 * @param message
 	 */
 	private void readInventory(char[] message) {
+		System.out.println("inventory reading");//debug
 		ArrayList<String> inventory = new ArrayList<String>();
-		for(int i=1; i<message.length; i++){
+		loop: for(int i=1; i<message.length; i++){
 			switch(message[i]){
 			case 'k':
 				inventory.add("key");
@@ -94,16 +108,37 @@ public class ClientParser {
 				inventory.add("cupcake");
 				break;
 			case 'b':
-				inventory.add("tree");
+				inventory.add("bag");
 				break;
 			case '\0':
-				inventory.add("null");
+				inventory.add("emptyslot");
 				break;
+			case 'X':
+				char[] newMessage = separateMessage(message, i);
+				if(newMessage != null) processMessage(newMessage);
+				break loop;
 			default:
-				System.out.println("unknown inventory item");
+				System.out.println(message[i]);
 			}
 		}
+		System.out.println("inventory size: "+inventory.size());//debug
 		frame.setInventoryContents(inventory);
+	}
+
+	/**
+	 * This will separate the messages if more than one messages are read together in the client
+	 * @param message
+	 * @param i
+	 * @return
+	 */
+	private char[] separateMessage(char[] message, int i){
+		if(message[i+1] == '\0') return null;
+		char[] newMessage = new char[message.length-i];
+		for(int k=0; k<newMessage.length; k++){
+			if(message[i] == '\0') break;
+			newMessage[k] = message[++i];
+		}
+		return newMessage;
 	}
 
 	/**

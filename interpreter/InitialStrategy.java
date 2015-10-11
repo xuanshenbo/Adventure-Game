@@ -85,11 +85,11 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 		//add to the msg the integer corresponding to which avatar was chosen
 		msg += avatarInteger;
 
-		/*try {
+		try {
 			initialisation.getClient().send(msg);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}*/
+		}
 
 		initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.START_GAME);
 
