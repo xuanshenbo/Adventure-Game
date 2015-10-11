@@ -66,6 +66,7 @@ public class GameFrame extends JFrame{
 	public static final Color fontColor = Color.PINK;
 	public static final Color buttonFontColor = new Color(0, 128, 255);
 	public static final Color statusBarFontColor = new Color(102, 102, 255);
+	public static final Color happinessBarColor = new Color(255, 204, 255);
 
 	private Dialog ContainerDialog;
 
@@ -207,13 +208,33 @@ public class GameFrame extends JFrame{
 
 		middleLayeredPane.add(midPanel, new Integer(0), 0);
 
-		JPanel happinessPanel = null;
-		happinessPanel = new JPanel(new BorderLayout());
+		JPanel happinessPanel = createStatusPanel();
+
+		botPanel = new ButtonPanel(this, this.buttonInterpreter, Translator.MainGameState.MAIN);
+		botPanel.setOpaque(false);
+		botPanel.setBounds(530, 550, 400, 50);
+
+
+		middleLayeredPane.add(happinessPanel, new Integer(1), 0);
+		middleLayeredPane.add(botPanel, new Integer(1), 0);
+
+		middleLayeredPane.setPreferredSize(new Dimension(gamePanelWidth, gamePanelHeight));
+
+		middleLayeredPane.revalidate();
+
+		add(middleLayeredPane);
+
+	}
+
+	private JPanel createStatusPanel() {
+		JPanel statusPanel = null;
+		statusPanel = new JPanel(new BorderLayout());
+
 		JLabel hapLevel = new JLabel("Happiness Level");
 		JLabel ipAddress = new JLabel(ip);
 		JLabel timeLabel = new JLabel("The time is: "+time);
 
-		JLabel hapBar = new JLabel(){
+		JLabel statusWindow = new JLabel(){
 			@Override
 			public void paintComponent(Graphics g){
 				//set the font and size of the text to be drawn
@@ -223,8 +244,8 @@ public class GameFrame extends JFrame{
 				g.setColor(statusBarFontColor);
 				g.drawString("Happiness Level", bar_left, bar_top -10);
 
-				//draw the bar in white
-				g.setColor(Color.WHITE);
+				//draw the happiness bar
+				g.setColor(happinessBarColor);
 				g.fillRect(bar_left, bar_top, happinessValue, bar_height);
 
 				//draw a pink outline around the bar
@@ -243,30 +264,18 @@ public class GameFrame extends JFrame{
 
 		};
 
-		happinessPanel.add(hapBar, BorderLayout.CENTER);
+		statusPanel.add(statusWindow, BorderLayout.CENTER);
 
 		//want to see the map behind panel, so make panel not opaque
-		happinessPanel.setOpaque(false);
+		statusPanel.setBackground(new Color(col2.getRed(), col2.getGreen(), col2.getBlue(), 100));
+		//statusPanel.setOpaque(false);
 
 
-		Dimension hapPanelSize = new Dimension (500, 500);
 
-		happinessPanel.setBounds(20, -40, hapPanelSize.width, hapPanelSize.height);
+		Dimension statusPanelSize = new Dimension (200, 200);
 
-		botPanel = new ButtonPanel(this, this.buttonInterpreter, Translator.MainGameState.MAIN);
-		botPanel.setOpaque(false);
-		botPanel.setBounds(530, 550, 400, 50);
-
-
-		middleLayeredPane.add(happinessPanel, new Integer(1), 0);
-		middleLayeredPane.add(botPanel, new Integer(1), 0);
-
-		middleLayeredPane.setPreferredSize(new Dimension(gamePanelWidth, gamePanelHeight));
-
-		middleLayeredPane.revalidate();
-
-		add(middleLayeredPane);
-
+		statusPanel.setBounds(20, -40, statusPanelSize.width, statusPanelSize.height);
+		return statusPanel;
 	}
 
 	private void addTopPanel() {
