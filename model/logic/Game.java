@@ -276,6 +276,17 @@ public class Game {
 	}
 
 	/**
+	 * Called when a player opens their inventory
+	 * @param player
+	 */
+
+	public void sendInventory(Player player) {
+		Item[] inventory = player.getInventory();
+		parser.sendInventory(player, inventory);
+
+	}
+
+	/**
 	 * Called when a player uses an item in their inventory
 	 */
 

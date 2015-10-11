@@ -79,7 +79,7 @@ public class Main {
 			//Socket socket = new Socket(InetAddress.getByName("0.0.0.0"),ss.PORT);
 			Socket socket = new Socket(server.getAddress(), server.PORT);
 			client = new Client(socket);
-			//Writer output = client.getOutput();
+			//Writer output = client.getOutput()repaint;
 			client.start();
 		} catch (IOException e) {
 			e.printStackTrace();

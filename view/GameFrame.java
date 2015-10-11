@@ -406,6 +406,7 @@ public class GameFrame extends JFrame{
 	 * @param inventory The list of items as lower-case Strings
 	 */
 	public void setContainerContents(ArrayList<String> containerItems){
+		System.out.println("setting container content");//debug
 		containerContents = containerItems;
 		addContainerDialog();
 	}

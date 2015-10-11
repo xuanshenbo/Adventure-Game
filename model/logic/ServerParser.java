@@ -43,8 +43,11 @@ public class ServerParser {
 		case 'M'://move [M, direction]
 			game.move(game.getGameState().getPlayer(id), parseDirection(message[1]));
 			break;
-		case 'U': //use [I, int inventorySlot)
+		case 'U': //use [U, int inventorySlot)
 			game.use(game.getGameState().getPlayer(id), Character.getNumericValue(message[1]));
+			break;
+		case 'I': //request Inventory [I]
+			game.sendInventory(game.getGameState().getPlayer(id));
 			break;
 		case 'P'://Pickup [P, _]
 			game.pickUp(game.getGameState().getPlayer(id));
@@ -58,6 +61,7 @@ public class ServerParser {
 		case 'D'://Drop [D, _]
 			game.drop(game.getGameState().getPlayer(id));
 			break;
+
 		case 'F'://activating frame
 			game.activateFrame();
 			break;
