@@ -6,9 +6,11 @@ import interpreter.Translator.InitialisationCommand;
 import java.io.IOException;
 import java.io.Writer;
 import java.net.InetAddress;
+import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
+import control.Client;
 import view.Avatar;
 import main.Initialisation;
 import main.Main;
@@ -61,14 +63,24 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 			ip = text;
 			InetAddress adr = null;
 			try {
+				adr = InetAddress.getByName(ip);
+				Main.avatarClient(adr, 8888);
+
 				//request available avatars from game
 				Translator.InitialisationCommand cmd = Translator.InitialisationCommand.GET_AVAILABLE_AVATARS;
 				String msg = Translator.encode(cmd);
 				initialisation.getClient().send(msg);
 
-				adr = InetAddress.getByName(ip);
+				/*Socket socket = new Socket(adr, 8888);
+				Client avatarClient = new Client(socket);
+				client.setUid(4);//debug
+				client.start();
+				initial.setClient(client);*/
+
+				/*Client avatarClient =
 				Main.clientMode(adr, 8888);
-				Main.setIP(ip);
+				Main.setIP(ip);*/
+
 			} catch (IOException e) {
 				initialisation.getWelcomePanel().transitionToNewState(InitialisationCommand.CONNECT_TO_SERVER);
 			}

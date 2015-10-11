@@ -172,11 +172,13 @@ public class Server extends Thread{
 				char[] input = new char[2];
 				in.read(input);
 				id = Character.getNumericValue(input[1]);
-				System.out.println("id: "+id);
+				System.out.println("id: "+id);//debug
 
 				Writer out = new OutputStreamWriter(connection.getOutputStream());
 				writers[id] = out;
-				game.getParser().processClientEvent(input, out, id);
+				if(id != 0){
+					game.getParser().processClientEvent(input, out, id);
+				}
 				out.write("A"+address.getHostAddress().toString()+"X");// 'X' indicates the end of the message
 				out.flush();
 				//System.out.println(address.getHostAddress().toString());//debug
@@ -196,6 +198,9 @@ public class Server extends Thread{
 					char[] message = new char[256];
 					//System.out.println("Stuck for twice");
 					in.read(message);
+					if(message[0] == '&'){
+						break;
+					}
 					/*int counter = 0;
 					System.out.println(counter++);*/
 					/*String input = "";

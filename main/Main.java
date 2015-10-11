@@ -99,18 +99,36 @@ public class Main {
 	 * @param port
 	 * @throws IOException
 	 */
-	public static void clientMode(InetAddress adr, int port) throws IOException{
-		server = null;
+	public static void clientMode(InetAddress adr, int port, int uid) throws IOException{
 		try {
 			Socket socket = new Socket(adr, port);
 			client = new Client(socket);
-			client.setUid(4);//debug
+			client.setUid(uid);//debug
 			client.start();
 			initial.setClient(client);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		displayMainGameFrame();//debug
+	}
+
+	/**
+	 * The following creates a client specifically for choosing avatar
+	 * @param adr
+	 * @param port
+	 * @throws IOException
+	 */
+	public static void avatarClient(InetAddress adr, int port) throws IOException{
+		server = null;
+		try {
+			Socket socket = new Socket(adr, port);
+			Client avatarClient = new Client(socket);
+			avatarClient.setUid(0);//debug
+			avatarClient.start();
+			initial.setClient(avatarClient);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void displayMainGameFrame() throws IOException{

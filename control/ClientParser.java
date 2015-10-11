@@ -2,6 +2,7 @@ package control;
 
 import java.util.ArrayList;
 
+import main.Main;
 import view.Avatar;
 import view.GameFrame;
 import static utilities.PrintTool.p;
@@ -61,27 +62,24 @@ public class ClientParser {
 	 * @param message
 	 */
 	private void readAvatar(char[] message) {
+		System.out.println("Got available avatars");//debug
 		ArrayList<Avatar> avatars = new ArrayList<Avatar>();
 		loop: for(int i=1; i<message.length; i++){
 			switch(message[i]){
 			case 'Y':
-				avatars.add()
+				avatars.add(Avatar.getAvatarFromInt(i));
 				break;
-			case 'c':
-				container.add("cupcake");
-				break;
-			case 'b':
-				container.add("bag");
+			case 'N':
 				break;
 			case 'X':
 				char[] newMessage = separateMessage(message, i);
 				if(newMessage != null) processMessage(newMessage);
 				break loop;
 			default:
-				System.out.println("unknown container item");
+				System.out.println("unknown avatar");
 			}
 		}
-		frame.setContainerContents(container);
+		Main.getInitial().setAvatars(avatars);
 	}
 
 	/**
