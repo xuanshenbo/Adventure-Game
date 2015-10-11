@@ -30,7 +30,7 @@ public class GameState {
 	@XmlElement(name="zombie")
 	private ArrayList<Zombie> zombieList = new ArrayList<Zombie>(); // list of zombies in the game
 	private Area world; // The game world
-	private int viewPortSize = 21;
+	private int viewPortSize = 31;
 	private int time;
 	private boolean day;
 	private String loadedFile;
@@ -219,6 +219,19 @@ public class GameState {
 			c=0;
 			r++;
 		}
+
+		System.out.println("\nPlayer 1 view");
+		for(int row = 0; row<objects.length; row++){
+			for(int col = 0; col<objects[0].length; col++){
+				if(objects[row][col] != '\u0000'){
+					System.out.print(objects[row][col]);
+				}else{
+					System.out.print("N");
+				}
+			}
+			System.out.println("");
+		}
+
 		List<char[][]> worldInfo = new ArrayList<char[][]>();
 		worldInfo.add(view);
 		worldInfo.add(objects);
