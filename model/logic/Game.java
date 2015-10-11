@@ -307,14 +307,16 @@ public class Game {
 	public void pickUp(Player player) {
 		Position playerPosition = player.getPosition();
 		Item item = gameState.getItem(playerPosition);
+		boolean pickedUp = false;
 		if (item != null) {
-			boolean pickedUp = player.collect(item);
+			pickedUp = player.collect(item);
 			if(pickedUp){
 				gameState.removeItem(playerPosition);
 			}
+		}if(pickedUp){
+			parser.sendToServer(player, 'I');
+			parser.sendToServer(player, 'M');
 		}
-		parser.sendToServer(player, 'I');
-		parser.sendToServer(player, 'M');
 	}
 
 	/**
