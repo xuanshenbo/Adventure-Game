@@ -83,6 +83,24 @@ public class Player {
 		selectedItem = null;
 	}
 
+	public boolean getKey() {
+		for(int i = 0; i < inventory.length; i++){
+			if(inventory[i] instanceof Key){
+				inventory[i] = null;
+				return true;
+			}else if(inventory[i] instanceof Bag){
+				Bag bag = (Bag)inventory[i]; 
+				for(int j = 0; j < bag.open().length; j++){
+					if(bag.open()[i] instanceof Key){
+						bag.open()[i] = null;
+						return true;
+					}
+				}
+			}			
+		}
+		return false;
+	}
+
 	/**
 	 * Adds the item to the players inventory
 	 *
@@ -107,10 +125,16 @@ public class Player {
 
 	public Item[] use(int inventorySlot){
 		Item item = inventory[inventorySlot];
-		if(item != null){
+		p(item);
+		if(item instanceof Bag){
 			openContainer = (Container) item;
+			return item.use(this);
 		}
-		return item.use(this);
+		else if(item != null){
+			item.use(this);
+			inventory[inventorySlot] = null;
+		}
+		return null;
 	}
 
 	public void removeItem(int inventorySlot) {

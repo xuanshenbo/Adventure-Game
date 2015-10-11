@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+import model.items.Bag;
 import model.items.Item;
 import model.npcs.ChaseZombie;
 import model.npcs.RandomZombie;
@@ -191,7 +192,7 @@ public class Game {
 		int playerY = player.getPosition().getY();
 		int zombieX = zombie.getPosition().getX();
 		int zombieY = zombie.getPosition().getY();
-		if (Math.abs(playerX - zombieX) < 4 && Math.abs(playerY - zombieY) < 4) {
+		if (Math.abs(playerX - zombieX) < 5 && Math.abs(playerY - zombieY) < 5) {
 			return true;
 		}
 		return false;
@@ -226,13 +227,15 @@ public class Game {
 			}
 			//update players view
 			parser.sendToServer(player, 'M');
-//			gameState.printView(1);
+			//gameState.printView(1);
 		}
 		if (toTile != null && toTile.isContainer()) {
-			Container container = (Container) toTile;
-			player.setOpenContainer(container);
-			Item[] items = container.open();
-			parser.sendContainer(player, items);
+			ChestTile container = (ChestTile) toTile;
+			if(player.getKey()){
+				player.setOpenContainer(container);
+				Item[] items = container.open();
+				parser.sendContainer(player, items);
+			}
 		}
 	}
 
@@ -294,11 +297,16 @@ public class Game {
 	 */
 
 	public void use(Player player, int inventorySlot){
-		Item[] inventory = player.use(inventorySlot);
-		parser.sendToServer(player, 'I');
-		parser.sendToServer(player, 'H');
-		if(inventory != null){
-			parser.sendContainer(player, inventory);
+
+		p(player.getItemFromInventory(inventorySlot));
+		if(player.getItemFromInventory(inventorySlot) != null){
+			Item[] inventory = player.use(inventorySlot);
+			p(inventory);
+			parser.sendToServer(player, 'I');
+			parser.sendToServer(player, 'H');
+			if(inventory != null){
+				parser.sendContainer(player, inventory);
+			}
 		}
 	}
 
@@ -326,11 +334,11 @@ public class Game {
 	 * Called when the player tries to drop an object on the ground
 	 * @param player
 	 */
-	public void drop(Player player) {
+	public void drop(Player player, int inventorySlot) {
 		Position playerPosition = player.getPosition();
-		Item item = player.getSelectedItem();
+		Item item = player.getItemFromInventory(inventorySlot);
 		if(item != null){
-			player.removeSelectedItem();
+			player.removeItem(inventorySlot);
 			gameState.addItem(playerPosition, item);
 		}
 		parser.sendToServer(player, 'I');
@@ -346,32 +354,54 @@ public class Game {
 	 * @param containerSlot: the slot of the item in the open container.
 	 */
 
-	public void moveInventory(Player player, int inventorySlot, int containerSlot) {
-		Item inventoryItem = player.getItemFromInventory(inventorySlot);
-		Container container = player.getOpenContainer();
-		Item containerItem = container.getItem(containerSlot);
-		//no items in either slot, do nothing
-		if(inventoryItem == null && containerItem == null){
+	public void moveInventory(Player player, int fromSlot, int toSlot) {
+		Item fromItem = player.getItemFromInventory(fromSlot);
+		Item toItem = player.getItemFromInventory(toSlot);
+		
+		if(toItem instanceof Container){
+			Bag bag = (Bag) toItem;
+			boolean notBag = bag.addItem(fromItem);
+			if(notBag){
+				player.removeItem(fromSlot);
+			}
+			return;
 		}
-		//inventorySlot has an item and containerSlot does not, move item from inventory to
-		//container
-		else if(inventoryItem != null && containerItem == null){
-			player.removeItem(inventorySlot);
-			container.addItem(inventoryItem);
-		}
-		//ContainerSlot has an item and InventorySlot does not, move item from container to
-		//inventory
-		else if(containerItem != null && inventoryItem == null){
-			player.addItemToInventory(containerItem);
-			container.removeItemSlot(containerSlot);
-		}
-		//Else both InventorySlot and ContainerSlot are both full and we swap the items
-		else{
-			player.removeItem(inventorySlot);
-			container.addItem(inventoryItem);
-			player.addItemToInventory(containerItem);
-			container.removeItemSlot(containerSlot);
-		}
+		
+		player.getInventory()[fromSlot] = toItem;
+		player.getInventory()[toSlot] = fromItem;
+		
+		
+		parser.sendInventory(player, player.getInventory());;
+		
+		
+		
+		
+		
+//		Item inventoryItem = player.getItemFromInventory(inventorySlot);
+//		Container container = player.getOpenContainer();
+//		Item containerItem = container.getItem(containerSlot);
+//		//no items in either slot, do nothing
+//		if(inventoryItem == null && containerItem == null){
+//		}
+//		//inventorySlot has an item and containerSlot does not, move item from inventory to
+//		//container
+//		else if(inventoryItem != null && containerItem == null){
+//			player.removeItem(inventorySlot);
+//			container.addItem(inventoryItem);
+//		}
+//		//ContainerSlot has an item and InventorySlot does not, move item from container to
+//		//inventory
+//		else if(containerItem != null && inventoryItem == null){
+//			player.addItemToInventory(containerItem);
+//			container.removeItemSlot(containerSlot);
+//		}
+//		//Else both InventorySlot and ContainerSlot are both full and we swap the items
+//		else{
+//			player.removeItem(inventorySlot);
+//			container.addItem(inventoryItem);
+//			player.addItemToInventory(containerItem);
+//			container.removeItemSlot(containerSlot);
+//		}
 
 
 	}
@@ -419,11 +449,16 @@ public class Game {
 
 	}
 
-	public void getAvailablePlayer(int id) {
+	public void getAvailablePlayers(int id) {
 		char[] players = new char[4];
 		for(int i = 0; i < players.length; i++){
-
+			if(!gameState.getPlayer(id).isInGame()){
+				players[i] = 'Y';
+			}else{
+				players[i] = 'N';
+			}
 		}
+		parser.sendPlayers(gameState.getPlayer(id), players);
 	}
 
 

@@ -7,6 +7,7 @@ import java.io.Writer;
 import java.util.Scanner;
 
 import main.Main;
+import static utilities.PrintTool.p;
 
 public class ButtonStrategy implements StrategyInterpreter.Strategy{
 
@@ -24,7 +25,7 @@ public class ButtonStrategy implements StrategyInterpreter.Strategy{
 
 	@Override
 	public void notify(String text) {
-
+		p(text);
 		if(Translator.isCommand(text)){
 			notifyCommand(text);
 		}
@@ -38,6 +39,8 @@ public class ButtonStrategy implements StrategyInterpreter.Strategy{
 
 			//this should be 'drop' 'moveToBag' or 'use'
 			String command = sc.next();
+			p(reference);
+			p(command);
 
 			try {
 				interpreter.getClient().send(Translator.encode(Translator.toCommand(command)));
@@ -85,8 +88,8 @@ public class ButtonStrategy implements StrategyInterpreter.Strategy{
 
 				msg += selectedItem; //add the index of the item being moved
 				msg += moveTo; //add the new index for the item being moved
-
-				System.out.println(msg);
+				
+				p(msg);
 
 				try {
 					interpreter.getClient().send(msg);

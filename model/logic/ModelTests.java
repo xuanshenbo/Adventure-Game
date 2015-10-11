@@ -100,7 +100,7 @@ public class ModelTests {
 		Item[][] items = game.getGameState().getWorld(player).getItems();
 		Item item = new Key();
 		player.setSelected(item);
-		game.drop(player);
+		game.drop(player, 0);
 		Item droppedItem = items[player.getPosition().getY()][player.getPosition().getX()];
 		assertTrue(droppedItem.equals(item));
 	}

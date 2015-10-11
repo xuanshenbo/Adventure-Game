@@ -82,21 +82,22 @@ public class Generator {
 		this.difficulty = difficulty;
 		int numberOfTiles = width*height;
 		if(difficulty.equals("easy")){
-			this.chests = numberOfTiles/50;
-			this.lootValue = 3;
+			this.chests = numberOfTiles/500;
+			this.lootValue = 20;
 		}else if(difficulty.equals("medium")){
-			this.chests = numberOfTiles/100;
-			lootValue = 2;
+			this.chests = numberOfTiles/1000;
+			lootValue = 10;
 		}else if(difficulty.equals("hard")){
-			this.chests = numberOfTiles/200;
+			this.chests = numberOfTiles/5000;
 			lootValue = 1;
 		}
-		this.trees = 1010-(density*10);
-		this.buildings = ((numberOfTiles/100)*density)/100;
+		this.trees = 300 - 290*(density/100);
+		//this.trees = 1010-(density*10);
+		this.buildings = ((numberOfTiles/1000)*density)/100;
 		if(buildings  < 1){
 			buildings = 1;
 		}
-		this.caves = buildings/4;
+		this.caves = buildings/2;
 		if(caves < 1){
 			caves = 1;
 		}
@@ -112,7 +113,7 @@ public class Generator {
 		for(int row = 0; row<area.getArea().length; row++){
 			for(int col = 0; col < area.getArea()[0].length; col++){
 				if(area.getArea()[row][col].isGround()){
-					if(Math.random()*200 < lootValue){
+					if(Math.random()*5000 < lootValue){
 						area.getItems()[row][col] = randomItem();
 					}
 				}

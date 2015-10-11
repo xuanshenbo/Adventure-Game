@@ -22,6 +22,7 @@ public class ServerParser {
 	private Server server;
 	private char[] tempItemArrayStorage = null;
 	private boolean testing;
+	private char[] playerList;
 
 	public ServerParser(Game game, Server server, boolean testing) {
 		this.game = game;
@@ -55,11 +56,11 @@ public class ServerParser {
 		case 'C'://Selected [C, int inventorySlot]
 			game.select(game.getGameState().getPlayer(id), Character.getNumericValue(message[1]));
 			break;
-		case 'm'://move Item [m, int inventorySlot, int containerSlot]
+		case 'V'://move Item in 1st inventory slot  into a bag in the 2nd inventory slot[m, int inventorySlot, int inventorySlot]
 			game.moveInventory(game.getGameState().getPlayer(id), Character.getNumericValue(message[1]), Character.getNumericValue(message[2]));
 			break;
-		case 'D'://Drop [D, _]
-			game.drop(game.getGameState().getPlayer(id));
+		case 'D'://Drop [D, inventorySlot]
+			game.drop(game.getGameState().getPlayer(id), Character.getNumericValue(message[1]));
 			break;
 
 		case 'F'://activating frame
@@ -81,7 +82,7 @@ public class ServerParser {
 			game.deActivatePlayer(id);
 			break;
 		case 'R'://requesting available players
-			game.getAvailablePlayer(id);
+			game.getAvailablePlayers(id);
 			break;
 		}
 	}
@@ -130,16 +131,23 @@ public class ServerParser {
 			}
 		}else if(action == 'I'){// player inventory
 			char[] inventory = new char[player.getInventory().length];
+			for(int i = 0; i< inventory.length; i++){
+				if(player.getInventory()[i] != null){
+					inventory[i] = player.getInventory()[i].getType();
+				}
+			}
 			message = new char[inventory.length+2];
 			message[0] = action;
-			for(int i = 1; i < inventory.length; i++){
-				message[i] = inventory[i];
+			for(int i = 0; i < inventory.length; i++){				
+				message[i+1] = inventory[i];
 			}
+			
 		}else if(action == 'H'){// player happiness
 			int happiness = player.getHappiness();
 			message = new char[3];
 			message[0] = action;
 			message[1] = (char)(happiness +'0');
+			p(message[1]);
 		}else if(action == 'C'){// container inventory information
 			message = new char[tempItemArrayStorage.length+2];
 			message[0] = action;
@@ -156,6 +164,12 @@ public class ServerParser {
 				message[2] = 'D';
 			}else{
 				message[2] = 'N';
+			}
+		}else if(action == 'R'){//sending list of players
+			message = new char[6];
+			message[0] = action;
+			for(int i = 0; i < playerList.length; i++){
+				message[i+1] = playerList[i];
 			}
 
 		}else{
@@ -204,6 +218,11 @@ public class ServerParser {
 		tempItemArrayStorage = itemArray;
 		sendToServer(player, 'I');
 
+	}
+
+	public void sendPlayers(Player player, char[] players) {
+		playerList = players;
+		sendToServer(player, 'R');
 	}
 
 }
