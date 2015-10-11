@@ -178,12 +178,12 @@ public class GameRenderer{
 				graphic.drawImage(images.shadow(), imageX, imageY+shadowHeight*3/2, shadowWidth, shadowHeight, null);
 				graphic.drawImage(images.tree(), imageX, imageY, null);
 				break;
-			case 'C':
+			case 'c':
 				imageX = (int) x;
 				imageY = (int) (y - (images.cave().getHeight(null)-tileHeight));
 				graphic.drawImage(images.cave(), imageX, imageY, null);
 				break;
-			case 'B':
+			case 'b':
 				imageX = (int) (x - tileWidth);
 				imageY = (int) (y - images.building().getHeight(null) + tileHeight*2.5);
 				graphic.drawImage(images.building(), imageX, imageY, null);
@@ -201,7 +201,7 @@ public class GameRenderer{
 			case 'Z':
 				imageX = (int) x;
 				imageY = (int) (y - images.key().getHeight(null));
-				graphic.drawImage(images.key(), imageX, imageY, null);
+				graphic.drawImage(images.zombie(), imageX, imageY, null);
 				break;
 			default:
 				break;
@@ -227,47 +227,7 @@ public class GameRenderer{
 			this.view = view;
 			this.objects = objects;
 			this.renderState.initialize(view);
-			setRenderingMap();
 			doRender = false;
-		}
-	}
-
-	private void setRenderingMap() {
-		for (int y = 0; y < viewHeight; y++) {
-			for (int x = 0; x < viewWidth; x++) {
-				if (renderState.getMap()[y][x] == 'C'){
-					int leftX = view[0].length - x;
-					int leftY = view.length - y;
-					if (leftX > 2) {
-						leftX = 2;
-					}
-					if (leftY > 2) {
-						leftY = 2;
-					}
-					clearTile(x, y, leftX, leftY);
-					renderState.getMap()[y][x] = 'C';
-				}
-				if (renderState.getMap()[y][x] == 'B'){
-					int leftX = view[0].length - x;
-					int leftY = view.length - y;
-					if (leftX > 5) {
-						leftX = 5;
-					}
-					if (leftY > 3) {
-						leftY = 3;
-					}
-					clearTile(x, y, leftX, leftY);
-					renderState.getMap()[y][x] = 'B';
-				}
-			}
-		}
-	}
-
-	private void clearTile(int x, int y, int lengthX, int lengthY){
-		for (int j = 0; j < lengthY; j++){
-			for (int i = 0; i < lengthX; i++){
-				renderState.getMap()[y+j][x+i] = 'N';
-			}
 		}
 	}
 

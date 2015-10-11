@@ -29,6 +29,7 @@ public class Images {
     private Image keyImage;
     private Image caveImage;
     private Image shadow;
+    private Image zombie;
 
 
     private ArrayList<Image> avatarImages;
@@ -59,6 +60,8 @@ public class Images {
         this.keyImage = loadImage("key.png", imageScale, imageScale);
 
         //load characters images
+        this.zombie = loadImage("zombie.png", imageScale, imageScale);
+
         for (int i = 0; i < 4; i++){
 //            int avatarImageIndex = new Random().nextInt(3);
 //            p(avatarImageIndex);
@@ -116,5 +119,9 @@ public class Images {
     }
 
     public Image shadow() { return shadow;
+    }
+
+    public Image zombie() {
+        return zombie;
     }
 }
