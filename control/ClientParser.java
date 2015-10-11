@@ -154,7 +154,7 @@ public class ClientParser {
 			receive+=message[i];
 		}
 		client.setIPaddress(receive);
-		client.setUid(Character.getNumericValue(message[++i]));
+		//client.setUid(Character.getNumericValue(message[++i]));
 		System.out.println(client.getIPaddress());//debug
 		System.out.println(client.getUid());//debug
 	}

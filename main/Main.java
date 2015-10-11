@@ -73,12 +73,19 @@ public class Main {
 		server = new Server(parameters);
 		game = server.getGame();
 		server.start();
+	}
+
+	/**
+	 * The following connects the set up client with the server. This happens in the serverClient mode.
+	 */
+	public static void connectClient(int id){
 		try {
 			//System.out.println(ss.getAddress().toString());//debug
 			//Socket socket = new Socket(InetAddress.getByName( (ss.getAddress().getHostAddress().toString() ) ),ss.PORT);
 			//Socket socket = new Socket(InetAddress.getByName("0.0.0.0"),ss.PORT);
 			Socket socket = new Socket(server.getAddress(), server.PORT);
 			client = new Client(socket);
+			client.setUid(id);
 			//Writer output = client.getOutput()repaint;
 			client.start();
 			initial.setClient(client);
@@ -134,6 +141,7 @@ public class Main {
 		frame.setRadioInterpreter(radioInterpreter);
 
 		//set the ip address of the client for display
+		ipAddress = client.getIPaddress();
 		frame.setIP(ipAddress);
 
 		frame.setUpLayoutAndDisplay();
@@ -160,7 +168,6 @@ public class Main {
 
 	/**
 	 * Close the server so as to not have to manually terminate
-	 * TODO Felix to do this properly
 	 */
 	public static void closeServer() {
 		if(server != null){
@@ -169,6 +176,10 @@ public class Main {
 		System.exit(0);
 	}
 
+	/**
+	 * A setter for IP address
+	 * @param ip
+	 */
 	public static void setIP(String ip) {
 		ipAddress = ip;
 	}
