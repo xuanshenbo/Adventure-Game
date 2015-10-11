@@ -14,7 +14,7 @@ import dataStorage.Serializer;
 public class MenuStrategy implements StrategyInterpreter.Strategy{
 
 	private StrategyInterpreter interpreter;
-private GameFrame gameFrame;
+	private GameFrame gameFrame;
 
 	public MenuStrategy(StrategyInterpreter menuInterpreter, GameFrame g) {
 		this.interpreter = menuInterpreter;
@@ -50,6 +50,7 @@ private GameFrame gameFrame;
 	private void notifyCommand(String text) {
 		Translator.Command cmd = Translator.toCommand(text);
 		if(cmd.equals(Translator.Command.EXIT)){
+
 			if(!gameFrame.isServer()){
 
 				Translator.Command exit = Translator.Command.EXIT_CLIENT;
@@ -63,6 +64,7 @@ private GameFrame gameFrame;
 
 			}
 			Main.closeServer();
+			System.exit(0);
 
 		}
 

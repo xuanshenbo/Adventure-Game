@@ -18,6 +18,7 @@ import interpreter.KeyStrategy;
 import interpreter.MenuStrategy;
 import interpreter.InitialStrategy;
 import interpreter.StrategyInterpreter;
+import interpreter.Translator;
 
 /**
  * The following is the main class for the whole game.
@@ -105,7 +106,14 @@ public class Main {
 			Socket socket = new Socket(adr, port);
 			client = new Client(socket);
 			client.start();
-		} catch (IOException e) {
+		}
+
+		catch(java.net.ConnectException e){
+			//if invalid ip address entered, return to input state
+			initial.getWelcomePanel().setValidIP(false);
+			initial.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.CONNECT_TO_SERVER);
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 		displayMainGameFrame();//debug
@@ -126,6 +134,9 @@ public class Main {
 		StrategyInterpreter radioInterpreter = null;
 
 		frame = new GameFrame("Adventure Game");
+
+		//set the chosen avatar
+		frame.setAvatar(initial.getChosenAvatar());
 
 		//create the Strategy Interpreters with different Strategies as appropriate
 		keyInterpreter = new StrategyInterpreter(frame, new KeyStrategy(keyInterpreter),client);

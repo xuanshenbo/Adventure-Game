@@ -92,6 +92,9 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 	private InitialisationCommand initState;
 
+	//has the user entered a sensible ip?
+	private boolean validIP = true;
+
 	/**
 	 * Creates a dialog with a message, and different behaviour depending on the state
 	 * @param gameFrame The parent frame of the dialog
@@ -348,7 +351,10 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	 * Displays option dialog to get user input on which server to connect to
 	 */
 	private void displayConnect() {
-		iPanel = new InputPanel(initialisation, Translator.InitialisationCommand.CONNECT_TO_SERVER);
+		if(iPanel != null){
+			remove(iPanel); //remove old ipanel if need to redisplay it now
+		}
+		iPanel = new InputPanel(initialisation, Translator.InitialisationCommand.CONNECT_TO_SERVER, validIP);
 		add(iPanel, BorderLayout.SOUTH);
 
 		revalidate();
@@ -393,6 +399,11 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	 * @param c TextField to store in a field
 	 */
 	public void setTextField(JTextField c){
+
+	}
+
+	public void setValidIP(boolean b) {
+	this.validIP = b;
 
 	}
 }

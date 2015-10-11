@@ -157,6 +157,7 @@ public class Dialog extends JDialog implements ActionListener {
 
 		this.loadingSavedPlayer = b;
 
+		//TODO use RadioButtonPanel instead?
 		JPanel avatarOptions = new JPanel();
 		List<Avatar> availAvatars= initialisation.getAvailableAvatars();
 
