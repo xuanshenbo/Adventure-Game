@@ -229,7 +229,7 @@ public class Game {
 			Container container = (Container) toTile;
 			player.setOpenContainer(container);
 			Item[] items = container.open();
-			parser.sendInventory(player, items);
+			parser.sendContainer(player, items);
 		}
 	}
 
@@ -295,7 +295,7 @@ public class Game {
 		parser.sendToServer(player, 'I');
 		parser.sendToServer(player, 'H');
 		if(inventory != null){
-			parser.sendInventory(player, inventory);
+			parser.sendContainer(player, inventory);
 		}
 	}
 
