@@ -112,6 +112,8 @@ public class GameFrame extends JFrame{
 
 	private Dialog container;
 
+	public boolean isServer;
+
 	/**
 	 * First a WelcomeDialog is displayed and then
 	 * the constructor sets up the KeyListener using the KeyboardFocusManager, sets up the layout with all the appropriate Panels.
@@ -144,7 +146,17 @@ public class GameFrame extends JFrame{
 				int PromptResult = JOptionPane.showOptionDialog(null, "Are you sure you want to exit?", "Happiness Game",
 						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
 				if (PromptResult == JOptionPane.YES_OPTION) {
-					Main.closeServer();
+					/*
+					 * Rather than have a Game Strategy just for this,
+					 * deal directly with an exit command
+					 */
+					try {
+						menuInterpreter.notify(Translator.Command.EXIT_CLIENT.toString());
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+
+
 				}
 			}
 		});
@@ -569,6 +581,10 @@ public class GameFrame extends JFrame{
 
 	public void setIP(String ipAddress) {
 		ip = ipAddress;
+	}
+
+	public boolean isServer() {
+		return isServer();
 	}
 
 }

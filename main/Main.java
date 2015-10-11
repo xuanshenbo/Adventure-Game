@@ -130,7 +130,7 @@ public class Main {
 		//create the Strategy Interpreters with different Strategies as appropriate
 		keyInterpreter = new StrategyInterpreter(frame, new KeyStrategy(keyInterpreter),client);
 		buttonInterpreter = new StrategyInterpreter(frame, new ButtonStrategy(buttonInterpreter),client);
-		menuInterpreter = new StrategyInterpreter(frame, new MenuStrategy(menuInterpreter),client);
+		menuInterpreter = new StrategyInterpreter(frame, new MenuStrategy(menuInterpreter, frame),client);
 
 		//add the Strategy Interpreters to the GameFrame
 		frame.setKeyInterpreter(keyInterpreter);
