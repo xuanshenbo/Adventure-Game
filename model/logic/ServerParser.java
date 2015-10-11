@@ -111,8 +111,9 @@ public class ServerParser {
 		char[] message = null;
 		if(action == 'M'){// map information
 			List<char[][]> view = game.getGameView(player.getId());
+			int size = view.get(0).length*view.get(0)[0].length;
 			char type = player.getPosition().getArea().getType().id;
-			message = new char[453];
+			message = new char[(size*2)+3];
 			message[0] = action;
 			message[1] = type;
 			int index = 2;
@@ -124,7 +125,7 @@ public class ServerParser {
 			}
 		}else if(action == 'I'){// player inventory
 			char[] inventory = new char[player.getInventory().length];
-			message = new char[inventory.length+3];
+			message = new char[inventory.length+2];
 			message[0] = action;
 			for(int i = 1; i < inventory.length; i++){
 				message[i] = inventory[i];
@@ -135,7 +136,7 @@ public class ServerParser {
 			message[0] = action;
 			message[1] = (char)(happiness +'0');
 		}else if(action == 'C'){// container inventory information
-			message = new char[tempItemArrayStorage.length+1];
+			message = new char[tempItemArrayStorage.length+2];
 			message[0] = action;
 			for(int i = 1; i< tempItemArrayStorage.length; i++){
 				message[i] = tempItemArrayStorage[i];

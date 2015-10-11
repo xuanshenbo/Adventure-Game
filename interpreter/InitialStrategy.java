@@ -1,6 +1,7 @@
 package interpreter;
 
 import interpreter.Translator.Command;
+import interpreter.Translator.InitialisationCommand;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -48,6 +49,8 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 			width = sc.nextInt();
 			difficulty = sc.nextInt();
 			density = sc.nextInt();
+
+			initialisation.getWelcomePanel().transitionToNewState(InitialisationCommand.CREATE_NEW_PLAYER);
 
 			//TODO let game know the chosen parameters
 		}

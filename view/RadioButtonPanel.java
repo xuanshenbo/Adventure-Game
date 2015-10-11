@@ -51,48 +51,46 @@ public class RadioButtonPanel extends JPanel {
 
 		Map<String, JLabel> jlabels = new HashMap<String, JLabel>();
 
+		int countEmptySlots = 0;
+
 		/*
 		 * Create JLabels for each item in the inventory
 		 */
-		if(inventoryContents!=null){
-			for(String i: inventoryContents){
-				JLabel item = new JLabel();
+		if(inventoryContents==null){
 
-				String name = "";
-
-				//capitalise the first letter of the item description
-				if(i != null){
-					name = i.substring(0, 1).toUpperCase() + i.substring(1, i.length());
-
-					//attach a picture of the item to the jlabel
-					Image image= ImageLoader.loadImage(i+".png").getScaledInstance(imageSize.width, imageSize.height, -1);
-					ImageIcon icon = new ImageIcon(image);
-					item.setIcon(icon);
-
-				}
-				else{
-					//if item is null, this is an empty slot in the inventory
-					name = "Empty";
-
-					//load a blank white square
-					Image image= ImageLoader.loadImage("emptyslot.png").getScaledInstance(imageSize.width, imageSize.height, -1);
-					ImageIcon icon = new ImageIcon(image);
-					item.setIcon(icon);
-				}
-
-				//put this name -> jlabel pair in the map
-				jlabels.put(i, item);
-			}
-		}
-
-		else{
 			throw new IllegalArgumentException("The inventory/container shouldn't be null");
 		}
 
 		ButtonGroup inventoryGroup = new ButtonGroup();
 
 		for(int i = 0; i<inventoryContents.size(); i++){
-			final JRadioButton item = new JRadioButton(inventoryContents.get(i));
+			String name = inventoryContents.get(i);
+
+			final JRadioButton item;
+
+			final JLabel imageLabel = new JLabel();
+
+			if(!name.equals("emptyslot")){
+
+				//capitalise the first letter of the item description
+				name = name.substring(0, 1).toUpperCase() + name.substring(1, name.length());
+
+				//attach a picture of the item to the jlabel
+				Image image= ImageLoader.loadImage(inventoryContents.get(i)+".png").getScaledInstance(imageSize.width, imageSize.height, -1);
+				ImageIcon icon = new ImageIcon(image);
+				imageLabel.setIcon(icon);
+
+				item = new JRadioButton(inventoryContents.get(i));
+
+			}
+			else{
+				item = new JRadioButton("Empty");
+
+				//attach a picture of a blank square
+				Image image= ImageLoader.loadImage("emptyslot.png").getScaledInstance(imageSize.width, imageSize.height, -1);
+				ImageIcon icon = new ImageIcon(image);
+				imageLabel.setIcon(icon);
+			}
 
 			//has to be final to be used in anon class below
 			final int index = i;
@@ -123,11 +121,10 @@ public class RadioButtonPanel extends JPanel {
 
 			item.addItemListener(radioListener);
 
-			//add the jlabel image associated with this item
-			add(jlabels.get(inventoryContents.get(i)));
-
 			//add this button with its description to the panel
 			add(item);
+			//add the image label beside the button
+			add(imageLabel);
 
 
 		}
