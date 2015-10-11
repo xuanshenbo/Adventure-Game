@@ -226,7 +226,7 @@ public class Game {
 			}
 			//update players view
 			parser.sendToServer(player, 'M');
-			gameState.printView(1);
+//			gameState.printView(1);
 		}
 		if (toTile != null && toTile.isContainer()) {
 			Container container = (Container) toTile;

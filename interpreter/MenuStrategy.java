@@ -7,15 +7,18 @@ import java.util.Scanner;
 
 import javax.xml.bind.JAXBException;
 
+import view.GameFrame;
 import main.Main;
 import dataStorage.Serializer;
 
 public class MenuStrategy implements StrategyInterpreter.Strategy{
 
 	private StrategyInterpreter interpreter;
+private GameFrame gameFrame;
 
-	public MenuStrategy(StrategyInterpreter menuInterpreter) {
+	public MenuStrategy(StrategyInterpreter menuInterpreter, GameFrame g) {
 		this.interpreter = menuInterpreter;
+		this.gameFrame = g;
 	}
 
 	@Override
@@ -47,7 +50,20 @@ public class MenuStrategy implements StrategyInterpreter.Strategy{
 	private void notifyCommand(String text) {
 		Translator.Command cmd = Translator.toCommand(text);
 		if(cmd.equals(Translator.Command.EXIT)){
-			Main.closeServer(); 
+			if(!gameFrame.isServer()){
+
+				Translator.Command exit = Translator.Command.EXIT_CLIENT;
+				String msg = Translator.encode(exit);
+				msg += interpreter.getClient().getUid();
+				try {
+					interpreter.getClient().send(msg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+			}
+			Main.closeServer();
+
 		}
 
 	}

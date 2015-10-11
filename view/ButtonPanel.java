@@ -135,7 +135,7 @@ public class ButtonPanel extends JPanel {
 		final JButton moveToBag = new JButton("Move item to bag");
 
 		ActionListener itemActionListener = new ActionListener(){
-
+			private boolean movePressed = false;
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==drop){
@@ -155,6 +155,20 @@ public class ButtonPanel extends JPanel {
 				else if(e.getSource()==moveToBag){
 					try {
 						buttonInterpreter.notify(Translator.Command.MOVE_ITEM.toString());
+						//we know something is selected at this point, because the drop/use/move
+						//options only appear after something is selected
+
+						//only display dialog if this is the first time move item has been selected
+
+						if(!movePressed){
+							JOptionPane.showMessageDialog(ButtonPanel.this, "Now select where to move the item");
+							moveToBag.setText("Move to this slot");
+							movePressed = true;
+						}
+						else{
+							moveToBag.setText("Move item to bag");
+							movePressed = false;
+						}
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}

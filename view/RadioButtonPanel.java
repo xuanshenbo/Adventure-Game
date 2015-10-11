@@ -24,7 +24,7 @@ public class RadioButtonPanel extends JPanel {
 	private GameFrame containerFrame;
 	private Set<JRadioButton> buttonOptions = new HashSet<JRadioButton>();
 
-	private StrategyInterpreter radioInterpreter;
+	private StrategyInterpreter buttonInterpreter;
 
 
 	private Dimension imageSize = new Dimension(50, 50);
@@ -45,12 +45,12 @@ public class RadioButtonPanel extends JPanel {
 	 * @param inventoryContents An array list of string descriptions of items in the inventory to display
 	 * @param radioInterp The strategyinterpreter which interprets radio button action events
 	 */
-	public RadioButtonPanel(ArrayList<String> inventoryContents, StrategyInterpreter radioInterp, Dialog d) {
+	public RadioButtonPanel(ArrayList<String> inventoryContents, StrategyInterpreter buttonInterp, Dialog d) {
 		this.firstButtonSelected = false;
 
 		this.containerDialog = d;
 
-		this.radioInterpreter = radioInterp;
+		this.buttonInterpreter = buttonInterp;
 
 		Map<String, JLabel> jlabels = new HashMap<String, JLabel>();
 
@@ -106,9 +106,8 @@ public class RadioButtonPanel extends JPanel {
 					if(e.getStateChange()==1) { //then checked
 						if(e.getSource() == item){
 							try {
-
 								//notify that an item has been selected, and at which slot
-								radioInterpreter.notify("selected "+index);
+								buttonInterpreter.notify("selected "+index);
 
 								//tell the dialog to display item options, but only if a choice hasn't yet been made
 								//ie don't keep adding options everytime a new option chosen

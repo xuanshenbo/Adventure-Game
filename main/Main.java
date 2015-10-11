@@ -17,7 +17,6 @@ import interpreter.ButtonStrategy;
 import interpreter.KeyStrategy;
 import interpreter.MenuStrategy;
 import interpreter.InitialStrategy;
-import interpreter.RadioStrategy;
 import interpreter.StrategyInterpreter;
 
 /**
@@ -67,7 +66,7 @@ public class Main {
 	 * Sets up the network for a server-client mode
 	 */
 	public static void serverClient(){
-		int height = 21, width = 21, players = 4, trees = 20;
+		int height = 61, width = 61, players = 4, trees = 20;
 		int buildings = 2, caves = 1, chests = 5, lootValue = 1;
 		int[] parameters = {height, width, players,trees, buildings, caves, chests, lootValue};
 		server = new Server(parameters);
@@ -131,14 +130,13 @@ public class Main {
 		//create the Strategy Interpreters with different Strategies as appropriate
 		keyInterpreter = new StrategyInterpreter(frame, new KeyStrategy(keyInterpreter),client);
 		buttonInterpreter = new StrategyInterpreter(frame, new ButtonStrategy(buttonInterpreter),client);
-		menuInterpreter = new StrategyInterpreter(frame, new MenuStrategy(menuInterpreter),client);
-		radioInterpreter = new StrategyInterpreter(frame, new RadioStrategy(radioInterpreter), client);
+		menuInterpreter = new StrategyInterpreter(frame, new MenuStrategy(menuInterpreter, frame),client);
 
 		//add the Strategy Interpreters to the GameFrame
 		frame.setKeyInterpreter(keyInterpreter);
 		frame.setButtonInterpreter(buttonInterpreter);
 		frame.setMenuInterpreter(menuInterpreter);
-		frame.setRadioInterpreter(radioInterpreter);
+		frame.setRadioInterpreter(buttonInterpreter);	//want the radio panel to talk to the buttonInterpreter
 
 		//set the ip address of the client for display
 		ipAddress = client.getIPaddress();

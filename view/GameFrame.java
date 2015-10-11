@@ -112,6 +112,8 @@ public class GameFrame extends JFrame{
 
 	private Dialog container;
 
+	public boolean isServer;
+
 	/**
 	 * First a WelcomeDialog is displayed and then
 	 * the constructor sets up the KeyListener using the KeyboardFocusManager, sets up the layout with all the appropriate Panels.
@@ -144,7 +146,17 @@ public class GameFrame extends JFrame{
 				int PromptResult = JOptionPane.showOptionDialog(null, "Are you sure you want to exit?", "Happiness Game",
 						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
 				if (PromptResult == JOptionPane.YES_OPTION) {
-					Main.closeServer();
+					/*
+					 * Rather than have a Game Strategy just for this,
+					 * deal directly with an exit command
+					 */
+					try {
+						menuInterpreter.notify(Translator.Command.EXIT_CLIENT.toString());
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+
+
 				}
 			}
 		});
@@ -497,35 +509,6 @@ public class GameFrame extends JFrame{
 		return this.midPanel.getWidth();
 	}
 
-	/**
-	 * TODO Server calls setAvailableAvatars after the new game/load avatars button chosen.
-	 * Then Server calls displayAvatarptions
-	 * @return
-	 */
-
-	public void setAvatars(ArrayList<Avatar> avatarOptions) {
-		this.avatars = avatarOptions;
-	}
-
-
-
-	public ArrayList<Avatar> getAvailableAvatars() {
-
-		//if the game hasn't yet sent the available avatars
-		if(avatars == null){
-
-			ArrayList<Avatar> avatarsTest= new ArrayList<Avatar>();
-			avatarsTest.add(Avatar.DONALD_DUCK);	//for testing purposes
-
-			return avatarsTest;
-
-		}
-		else{
-			return avatars;
-		}
-	}
-
-
 	private void makePretty(Set<JPanel> topPanels, JPanel p1, JPanel p2) {
 
 		HashSet<JPanel> panels = new HashSet<JPanel>();
@@ -598,6 +581,10 @@ public class GameFrame extends JFrame{
 
 	public void setIP(String ipAddress) {
 		ip = ipAddress;
+	}
+
+	public boolean isServer() {
+		return isServer();
 	}
 
 }
