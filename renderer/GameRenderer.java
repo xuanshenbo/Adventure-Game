@@ -15,7 +15,7 @@ public class GameRenderer{
 	private int viewWidth, viewHeight;
 
 	//image size
-	private int imageScale = 1;
+	private int imageScale = 3;
 	
 	private char[][] objects;
 	private char[][] view;
@@ -48,7 +48,7 @@ public class GameRenderer{
 		this.objects = objects;
 		this.view = view;
 		//this.players = players;
-		this.images = new Images(tileWidth, tileHeight, imageScale);
+		this.images = new Images(tileWidth, tileHeight, 1);
 
 		this.canvas = canvas;
 		this.background = new Rectangle(width, height);
@@ -68,7 +68,12 @@ public class GameRenderer{
 
 		double halfTileWidth = tileWidth/2;
 		double halfTileHeight = tileHeight/2;
-		double startX = width/2, startY = -tileHeight/2;
+		double startX = width/2;
+
+		double imageY = (width/2)/2*imageScale;
+		double screenOffsetY = (height/2 - imageY);
+
+		double startY = -tileHeight/2 + screenOffsetY;
 		int groundOffsetY = images.ground().getWidth(null)/2;
 
 		double screenX, screenY;
@@ -96,7 +101,8 @@ public class GameRenderer{
 		}
 
 		startX = width/2;
-		startY = 0;
+//		startY = -height/2*(imageScale-1) + (height - width/2)/2;
+		startY = screenOffsetY;
 
 		//draw view and objects
 		for (int y = 0; y < viewHeight; y++) {
@@ -104,8 +110,8 @@ public class GameRenderer{
 				screenX = startX + halfTileWidth * x;
 				screenY = startY + halfTileHeight * x;
 				drawTile(renderState.getMap()[y][x], screenX, screenY);
-				drawTile(renderState.getNpc()[y][x], screenX, screenY);
 				drawItem(objects[y][x], screenX, screenY);
+				drawTile(renderState.getNpc()[y][x], screenX, screenY);
 			}
 			startX -= halfTileWidth;
 			startY += halfTileHeight;
@@ -184,8 +190,8 @@ public class GameRenderer{
 				graphic.drawImage(images.cave(), imageX, imageY, null);
 				break;
 			case 'b':
-				imageX = (int) (x - tileWidth);
-				imageY = (int) (y - images.building().getHeight(null) + tileHeight*2.5);
+				imageX = (int) (x - images.building().getWidth(null)/2);
+				imageY = (int) (y - images.building().getHeight(null));
 				graphic.drawImage(images.building(), imageX, imageY, null);
 				break;
 			case 'D':

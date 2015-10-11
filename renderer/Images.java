@@ -50,8 +50,8 @@ public class Images {
 
     private  void loadImages(){
         //load environment images
-        this.worldGroundImage = loadImage("worldground.png", imageScale, imageScale*1.05f);
-        this.caveGroundImage = loadImage("caveground.png", imageScale, imageScale*1.05f);
+        this.worldGroundImage = loadImage("worldground.png", imageScale, imageScale*0.6f);
+        this.caveGroundImage = loadImage("caveground.png", imageScale, imageScale*0.6f);
         this.treeImage = loadImage("tree.png", imageScale*2, imageScale*2);
         this.buildingImage = loadImage("building.png", imageScale*5, imageScale*5);
         this.doorImage = loadImage("door.png", imageScale, imageScale);

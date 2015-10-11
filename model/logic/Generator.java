@@ -207,7 +207,7 @@ public class Generator {
 
 					areaArray[randomRow+2][randomCol+2] = new DoorTile(entrance, exit);
 					
-					areaArray[randomRow][randomCol] = new BuildingAnchorTile(new Position(randomCol, randomRow, area));
+					areaArray[randomRow+2][randomCol+4] = new BuildingAnchorTile(new Position(randomCol, randomRow, area));
 					building.getArea()[4][2] = new DoorTile(exit, entrance);
 					children.add(building);
 					placed = true;
