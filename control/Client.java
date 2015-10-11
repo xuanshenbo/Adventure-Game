@@ -58,7 +58,7 @@ public class Client extends Thread {
 
 				//output.write("This is the server machine!");
 				//output.flush();
-				char[] message = new char[1024];
+				char[] message = new char[1924];
 				//System.out.println("client starts reading");//debug
 				input.read(message);
 				parser.processMessage(message);

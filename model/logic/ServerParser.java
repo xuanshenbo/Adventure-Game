@@ -117,8 +117,8 @@ public class ServerParser {
 			message[0] = action;
 			message[1] = type;
 			int index = 2;
-			for(int r = 0; r < 15; r++){
-				for(int c = 0; c < 15; c++){
+			for(int r = 0; r < 31; r++){
+				for(int c = 0; c < 31; c++){
 					message[index++] = view.get(0)[r][c];
 					message[index++] = view.get(1)[r][c];
 				}

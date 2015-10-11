@@ -30,9 +30,12 @@ public class Images {
     private Image caveImage;
     private Image shadow;
     private Image zombie;
+    private Image bag;
+    private Image cupcake;
 
 
     private ArrayList<Image> avatarImages;
+
 
     public Images(double tileWidth, double tileHeight, int imageScale) {
         this.tileWidth = tileWidth;
@@ -58,6 +61,8 @@ public class Images {
         //load items images
         this.chestImage = loadImage("chest.png", imageScale, imageScale);
         this.keyImage = loadImage("key.png", imageScale, imageScale);
+        this.cupcake = loadImage("cupcake.png", imageScale, imageScale);
+        this.bag = loadImage("bag.png", imageScale, imageScale);
 
         //load characters images
         this.zombie = loadImage("zombie.png", imageScale, imageScale);
@@ -123,5 +128,13 @@ public class Images {
 
     public Image zombie() {
         return zombie;
+    }
+
+    public Image cupcake() {
+        return cupcake;
+    }
+
+    public Image bag(){
+        return bag;
     }
 }

@@ -164,8 +164,8 @@ public class ClientParser {
 	 * @param message
 	 */
 	public void readMap(char[] message){
-		char[][] map = new char[15][15];
-		char[][] items = new char[15][15];
+		char[][] map = new char[31][31];
+		char[][] items = new char[31][31];
 		char type = message[1];
 		int index = 2;
 		for(int row=0; row < map.length; row++){
