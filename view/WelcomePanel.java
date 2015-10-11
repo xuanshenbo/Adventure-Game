@@ -1,6 +1,7 @@
 package view;
 
 import interpreter.Translator;
+import interpreter.Translator.InitialisationCommand;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -89,6 +90,8 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 	private Dimension sliderPaddingVertical= new Dimension(0, 20);
 
+	private InitialisationCommand initState;
+
 	/**
 	 * Creates a dialog with a message, and different behaviour depending on the state
 	 * @param gameFrame The parent frame of the dialog
@@ -147,6 +150,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 	public void transitionToNewState(Translator.InitialisationCommand state){
 		bPanel.setVisible(false);
+		this.initState = state;
 		if(state.equals(Translator.InitialisationCommand.SHOW_LOAD_OR_NEW_OPTION)){
 			displayLoadNew();
 		}
@@ -176,7 +180,6 @@ public class WelcomePanel extends JPanel implements ActionListener {
 			try {
 				initialisation.notify(Translator.InitialisationCommand.START_GAME.toString());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -185,6 +188,9 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 	}
 
+	/*
+	 * TODO Do we still need this option?
+	 */
 	private void displayLoadCreatePlayerOptions() {
 		remove(bPanel);
 		bPanel = new ButtonPanel(this, Translator.InitialisationCommand.LOAD_PLAYER_OR_CREATE_NEW_PLAYER, initialisation);
@@ -287,7 +293,6 @@ public class WelcomePanel extends JPanel implements ActionListener {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				transitionToNewState(Translator.InitialisationCommand.LOAD_PLAYER_OR_CREATE_NEW_PLAYER);
 			}
 
 		});
@@ -303,15 +308,23 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		 */
 		JLabel densityLabel = new JLabel("Choose the density of the game wrt the number of objects from 0% to 100%");
 		densityLabel.add(Box.createRigidArea(sliderPaddingVertical));
+		densityLabel.setFont(new Font("Serif", Font.BOLD, 12));
+		densityLabel.setForeground(GameFrame.buttonFontColor);
 
 		JLabel difficultyLabel = new JLabel("Choose the difficulty");
 		difficultyLabel.add(Box.createRigidArea(sliderPaddingVertical));
+		difficultyLabel.setFont(new Font("Serif", Font.BOLD, 12));
+		difficultyLabel.setForeground(GameFrame.buttonFontColor);
 
 		JLabel gameHeightLabel = new JLabel("Choose the Game height");
 		gameHeightLabel.add(Box.createRigidArea(sliderPaddingVertical));
+		gameHeightLabel.setFont(new Font("Serif", Font.BOLD, 12));
+		gameHeightLabel.setForeground(GameFrame.buttonFontColor);
 
 		JLabel gameWidthLabel = new JLabel("Choose the Game Width");
 		gameWidthLabel.add(Box.createRigidArea(sliderPaddingVertical));
+		gameWidthLabel.setFont(new Font("Serif", Font.BOLD, 12));
+		gameWidthLabel.setForeground(GameFrame.buttonFontColor);
 
 		sliderPanel.add(densityLabel);
 		sliderPanel.add(gameObjectDensity);
