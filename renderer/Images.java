@@ -81,10 +81,7 @@ public class Images {
         BufferedImage img = new BufferedImage((int)tileWidth*scaleW, (int)(tileWidth*scaleH), BufferedImage.TYPE_INT_ARGB);
         //draw the image to bufferedImage
         Graphics2D g = img.createGraphics();
-//        g.drawImage(image, 0, 0, (int) tileWidth * scaleW, (int) tileHeight * scaleH, null);
         g.drawImage(image, 0, 0, (int) tileWidth * scaleW, (int) (tileWidth *scaleH), null);
-//		g.drawImage(image, 0, 0, (int) (tileWidth * scale), (int) (tileHeight * scale), 0, 0, width, height, null);
-        g.drawImage(image, 0, 0, 2, 2, null);
         g.dispose();
         return img;
     }

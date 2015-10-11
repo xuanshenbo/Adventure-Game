@@ -170,12 +170,12 @@ public class Generator {
 		for(int count = 0; count < buildings; count++){
 			boolean placed = false;
 			while(!placed){
-				int randomRow = new Random().nextInt(areaArray.length-4)+1;
+				int randomRow = new Random().nextInt(areaArray.length-5)+1;
 				int randomCol = new Random().nextInt(areaArray[0].length-6)+1;
 				boolean placeClear = true;
 
 				//check if the random place is open for a building
-				for(int row = randomRow; row < randomRow+3; row++){
+				for(int row = randomRow; row < randomRow+4; row++){
 					for(int col = randomCol; col < randomCol+5; col++){
 						if(invalidPosition[row][col]){
 							placeClear = false;
@@ -186,14 +186,14 @@ public class Generator {
 				}
 				//place the building down
 				if(placeClear){
-					for(int row = randomRow; row < randomRow+3; row++){
+					for(int row = randomRow; row < randomRow+4; row++){
 						for(int col = randomCol; col < randomCol+5; col++){
 							areaArray[row][col] = new BuildingTile(new Position(col, row, area));
 						}
 					}
 					//Create a boarder around the building so that no buildings can be side by side.
 					int invalidSize = 0;
-					for(int row = randomRow-1; row < randomRow+4; row++){
+					for(int row = randomRow-1; row < randomRow+5; row++){
 						for(int col = randomCol-1; col < randomCol+6; col++){
 							invalidPosition[row][col] = true;
 							invalidSize++;
@@ -201,14 +201,14 @@ public class Generator {
 					}
 
 					//place the door and create the new area
-					Position entrance = new Position(randomCol+2, randomRow+2, area);
-					areaArray[randomRow+3][randomCol+2] = new GroundTile(TileType.GRASS, new Position(randomCol+2, randomRow+3, area));
+					Position entrance = new Position(randomCol+2, randomRow+3, area);
+					areaArray[randomRow+4][randomCol+2] = new GroundTile(TileType.GRASS, new Position(randomCol+2, randomRow+4, area));
 					Area building = new Area(5, 5, AreaType.BUILDING, new Position(randomCol+2, randomRow+2, area));
 					Position exit = new Position(2, 4, building);
 
-					areaArray[randomRow+2][randomCol+2] = new DoorTile(entrance, exit);
+					areaArray[randomRow+3][randomCol+2] = new DoorTile(entrance, exit);
 					
-					areaArray[randomRow+2][randomCol+4] = new BuildingAnchorTile(new Position(randomCol, randomRow, area));
+					areaArray[randomRow+3][randomCol+4] = new BuildingAnchorTile(new Position(randomCol, randomRow, area));
 					building.getArea()[4][2] = new DoorTile(exit, entrance);
 					children.add(building);
 					placed = true;

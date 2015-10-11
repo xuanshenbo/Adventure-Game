@@ -347,6 +347,11 @@ public class GameFrame extends JFrame{
 				}
 			}
 			else if (e.getID() == KeyEvent.KEY_RELEASED) {
+				switch( e.getKeyCode()) {
+					case KeyEvent.VK_R:
+						canvas.getRenderer().rotate();
+						break;
+				}
 			}
 			else if (e.getID() == KeyEvent.KEY_TYPED) {
 			}
