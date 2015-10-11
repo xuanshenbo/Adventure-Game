@@ -76,9 +76,14 @@ public class ServerParser {
 			break;
 		case 'J'://Client joins the game
 			game.activatePlayer(id);
+			break;
+		case 'Q'://Client quits the game
+			game.deActivatePlayer(id);
+			break;
+		case 'R'://requesting available players
+			game.getAvailablePlayer(id);
+			break;
 		}
-
-
 	}
 
 	/**
@@ -141,6 +146,18 @@ public class ServerParser {
 			for(int i = 1; i< tempItemArrayStorage.length; i++){
 				message[i] = tempItemArrayStorage[i];
 			}
+		}else if(action == 'T'){//time of day update
+			message = new char[4];
+			message [0] = action;
+			boolean day = game.getGameState().getDay();
+			int time = game.getGameState().getTime();
+			message [1] = (char) (time +'0');
+			if(day){
+				message[2] = 'D';
+			}else{
+				message[2] = 'N';
+			}
+
 		}else{
 			message = new char[0];
 		}
@@ -171,7 +188,7 @@ public class ServerParser {
 		sendToServer(player, 'C');
 
 	}
-	
+
 	/**
 	 * Send the inventory of a player.
 	 * @param player: the player to send the inventory to

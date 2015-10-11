@@ -104,12 +104,12 @@ public class ModelTests {
 		Item droppedItem = items[player.getPosition().getY()][player.getPosition().getX()];
 		assertTrue(droppedItem.equals(item));
 	}
-	
+
 	/*============================================
 	 * Testing actions through the client Parser
 	 * ===========================================
 	 */
-	
+
 	/**
 	 * Testing move through the parser, it will attempt to move the player north
 	 * with the array ['M', 'N'] and check that the position is correct afterwards
@@ -124,8 +124,8 @@ public class ModelTests {
 		Position newPosition = new Position (oldPosition.getX(), oldPosition.getY()-1, oldPosition.getArea());
 		assertTrue(player.getPosition().equals(newPosition));
 	}
-	
-	
+
+
 	/**
 	 * Testing Use on the bag to set it to the currentOpenContainer with the
 	 * array ['U', '0'] where the bag is inventory slot 0
@@ -140,7 +140,7 @@ public class ModelTests {
 		game.getParser().processClientEvent(message, null, 1);
 		assertTrue(player.getOpenContainer().equals(bag));
 	}
-	
+
 	/**
 	 * Testing Pickup through the parser by sending through ['P'] when the
 	 * player is standing on an key and checking the inventory count
@@ -149,7 +149,7 @@ public class ModelTests {
 	public void parsePickup(){
 		Game game = new Game(new Server(), basicParameters(), true);
 		Player player = game.getPlayer(1);
-		
+
 		Item[][] items = game.getGameState().getWorld(player).getItems();
 		Item item = new Key();
 		items[player.getPosition().getY()][player.getPosition().getX()] = item;
@@ -164,7 +164,7 @@ public class ModelTests {
 		assertTrue(itemCount == 1);
 		assertTrue(player.getInventory()[0].equals(item));
 	}
-	
+
 	/**
 	 * Testing the selecting of an inventory slot through the parser with
 	 * the array ['C', 0] where 0 is the inventory slot
@@ -173,16 +173,16 @@ public class ModelTests {
 	public void parseSelect(){
 		Game game = new Game(new Server(), basicParameters(), true);
 		Player player = game.getPlayer(1);
-		
+
 		Item item = new Key();
 		player.collect(item);
-		
+
 		char[] message = new char[]{'C', '0'};
 		game.getParser().processClientEvent(message, null, 1);
-		
+
 		assert(player.getSelectedItem().equals(item));
 	}
-	
+
 	/**
 	 * Testing the dropping of an item through the parser with the array
 	 * ['D'] when the player is holding an item in their selected field
@@ -191,7 +191,7 @@ public class ModelTests {
 	public void parseDrop(){
 		Game game = new Game(new Server(), basicParameters(), true);
 		Player player = game.getPlayer(1);
-		
+
 		Item[][] items = game.getGameState().getWorld(player).getItems();
 		Item item = new Key();
 		player.setSelected(item);
@@ -201,7 +201,7 @@ public class ModelTests {
 		assertTrue(droppedItem.equals(item));
 		assertFalse(droppedItem.equals(new Bag()));
 	}
-	
+
 	/**
 	 * Testing moving into a chest through the parser with the array ['M']
 	 * when the player tries to move into a chest and then opening the chest
@@ -219,7 +219,7 @@ public class ModelTests {
 
 		char[] message = new char[]{'M', 'N'};
 		game.getParser().processClientEvent(message, null, 1);
-		
+
 		assertTrue(player.getOpenContainer().equals(chest));
 	}
 

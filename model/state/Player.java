@@ -30,9 +30,11 @@ public class Player {
 	private boolean inGame = false;
 	private Item selectedItem = null;
 	private Container openContainer = null;
+	private Position startingPosition;
 
 	public Player(Position p, int id) {
 		this.position = p;
+		this.startingPosition = p;
 		this.id = id;
 //		inventory[0] = new Bag();
 //		inventory[1] = new Key();
@@ -47,6 +49,14 @@ public class Player {
 		}
 	}
 
+	public void loseHappiness() {
+		happiness --;
+		if(happiness < 1){
+			position = startingPosition;
+		}
+
+	}
+
 	public boolean addItemToInventory(Item item){
 		for(int i = 0; i < inventory.length; i++){
 			if(inventory[i] == null){
@@ -59,7 +69,9 @@ public class Player {
 
 	public void makeActive() {
 		inGame = true;
-
+	}
+	public void makeInactive() {
+		inGame = false;
 	}
 
 	public Item getSelectedItem(){
@@ -95,6 +107,9 @@ public class Player {
 
 	public Item[] use(int inventorySlot){
 		Item item = inventory[inventorySlot];
+		if(item != null){
+			openContainer = (Container) item;
+		}
 		return item.use(this);
 	}
 
@@ -181,6 +196,14 @@ public class Player {
 	public Container getOpenContainer(){
 		return openContainer;
 	}
+
+
+
+
+
+
+
+
 
 
 }

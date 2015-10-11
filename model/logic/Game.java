@@ -169,6 +169,8 @@ public class Game {
 			for (Player player : gameState.getPlayerList()) {
 				if (playerInRange(player, zombie)) {
 					zombie.setStrategy(new ChaseZombie());
+					player.loseHappiness();
+					parser.sendToServer(player, 'H');
 				}
 			}
 			zombie.tick();
@@ -227,7 +229,6 @@ public class Game {
 			gameState.printView(1);
 		}
 		if (toTile != null && toTile.isContainer()) {
-			p();
 			Container container = (Container) toTile;
 			player.setOpenContainer(container);
 			Item[] items = container.open();
@@ -411,6 +412,18 @@ public class Game {
 	public void activatePlayer(int id) {
 		gameState.getPlayer(id).makeActive();
 
+	}
+
+	public void deActivatePlayer(int id) {
+		gameState.getPlayer(id).makeInactive();
+
+	}
+
+	public void getAvailablePlayer(int id) {
+		char[] players = new char[4];
+		for(int i = 0; i < players.length; i++){
+
+		}
 	}
 
 
