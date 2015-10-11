@@ -65,6 +65,7 @@ public class GameFrame extends JFrame{
 	public static final Color col2 = Color.PINK;
 	public static final Color fontColor = Color.PINK;
 	public static final Color buttonFontColor = new Color(0, 128, 255);
+	public static final Color statusBarFontColor = new Color(102, 102, 255);
 
 	private Dialog ContainerDialog;
 
@@ -215,24 +216,27 @@ public class GameFrame extends JFrame{
 		JLabel hapBar = new JLabel(){
 			@Override
 			public void paintComponent(Graphics g){
+				//set the font and size of the text to be drawn
+				g.setFont(new Font("Serif", Font.BOLD, 16));
+
 				//draw the happiness level title
-				g.setColor(col2);
-				g.drawString("Happiness Level", bar_left, bar_top - 20);
+				g.setColor(statusBarFontColor);
+				g.drawString("Happiness Level", bar_left, bar_top -10);
 
 				//draw the bar in white
 				g.setColor(Color.WHITE);
 				g.fillRect(bar_left, bar_top, happinessValue, bar_height);
 
 				//draw a pink outline around the bar
-				g.setColor(col2);
+				g.setColor(statusBarFontColor);
 				g.drawRect(bar_left, bar_top, bar_width, bar_height);
 
 				//draw the time info
-				g.setColor(col2);
+				g.setColor(statusBarFontColor);
 				g.drawString("The time is: "+time, bar_left, bar_top + 40);
 
 				//draw the player's ip address
-				g.setColor(col2);
+				g.setColor(statusBarFontColor);
 				g.drawString(ip+"", bar_left, bar_top + 60);
 
 			}
@@ -349,6 +353,11 @@ public class GameFrame extends JFrame{
 			else if (e.getID() == KeyEvent.KEY_RELEASED) {
 				switch( e.getKeyCode()) {
 					case KeyEvent.VK_R:
+					try {
+						keyInterpreter.notify(Translator.Command.ROTATE_VIEW.toString());
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 						canvas.getRenderer().rotate();
 						break;
 				}

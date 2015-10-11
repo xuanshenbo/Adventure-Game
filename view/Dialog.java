@@ -2,6 +2,7 @@ package view;
 
 import interpreter.StrategyInterpreter;
 import interpreter.Translator;
+import interpreter.Translator.Command;
 import interpreter.Translator.InitialisationCommand;
 
 import java.awt.BorderLayout;
@@ -190,13 +191,13 @@ public class Dialog extends JDialog implements ActionListener {
 	 * Add pictures
 	 */
 	private void displayInventory() {
-		RadioButtonPanel radioPanel = new RadioButtonPanel(parentFrame.getInventoryContents(), parentFrame.getRadioInterpreter(), this);
+		RadioButtonPanel radioPanel = new RadioButtonPanel(parentFrame.getInventoryContents(), parentFrame.getRadioInterpreter(), this, state);
 		add(radioPanel);
 		revalidate();
 	}
 
 	private void displayContainer() {
-		RadioButtonPanel radioPanel = new RadioButtonPanel(parentFrame.getContainerContents(), parentFrame.getRadioInterpreter(), this);
+		RadioButtonPanel radioPanel = new RadioButtonPanel(parentFrame.getContainerContents(), parentFrame.getRadioInterpreter(), this, state);
 		add(radioPanel);
 		revalidate();
 
@@ -241,8 +242,16 @@ public class Dialog extends JDialog implements ActionListener {
 	}
 
 
-	public void displayItemOptions() {
-		this.itemOptions = new ButtonPanel(Translator.Command.DISPLAY_ITEM_OPTIONS, parentFrame.getButtonInterpreter());
+
+
+
+	public void displayItemOptions(boolean isInventory) {
+		if(isInventory){
+			this.itemOptions = new ButtonPanel(Command.DISPLAY_INVENTORY_ITEM_OPTIONS, parentFrame.getButtonInterpreter());
+		}
+		else{
+			this.itemOptions = new ButtonPanel(Command.DISPLAY_CONTAINER_ITEM_OPTIONS, parentFrame.getButtonInterpreter());
+		}
 		remove(ok);
 		add(itemOptions);
 		revalidate();
@@ -250,4 +259,6 @@ public class Dialog extends JDialog implements ActionListener {
 		pack();
 
 	}
+
+
 }

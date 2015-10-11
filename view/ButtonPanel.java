@@ -3,6 +3,7 @@ package view;
 
 import interpreter.StrategyInterpreter;
 import interpreter.Translator;
+import interpreter.Translator.Command;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -124,12 +125,33 @@ public class ButtonPanel extends JPanel {
 		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS);
 		setLayout(boxLayout);
 
-		if(state.equals(Translator.Command.DISPLAY_ITEM_OPTIONS)){
-			displayItemOptions();
+		if(state.equals(Translator.Command.DISPLAY_INVENTORY_ITEM_OPTIONS)){
+			displayInventoryItemOptions();
+		}
+
+		else if(state.equals(Translator.Command.DISPLAY_CONTAINER_ITEM_OPTIONS)){
+			displayContainerItemOptions();
 		}
 	}
 
-	private void displayItemOptions() {
+	//should only appear when something has been selected
+	private void displayContainerItemOptions() {
+		final JButton move = new JButton("Move to Inventory");
+		move.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource()==move){
+					try {
+						buttonInterpreter.notify(Command.MOVE_ITEM_TO_INVENTORY.toString());
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+	}
+
+
+	private void displayInventoryItemOptions() {
 		final JButton drop = new JButton("Drop item");
 		final JButton use = new JButton("Use item");
 		final JButton moveToBag = new JButton("Move item to bag");
