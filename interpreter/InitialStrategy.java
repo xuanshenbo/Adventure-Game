@@ -26,8 +26,8 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 	@Override
 	public void notify(String text) throws IOException {
 
-		if(Translator.isInitialisationState(text)){
-			notifyInitState(text);
+		if(Translator.isInitialisationCommand(text)){
+			notifyInitCommand(text);
 		}
 		else if(Translator.isCommand(text)){
 			notifyCommand(text);
@@ -65,7 +65,7 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 				Main.clientMode(adr, 8888);
 				Main.setIP(ip);
 			} catch (IOException e) {
-				e.printStackTrace();
+				initialisation.getWelcomePanel().transitionToNewState(InitialisationCommand.CONNECT_TO_SERVER);
 			}
 		}
 
@@ -100,7 +100,7 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 		}
 	}
 
-	private void notifyInitState(String text) {
+	private void notifyInitCommand(String text) {
 		Translator.InitialisationCommand initState = Translator.toInitState(text);
 
 		if(initState.equals(Translator.InitialisationCommand.LOAD_GAME)){

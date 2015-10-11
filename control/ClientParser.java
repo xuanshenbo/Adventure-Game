@@ -2,6 +2,7 @@ package control;
 
 import java.util.ArrayList;
 
+import view.Avatar;
 import view.GameFrame;
 import static utilities.PrintTool.p;
 
@@ -49,8 +50,38 @@ public class ClientParser {
 		case 'C'://container information
 			readContainer(message);
 			break;
+		case 'R':
+			readAvatar(message);
 		default:
 		}
+	}
+
+	/**
+	 * The following parses the available avatars and passes it to the initialisation
+	 * @param message
+	 */
+	private void readAvatar(char[] message) {
+		ArrayList<Avatar> avatars = new ArrayList<Avatar>();
+		loop: for(int i=1; i<message.length; i++){
+			switch(message[i]){
+			case 'Y':
+				avatars.add()
+				break;
+			case 'c':
+				container.add("cupcake");
+				break;
+			case 'b':
+				container.add("bag");
+				break;
+			case 'X':
+				char[] newMessage = separateMessage(message, i);
+				if(newMessage != null) processMessage(newMessage);
+				break loop;
+			default:
+				System.out.println("unknown container item");
+			}
+		}
+		frame.setContainerContents(container);
 	}
 
 	/**

@@ -105,7 +105,9 @@ public class Main {
 		try {
 			Socket socket = new Socket(adr, port);
 			client = new Client(socket);
+			client.setUid(4);//debug
 			client.start();
+			initial.setClient(client);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -183,6 +185,8 @@ public class Main {
 	public static void setIP(String ip) {
 		ipAddress = ip;
 	}
+
+
 
 	/* A getter for the client
 	 * @return

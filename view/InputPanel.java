@@ -21,6 +21,7 @@ public class InputPanel extends JPanel{
 			add(message);
 			add(new TextFieldImpl(initialisation));
 		}
+
 		revalidate();
 	}
 }
