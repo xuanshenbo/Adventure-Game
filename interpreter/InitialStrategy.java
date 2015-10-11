@@ -73,10 +73,6 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 				e.printStackTrace();
 			}
 		}
-
-
-
-
 	}
 
 	//receive information about the avatar chosen, and select the encoded message to the Model via the network
@@ -91,6 +87,8 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 		msg += avatarInteger;
 
 		Main.connectClient(avatarInteger);
+
+		initialisation.setChosenAvatar(a);
 
 		initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.START_GAME);
 

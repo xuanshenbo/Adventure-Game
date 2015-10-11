@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import view.GameFrame;
+import view.PlayerInfo;
 import model.logic.Game;
 import control.Client;
 import control.ClockThread;
@@ -126,6 +127,9 @@ public class Main {
 		StrategyInterpreter radioInterpreter = null;
 
 		frame = new GameFrame("Adventure Game");
+
+		//set the chosen avatar
+		frame.setPlayer(new PlayerInfo(initial.getChosenAvatar()));
 
 		//create the Strategy Interpreters with different Strategies as appropriate
 		keyInterpreter = new StrategyInterpreter(frame, new KeyStrategy(keyInterpreter),client);

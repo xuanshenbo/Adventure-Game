@@ -112,7 +112,7 @@ public class GameFrame extends JFrame{
 
 	private Dialog container;
 
-	public boolean isServer;
+	public boolean isServer = false;
 
 	/**
 	 * First a WelcomeDialog is displayed and then
@@ -130,8 +130,6 @@ public class GameFrame extends JFrame{
 
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
 
-		//setUpLayoutAndDisplay();
-
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		/*
@@ -147,11 +145,11 @@ public class GameFrame extends JFrame{
 						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
 				if (PromptResult == JOptionPane.YES_OPTION) {
 					/*
-					 * Rather than have a Game Strategy just for this,
-					 * deal directly with an exit command
+					 * Rather than have a Game Strategy just for this, use the menuInterpreter, which
+					 * also has to deal with requests to exit
 					 */
 					try {
-						menuInterpreter.notify(Translator.Command.EXIT_CLIENT.toString());
+						menuInterpreter.notify(Translator.Command.EXIT.toString());
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -584,7 +582,7 @@ public class GameFrame extends JFrame{
 	}
 
 	public boolean isServer() {
-		return isServer();
+		return isServer;
 	}
 
 }
