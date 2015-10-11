@@ -5,10 +5,12 @@ import interpreter.Translator.InitialisationCommand;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
+import jdk.nashorn.internal.runtime.linker.JavaAdapterFactory;
 import view.Avatar;
 import main.Initialisation;
 import main.Main;
@@ -61,17 +63,27 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 			ip = text;
 			InetAddress adr = null;
 			try {
-				//request available avatars from game
+				adr = InetAddress.getByName(ip);
+				Main.clientMode(adr, 8888);
+				Main.setIP(ip);
+
+				System.out.println("here");
+
+				//request available avatars from game, as this will be required in the next step
 				Translator.InitialisationCommand cmd = Translator.InitialisationCommand.GET_AVAILABLE_AVATARS;
 				String msg = Translator.encode(cmd);
 				initialisation.getClient().send(msg);
 
-				adr = InetAddress.getByName(ip);
-				Main.clientMode(adr, 8888);
-				Main.setIP(ip);
-			} catch (IOException e) {
-				e.printStackTrace();
+				initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.LOAD_SAVED_PLAYER);
 			}
+			catch (IOException e) {
+				//if invalid ip address entered, return to input state
+				initialisation.getWelcomePanel().setValidIP(false);
+				initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.CONNECT_TO_SERVER);
+
+			}
+
+
 		}
 	}
 

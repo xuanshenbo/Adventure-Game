@@ -36,7 +36,7 @@ public class PlayerProfilePanel extends JPanel{
 
 	private int avatarFontSize = 30;
 
-	private PlayerInfo playerInfo;
+	private Avatar avatar;
 
 	private int numAvatars = 4;
 
@@ -46,7 +46,7 @@ public class PlayerProfilePanel extends JPanel{
 	 */
 	public PlayerProfilePanel(GameFrame gameFrame){
 
-		playerInfo = gameFrame.getPlayer();
+		avatar = gameFrame.getAvatar();
 
 		//load all the images for the different available avatars
 		avatars = new Image[numAvatars];
@@ -55,7 +55,7 @@ public class PlayerProfilePanel extends JPanel{
 		setLayout(new BorderLayout());
 		setBackground(GameFrame.col1.darker());
 
-		JLabel name = new JLabel(playerInfo.getName());
+		JLabel name = new JLabel(avatar.toString());
 		name.setForeground(GameFrame.col2);
 		name.setFont(new Font("Serif", Font.BOLD, avatarFontSize));
 		add(name, BorderLayout.WEST);
@@ -68,7 +68,7 @@ public class PlayerProfilePanel extends JPanel{
 		add(cupcakethumb, BorderLayout.CENTER);
 
 		//add image of avatar
-		Image avatarImage=avatars[Avatar.getAvatarAsInteger(playerInfo.getAvatar())-1];
+		Image avatarImage=avatars[Avatar.getAvatarAsInteger(avatar)-1];
 		ImageIcon avataricon = new ImageIcon(avatarImage);
 		JLabel avatarthumb = new JLabel();
 		avatarthumb.setIcon(avataricon);

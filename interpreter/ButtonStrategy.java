@@ -81,6 +81,13 @@ public class ButtonStrategy implements StrategyInterpreter.Strategy{
 
 		else if(cmd.equals(Translator.Command.MOVE_ITEM)){
 			if(moveTo != -1){
+
+				//shouldn't get here
+				if(selectedItem == -1){
+					isMove = false;
+					moveTo = -1;
+					return;
+				}
 				String msg = Translator.encode(cmd);
 
 				msg += selectedItem; //add the index of the item being moved

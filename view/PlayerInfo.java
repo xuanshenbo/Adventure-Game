@@ -1,17 +1,17 @@
-package view;
+/*package view;
 
-/**
+*//**
  * A simple class to store information about the player, which is used to display the PlayerProfilePanel
  * @author flanagdonn
  *
- */
+ *//*
 public class PlayerInfo {
 	private String playerName;
 	private Avatar avatar;
 	private int lifeline = 100;
 
 	public PlayerInfo(Avatar avatar){
-		this.playerName = avatar.toString();
+		if(avatar != null) this.playerName = avatar.toString();
 		this.avatar = avatar;
 	}
 
@@ -31,6 +31,12 @@ public class PlayerInfo {
 		lifeline = value;
 	}
 
+	public void setHappiness(int lvl) {
+		// TODO Auto-generated method stub
+
+	}
+
 
 
 }
+*/
