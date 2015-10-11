@@ -32,6 +32,16 @@ public enum Avatar{
 		return -1;
 	}
 
+	public static Avatar getAvatarFromInt(int i){
+		switch (i){
+		case 1: return Avatar.DONALD_DUCK;
+		case 2: return Avatar.MICKEY_MOUSE;
+		case 3: return Avatar.HAIRY_MACLARY;
+		case 4: return Avatar.MUFFIN_MACLAY;
+		default: return null;
+
+		}
+	}
 	@Override
 	/**
 	 * Returns the String associated with this enum instance

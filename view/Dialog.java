@@ -61,6 +61,9 @@ public class Dialog extends JDialog implements ActionListener {
 
 	private InitialisationCommand initState;
 
+	//The OK button is used on most dialogs
+	private JButton ok = new JButton("OK");
+
 
 
 	/**
@@ -99,7 +102,7 @@ public class Dialog extends JDialog implements ActionListener {
 			displayContainer();
 		}
 
-		JButton ok = new JButton("OK");
+		ok = new JButton("OK");
 		ButtonPanel.makeButtonsPretty(ok);
 		ok.addActionListener(this);
 		add(ok);
@@ -137,7 +140,7 @@ public class Dialog extends JDialog implements ActionListener {
 			displayAvatarOptions(true);
 		}
 
-		JButton ok = new JButton("OK");
+
 		ButtonPanel.makeButtonsPretty(ok);
 		ok.addActionListener(this);
 		add(ok);
@@ -239,7 +242,11 @@ public class Dialog extends JDialog implements ActionListener {
 
 	public void displayItemOptions() {
 		this.itemOptions = new ButtonPanel(Translator.Command.DISPLAY_ITEM_OPTIONS, parentFrame.getButtonInterpreter());
+		remove(ok);
 		add(itemOptions);
+		revalidate();
+		repaint();
+		pack();
 
 	}
 }

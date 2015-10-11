@@ -15,7 +15,7 @@ import main.Main;
 
 
 public class InitialStrategy implements StrategyInterpreter.Strategy{
-	private Initialisation s;
+	//private Initialisation s;
 	private String ip;
 	private Initialisation initialisation;
 
@@ -61,6 +61,11 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 			ip = text;
 			InetAddress adr = null;
 			try {
+				//request available avatars from game
+				Translator.InitialisationCommand cmd = Translator.InitialisationCommand.GET_AVAILABLE_AVATARS;
+				String msg = Translator.encode(cmd);
+				initialisation.getClient().send(msg);
+
 				adr = InetAddress.getByName(ip);
 				Main.clientMode(adr, 8888);
 				Main.setIP(ip);
@@ -85,11 +90,7 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 		//add to the msg the integer corresponding to which avatar was chosen
 		msg += avatarInteger;
 
-		try {
-			initialisation.getClient().send(msg);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Main.connectClient(avatarInteger);
 
 		initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.START_GAME);
 
@@ -100,7 +101,7 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 	private void notifyCommand(String text) {
 		Translator.Command cmd = Translator.toCommand(text);
 		if(cmd.equals(Translator.Command.EXIT)){
-			Main.closeServer();
+			initialisation.closeServer();
 		}
 	}
 
@@ -152,14 +153,14 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 		}
 
 		else if(initState.equals(Translator.InitialisationCommand.START_GAME)){
-			s.displayMainGameFrame();
+			initialisation.displayMainGameFrame();
 		}
 
 	}
 
 	@Override
 	public void setInterpreter(StrategyInterpreter i) {
-		this.s = (Initialisation) i;
+		this.initialisation = (Initialisation) i;
 	}
 
 

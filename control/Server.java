@@ -36,15 +36,15 @@ public class Server extends Thread{
 	private char[] map;
 	private int mapRow;
 	private int mapCol;
-	private int uid = 1; //uid starts from 1
+	//private int uid = 1; //uid starts from 1
 	private Writer[] writers = new Writer[5];//writer[0] will be null. only 1-4 will be used
+	private boolean exit;
 
-	private Queue<char[]> instructions = new ArrayDeque<char[]>();//debug, should be commented out
-	//private int[] parameters;
+	//private Queue<char[]> instructions = new ArrayDeque<char[]>();//debug, should be commented out
 	private Game game;
-	
-	
-	
+
+
+
 
 	public Server(int[] para) {
 		//System.out.println(Server.class.getClassLoader().getResource("requests"));
@@ -65,12 +65,12 @@ public class Server extends Thread{
 			errorLogger.log(Level.SEVERE, "Couldn't start server: " + ex.getMessage(), ex);
 		}
 	}
-	
+
 	/**
 	 * Alternative Constructor for testing the game();
 	 */
 	public Server(){
-		
+
 	}
 
 	/**
@@ -96,17 +96,17 @@ public class Server extends Thread{
 	public void run(){
 		//System.out.println("Server is stared");//debug
 		ExecutorService pool = Executors.newFixedThreadPool(4);
-		boolean exit = false;
 		while (!exit) {
 			try {
+				if(server.isClosed()) break;
 				Socket connection = server.accept();
-				Callable<Void> task = new Task(connection, uid++);
+				Callable<Void> task = new Task(connection);
 				pool.submit(task);
 				//Thread.yield();
 			} catch (IOException ex) {
-				errorLogger.log(Level.SEVERE, "accept error", ex);
+				//errorLogger.log(Level.SEVERE, "accept error", ex);
 			} catch (RuntimeException ex) {
-				errorLogger.log(Level.SEVERE, "unexpected error " + ex.getMessage(), ex);
+				//errorLogger.log(Level.SEVERE, "unexpected error " + ex.getMessage(), ex);
 			}
 		}
 
@@ -116,18 +116,18 @@ public class Server extends Thread{
 	 * a getter for uid
 	 * @return
 	 */
-	public int getUid() {
+	/*public int getUid() {
 		return uid;
-	}
+	}*/
 
 	/**
 	 * a setter for uid
 	 * @param uid	public void notify(String text) throws IOException {
 
 	 */
-	public void setUid(int uid) {
+	/*public void setUid(int uid) {
 		this.uid = uid;
-	}
+	}*/
 
 
 
@@ -152,6 +152,7 @@ public class Server extends Thread{
 	 */
 	public void closeServer(){
 		try {
+			exit = true;
 			server.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -161,38 +162,47 @@ public class Server extends Thread{
 	private class Task implements Callable<Void> {
 		private Socket connection;
 		private int id;
-		Task(Socket connection, int uid) {
+		Task(Socket connection) {
 			this.connection = connection;
-			id = uid;
 		}
 		@Override
 		public Void call() {
 			try {
+				Reader in = new InputStreamReader(connection.getInputStream());
+				char[] input = new char[2];
+				in.read(input);
+				id = Character.getNumericValue(input[1]);
+				System.out.println("id: "+id);
+
 				Writer out = new OutputStreamWriter(connection.getOutputStream());
 				writers[id] = out;
+				game.getParser().processClientEvent(input, out, id);
 				out.write("A"+address.getHostAddress().toString()+"X");// 'X' indicates the end of the message
+				out.flush();
 				//System.out.println(address.getHostAddress().toString());//debug
 				//out.flush();
 				//System.out.println("No id writing?");//debug
 				//System.out.println("id: "+id);
-				out.write((char)(id+'0'));
-				out.flush();
+
+				//out.write((char)(id+'0'));
+				//out.flush();
+
 				//System.out.println("id flushed");//debug
-				Reader in = new InputStreamReader(connection.getInputStream());
+
 				//Date now = new Date();
 				// write the log entry first in case the client disconnects
 				//auditLogger.info(now + " " + connection.getRemoteSocketAddress());
 				while(true){
-					char[] message = new char[1024];
+					char[] message = new char[256];
 					//System.out.println("Stuck for twice");
 					in.read(message);
 					/*int counter = 0;
 					System.out.println(counter++);*/
-					String input = "";
+					/*String input = "";
 					for(int i=0; i<message.length; i++){
 						if(message[i] == '\0' || message[i] == '\r' || message[i] == '\n') break;
 						input += message[i];
-					}
+					}*/
 
 					//System.out.println("======================"+input+"====================");//debug
 

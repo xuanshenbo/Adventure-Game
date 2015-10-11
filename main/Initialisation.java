@@ -23,6 +23,7 @@ import view.GameFrame;
 import view.WelcomePanel;
 import model.logic.Game;
 import control.Client;
+import control.Server;
 
 /**
  * The following initialises a game. It asks user to choose from creating a client or a server together with a client.
@@ -42,6 +43,7 @@ public class Initialisation extends StrategyInterpreter{
 	private ArrayList<Avatar> avatars;
 
 	private WelcomePanel welcome;
+	//private Server server;
 
 	/**
 	 * Create an Initialisation object using the StrategyInterpreter super constructor
@@ -89,8 +91,6 @@ public class Initialisation extends StrategyInterpreter{
 	}
 
 
-
-
 	public ArrayList<Avatar> getAvailableAvatars() {
 		ArrayList<Avatar> avatarOptions = this.avatars;
 
@@ -99,8 +99,8 @@ public class Initialisation extends StrategyInterpreter{
 			//for testing purposes
 			avatarOptions.add(Avatar.DONALD_DUCK);
 			avatarOptions.add(Avatar.MICKEY_MOUSE);
-			avatarOptions.add(Avatar.MUFFIN_MACLAY);
 			avatarOptions.add(Avatar.HAIRY_MACLARY);
+			avatarOptions.add(Avatar.MUFFIN_MACLAY);
 		}
 
 		return avatarOptions;
@@ -124,25 +124,54 @@ public class Initialisation extends StrategyInterpreter{
 
 
 
+	/**
+	 * The following will call the method in main to display the main game frame
+	 */
 	public void displayMainGameFrame(){
 		try {
 			Main.displayMainGameFrame();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * a getter for welcomePanel
+	 * @return
+	 */
 	public WelcomePanel getWelcomePanel(){
 		return welcome;
 	}
 
 
+	/**
+	 * a setter for server
+	 * @param server
+	 */
+	/*public void setServer(Server server) {
+		this.server = server;
+	}*/
 
+	/**
+	 * a getter for server
+	 * @return
+	 */
+	/*public Server getServer() {
+		return server;
+	}*/
 
+	/**
+	 * Close the server so as to not have to manually terminate
+	 */
 	public void closeServer() {
+		Main.closeServer();
+	}
+
+
+
+	/*public void closeServer() {
 		Main.closeServer();
 
 	}
-
+*/
 }
