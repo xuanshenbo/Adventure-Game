@@ -31,6 +31,9 @@ public class RadioButtonPanel extends JPanel {
 
 	private Dialog containerDialog;
 
+	//only display the drop/use/move options on the first selection of a radio button option
+	private boolean firstButtonSelected = false;
+
 	//this constructor not currently used
 	public RadioButtonPanel(GameFrame container, String type){
 		containerFrame = container;
@@ -43,7 +46,7 @@ public class RadioButtonPanel extends JPanel {
 	 * @param radioInterp The strategyinterpreter which interprets radio button action events
 	 */
 	public RadioButtonPanel(ArrayList<String> inventoryContents, StrategyInterpreter radioInterp, Dialog d) {
-
+		this.firstButtonSelected = false;
 
 		this.containerDialog = d;
 
@@ -103,11 +106,16 @@ public class RadioButtonPanel extends JPanel {
 					if(e.getStateChange()==1) { //then checked
 						if(e.getSource() == item){
 							try {
+
 								//notify that an item has been selected, and at which slot
 								radioInterpreter.notify("selected "+index);
 
-								//tell the dialog to display item options
-								containerDialog.displayItemOptions();
+								//tell the dialog to display item options, but only if a choice hasn't yet been made
+								//ie don't keep adding options everytime a new option chosen
+								if(!firstButtonSelected){
+									containerDialog.displayItemOptions();
+									firstButtonSelected = true;
+								}
 
 							} catch (IOException e1) {
 								e1.printStackTrace();
