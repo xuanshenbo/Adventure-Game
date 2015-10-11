@@ -58,6 +58,7 @@ public class Game {
 		int width = parameters.getWidth();
 		Generator g = new Generator(parameters);
 		Area area = new Area(height, width, AreaType.OUTSIDE, null);
+		maxZombies = 5;
 		area.generateWorld(g);
 		ArrayList<Player> playerList = placePlayers(parameters.getPlayerCount(), height, width, area);
 		this.gameState = new GameState(area, playerList);
