@@ -2,6 +2,7 @@ package view;
 
 import interpreter.StrategyInterpreter;
 import interpreter.Translator;
+import interpreter.Translator.InitialisationCommand;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -58,6 +59,8 @@ public class Dialog extends JDialog implements ActionListener {
 
 	private ButtonPanel itemOptions;
 
+	private InitialisationCommand initState;
+
 
 
 	/**
@@ -112,6 +115,8 @@ public class Dialog extends JDialog implements ActionListener {
 
 
 	public Dialog(String title, String msg, Translator.InitialisationCommand state, Initialisation i, WelcomePanel wPanel) {
+
+
 		this.initialisation = i;
 		this.welcomePanel = wPanel;
 		getContentPane().setLayout( new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
@@ -200,9 +205,10 @@ public class Dialog extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		boolean validInput = false;
 
-		if(state.equals(Translator.Command.DISPLAY_INVENTORY)){
+		if(state.equals(Translator.Command.DISPLAY_INVENTORY) || state.equals(Translator.Command.DISPLAY_CONTAINER)){
 			//notify that inventory closed?
 			validInput = true;
+			initState = null;
 		}
 
 		if(state.equals(Translator.Command.DISPLAY_AVATAR_OPTIONS)){

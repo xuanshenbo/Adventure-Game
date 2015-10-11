@@ -110,6 +110,8 @@ public class GameFrame extends JFrame{
 
 	private GameCanvas canvas;
 
+	private Dialog container;
+
 	/**
 	 * First a WelcomeDialog is displayed and then
 	 * the constructor sets up the KeyListener using the KeyboardFocusManager, sets up the layout with all the appropriate Panels.
@@ -412,7 +414,10 @@ public class GameFrame extends JFrame{
 	}
 
 	private void addContainerDialog() {
-		Dialog inventory = new Dialog(this, "Display Container", "This container contains:",
+		if(container != null){
+			container.dispose();
+		}
+		container = new Dialog(this, "Display Container", "This container contains:",
 				Translator.Command.DISPLAY_CONTAINER, this.dialogInterpreter);
 	}
 
