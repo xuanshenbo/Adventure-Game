@@ -40,8 +40,7 @@ public class Server extends Thread{
 	private Writer[] writers = new Writer[5];//writer[0] will be null. only 1-4 will be used
 	private boolean exit;
 
-	private Queue<char[]> instructions = new ArrayDeque<char[]>();//debug, should be commented out
-	//private int[] parameters;
+	//private Queue<char[]> instructions = new ArrayDeque<char[]>();//debug, should be commented out
 	private Game game;
 
 
@@ -99,17 +98,15 @@ public class Server extends Thread{
 		ExecutorService pool = Executors.newFixedThreadPool(4);
 		while (!exit) {
 			try {
-				Socket connection = null;
-				if(server != null){
-					connection = server.accept();
-				}
+				if(server.isClosed()) break;
+				Socket connection = server.accept();
 				Callable<Void> task = new Task(connection);
 				pool.submit(task);
 				//Thread.yield();
 			} catch (IOException ex) {
-				errorLogger.log(Level.SEVERE, "accept error", ex);
+				//errorLogger.log(Level.SEVERE, "accept error", ex);
 			} catch (RuntimeException ex) {
-				errorLogger.log(Level.SEVERE, "unexpected error " + ex.getMessage(), ex);
+				//errorLogger.log(Level.SEVERE, "unexpected error " + ex.getMessage(), ex);
 			}
 		}
 
@@ -176,8 +173,10 @@ public class Server extends Thread{
 				in.read(input);
 				id = Character.getNumericValue(input[1]);
 				System.out.println("id: "+id);
+
 				Writer out = new OutputStreamWriter(connection.getOutputStream());
 				writers[id] = out;
+				game.getParser().processClientEvent(input, out, id);
 				out.write("A"+address.getHostAddress().toString()+"X");// 'X' indicates the end of the message
 				out.flush();
 				//System.out.println(address.getHostAddress().toString());//debug
