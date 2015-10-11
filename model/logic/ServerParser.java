@@ -136,7 +136,7 @@ public class ServerParser {
 			message[0] = action;
 			message[1] = (char)(happiness +'0');
 		}else if(action == 'C'){// container inventory information
-			message = new char[tempItemArrayStorage.length+1];
+			message = new char[tempItemArrayStorage.length+2];
 			message[0] = action;
 			for(int i = 1; i< tempItemArrayStorage.length; i++){
 				message[i] = tempItemArrayStorage[i];

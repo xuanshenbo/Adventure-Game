@@ -23,7 +23,9 @@ import model.items.Key;
 import model.state.Area;
 import model.state.Position;
 import model.state.Area.AreaType;
+import model.tiles.BuildingAnchorTile;
 import model.tiles.BuildingTile;
+import model.tiles.CaveAnchorTile;
 import model.tiles.CaveEntranceTile;
 import model.tiles.CaveTile;
 import model.tiles.ChestTile;
@@ -204,6 +206,8 @@ public class Generator {
 					Position exit = new Position(2, 4, building);
 
 					areaArray[randomRow+2][randomCol+2] = new DoorTile(entrance, exit);
+					
+					areaArray[randomRow][randomCol] = new BuildingAnchorTile(new Position(randomCol, randomRow, area));
 					building.getArea()[4][2] = new DoorTile(exit, entrance);
 					children.add(building);
 					placed = true;
@@ -245,6 +249,7 @@ public class Generator {
 					Area cave = new Area(5, 10, AreaType.CAVE, new Position(randomCol+1, randomRow+1, area));
 					Position exit = new Position(0, 0, cave);
 					areaArray[randomRow+1][randomCol+1] = new CaveEntranceTile(entrance, exit);
+					areaArray[randomRow][randomCol] = new CaveAnchorTile(new Position(randomCol, randomRow, area));
 					area.addCaveEntrance(entrance);
 					cave.getArea()[0][0] = new CaveEntranceTile(exit, entrance);
 					children.add(cave);
