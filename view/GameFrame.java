@@ -63,6 +63,8 @@ public class GameFrame extends JFrame{
 	//These constants define the main colour scheme and are used throughout all the panels which form the GameFrame
 	public static final Color col1 = Color.CYAN.darker();
 	public static final Color col2 = Color.PINK;
+	public static final Color fontColor = Color.PINK;
+	public static final Color buttonFontColor = new Color(0, 128, 255);
 
 	private Dialog ContainerDialog;
 
