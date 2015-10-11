@@ -170,8 +170,8 @@ public class Generator {
 		for(int count = 0; count < buildings; count++){
 			boolean placed = false;
 			while(!placed){
-				int randomRow = new Random().nextInt(areaArray.length-5)+1;
-				int randomCol = new Random().nextInt(areaArray[0].length-6)+1;
+				int randomRow = new Random().nextInt(areaArray.length-20)+10;
+				int randomCol = new Random().nextInt(areaArray[0].length-21)+10;
 				boolean placeClear = true;
 
 				//check if the random place is open for a building
@@ -193,8 +193,8 @@ public class Generator {
 					}
 					//Create a boarder around the building so that no buildings can be side by side.
 					int invalidSize = 0;
-					for(int row = randomRow-1; row < randomRow+5; row++){
-						for(int col = randomCol-1; col < randomCol+6; col++){
+					for(int row = randomRow-6; row < randomRow+10; row++){
+						for(int col = randomCol-6; col < randomCol+11; col++){
 							invalidPosition[row][col] = true;
 							invalidSize++;
 						}

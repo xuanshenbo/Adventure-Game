@@ -60,8 +60,8 @@ public class Images {
 
         //load items images
         this.chestImage = loadImage("chest.png", imageScale, imageScale);
-        this.keyImage = loadImage("key.png", imageScale, imageScale);
-        this.cupcake = loadImage("cupcake.png", imageScale, imageScale);
+        this.keyImage = loadImage("key.png", imageScale, imageScale*0.6f);
+        this.cupcake = loadImage("pumpkin.png", imageScale, imageScale);
         this.bag = loadImage("bag.png", imageScale, imageScale);
 
         //load characters images

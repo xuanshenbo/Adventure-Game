@@ -295,17 +295,17 @@ public class GameRenderer{
 		switch (item) {
 			case 'k':
 				imageX = (int) x;
-				imageY = (int) (y - images.key().getHeight(null));
+				imageY = (int) (y - images.key().getHeight(null)+tileHeight/2);
 				graphic.drawImage(images.key(), imageX, imageY, null);
 				break;
 			case 'c':
 				imageX = (int) x;
-				imageY = (int) (y - images.cupcake().getHeight(null));
+				imageY = (int) (y - images.cupcake().getHeight(null) + tileHeight/2);
 				graphic.drawImage(images.cupcake(), imageX, imageY, null);
 				break;
 			case 'b':
 				imageX = (int) x;
-				imageY = (int) (y - images.bag().getHeight(null));
+				imageY = (int) (y - images.bag().getHeight(null) + tileHeight/2);
 				graphic.drawImage(images.bag(), imageX, imageY, null);
 				break;
 			default:
