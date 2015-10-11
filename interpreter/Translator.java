@@ -30,7 +30,7 @@ public class Translator {
 		SHOW_CLIENT_SERVER_OPTION, SHOW_LOAD_OR_NEW_OPTION, CONNECT_TO_SERVER,
 		START_GAME, LOAD_GAME, CHOOSE_SLIDER_OPTIONS, LOAD_SAVED_PLAYER,
 		CREATE_NEW_PLAYER, LOAD_PLAYER_OR_CREATE_NEW_PLAYER, SELECTED_AVATAR,
-		SELECTED_CLIENT, SELECTED_CLIENT_AND_SERVER, SELECTED_NEW_GAME;
+		SELECTED_CLIENT, SELECTED_CLIENT_AND_SERVER, SELECTED_NEW_GAME, GET_AVAILABLE_AVATARS;
 	}
 
 	public enum MainGameState {
@@ -45,6 +45,9 @@ public class Translator {
 
 		if(command.equals(InitialisationCommand.SELECTED_AVATAR)){
 			return "J";
+		}
+		else if(command.equals(InitialisationCommand.GET_AVAILABLE_AVATARS)){
+			return "R";
 		}
 		return null;
 	}

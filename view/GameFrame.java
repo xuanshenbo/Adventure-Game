@@ -497,35 +497,6 @@ public class GameFrame extends JFrame{
 		return this.midPanel.getWidth();
 	}
 
-	/**
-	 * TODO Server calls setAvailableAvatars after the new game/load avatars button chosen.
-	 * Then Server calls displayAvatarptions
-	 * @return
-	 */
-
-	public void setAvatars(ArrayList<Avatar> avatarOptions) {
-		this.avatars = avatarOptions;
-	}
-
-
-
-	public ArrayList<Avatar> getAvailableAvatars() {
-
-		//if the game hasn't yet sent the available avatars
-		if(avatars == null){
-
-			ArrayList<Avatar> avatarsTest= new ArrayList<Avatar>();
-			avatarsTest.add(Avatar.DONALD_DUCK);	//for testing purposes
-
-			return avatarsTest;
-
-		}
-		else{
-			return avatars;
-		}
-	}
-
-
 	private void makePretty(Set<JPanel> topPanels, JPanel p1, JPanel p2) {
 
 		HashSet<JPanel> panels = new HashSet<JPanel>();

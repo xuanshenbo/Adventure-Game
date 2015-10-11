@@ -91,8 +91,6 @@ public class Initialisation extends StrategyInterpreter{
 	}
 
 
-
-
 	public ArrayList<Avatar> getAvailableAvatars() {
 		ArrayList<Avatar> avatarOptions = this.avatars;
 
@@ -101,8 +99,8 @@ public class Initialisation extends StrategyInterpreter{
 			//for testing purposes
 			avatarOptions.add(Avatar.DONALD_DUCK);
 			avatarOptions.add(Avatar.MICKEY_MOUSE);
-			avatarOptions.add(Avatar.MUFFIN_MACLAY);
 			avatarOptions.add(Avatar.HAIRY_MACLARY);
+			avatarOptions.add(Avatar.MUFFIN_MACLAY);
 		}
 
 		return avatarOptions;
