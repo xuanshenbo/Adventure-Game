@@ -22,8 +22,10 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
@@ -163,9 +165,9 @@ public class ButtonPanel extends JPanel {
 
 
 	private void displayInventoryItemOptions() {
-		final JButton drop = new JButton("Drop item");
-		final JButton use = new JButton("EAT");
-		final JButton moveToBag = new JButton("Move item to bag");
+		final JButton drop = new JButton("Drop");
+		final JButton use = new JButton("Use");
+		final JButton moveToBag = new JButton("Move to bag");
 
 		ActionListener itemActionListener = new ActionListener(){
 			private boolean movePressed = false;
@@ -354,25 +356,20 @@ public class ButtonPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String msg = "";
 				if(e.getSource()==client){
-					try {
-						initialisation.notify(Translator.InitialisationCommand.SELECTED_CLIENT.toString());
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-
+					msg = Translator.InitialisationCommand.SELECTED_CLIENT.toString();
 				}
 				else if(e.getSource()==serverclient){	//conditional not strictly necessary, but added for completion
-					try {
-						initialisation.notify(Translator.InitialisationCommand.SELECTED_CLIENT_AND_SERVER.toString());
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-
+					msg = Translator.InitialisationCommand.SELECTED_CLIENT_AND_SERVER.toString();
 				}
 
+				try {
+					initialisation.notify(msg);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
-
 		};
 
 		client.addActionListener(serverclientListener);
@@ -455,8 +452,8 @@ public class ButtonPanel extends JPanel {
 
 			Color crl = GameFrame.col2;
 			compound = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl));
-			b.setFont(new Font("Sans-Serif", Font.BOLD, 16));
-			b.setForeground(Color.darkGray);
+			//			b.setFont(new Font("Sans-Serif", Font.BOLD, 16));
+			//			b.setForeground(Color.darkGray);
 
 			b.setPreferredSize(new Dimension(50, 30));
 
@@ -469,6 +466,23 @@ public class ButtonPanel extends JPanel {
 			b.setForeground(GameFrame.buttonFontColor);
 		}
 
+	}
+
+	public static void makeLabelPretty(JLabel... labels){
+
+		for(JLabel label: labels){
+			label.setFont(new Font("Serif", Font.BOLD, 14));
+			label.setForeground(GameFrame.buttonFontColor);
+		}
+	}
+
+
+	public static void makeRadioButtonPretty(JRadioButton... radioButtons){
+
+		for(JRadioButton rbutton: radioButtons){
+			rbutton.setFont(new Font("Serif", Font.BOLD, 14));
+			rbutton.setForeground(GameFrame.buttonFontColor);
+		}
 	}
 
 }

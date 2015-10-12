@@ -7,6 +7,7 @@ import interpreter.MenuStrategy;
 import interpreter.StrategyInterpreter;
 import interpreter.Translator;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -86,6 +88,9 @@ public class Initialisation extends StrategyInterpreter{
 				}
 			}
 		});
+
+		//add a pink border around the whole frame
+		frame.getRootPane().setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.PINK));
 
 		frame.pack();
 		frame.setLocationRelativeTo(null);
@@ -184,5 +189,5 @@ public class Initialisation extends StrategyInterpreter{
 		Main.closeServer();
 
 	}
-*/
+	 */
 }

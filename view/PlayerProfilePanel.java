@@ -74,6 +74,7 @@ public class PlayerProfilePanel extends JPanel{
 		//add a plain black border around the whole panel
 		Border blackline = BorderFactory.createLineBorder(Color.black, 2, true);
 		setBorder(blackline);
+
 	}
 
 

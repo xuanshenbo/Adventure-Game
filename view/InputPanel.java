@@ -3,6 +3,7 @@ package view;
 import interpreter.Translator;
 
 import java.awt.FlowLayout;
+import java.awt.Font;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -31,6 +32,9 @@ public class InputPanel extends JPanel{
 
 		if(state.equals(Translator.InitialisationCommand.CONNECT_TO_SERVER)){
 			JLabel message = new JLabel(validIP ? standardMessage : errorMessage);
+
+			ButtonPanel.makeLabelPretty(message);
+
 			add(message);
 			//add the TextField for the user to enter the ip address
 			add(new TextFieldImpl(initialisation));

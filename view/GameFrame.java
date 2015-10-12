@@ -174,6 +174,7 @@ public class GameFrame extends JFrame{
 
 		//add a pink border around the whole frame
 		getRootPane().setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.PINK));
+
 	}
 
 	/*
@@ -223,6 +224,10 @@ public class GameFrame extends JFrame{
 		middleLayeredPane.add(butPanel, new Integer(1), 0);
 
 		middleLayeredPane.setPreferredSize(new Dimension(gamePanelWidth, gamePanelHeight));
+
+		//TODO this isn't working add a plain black border around the whole panel
+		Border blackline = BorderFactory.createLineBorder(Color.black, 2, true);
+		middleLayeredPane.setBorder(blackline);
 
 		add(middleLayeredPane);
 
