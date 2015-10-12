@@ -107,6 +107,7 @@ public class ChestTile implements Tile, Container{
 	}
 
 	public Item[] open(){
+		p();
 		return inventory;
 	}
 

@@ -6,6 +6,7 @@ import static java.awt.event.KeyEvent.VK_S;
 import static java.awt.event.KeyEvent.VK_L;
 import static javax.swing.KeyStroke.getKeyStroke;
 import interpreter.StrategyInterpreter;
+import interpreter.Translator.Command;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -87,10 +88,10 @@ public class MenuBar extends JMenuBar {
 		}
 	}
 
-	// aciton on save
+	// action on save
 	private void doSave() {
 		try {
-			menuInterpreter.notify("save");
+			menuInterpreter.notify(Command.SAVE.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -99,7 +100,7 @@ public class MenuBar extends JMenuBar {
 	// action on saveAs
 	private void doSaveAs() {
 		try {
-			menuInterpreter.notify("saveAs");
+			menuInterpreter.notify(Command.SAVE_AS.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -115,6 +116,12 @@ public class MenuBar extends JMenuBar {
 			File file = fc.getSelectedFile();
 			// notify interpreter to open file
 		}
+		try {
+			menuInterpreter.notify(Command.LOAD_FILE.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	private class ExitAction extends AbstractAction {

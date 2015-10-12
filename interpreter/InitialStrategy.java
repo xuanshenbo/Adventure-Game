@@ -7,9 +7,11 @@ import java.io.IOException;
 import java.io.Writer;
 import java.net.ConnectException;
 import java.net.InetAddress;
+import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
+import control.Client;
 import jdk.nashorn.internal.runtime.linker.JavaAdapterFactory;
 import view.Avatar;
 import main.Initialisation;
@@ -28,8 +30,8 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 	@Override
 	public void notify(String text) throws IOException {
 
-		if(Translator.isInitialisationState(text)){
-			notifyInitState(text);
+		if(Translator.isInitialisationCommand(text)){
+			notifyInitCommand(text);
 		}
 		else if(Translator.isCommand(text)){
 			notifyCommand(text);
@@ -64,13 +66,23 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 			InetAddress adr = null;
 			try {
 				adr = InetAddress.getByName(ip);
-				Main.clientMode(adr, 8888);
-				Main.setIP(ip);
+				Main.avatarClient(adr, 8888);
 
 				//request available avatars from game, as this will be required in the next step
 				Translator.InitialisationCommand cmd = Translator.InitialisationCommand.GET_AVAILABLE_AVATARS;
 				String msg = Translator.encode(cmd);
 				initialisation.getClient().send(msg);
+
+				/*Socket socket = new Socket(adr, 8888);
+				Client avatarClient = new Client(socket);
+				client.setUid(4);//debug
+				client.start();
+				initial.setClient(client);*/
+
+				/*Client avatarClient =
+				Main.clientMode(adr, 8888);
+				Main.setIP(ip);*/
+
 
 				initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.LOAD_SAVED_PLAYER);
 			}
@@ -96,9 +108,24 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 		//add to the msg the integer corresponding to which avatar was chosen
 		msg += avatarInteger;
 
-		Main.connectClient(avatarInteger);
-
 		initialisation.setChosenAvatar(a);
+
+		if(Main.getServer() != null){
+			Main.connectClient(avatarInteger);
+		}
+		else{
+			InetAddress adr = null;
+			try {
+				adr = InetAddress.getByName(ip);
+				Main.clientMode(adr, 8888, avatarInteger);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+
 
 		initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.START_GAME);
 
@@ -113,7 +140,7 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 		}
 	}
 
-	private void notifyInitState(String text) {
+	private void notifyInitCommand(String text) {
 		Translator.InitialisationCommand initState = Translator.toInitState(text);
 
 		if(initState.equals(Translator.InitialisationCommand.LOAD_GAME)){

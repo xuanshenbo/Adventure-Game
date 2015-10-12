@@ -57,7 +57,7 @@ public class Server extends Thread{
 
 		//game= new Game(this, world, false);
 		game = new Game(this, 200, 200, "easy", 50);
-		
+
 		//game = new Game(Server server, int height, int width, String difficulty("easy", "medium", "hard", int density(1-100))
 		try{
 			server = new ServerSocket(PORT, 50, InetAddress.getLocalHost());
@@ -98,7 +98,7 @@ public class Server extends Thread{
 
 	public void run(){
 		//System.out.println("Server is stared");//debug
-		ExecutorService pool = Executors.newFixedThreadPool(4);
+		ExecutorService pool = Executors.newFixedThreadPool(50);
 		while (!exit) {
 			try {
 				if(server.isClosed()) break;
@@ -175,11 +175,13 @@ public class Server extends Thread{
 				char[] input = new char[2];
 				in.read(input);
 				id = Character.getNumericValue(input[1]);
-				System.out.println("id: "+id);
+				p("id: "+id);//debug
 
 				Writer out = new OutputStreamWriter(connection.getOutputStream());
 				writers[id] = out;
-				game.getParser().processClientEvent(input, out, id);
+				if(id != 0){
+					game.getParser().processClientEvent(input, out, id);
+				}
 				out.write("A"+address.getHostAddress().toString()+"X");// 'X' indicates the end of the message
 				out.flush();
 				//System.out.println(address.getHostAddress().toString());//debug
@@ -199,6 +201,9 @@ public class Server extends Thread{
 					char[] message = new char[256];
 					//System.out.println("Stuck for twice");
 					in.read(message);
+					if(message[0] == '&'){
+						break;
+					}
 					/*int counter = 0;
 					System.out.println(counter++);*/
 					/*String input = "";

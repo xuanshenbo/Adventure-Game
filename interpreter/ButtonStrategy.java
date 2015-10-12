@@ -25,7 +25,6 @@ public class ButtonStrategy implements StrategyInterpreter.Strategy{
 
 	@Override
 	public void notify(String text) {
-		p(text);
 		if(Translator.isCommand(text)){
 			notifyCommand(text);
 		}

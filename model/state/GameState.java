@@ -242,7 +242,7 @@ public class GameState {
 		int row = playerPosition.getY();
 		Area a = playerPosition.getArea();
 		a.getItems()[row][col] = item;
-	}
+	}	
 
 	// ================================================
 	// getters from here

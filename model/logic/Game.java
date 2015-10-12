@@ -142,6 +142,9 @@ public class Game {
 				gameState.setDay(true);
 			}
 		}
+		for(Player player: gameState.getPlayerList()){
+			parser.sendToServer(player, 'T');
+		}
 		updateZombies();
 		if(frameActivated){
 			for(Player p: gameState.getPlayerList()){
@@ -231,7 +234,8 @@ public class Game {
 		}
 		if (toTile != null && toTile.isContainer()) {
 			ChestTile container = (ChestTile) toTile;
-			if(player.getKey()){
+			if(player.getKey() || player.hasOpenedChest(container)){
+				player.addChest(container);
 				player.setOpenContainer(container);
 				Item[] items = container.open();
 				parser.sendContainer(player, items);
@@ -297,11 +301,9 @@ public class Game {
 	 */
 
 	public void use(Player player, int inventorySlot){
-
-		p(player.getItemFromInventory(inventorySlot));
+		p();
 		if(player.getItemFromInventory(inventorySlot) != null){
 			Item[] inventory = player.use(inventorySlot);
-			p(inventory);
 			parser.sendToServer(player, 'I');
 			parser.sendToServer(player, 'H');
 			if(inventory != null){
@@ -337,7 +339,7 @@ public class Game {
 	public void drop(Player player, int inventorySlot) {
 		Position playerPosition = player.getPosition();
 		Item item = player.getItemFromInventory(inventorySlot);
-		if(item != null){
+		if(item != null && noObjects(playerPosition)){
 			player.removeItem(inventorySlot);
 			gameState.addItem(playerPosition, item);
 		}
@@ -347,65 +349,35 @@ public class Game {
 	}
 
 	/**
-	 * This method is called when a player moves an item from their inventory to the open container
-	 * or from the open Container to their inventory.
-	 * @param player
-	 * @param inventorySlot: the slot of the item in the players inventory
-	 * @param containerSlot: the slot of the item in the open container.
+	 * Called when a player tries to drop an item on the ground, it checks
+	 * that there is not an object on the ground already.
+	 * @param playerPosition
+	 * @return
 	 */
+	public boolean noObjects(Position playerPosition) {
+		int row = playerPosition.getY();
+		int col = playerPosition.getX();
+		Area area = playerPosition.getArea();
+		return area.getItems()[row][col] == null;
+	}
 
 	public void moveInventory(Player player, int fromSlot, int toSlot) {
 		Item fromItem = player.getItemFromInventory(fromSlot);
 		Item toItem = player.getItemFromInventory(toSlot);
-		
-		if(toItem instanceof Container){
+		if(toItem instanceof Bag){
 			Bag bag = (Bag) toItem;
 			boolean notBag = bag.addItem(fromItem);
-			if(notBag){
+			if(!notBag){
 				player.removeItem(fromSlot);
 			}
 			return;
 		}
-		
 		player.getInventory()[fromSlot] = toItem;
 		player.getInventory()[toSlot] = fromItem;
-		
-		
-		parser.sendInventory(player, player.getInventory());;
-		
-		
-		
-		
-		
-//		Item inventoryItem = player.getItemFromInventory(inventorySlot);
-//		Container container = player.getOpenContainer();
-//		Item containerItem = container.getItem(containerSlot);
-//		//no items in either slot, do nothing
-//		if(inventoryItem == null && containerItem == null){
-//		}
-//		//inventorySlot has an item and containerSlot does not, move item from inventory to
-//		//container
-//		else if(inventoryItem != null && containerItem == null){
-//			player.removeItem(inventorySlot);
-//			container.addItem(inventoryItem);
-//		}
-//		//ContainerSlot has an item and InventorySlot does not, move item from container to
-//		//inventory
-//		else if(containerItem != null && inventoryItem == null){
-//			player.addItemToInventory(containerItem);
-//			container.removeItemSlot(containerSlot);
-//		}
-//		//Else both InventorySlot and ContainerSlot are both full and we swap the items
-//		else{
-//			player.removeItem(inventorySlot);
-//			container.addItem(inventoryItem);
-//			player.addItemToInventory(containerItem);
-//			container.removeItemSlot(containerSlot);
-//		}
 
+		parser.sendInventory(player, player.getInventory());;
 
 	}
-
 
 	/**
 	 * Called when a player selects an item.
@@ -448,17 +420,26 @@ public class Game {
 		gameState.getPlayer(id).makeInactive();
 
 	}
-
+	
+	/**
+	 * This sends an array of available players to the server
+	 * when requested.
+	 * @param id:
+	 */
 	public void getAvailablePlayers(int id) {
 		char[] players = new char[4];
 		for(int i = 0; i < players.length; i++){
-			if(!gameState.getPlayer(id).isInGame()){
+			p(gameState);
+			p(gameState.getPlayer(i+1));
+			if(!gameState.getPlayer(i+1).isInGame()){
 				players[i] = 'Y';
 			}else{
 				players[i] = 'N';
 			}
 		}
-		parser.sendPlayers(gameState.getPlayer(id), players);
+		Player player = gameState.getPlayer(id);
+		
+		parser.sendPlayers(player, players);
 	}
 
 

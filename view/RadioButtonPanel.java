@@ -27,7 +27,6 @@ public class RadioButtonPanel extends JPanel {
 
 	private StrategyInterpreter buttonInterpreter;
 
-
 	private Dimension imageSize = new Dimension(50, 50);
 
 	private Dialog containerDialog;
@@ -50,6 +49,8 @@ public class RadioButtonPanel extends JPanel {
 	 * @param radioInterp The strategyinterpreter which interprets radio button action events
 	 */
 	public RadioButtonPanel(ArrayList<String> contents, StrategyInterpreter buttonInterp, Dialog d, Command st) {
+		System.out.println(st);
+
 		this.state = st;
 
 		this.firstButtonSelected = false;

@@ -27,31 +27,13 @@ public class MenuStrategy implements StrategyInterpreter.Strategy{
 		if(Translator.isCommand(text)){
 			notifyCommand(text);
 		}
-
-		else if(text.equals("save")){
-			System.out.println("Saving the game...");
-			try {
-				interpreter.getClient().send("Save");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			//			System.out.println("Saving the game...");
-			//			try {
-			//				Serializer.serialize(interpreter.getGame().getGameState());
-			//			} catch (JAXBException ex) {
-			//				System.out.println("Saving failed...");
-			//				return;
-			//			}
-			//			System.out.println("Done!");
-			//notify game
-		}
 	}
 
 	private void notifyCommand(String text) {
 		Translator.Command cmd = Translator.toCommand(text);
 		if(cmd.equals(Translator.Command.EXIT)){
 
-			if(!gameFrame.isServer()){
+			if(!gameFrame.isServerMode()){
 
 				Translator.Command exit = Translator.Command.EXIT_CLIENT;
 				String msg = Translator.encode(exit);
@@ -66,6 +48,15 @@ public class MenuStrategy implements StrategyInterpreter.Strategy{
 			Main.closeServer();
 			System.exit(0);
 
+		}
+
+		else {
+			System.out.println("Saving the game...");
+			try {
+				interpreter.getClient().send(Translator.encode(cmd));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 	}

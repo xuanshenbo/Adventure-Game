@@ -28,6 +28,7 @@ import interpreter.Translator;
 public class Main {
 	private static Server server;
 	private static Client client;
+	private static Client avatarClient;
 	private static Initialisation initial;
 	private static int uid;
 	private static Game game;
@@ -100,12 +101,15 @@ public class Main {
 	 * @param port
 	 * @throws IOException
 	 */
-	public static void clientMode(InetAddress adr, int port) throws IOException{
-		server = null;
+	public static void clientMode(InetAddress adr, int port, int uid) throws IOException{
 		try {
+			//avatarClient.send("&");//this is to close the avatarClient socket
+			//avatarClient = null;
 			Socket socket = new Socket(adr, port);
 			client = new Client(socket);
+			client.setUid(uid);//debug
 			client.start();
+			initial.setClient(client);
 		}
 
 		catch(java.net.ConnectException e){
@@ -117,6 +121,25 @@ public class Main {
 			e.printStackTrace();
 		}
 		displayMainGameFrame();//debug
+	}
+
+	/**
+	 * The following creates a client specifically for choosing avatar
+	 * @param adr
+	 * @param port
+	 * @throws IOException
+	 */
+	public static void avatarClient(InetAddress adr, int port) throws IOException{
+		server = null;
+		try {
+			Socket socket = new Socket(adr, port);
+			avatarClient = new Client(socket);
+			avatarClient.setUid(0);//debug
+			avatarClient.start();
+			initial.setClient(avatarClient);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void displayMainGameFrame() throws IOException{
@@ -192,6 +215,17 @@ public class Main {
 	public static void setIP(String ip) {
 		ipAddress = ip;
 	}
+
+	/**
+	 * a getter for server
+	 * @return
+	 */
+	public static Server getServer() {
+		return server;
+	}
+
+
+
 
 	/* A getter for the client
 	 * @return

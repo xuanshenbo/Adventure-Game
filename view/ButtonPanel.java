@@ -61,6 +61,7 @@ public class ButtonPanel extends JPanel {
 
 	private WelcomePanel welcomePanel;
 	private StrategyInterpreter buttonInterpreter;
+	private Dialog dialog;
 	/**
 	 * The constructor stores the button interpreter to a field
 	 * @param container
@@ -119,7 +120,9 @@ public class ButtonPanel extends JPanel {
 		}
 	}
 
-	public ButtonPanel(Translator.Command state, StrategyInterpreter buttonInterp) {
+	public ButtonPanel(Translator.Command state, StrategyInterpreter buttonInterp, Dialog d) {
+		this.dialog = d;
+
 		this.buttonInterpreter = buttonInterp;
 
 		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS);
@@ -136,6 +139,7 @@ public class ButtonPanel extends JPanel {
 
 	//should only appear when something has been selected
 	private void displayContainerItemOptions() {
+
 		final JButton move = new JButton("Move to Inventory");
 		move.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -145,15 +149,19 @@ public class ButtonPanel extends JPanel {
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
+					dialog.dispose();
 				}
 			}
 		});
+
+		add(move);
+		makeButtonsPretty(move);
 	}
 
 
 	private void displayInventoryItemOptions() {
 		final JButton drop = new JButton("Drop item");
-		final JButton use = new JButton("Use item");
+		final JButton use = new JButton("EAT");
 		final JButton moveToBag = new JButton("Move item to bag");
 
 		ActionListener itemActionListener = new ActionListener(){
@@ -166,6 +174,8 @@ public class ButtonPanel extends JPanel {
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
+
+					dialog.dispose();	//no longer display inventory
 				}
 				else if(e.getSource()==use){
 					try {
@@ -173,6 +183,8 @@ public class ButtonPanel extends JPanel {
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
+
+					dialog.dispose();	//no longer display inventory
 				}
 				else if(e.getSource()==moveToBag){
 					try {

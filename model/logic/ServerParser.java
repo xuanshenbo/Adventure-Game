@@ -23,6 +23,7 @@ public class ServerParser {
 	private char[] tempItemArrayStorage = null;
 	private boolean testing;
 	private char[] playerList;
+	private char[] stringMessage;
 
 	public ServerParser(Game game, Server server, boolean testing) {
 		this.game = game;
@@ -66,6 +67,9 @@ public class ServerParser {
 		case 'F'://activating frame
 			game.activateFrame();
 			break;
+		case 'Z'://moving item from container to inventory [Z, containerSlot]
+			game.getGameState().getPlayer(id).moveToInventory(Character.getNumericValue(message[1]));
+			break;
 		case 'S'://Saving game
 			try {
 				Serializer.serialize(game.getGameState());
@@ -73,7 +77,11 @@ public class ServerParser {
 				e.printStackTrace();
 			}
 			break;
+		case 'Y'://Save As
+			//BOBO TODO
+			break;
 		case 'L'://Loading game
+			//BOBO TODO
 			break;
 		case 'J'://Client joins the game
 			game.activatePlayer(id);
@@ -129,6 +137,12 @@ public class ServerParser {
 					message[index++] = view.get(1)[r][c];
 				}
 			}
+		}else if(action == 'm'){
+			message = new char[stringMessage.length+2];
+			message[0] = action;
+			for(int i = 0; i < stringMessage.length; i++){
+				message[i+1] = stringMessage[i];
+			}
 		}else if(action == 'I'){// player inventory
 			char[] inventory = new char[player.getInventory().length];
 			for(int i = 0; i< inventory.length; i++){
@@ -138,16 +152,16 @@ public class ServerParser {
 			}
 			message = new char[inventory.length+2];
 			message[0] = action;
-			for(int i = 0; i < inventory.length; i++){				
+			for(int i = 0; i < inventory.length; i++){
 				message[i+1] = inventory[i];
 			}
-			
+
 		}else if(action == 'H'){// player happiness
 			int happiness = player.getHappiness();
 			message = new char[3];
 			message[0] = action;
 			message[1] = (char)(happiness +'0');
-			p(message[1]);
+
 		}else if(action == 'C'){// container inventory information
 			message = new char[tempItemArrayStorage.length+2];
 			message[0] = action;
@@ -178,6 +192,25 @@ public class ServerParser {
 		message[message.length-1] = 'X';
 		try {
 			if(!testing){
+				if(message[0] == 'H'){
+					p("Server sending Happiness level:"+message[1]);
+				}
+				if(message[0] == 'C'){
+					p("sending container contents");
+				}
+				if(message[0] == 'R'){
+					p("sending available players");
+					p(player.getId());
+					p(server);
+					p(server.getWriters());
+					p(server.getWriters()[player.getId()]);
+				}
+//				if(message[0] == 'T'){
+//					int time = Character.getNumericValue(message[1]);
+//					char dayNight = message[2];
+//					p("time:"+time+" "+dayNight);
+//				}
+				
 				server.getWriters()[player.getId()].write(message);
 				server.getWriters()[player.getId()].flush();
 			}
@@ -220,8 +253,22 @@ public class ServerParser {
 
 	}
 
+	public void sendMessage(Player player, String message){
+		int count = 0;
+		stringMessage = new char[message.length()];
+		while(count < message.length()){
+			char c = message.charAt(count);
+			stringMessage[count++] = c;
+		}
+		sendToServer(player, 'm');
+	}
+
 	public void sendPlayers(Player player, char[] players) {
+		p(player);
 		playerList = players;
+		for(int i = 0; i < players.length; i++){
+			p(players[i]);
+		}
 		sendToServer(player, 'R');
 	}
 

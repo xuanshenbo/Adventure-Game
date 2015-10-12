@@ -21,7 +21,8 @@ public class Translator {
 		DROP("D"), USE("U"), MOVE_ITEM("V"), ITEM_SELECTED("C"), DISPLAY_INVENTORY("I"),
 		EXIT("DECIDE"), DISPLAY_CONTAINER("DECIDE"), PICK_UP("P"), 	DISPLAY_INVENTORY_ITEM_OPTIONS("DECIDE"),
 		DISPLAY_AVATAR_OPTIONS("DECIDE"), MOVE_WEST("MW"), MOVE_EAST("ME"), MOVE_NORTH("MN"), MOVE_SOUTH("MS"),
-		EXIT_CLIENT("Q"), ROTATE_VIEW("O"), DISPLAY_CONTAINER_ITEM_OPTIONS("N/A"), MOVE_ITEM_TO_INVENTORY("Z");
+		EXIT_CLIENT("Q"), ROTATE_VIEW("O"), DISPLAY_CONTAINER_ITEM_OPTIONS("N/A"), MOVE_ITEM_TO_INVENTORY("Z"),
+		SAVE("S"), SAVE_AS("Y"), LOAD_FILE("L");
 
 		public String code = "";
 		private Command(String c){
@@ -55,7 +56,7 @@ public class Translator {
 		return null;
 	}
 
-	public static boolean isInitialisationState(String text) {
+	public static boolean isInitialisationCommand(String text) {
 
 		//iterate through each value in InitialisationState
 		for(InitialisationCommand s : InitialisationCommand.values()){

@@ -5,7 +5,9 @@
 package model.state;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -13,9 +15,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
 import model.items.Bag;
+import model.items.Consumable;
+import model.items.Cupcake;
 import model.items.Item;
 import model.items.Key;
-
+import model.tiles.ChestTile;
 import static utilities.PrintTool.p;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -31,6 +35,7 @@ public class Player {
 	private Item selectedItem = null;
 	private Container openContainer = null;
 	private Position startingPosition;
+	private Set<ChestTile> openedChests = new HashSet<ChestTile>();
 
 	public Player(Position p, int id) {
 		this.position = p;
@@ -53,6 +58,7 @@ public class Player {
 		happiness --;
 		if(happiness < 1){
 			position = startingPosition;
+			happiness = 5;
 		}
 
 	}
@@ -81,6 +87,22 @@ public class Player {
 
 	public void removeSelectedItem(){
 		selectedItem = null;
+	}
+	
+
+
+	/**
+	 * Called when a player tries to move an item from the 
+	 * open container to their inventory.
+	 * @param  containerSlot
+	 */
+
+	public void moveToInventory(int containerSlot) {
+		boolean added = addItemToInventory(openContainer.getItem(containerSlot));
+		if(added){
+			openContainer.removeItemSlot(containerSlot);
+		}
+		
 	}
 
 	public boolean getKey() {
@@ -125,12 +147,11 @@ public class Player {
 
 	public Item[] use(int inventorySlot){
 		Item item = inventory[inventorySlot];
-		p(item);
 		if(item instanceof Bag){
 			openContainer = (Container) item;
 			return item.use(this);
 		}
-		else if(item != null){
+		else if(item instanceof Consumable){
 			item.use(this);
 			inventory[inventorySlot] = null;
 		}
@@ -161,6 +182,15 @@ public class Player {
 
 	public void setOpenContainer(Container container){
 		openContainer = container;
+	}
+	
+	public void addChest(ChestTile container) {
+		openedChests.add(container);
+		
+	}
+
+	public boolean hasOpenedChest(ChestTile container) {
+		return openedChests.contains(container);
 	}
 
 	public String toString() {
@@ -220,6 +250,10 @@ public class Player {
 	public Container getOpenContainer(){
 		return openContainer;
 	}
+
+
+
+	
 
 
 

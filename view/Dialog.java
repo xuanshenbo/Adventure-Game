@@ -204,13 +204,15 @@ public class Dialog extends JDialog implements ActionListener {
 	 * Add pictures
 	 */
 	private void displayInventory() {
-		RadioButtonPanel radioPanel = new RadioButtonPanel(parentFrame.getInventoryContents(), parentFrame.getRadioInterpreter(), this, state);
+		RadioButtonPanel radioPanel = new RadioButtonPanel(parentFrame.getInventoryContents(),
+				parentFrame.getRadioInterpreter(), this, state);
 		add(radioPanel);
 		revalidate();
 	}
 
 	private void displayContainer() {
-		RadioButtonPanel radioPanel = new RadioButtonPanel(parentFrame.getContainerContents(), parentFrame.getRadioInterpreter(), this, state);
+		RadioButtonPanel radioPanel = new RadioButtonPanel(parentFrame.getContainerContents(),
+				parentFrame.getRadioInterpreter(), this, state);
 		add(radioPanel);
 		revalidate();
 
@@ -260,10 +262,10 @@ public class Dialog extends JDialog implements ActionListener {
 
 	public void displayItemOptions(boolean isInventory) {
 		if(isInventory){
-			this.itemOptions = new ButtonPanel(Command.DISPLAY_INVENTORY_ITEM_OPTIONS, parentFrame.getButtonInterpreter());
+			this.itemOptions = new ButtonPanel(Command.DISPLAY_INVENTORY_ITEM_OPTIONS, parentFrame.getButtonInterpreter(), this);
 		}
 		else{
-			this.itemOptions = new ButtonPanel(Command.DISPLAY_CONTAINER_ITEM_OPTIONS, parentFrame.getButtonInterpreter());
+			this.itemOptions = new ButtonPanel(Command.DISPLAY_CONTAINER_ITEM_OPTIONS, parentFrame.getButtonInterpreter(), this);
 		}
 		remove(ok);
 		add(itemOptions);
