@@ -33,7 +33,7 @@ public class MenuStrategy implements StrategyInterpreter.Strategy{
 		Translator.Command cmd = Translator.toCommand(text);
 		if(cmd.equals(Translator.Command.EXIT)){
 
-			if(!gameFrame.isServer()){
+			if(!gameFrame.isServerMode()){
 
 				Translator.Command exit = Translator.Command.EXIT_CLIENT;
 				String msg = Translator.encode(exit);

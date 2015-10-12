@@ -46,6 +46,7 @@ public class ClientParser {
 			readMap(message);
 			break;
 		case 'I'://inventory information
+			p("received inventory information");
 			readInventory(message);
 			break;
 		case 'C'://container information
@@ -59,8 +60,20 @@ public class ClientParser {
 			break;
 		case 'R':
 			readAvatar(message);
+		case 'm':
+			readMessageToDisplay(message);
 		default:
 		}
+	}
+
+	private void readMessageToDisplay(char[] message) {
+		String messageToDisplay = "";
+		int count = 0;
+		while(count < message.length){
+			messageToDisplay += message[count++];
+		}
+		frame.displayMessageFromGame(messageToDisplay);
+
 	}
 
 	/**
