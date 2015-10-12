@@ -34,7 +34,7 @@ public class Images {
     private Image[] cupcake;
 
 
-    private ArrayList<Image> avatarImages;
+    private ArrayList<ArrayList<Image>> avatarImages;
 
 
     public Images(double tileWidth, double tileHeight, int imageScale) {
@@ -42,7 +42,7 @@ public class Images {
         this.tileHeight = tileHeight;
         this.imageScale = imageScale;
 
-        this.avatarImages = new ArrayList<Image>();
+        this.avatarImages = new ArrayList<ArrayList<Image>>();
         this.doorImages = new Image[16];
         this.cupcake = new Image[2];
         this.buildingImage = new Image[2];
@@ -90,10 +90,11 @@ public class Images {
         }
 
         for (int i = 0; i < 4; i++){
-//            int avatarImageIndex = new Random().nextInt(3);
-//            p(avatarImageIndex);
-//            this.avatarImages.add(new AvatarImages("avatar" + avatarImageIndex + ".png", tileWidth));
-            this.avatarImages.add(loadImage("avatar.png", imageScale, imageScale));
+            ArrayList<Image> avatarSequence = new ArrayList<Image>();
+            for (int n = 0; n < 7; n++) {
+                avatarSequence.add(loadImage("avatar/" + n + ".png", imageScale, imageScale));
+            }
+            this.avatarImages.add(avatarSequence);
         }
     }
 
@@ -132,8 +133,8 @@ public class Images {
         return keyImage[dir];
     }
 
-    public ArrayList<Image> avatar(){
-        return avatarImages;
+    public Image avatar(int index, int sequenceIndex){
+        return avatarImages.get(0).get(sequenceIndex);
     }
 
     public Image cave(int dir) { return caveImage[dir];
