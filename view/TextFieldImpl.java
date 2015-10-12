@@ -24,7 +24,7 @@ public class TextFieldImpl extends JTextField {
 		this.inputInterp = interp;
 
 		setPreferredSize(new Dimension(200,50));
-		setBackground(GameFrame.col2);
+		setBackground(GameFrame.COL2);
 		addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {

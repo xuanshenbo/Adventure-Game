@@ -42,7 +42,7 @@ public class WelcomePanel extends JPanel{
 	private Dimension imageSize = new Dimension(850, 400);
 
 	//static so as to be used in parent constructor
-	private static String welcome = "The Happiness Game!";
+	private static String welcome = "Game of Happiness!";
 
 	//this will display different buttons depending on what the user needs to choose
 	private ButtonPanel bPanel;
@@ -92,7 +92,7 @@ public class WelcomePanel extends JPanel{
 		//display welcome message in appropriate size, with the text centered
 		JLabel welcomeMessage = new JLabel(welcome, SwingConstants.CENTER);
 		welcomeMessage.setFont(new Font("Serif", Font.BOLD, heading1Size));
-		welcomeMessage.setForeground(GameFrame.fontColor);
+		welcomeMessage.setForeground(GameFrame.FONT_COLOR);
 
 		//add the welcome message to the panel
 		add(welcomeMessage, BorderLayout.NORTH);

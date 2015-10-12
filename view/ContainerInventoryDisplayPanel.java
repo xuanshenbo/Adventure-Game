@@ -20,7 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-public class RadioButtonPanel extends JPanel {
+public class ContainerInventoryDisplayPanel extends JPanel {
 
 	private GameFrame containerFrame;
 	private Set<JRadioButton> buttonOptions = new HashSet<JRadioButton>();
@@ -37,7 +37,7 @@ public class RadioButtonPanel extends JPanel {
 	private Command state;
 
 	//this constructor not currently used
-	public RadioButtonPanel(GameFrame container, String type){
+	public ContainerInventoryDisplayPanel(GameFrame container, String type){
 		containerFrame = container;
 
 	}
@@ -48,7 +48,7 @@ public class RadioButtonPanel extends JPanel {
 	 * @param state
 	 * @param radioInterp The strategyinterpreter which interprets radio button action events
 	 */
-	public RadioButtonPanel(ArrayList<String> contents, StrategyInterpreter buttonInterp, Dialog d, Command st) {
+	public ContainerInventoryDisplayPanel(ArrayList<String> contents, StrategyInterpreter buttonInterp, Dialog d, Command st) {
 		System.out.println(st);
 
 		this.state = st;

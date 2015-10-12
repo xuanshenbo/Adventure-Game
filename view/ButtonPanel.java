@@ -416,11 +416,9 @@ public class ButtonPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e){
-				String teamMember1 = randomTeamMember();
-				String teamMember2 = randomTeamMember();
-				while(teamMember1.equals(teamMember2)){
-					teamMember2 = randomTeamMember();
-				}
+				String teamMember1 = containerFrame.getTeamMember1();
+				String teamMember2 = containerFrame.getTeamMember2();
+
 				JOptionPane.showMessageDialog(containerFrame,
 						"Your team includes "+teamMember1+" and "+teamMember2,
 						"Team",
@@ -439,23 +437,11 @@ public class ButtonPanel extends JPanel {
 
 	}
 
-protected String randomTeamMember() {
-		ArrayList<String> teamMembers = new ArrayList<String>();
-		teamMembers.add("Hercules Morse");
-		teamMembers.add("Ronald McDonald");
-		teamMembers.add("Bottomley Potts");
-		teamMembers.add("Scarface Claw");
-		teamMembers.add("Bitzer Maloney");
-		teamMembers.add("Schnitzel von Krumm");
 
-		int random = (int) (Math.random()*teamMembers.size());
-		return teamMembers.get(random);
-	}
-
-/**
- * This method is used to turn an average button, into an AMAZING button!
- * @param buttons The buttons to be prettified
- */
+	/**
+	 * This method is used to turn an average button, into an AMAZING button!
+	 * @param buttons The buttons to be prettified
+	 */
 	public static void makeButtonsPretty(JButton... buttons) {
 
 		for(JButton b: buttons){
@@ -469,7 +455,7 @@ protected String randomTeamMember() {
 			empty = BorderFactory.createEmptyBorder(1, 1, 1, 1);
 			final CompoundBorder compound, compound1, compound2;
 
-			Color crl = GameFrame.col2;
+			Color crl = GameFrame.COL2;
 			compound = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl));
 			//			b.setFont(new Font("Sans-Serif", Font.BOLD, 16));
 			//			b.setForeground(Color.darkGray);
@@ -482,7 +468,7 @@ protected String randomTeamMember() {
 
 			b.revalidate();
 
-			b.setForeground(GameFrame.buttonFontColor);
+			b.setForeground(GameFrame.BUTTON_FONT_COLOR);
 		}
 
 	}
@@ -495,7 +481,7 @@ protected String randomTeamMember() {
 
 		for(JLabel label: labels){
 			label.setFont(new Font("Serif", Font.BOLD, 14));
-			label.setForeground(GameFrame.buttonFontColor);
+			label.setForeground(GameFrame.BUTTON_FONT_COLOR);
 		}
 	}
 
@@ -507,7 +493,7 @@ protected String randomTeamMember() {
 
 		for(JRadioButton rbutton: radioButtons){
 			rbutton.setFont(new Font("Serif", Font.BOLD, 14));
-			rbutton.setForeground(GameFrame.buttonFontColor);
+			rbutton.setForeground(GameFrame.BUTTON_FONT_COLOR);
 		}
 	}
 

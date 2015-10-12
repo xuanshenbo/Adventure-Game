@@ -1,4 +1,4 @@
-package view;
+/*package view;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -78,3 +78,4 @@ public class GameInfoPanel extends JPanel{
 
 
 }
+*/

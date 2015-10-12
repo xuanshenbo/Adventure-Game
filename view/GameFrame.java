@@ -42,30 +42,29 @@ import model.state.Position;
 import static utilities.PrintTool.p;
 
 /**
- * NEW version of GameFrame doesn't use GridBagLayout, but instead uses a BoxLayout with 3 Jpanels, each of
- * which has its own Layout
- * @author flanagdonn
- * TODO show onscreen what ip address
+ * NEW version of GameFrame doesn't use GridBagLayout, but instead uses a
+ * BoxLayout with 3 Jpanels, each of which has its own Layout
+ *
+ * @author flanagdonn TODO show onscreen what ip address
  */
-public class GameFrame extends JFrame{
+public class GameFrame extends JFrame {
 	private int frameWidth = 800;
 	private int frameHeight = 800;
 
 	private int gamePanelWidth = 800;
 	private int gamePanelHeight = 600;
 
-	private int happinessValue = 50;
-
 	/*
-	 * These constants define the main colour scheme and are used throughout all the panels which form the GameFrame
+	 * These constants define the main colour scheme and are used throughout all
+	 * the panels which form the GameFrame
 	 */
-	public static final Color col1 = Color.CYAN.darker();
-	public static final Color col2 = Color.PINK;
-	public static final Color fontColor = Color.PINK;
-	public static final Color buttonFontColor = new Color(0, 128, 255);
-	public static final Color statusBarFontColor = new Color(152, 152, 255);
-	public static final Color happinessBarColor = new Color(255, 204, 255);
-	public static final Color statusPanelColour = Color.GRAY;
+	public static final Color COL1 = Color.CYAN.darker();
+	public static final Color COL2 = Color.PINK;
+	public static final Color FONT_COLOR = Color.PINK;
+	public static final Color BUTTON_FONT_COLOR = new Color(0, 128, 255);
+	public static final Color STATUS_PANEL_FONT_COLOR = new Color(152, 152, 255);
+	public static final Color HAPPINESS_BAR_COLOR = new Color(255, 204, 255);
+	public static final Color STATUS_PANEL_COLOR = Color.GRAY;
 
 	private Dialog ContainerDialog;
 
@@ -74,31 +73,33 @@ public class GameFrame extends JFrame{
 	private String ip = "???", time = "???";
 
 	private Dimension gamePanelSize = new Dimension(800, 600);
-	private Dimension statusPanelSize = new Dimension (170, 125);
+	private Dimension statusPanelSize = new Dimension(170, 125);
 
-	//public as needs to be accessed from ButtonPanel
+	// public as needs to be accessed from ButtonPanel
 	public static final int buttonPaddingHorizontal = 50;
 	public static final int buttonPaddingVertical = 50;
 
 	private Avatar avatar;
 
 	/*
-	 * These are the interpreters which decide what to do with various user inputs
+	 * These are the interpreters which decide what to do with various user
+	 * inputs
 	 */
 	private StrategyInterpreter keyInterpreter;
 	private StrategyInterpreter menuInterpreter;
 	private StrategyInterpreter buttonInterpreter;
 	private StrategyInterpreter radioInterpreter;
 
-	//these fields are set by the model, ready for display
+	// these fields are set by the model, ready for display
 	private ArrayList<String> inventoryContents;
 	private ArrayList<String> containerContents;
 
-	//gap around main buttons/status panel. Public for use in StatusPanel
+	// gap around main buttons/status panel. Public for use in StatusPanel
 	public static int gap = 5;
 
-	//have to initialise this here for use in WelcomeDialog
-	private StrategyInterpreter dialogInterpreter = new StrategyInterpreter(this, new DialogStrategy(), null);
+	// have to initialise this here for use in WelcomeDialog
+	private StrategyInterpreter dialogInterpreter = new StrategyInterpreter(
+			this, new DialogStrategy(), null);
 
 	private PlayerProfilePanel playerProfilePanel;
 
@@ -114,13 +115,18 @@ public class GameFrame extends JFrame{
 
 	private Dimension buttonPanelSize = new Dimension(265, 50);
 
-	//used for deciding what to do if the user tries to exit
-	//private boolean isServerMode = false;
+	private PlayerInfo player;
+
+	// used for deciding what to do if the user tries to exit
+	// private boolean isServerMode = false;
 
 	/**
-	 * First a WelcomeDialog is displayed and then the constructor sets up the KeyListener
-	 * using the KeyboardFocusManager, sets up the layout with all the appropriate Panels.
-	 * @param title The title of the GameFrame, used in the super constructor
+	 * First a WelcomeDialog is displayed and then the constructor sets up the
+	 * KeyListener using the KeyboardFocusManager, sets up the layout with all
+	 * the appropriate Panels.
+	 *
+	 * @param title
+	 *            The title of the GameFrame, used in the super constructor
 	 */
 	public GameFrame(String title) {
 		super(title);
@@ -137,7 +143,7 @@ public class GameFrame extends JFrame{
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
 
 		/*
-		 *Prompt the user to confirm if they click the close button
+		 * Prompt the user to confirm if they click the close button
 		 */
 
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -147,61 +153,73 @@ public class GameFrame extends JFrame{
 			@Override
 			public void windowClosing(WindowEvent we) {
 
-				String ObjButtons[] = {"Yes", "No"};
-				int PromptResult = JOptionPane.showOptionDialog(null, "Are you sure you want to exit?", "Happiness Game",
-						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
+				String ObjButtons[] = { "Yes", "No" };
+				int PromptResult = JOptionPane.showOptionDialog(null,
+						"Are you sure you want to exit?", "Happiness Game",
+						JOptionPane.DEFAULT_OPTION,
+						JOptionPane.WARNING_MESSAGE, null, ObjButtons,
+						ObjButtons[1]);
 				if (PromptResult == JOptionPane.YES_OPTION) {
 					/*
-					 * Rather than have a Game Strategy just for this, use the menuInterpreter, which
-					 * also has to deal with requests to exit
+					 * Rather than have a Game Strategy just for this, use the
+					 * menuInterpreter, which also has to deal with requests to
+					 * exit
 					 */
 					try {
-						menuInterpreter.notify(Translator.Command.EXIT.toString());
+						menuInterpreter.notify(Translator.Command.EXIT
+								.toString());
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
-
 
 				}
 			}
 		});
 
-		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		KeyboardFocusManager manager = KeyboardFocusManager
+				.getCurrentKeyboardFocusManager();
 		manager.addKeyEventDispatcher(new MyDispatcher());
 
-		//the game doesn't resize, so it doesn't make logical sense for the window to be resizeable
+		// the game doesn't resize, so it doesn't make logical sense for the
+		// window to be resizeable
 		setResizable(false);
 
-		//add a pink border around the whole frame
-		getRootPane().setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.PINK));
+		// add a pink border around the whole frame
+		getRootPane().setBorder(
+				BorderFactory.createMatteBorder(4, 4, 4, 4, Color.PINK));
+
+		// set this player
+		player = new PlayerInfo();
 
 	}
 
 	/*
-	 * Add all the necessary panels with the appropriate GridBagConstraints.
-	 * It has public visibility, for access in Main
+	 * Add all the necessary panels with the appropriate GridBagConstraints. It
+	 * has public visibility, for access in Main
 	 */
 	public void setUpLayoutAndDisplay() {
 
-		//This just has a file menu, with options to save, exit etc
+		// This just has a file menu, with options to save, exit etc
 		MenuBar bar = new MenuBar(menuInterpreter);
 		setJMenuBar(bar);
 
-		//The playerProfilePanel has the game logo, user avatar and name
+		// The playerProfilePanel has the game logo, user avatar and name
 		playerProfilePanel = new PlayerProfilePanel(this);
 		add(playerProfilePanel);
 
-		//This has the main game image, with buttons and a status panel
+		// This has the main game image, with buttons and a status panel
 		addMiddlePanel();
 
 		pack();
-		setLocationRelativeTo(null);	//set the frame at the center of the screen
+		setLocationRelativeTo(null); // set the frame at the center of the
+										// screen
 		setVisible(true);
 
 	}
 
-	//add the middle pane as a JLayeredPane in order to be able to draw buttons and
-	//the status panel on top of the main game canvas
+	// add the middle pane as a JLayeredPane in order to be able to draw buttons
+	// and
+	// the status panel on top of the main game canvas
 	private void addMiddlePanel() {
 		middleLayeredPane = new JLayeredPane();
 
@@ -219,13 +237,15 @@ public class GameFrame extends JFrame{
 
 		createButtonPanel();
 
-		//add the status panel and button panel ABOVE the main game canvas
+		// add the status panel and button panel ABOVE the main game canvas
 		middleLayeredPane.add(statusPanel, new Integer(1), 0);
 		middleLayeredPane.add(butPanel, new Integer(1), 0);
 
-		middleLayeredPane.setPreferredSize(new Dimension(gamePanelWidth, gamePanelHeight));
+		middleLayeredPane.setPreferredSize(new Dimension(gamePanelWidth,
+				gamePanelHeight));
 
-		//TODO this isn't working add a plain black border around the whole panel
+		// TODO this isn't working add a plain black border around the whole
+		// panel
 		Border blackline = BorderFactory.createLineBorder(Color.black, 2, true);
 		middleLayeredPane.setBorder(blackline);
 
@@ -233,27 +253,30 @@ public class GameFrame extends JFrame{
 
 	}
 
-	//This has the two main game buttons: Inventory and Team
+	// This has the two main game buttons: Inventory and Team
 	private void createButtonPanel() {
-		butPanel = new ButtonPanel(this, this.buttonInterpreter, Translator.MainGameState.MAIN);
+		butPanel = new ButtonPanel(this, this.buttonInterpreter,
+				Translator.MainGameState.MAIN);
 
-		//so as to be able to see the game behind the buttons
+		// so as to be able to see the game behind the buttons
 		butPanel.setOpaque(false);
 
 		int butPanelX, butPanelY;
 		butPanelX = gamePanelWidth - buttonPanelSize.width - gap;
 		butPanelY = gamePanelHeight - buttonPanelSize.height - gap;
-		butPanel.setBounds(butPanelX, butPanelY, buttonPanelSize.width, buttonPanelSize.height);
+		butPanel.setBounds(butPanelX, butPanelY, buttonPanelSize.width,
+				buttonPanelSize.height);
 
 	}
 
-	//This displays the time, ip address, and the happiness level of the player
+	// This displays the time, ip address, and the happiness level of the player
 	private JPanel createStatusPanel() {
 
-		//use a border layout to be able to center the status window
+		// use a border layout to be able to center the status window
 		JPanel statusPanel = new StatusPanel(new BorderLayout(), this);
 
-		statusPanel.setBounds(gap, gap * 2, statusPanelSize.width, statusPanelSize.height);
+		statusPanel.setBounds(gap, gap * 2, statusPanelSize.width,
+				statusPanelSize.height);
 
 		return statusPanel;
 	}
@@ -262,15 +285,15 @@ public class GameFrame extends JFrame{
 	 * Sends a message to server if the user presses an arrow key
 	 */
 
-	private class MyDispatcher implements KeyEventDispatcher{
+	private class MyDispatcher implements KeyEventDispatcher {
 		@Override
-		public boolean dispatchKeyEvent(KeyEvent e){
+		public boolean dispatchKeyEvent(KeyEvent e) {
 
 			String toNotify = "";
 
 			if (e.getID() == KeyEvent.KEY_PRESSED) {
 				canvas.getRenderer().doAnimation();
-				switch( e.getKeyCode()) {
+				switch (e.getKeyCode()) {
 				case KeyEvent.VK_UP:
 					if (canvas.getRenderer().getViewDir() == 0)
 						toNotify = Translator.Command.MOVE_NORTH.toString();
@@ -289,7 +312,7 @@ public class GameFrame extends JFrame{
 					else
 						toNotify = Translator.Command.MOVE_EAST.toString();
 					break;
-				case KeyEvent.VK_RIGHT :
+				case KeyEvent.VK_RIGHT:
 					if (canvas.getRenderer().getViewDir() == 0)
 						toNotify = Translator.Command.MOVE_EAST.toString();
 					else
@@ -300,7 +323,8 @@ public class GameFrame extends JFrame{
 					break;
 				case KeyEvent.VK_R:
 					toNotify = Translator.Command.ROTATE_VIEW.toString();
-					canvas.getRenderer().rotate();	//TODO this shouldn't be done here
+					canvas.getRenderer().rotate(); // TODO this shouldn't be
+													// done here
 					break;
 				}
 			}
@@ -309,37 +333,38 @@ public class GameFrame extends JFrame{
 				canvas.getRenderer().stopAnimation();
 			}
 
-			//notify the key interpreter with the appropriate message
+			// notify the key interpreter with the appropriate message
 			try {
 				keyInterpreter.notify(toNotify);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-			return false;	//should this return false?
+			return false; // should this return false?
 		}
 	}
 
 	/**
-	 * TODO Gareth/Lucas to fill in the gaps
-	 * Updates the renderer with the new view
+	 * TODO Gareth/Lucas to fill in the gaps Updates the renderer with the new
+	 * view
+	 *
 	 * @param type
 	 * @param map
 	 * @param items
 	 */
-	public void updateRenderer(char type, char[][] map, char[][] items){
+	public void updateRenderer(char type, char[][] map, char[][] items) {
 		canvas.getRenderer().update(type, map, items);
 	}
 
 	/**
 	 * Get contents of this player's inventory from Game, via network
+	 *
 	 * @return
 	 */
 	public ArrayList<String> getInventoryContents() {
 		ArrayList<String> inventory = new ArrayList<String>();
-		if(inventoryContents != null) {
+		if (inventoryContents != null) {
 			return inventoryContents;
-		}
-		else{
+		} else {
 			inventory.add("key");
 			inventory.add("cupcake");
 			return inventory;
@@ -348,14 +373,14 @@ public class GameFrame extends JFrame{
 
 	/**
 	 * Get contents of this player's container from Game, via network
+	 *
 	 * @return
 	 */
 	public ArrayList<String> getContainerContents() {
 		ArrayList<String> container = new ArrayList<String>();
-		if(containerContents != null) {
+		if (containerContents != null) {
 			return containerContents;
-		}
-		else{
+		} else {
 			container.add("key");
 			container.add("cupcake");
 			return container;
@@ -364,9 +389,11 @@ public class GameFrame extends JFrame{
 
 	/**
 	 * Set the inventory contents.
-	 * @param inventory The list of items as lower-case Strings
+	 *
+	 * @param inventory
+	 *            The list of items as lower-case Strings
 	 */
-	public void setInventoryContents(ArrayList<String> inventory){
+	public void setInventoryContents(ArrayList<String> inventory) {
 		System.out.println("inventory contents.");
 		inventoryContents = inventory;
 		addInventoryDialog();
@@ -374,19 +401,22 @@ public class GameFrame extends JFrame{
 
 	/**
 	 * Set the container contents.
-	 * @param inventory The list of items as lower-case Strings
+	 *
+	 * @param inventory
+	 *            The list of items as lower-case Strings
 	 */
-	public void setContainerContents(ArrayList<String> containerItems){
-		System.out.println("setting container content");//debug
+	public void setContainerContents(ArrayList<String> containerItems) {
+		System.out.println("setting container content");// debug
 		containerContents = containerItems;
 		addContainerDialog();
 	}
 
 	private void addContainerDialog() {
-		if(container != null){
+		if (container != null) {
 			container.dispose();
 		}
-		container = new Dialog(this, "Display Container", "This container contains:",
+		container = new Dialog(this, "Display Container",
+				"This container contains:",
 				Translator.Command.DISPLAY_CONTAINER, this.dialogInterpreter);
 	}
 
@@ -394,7 +424,8 @@ public class GameFrame extends JFrame{
 	 * Create a dialog showing the inventory.
 	 */
 	public void addInventoryDialog() {
-		Dialog inventory = new Dialog(this, "Display Inventory", "Your inventory contains:",
+		Dialog inventory = new Dialog(this, "Display Inventory",
+				"Your inventory contains:",
 				Translator.Command.DISPLAY_INVENTORY, this.dialogInterpreter);
 	}
 
@@ -416,7 +447,9 @@ public class GameFrame extends JFrame{
 
 	/**
 	 * Assigns the argument to the KeyInterpreter field
-	 * @param keyInterpreter The Key-Action-Event Interpreter
+	 *
+	 * @param keyInterpreter
+	 *            The Key-Action-Event Interpreter
 	 */
 	public void setKeyInterpreter(StrategyInterpreter keyInterpreter) {
 		this.keyInterpreter = keyInterpreter;
@@ -424,7 +457,9 @@ public class GameFrame extends JFrame{
 
 	/**
 	 * Assigns the argument to the ButtonInterpreter field
-	 * @param b The Button-Action-Event Interpreter
+	 *
+	 * @param b
+	 *            The Button-Action-Event Interpreter
 	 */
 	public void setButtonInterpreter(StrategyInterpreter b) {
 		this.buttonInterpreter = b;
@@ -432,7 +467,9 @@ public class GameFrame extends JFrame{
 
 	/**
 	 * Assigns the argument to the MenuInterpreter field
-	 * @param m The Menu-Action-Event Interpreter
+	 *
+	 * @param m
+	 *            The Menu-Action-Event Interpreter
 	 */
 	public void setMenuInterpreter(StrategyInterpreter m) {
 		this.menuInterpreter = m;
@@ -440,7 +477,9 @@ public class GameFrame extends JFrame{
 
 	/**
 	 * Assigns the argument to the DialogInterpreter field
-	 * @param d The Dialog-Action-Event Interpreter
+	 *
+	 * @param d
+	 *            The Dialog-Action-Event Interpreter
 	 */
 	public void setDialogInterpreter(StrategyInterpreter d) {
 		this.dialogInterpreter = d;
@@ -495,7 +534,8 @@ public class GameFrame extends JFrame{
 
 	/**
 	 *
-	 * @param t The new time to be assigned.
+	 * @param t
+	 *            The new time to be assigned.
 	 */
 	public void setTime(String t) {
 		time = t;
@@ -503,7 +543,8 @@ public class GameFrame extends JFrame{
 
 	/**
 	 *
-	 * @param ipAddress The ipAddress of this client, to be assigned to the field.
+	 * @param ipAddress
+	 *            The ipAddress of this client, to be assigned to the field.
 	 */
 	public void setIP(String ipAddress) {
 		ip = ipAddress;
@@ -512,25 +553,29 @@ public class GameFrame extends JFrame{
 	/**
 	 * @return true if this player is in server mode
 	 */
-	/*public boolean isServerMode() {
-		return isServerMode;
-	}*/
+	/*
+	 * public boolean isServerMode() { return isServerMode; }
+	 */
 
 	/**
 	 *
-	 * @param lvl The happiness level of this player, to be reassigned to the field.
+	 * @param lvl
+	 *            The happiness level of this player, to be reassigned to the
+	 *            field.
 	 */
-	public void setHappinessLevel(int lvl){
-		this.happinessValue = lvl;
+	public void setHappinessLevel(int lvl) {
+		player.setHappinessValue(lvl);
 		repaint();
 	}
 
 	/**
 	 *
-	 * @param chosenAvatar The avatar chosen by this player, to be displayed in the playerprofilepanel
+	 * @param chosenAvatar
+	 *            The avatar chosen by this player, to be displayed in the
+	 *            playerprofilepanel
 	 */
 	public void setAvatar(Avatar chosenAvatar) {
-		avatar = chosenAvatar;
+		player.setAvatar(chosenAvatar);
 
 	}
 
@@ -539,14 +584,16 @@ public class GameFrame extends JFrame{
 	 * @return This player's avatar
 	 */
 	public Avatar getAvatar() {
-		return avatar;
+		return player.getAvatar();
 	}
 
 	/**
 	 * Displays a message from the game to the user
-	 * @param msg The message to be displayed
+	 *
+	 * @param msg
+	 *            The message to be displayed
 	 */
-	public void displayMessageFromGame(String msg){
+	public void displayMessageFromGame(String msg) {
 		JOptionPane.showMessageDialog(this, msg);
 	}
 
@@ -563,7 +610,23 @@ public class GameFrame extends JFrame{
 	 * @return This player's current happiness level
 	 */
 	public int getHappinessLevel() {
-		return happinessValue;
+		return player.getHappinessValue();
+	}
+
+	/**
+	 *
+	 * @return This player's imaginary team mate number 1
+	 */
+	public String getTeamMember1() {
+		return player.getTeamMember1();
+	}
+
+	/**
+	 *
+	 * @return This player's imaginary team mate number 2
+	 */
+	public String getTeamMember2() {
+		return player.getTeamMember2();
 	}
 
 }

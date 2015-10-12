@@ -61,21 +61,23 @@ public class Dialog extends JDialog implements ActionListener {
 
 	private ButtonPanel itemOptions;
 
+
 	private InitialisationCommand initState;
 
 	//The OK button is used on most dialogs
 	private JButton ok = new JButton("OK");
 
+	private JPanel messagePane;
 
+	private JLabel messageLabel;
+
+	private boolean isYes;
 
 	/**
 	 * Creates a dialog with a message, and different behaviour depending on the state
+	 * This constructor used for displaying inventory/container contents
 	 * @param gameFrame The parent frame of the dialog
-	 * @param title The title of the Dialog to be
-
-
-			String testing1 = inventoryContents.get(i);
-			JLabel testing2 = jlabels.get(testing1);passed to super constructor
+	 * @param title The title of the Dialog to be passed to super constructor
 	 * @param msg Message to display
 	 * @param i The state of the Game
 	 */
@@ -90,8 +92,8 @@ public class Dialog extends JDialog implements ActionListener {
 
 		parentFrame = gameFrame;
 
-		JPanel messagePane = new JPanel();
-		JLabel messageLabel = new JLabel(msg);
+		messagePane = new JPanel();
+		messageLabel = new JLabel(msg);
 		ButtonPanel.makeLabelPretty(messageLabel);
 		messagePane.add(messageLabel);
 		getContentPane().add(messagePane);
@@ -111,35 +113,21 @@ public class Dialog extends JDialog implements ActionListener {
 		displayDialog();
 	}
 
-
-
-
-
-	private void addOKButton() {
-		ok = new JButton("OK");
-		ButtonPanel.makeButtonsPretty(ok);
-		ok.addActionListener(this);
-	//	ok.setMnemonic(KeyEvent.VK_ENTER);	//TODO fix this
-		add(ok);
-	}
-
-
-
-
-
+	/**
+	 * This constructor used to display Avatar Options
+	 * @param title The title of the dialog
+	 * @param msg The message to be displayed to the user
+	 * @param state The state: either CREATE_NEW_PLAYER or LOAD_SAVED_PLAYER
+	 * @param i The Initialisation interpreter
+	 * @param wPanel The welcome panel on which this dialog lives
+	 */
 	public Dialog(String title, String msg, Translator.InitialisationCommand state, Initialisation i, WelcomePanel wPanel) {
 
 		this.initialisation = i;
 		this.welcomePanel = wPanel;
 		getContentPane().setLayout( new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
 
-		JPanel messagePane = new JPanel();
-
-		JLabel messageLabel = new JLabel(msg);
-		ButtonPanel.makeLabelPretty(messageLabel);
-		messagePane.add(messageLabel);
-
-		getContentPane().add(messagePane);
+		addMessage(msg);
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -158,9 +146,39 @@ public class Dialog extends JDialog implements ActionListener {
 
 	}
 
+	public Dialog(Command state, String message, GameFrame container){
+		//super(container);
 
+		parentFrame = container;
 
+		addMessage(message);
 
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		if(state.equals(Command.NOTIFY_USER_OF_MESSAGE)){
+			addOKButton();
+		}
+
+	}
+
+	private void addMessage(String message) {
+
+		messagePane = new JPanel();
+		messageLabel = new JLabel(message);
+		ButtonPanel.makeLabelPretty(messageLabel);
+
+		messagePane.add(messageLabel);
+		add(messagePane);
+	}
+
+	//add a confirm button
+	private void addOKButton() {
+		ok = new JButton("OK");
+		ButtonPanel.makeButtonsPretty(ok);
+		ok.addActionListener(this);
+		ok.setMnemonic(KeyEvent.VK_ENTER);	//TODO fix this
+		add(ok);
+	}
 
 	private void displayDialog() {
 		//display the dialog
@@ -207,17 +225,19 @@ public class Dialog extends JDialog implements ActionListener {
 
 	/*
 	 * Retrieves the inventory from the GameFrame and displays a String description of each item on screen.
-	 * Add pictures
 	 */
 	private void displayInventory() {
-		RadioButtonPanel radioPanel = new RadioButtonPanel(parentFrame.getInventoryContents(),
+		ContainerInventoryDisplayPanel radioPanel = new ContainerInventoryDisplayPanel(parentFrame.getInventoryContents(),
 				parentFrame.getRadioInterpreter(), this, state);
 		add(radioPanel);
 		revalidate();
 	}
 
+	/*
+	 * Retrieves the container contents from the GameFrame and displays a String description of each item on screen.
+	 */
 	private void displayContainer() {
-		RadioButtonPanel radioPanel = new RadioButtonPanel(parentFrame.getContainerContents(),
+		ContainerInventoryDisplayPanel radioPanel = new ContainerInventoryDisplayPanel(parentFrame.getContainerContents(),
 				parentFrame.getRadioInterpreter(), this, state);
 		add(radioPanel);
 		revalidate();
@@ -262,10 +282,9 @@ public class Dialog extends JDialog implements ActionListener {
 
 	}
 
-
-
-
-
+	/*
+	 * Display the item options, with a different button panel depending on whether this is an inventory or container
+	 */
 	public void displayItemOptions(boolean isInventory) {
 		if(isInventory){
 			this.itemOptions = new ButtonPanel(Command.DISPLAY_INVENTORY_ITEM_OPTIONS, parentFrame.getButtonInterpreter(), this);

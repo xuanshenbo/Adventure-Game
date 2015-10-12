@@ -49,11 +49,11 @@ public class PlayerProfilePanel extends JPanel{
 		loadImages();
 
 		setLayout(new BorderLayout());
-		setBackground(GameFrame.col1.darker());
+		setBackground(GameFrame.COL1.darker());
 
 		//add the player's avatar's name to the panel
 		JLabel name = new JLabel(avatar.toString());
-		name.setForeground(GameFrame.col2);
+		name.setForeground(GameFrame.COL2);
 		name.setFont(new Font("Serif", Font.BOLD, avatarFontSize));
 		add(name, BorderLayout.WEST);
 

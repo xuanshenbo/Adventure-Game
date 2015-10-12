@@ -45,23 +45,23 @@ public class StatusPanel extends JPanel {
 				g.setFont(new Font("Serif", Font.BOLD, 16));
 
 				//draw the happiness level title
-				g.setColor(GameFrame.statusBarFontColor);
+				g.setColor(GameFrame.STATUS_PANEL_FONT_COLOR);
 				g.drawString("Happiness Level", frame.getGap(), bar_top - 40);
 
 				//draw the happiness bar
-				g.setColor(GameFrame.happinessBarColor);
+				g.setColor(GameFrame.HAPPINESS_BAR_COLOR);
 				g.fillRect(frame.getGap(), bar_top - 20, frame.getHappinessLevel(), bar_height);
 
 				//draw a pink outline around the bar
-				g.setColor(GameFrame.statusBarFontColor);
+				g.setColor(GameFrame.STATUS_PANEL_FONT_COLOR);
 				g.drawRect(frame.getGap(), bar_top - 20, bar_width, bar_height);
 
 				//draw the time info
-				g.setColor(GameFrame.statusBarFontColor);
+				g.setColor(GameFrame.STATUS_PANEL_FONT_COLOR);
 				g.drawString("The time is: "+frame.getTime(), frame.getGap(), bar_top + 20);
 
 				//draw the player's ip address
-				g.setColor(GameFrame.statusBarFontColor);
+				g.setColor(GameFrame.STATUS_PANEL_FONT_COLOR);
 				g.drawString(frame.getIP()+"", frame.getGap(), bar_top + 40);
 
 			}
@@ -72,9 +72,9 @@ public class StatusPanel extends JPanel {
 
 		//want to see the map behind panel, so make panel only semi-opaque
 		int r, g, b, opacity;
-		r = GameFrame.statusPanelColour.getRed();
-		g = GameFrame.statusPanelColour.getGreen();
-		b = GameFrame.statusPanelColour.getBlue();
+		r = GameFrame.STATUS_PANEL_COLOR.getRed();
+		g = GameFrame.STATUS_PANEL_COLOR.getGreen();
+		b = GameFrame.STATUS_PANEL_COLOR.getBlue();
 		opacity = 200;
 
 		setBackground(new Color(r, g, b, opacity));

@@ -22,7 +22,9 @@ import javax.swing.JOptionPane;
 
 import view.Avatar;
 import view.GameFrame;
+import view.WelcomeFrame;
 import view.WelcomePanel;
+import view.YesNoOptionPane;
 import model.logic.Game;
 import control.Client;
 import control.Server;
@@ -34,7 +36,7 @@ import control.Server;
  */
 public class Initialisation extends StrategyInterpreter{
 
-	private JFrame frame;
+	private WelcomeFrame frame;
 	private Main main;
 
 	public final static int maxTrees = 100;
@@ -63,38 +65,17 @@ public class Initialisation extends StrategyInterpreter{
 
 		setStrategy(initStrategy);
 
-		frame = new JFrame("Welcome to Adventure Game");
+		frame = new WelcomeFrame("Welcome to Adventure Game", this);
+
 		welcome = new WelcomePanel(this);
+
 		frame.add(welcome);
-		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
-		/*
-		 *Prompt the user to confirm if they click the close button
-		 */
-		frame.addWindowListener(new WindowAdapter() {
-
-			@Override
-			public void windowClosing(WindowEvent we) {
-
-				String ObjButtons[] = {"Yes", "No"};
-				int PromptResult = JOptionPane.showOptionDialog(null, "Are you sure you want to exit?", "Happiness Game",
-						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
-				if (PromptResult == JOptionPane.YES_OPTION) {
-					try {
-						initStrategy.notify(Translator.Command.EXIT.toString());
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		});
-
-		//add a pink border around the whole frame
-		frame.getRootPane().setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.PINK));
 
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+
+
 	}
 
 

@@ -117,22 +117,22 @@ public class SliderPanel extends JPanel {
 		densityLabel = new JLabel("Choose the density of the game ie the number of objects from 0% to 100%");
 		densityLabel.add(Box.createRigidArea(sliderPaddingVertical));
 		densityLabel.setFont(labelFont);
-		densityLabel.setForeground(GameFrame.buttonFontColor);
+		densityLabel.setForeground(GameFrame.BUTTON_FONT_COLOR);
 
 		difficultyLabel = new JLabel("Choose the difficulty");
 		difficultyLabel.add(Box.createRigidArea(sliderPaddingVertical));
 		difficultyLabel.setFont(labelFont);
-		difficultyLabel.setForeground(GameFrame.buttonFontColor);
+		difficultyLabel.setForeground(GameFrame.BUTTON_FONT_COLOR);
 
 		gameHeightLabel = new JLabel("Choose the Game height");
 		gameHeightLabel.add(Box.createRigidArea(sliderPaddingVertical));
 		gameHeightLabel.setFont(labelFont);
-		gameHeightLabel.setForeground(GameFrame.buttonFontColor);
+		gameHeightLabel.setForeground(GameFrame.BUTTON_FONT_COLOR);
 
 		gameWidthLabel = new JLabel("Choose the Game width");
 		gameWidthLabel.add(Box.createRigidArea(sliderPaddingVertical));
 		gameWidthLabel.setFont(labelFont);
-		gameWidthLabel.setForeground(GameFrame.buttonFontColor);
+		gameWidthLabel.setForeground(GameFrame.BUTTON_FONT_COLOR);
 
 
 	}
