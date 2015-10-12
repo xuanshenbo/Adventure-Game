@@ -98,7 +98,7 @@ public class Server extends Thread{
 
 	public void run(){
 		//System.out.println("Server is stared");//debug
-		ExecutorService pool = Executors.newFixedThreadPool(4);
+		ExecutorService pool = Executors.newFixedThreadPool(50);
 		while (!exit) {
 			try {
 				if(server.isClosed()) break;

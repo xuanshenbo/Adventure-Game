@@ -108,6 +108,8 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 		//add to the msg the integer corresponding to which avatar was chosen
 		msg += avatarInteger;
 
+		initialisation.setChosenAvatar(a);
+
 		if(Main.getServer() != null){
 			Main.connectClient(avatarInteger);
 		}
@@ -123,7 +125,7 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 
 		}
 
-		initialisation.setChosenAvatar(a);
+
 
 		initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.START_GAME);
 
