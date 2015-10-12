@@ -365,6 +365,10 @@ public class GameRenderer{
 			viewDir = 0;
 	}
 
+	public int getViewDir() {
+		return viewDir;
+	}
+
 //	public int getOffsetX(){
 //		return offsetX;
 //	}

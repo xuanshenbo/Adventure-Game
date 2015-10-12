@@ -272,17 +272,28 @@ public class GameFrame extends JFrame{
 
 				switch( e.getKeyCode()) {
 				case KeyEvent.VK_UP:
-					toNotify = Translator.Command.MOVE_NORTH.toString();
+					if (canvas.getRenderer().getViewDir() == 0)
+						toNotify = Translator.Command.MOVE_NORTH.toString();
+					else
+						toNotify = Translator.Command.MOVE_SOUTH.toString();
 					break;
 				case KeyEvent.VK_DOWN:
-					toNotify = Translator.Command.MOVE_SOUTH.toString();
+					if (canvas.getRenderer().getViewDir() == 0)
+						toNotify = Translator.Command.MOVE_SOUTH.toString();
+					else
+						toNotify = Translator.Command.MOVE_NORTH.toString();
 					break;
 				case KeyEvent.VK_LEFT:
-					toNotify = Translator.Command.MOVE_WEST.toString();
-
+					if (canvas.getRenderer().getViewDir() == 0)
+						toNotify = Translator.Command.MOVE_WEST.toString();
+					else
+						toNotify = Translator.Command.MOVE_EAST.toString();
 					break;
 				case KeyEvent.VK_RIGHT :
-					toNotify = Translator.Command.MOVE_EAST.toString();
+					if (canvas.getRenderer().getViewDir() == 0)
+						toNotify = Translator.Command.MOVE_EAST.toString();
+					else
+						toNotify = Translator.Command.MOVE_WEST.toString();
 					break;
 				case KeyEvent.VK_P:
 					toNotify = Translator.Command.PICK_UP.toString();
