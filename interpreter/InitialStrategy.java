@@ -5,12 +5,14 @@ import interpreter.Translator.InitialisationCommand;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
 import control.Client;
+import jdk.nashorn.internal.runtime.linker.JavaAdapterFactory;
 import view.Avatar;
 import main.Initialisation;
 import main.Main;
@@ -65,8 +67,7 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 			try {
 				adr = InetAddress.getByName(ip);
 				Main.avatarClient(adr, 8888);
-
-				//request available avatars from game
+				//request available avatars from game, as this will be required in the next step
 				Translator.InitialisationCommand cmd = Translator.InitialisationCommand.GET_AVAILABLE_AVATARS;
 				String msg = Translator.encode(cmd);
 				initialisation.getClient().send(msg);
@@ -81,14 +82,18 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 				Main.clientMode(adr, 8888);
 				Main.setIP(ip);*/
 
-			} catch (IOException e) {
-				initialisation.getWelcomePanel().transitionToNewState(InitialisationCommand.CONNECT_TO_SERVER);
+
+				initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.LOAD_SAVED_PLAYER);
 			}
+			catch (IOException e) {
+				//if invalid ip address entered, return to input state
+				initialisation.getWelcomePanel().setValidIP(false);
+				initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.CONNECT_TO_SERVER);
+
+			}
+
+
 		}
-
-
-
-
 	}
 
 	//receive information about the avatar chosen, and select the encoded message to the Model via the network
@@ -102,7 +107,10 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 		//add to the msg the integer corresponding to which avatar was chosen
 		msg += avatarInteger;
 
+		//TODO different methods for client mode.
 		Main.connectClient(avatarInteger);
+
+		initialisation.setChosenAvatar(a);
 
 		initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.START_GAME);
 

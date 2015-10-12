@@ -58,7 +58,7 @@ public class GameFrame extends JFrame{
 	private int bar_width = 100;
 	private int bar_height = 20;
 
-	private int lifelineValue = 50;
+	private int happinessValue = 50;
 
 	//These constants define the main colour scheme and are used throughout all the panels which form the GameFrame
 	public static final Color col1 = Color.CYAN.darker();
@@ -82,8 +82,9 @@ public class GameFrame extends JFrame{
 
 
 	//for testing
-	private PlayerInfo player = new PlayerInfo(Avatar.MUFFIN_MACLAY);
+	//private PlayerInfo player = new PlayerInfo(Avatar.MUFFIN_MACLAY);
 
+	private Avatar avatar;
 	/*
 	 * TODO Initialise these interpreters here rather than in Main method?
 	 */
@@ -112,7 +113,7 @@ public class GameFrame extends JFrame{
 
 	private Dialog container;
 
-	public boolean isServer;
+	public boolean isServer = false;
 
 	/**
 	 * First a WelcomeDialog is displayed and then
@@ -130,8 +131,6 @@ public class GameFrame extends JFrame{
 
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
 
-		//setUpLayoutAndDisplay();
-
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		/*
@@ -147,11 +146,11 @@ public class GameFrame extends JFrame{
 						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
 				if (PromptResult == JOptionPane.YES_OPTION) {
 					/*
-					 * Rather than have a Game Strategy just for this,
-					 * deal directly with an exit command
+					 * Rather than have a Game Strategy just for this, use the menuInterpreter, which
+					 * also has to deal with requests to exit
 					 */
 					try {
-						menuInterpreter.notify(Translator.Command.EXIT_CLIENT.toString());
+						menuInterpreter.notify(Translator.Command.EXIT.toString());
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -222,7 +221,7 @@ public class GameFrame extends JFrame{
 
 				//draw the bar in white
 				g.setColor(Color.WHITE);
-				g.fillRect(bar_left, bar_top, lifelineValue, bar_height);
+				g.fillRect(bar_left, bar_top, happinessValue, bar_height);
 
 				//draw a pink outline around the bar
 				g.setColor(col2);
@@ -489,21 +488,21 @@ public class GameFrame extends JFrame{
 		this.dialogInterpreter = d;
 	}
 
-	/**
-	 * Returns a PlayerInfo object which contains information about this player
-	 * @return PlayerInfo object which contains information about this player
-	 */
-	public PlayerInfo getPlayer() {
-		return player;
-	}
-
-	/**
-	 * Assigns the argument to the Player field
-	 * @param p The PlayerInfo object which contains information about this player
-	 */
-	public void setPlayer(PlayerInfo p){
-		this.player = p;
-	}
+//	/**
+//	 * Returns a PlayerInfo object which contains information about this player
+//	 * @return PlayerInfo object which contains information about this player
+//	 */
+//	public PlayerInfo getPlayer() {
+//		return player;
+//	}
+//
+//	/**
+//	 * Assigns the argument to the Player field
+//	 * @param p The PlayerInfo object which contains information about this player
+//	 */
+//	public void setPlayer(PlayerInfo p){
+//		this.player = p;
+//	}
 
 	public int getMapWidth() {
 		return this.midPanel.getWidth();
@@ -584,7 +583,21 @@ public class GameFrame extends JFrame{
 	}
 
 	public boolean isServer() {
-		return isServer();
+		return isServer;
+	}
+
+	public void setHappinessLevel(int lvl){
+		this.happinessValue = lvl;
+		repaint();
+	}
+
+	public void setAvatar(Avatar chosenAvatar) {
+		avatar = chosenAvatar;
+
+	}
+
+	public Avatar getAvatar() {
+		return avatar;
 	}
 
 }

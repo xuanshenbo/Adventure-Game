@@ -18,6 +18,7 @@ import interpreter.KeyStrategy;
 import interpreter.MenuStrategy;
 import interpreter.InitialStrategy;
 import interpreter.StrategyInterpreter;
+import interpreter.Translator;
 
 /**
  * The following is the main class for the whole game.
@@ -66,7 +67,7 @@ public class Main {
 	 * Sets up the network for a server-client mode
 	 */
 	public static void serverClient(){
-		int height = 21, width = 21, players = 4, trees = 20;
+		int height = 61, width = 61, players = 4, trees = 20;
 		int buildings = 2, caves = 1, chests = 5, lootValue = 1;
 		int[] parameters = {height, width, players,trees, buildings, caves, chests, lootValue};
 		server = new Server(parameters);
@@ -105,8 +106,14 @@ public class Main {
 			client = new Client(socket);
 			client.setUid(uid);//debug
 			client.start();
-			initial.setClient(client);
-		} catch (IOException e) {
+		}
+
+		catch(java.net.ConnectException e){
+			//if invalid ip address entered, return to input state
+			initial.getWelcomePanel().setValidIP(false);
+			initial.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.CONNECT_TO_SERVER);
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 		displayMainGameFrame();//debug
@@ -146,6 +153,9 @@ public class Main {
 		StrategyInterpreter radioInterpreter = null;
 
 		frame = new GameFrame("Adventure Game");
+
+		//set the chosen avatar
+		frame.setAvatar(initial.getChosenAvatar());
 
 		//create the Strategy Interpreters with different Strategies as appropriate
 		keyInterpreter = new StrategyInterpreter(frame, new KeyStrategy(keyInterpreter),client);

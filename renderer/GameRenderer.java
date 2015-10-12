@@ -40,7 +40,8 @@ public class GameRenderer{
 		offsetX = 0;
 		offsetY = 0;
 		this.tileWidth = width/size * imageScale;
-		this.tileHeight = height/size * imageScale;
+//		this.tileHeight = height/size * imageScale;
+		this.tileHeight = tileWidth/2;
 		this.viewWidth = view[0].length;
 		this.viewHeight = view.length;
 		this.renderState = new RenderState(view);
@@ -104,8 +105,7 @@ public class GameRenderer{
 				screenY = startY + halfTileHeight * x;
 				drawTile(renderState.getMap()[y][x], screenX, screenY);
 				drawTile(renderState.getNpc()[y][x], screenX, screenY);
-				drawTile(objects[y][x], screenX, screenY);
-
+				drawItem(objects[y][x], screenX, screenY);
 			}
 			startX -= halfTileWidth;
 			startY += halfTileHeight;
@@ -193,15 +193,40 @@ public class GameRenderer{
 				imageY = (int) (y - images.door().getHeight(null));
 				graphic.drawImage(images.door(), imageX, imageY, null);
 				break;
+			case 'Z':
+				imageX = (int) x;
+				imageY = (int) (y - images.key().getHeight(null));
+				graphic.drawImage(images.zombie(), imageX, imageY, null);
+				break;
+			default:
+				break;
+		}
+	}
+
+	private void drawItem(char item, double x, double y) {
+
+		if (item == '\u0000') {
+			return;
+		}
+
+		int imageX, imageY;
+		int shadowWidth, shadowHeight;
+
+		switch (item) {
 			case 'k':
 				imageX = (int) x;
 				imageY = (int) (y - images.key().getHeight(null));
 				graphic.drawImage(images.key(), imageX, imageY, null);
 				break;
-			case 'Z':
+			case 'c':
 				imageX = (int) x;
-				imageY = (int) (y - images.key().getHeight(null));
-				graphic.drawImage(images.zombie(), imageX, imageY, null);
+				imageY = (int) (y - images.cupcake().getHeight(null));
+				graphic.drawImage(images.cupcake(), imageX, imageY, null);
+				break;
+			case 'b':
+				imageX = (int) x;
+				imageY = (int) (y - images.bag().getHeight(null));
+				graphic.drawImage(images.bag(), imageX, imageY, null);
 				break;
 			default:
 				break;

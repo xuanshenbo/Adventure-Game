@@ -43,6 +43,8 @@ public class Initialisation extends StrategyInterpreter{
 	private ArrayList<Avatar> avatars;
 
 	private WelcomePanel welcome;
+
+	private Avatar chosenAvatar;
 	//private Server server;
 
 	/**
@@ -165,6 +167,15 @@ public class Initialisation extends StrategyInterpreter{
 	 */
 	public void closeServer() {
 		Main.closeServer();
+	}
+
+
+	public void setChosenAvatar(Avatar a) {
+		chosenAvatar = a;
+	}
+
+	public Avatar getChosenAvatar(){
+		return chosenAvatar;
 	}
 
 

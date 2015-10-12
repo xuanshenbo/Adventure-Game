@@ -18,8 +18,8 @@ public class GameCanvas extends JPanel {
         super();
         this.width = width;
         this.height = height;
-        char[][] view = new char[15][15];
-        char[][] objects = new char[15][15];
+        char[][] view = new char[31][31];
+        char[][] objects = new char[31][31];
         this.renderer = new GameRenderer(800, 600, view, objects, this);
         setPreferredSize(new Dimension(width, height));
     }
