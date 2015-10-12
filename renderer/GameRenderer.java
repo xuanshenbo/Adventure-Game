@@ -13,7 +13,7 @@ public class GameRenderer{
 	private int width,height;
 	private double tileHeight, tileWidth;
 	private int viewWidth, viewHeight;
-	private int viewDir = 1;
+	private int viewDir = 0;
 
 	//image size
 	private int imageScale = 3;
@@ -93,7 +93,7 @@ public class GameRenderer{
 		}
 
 		//draw from the normal view direction
-		if (viewDir == 1) {
+		if (viewDir == 0) {
 
 			for (int y = 0; y < viewHeight; y++) {
 				for (int x = 0; x < viewWidth; x++) {
@@ -121,7 +121,7 @@ public class GameRenderer{
 					if (renderState.getBuilding()[y][x] == 'b'){
 						drawTile(renderState.getBuilding()[y][x], screenX, screenY);
 						if (x > 2) {
-							drawTile(renderState.getMap()[y][x - 2], screenX - tileWidth, screenY - tileHeight);
+							drawTile(renderState.getBuilding()[y][x - 2], screenX - tileWidth, screenY - tileHeight);
 						}
 						if (x > 0 && x < 29
 								&& y > 3 && y < 31){
@@ -154,7 +154,7 @@ public class GameRenderer{
 		}
 
 		//draw from the back view direction
-		else if (viewDir == 2){
+		else if (viewDir == 1){
 
 			for (int y = viewHeight -1; y >= 0; y--) {
 				for (int x = viewWidth -1; x >= 0; x--) {
@@ -265,12 +265,8 @@ public class GameRenderer{
 				break;
 			case 'O':
 				imageX = (int) x;
-				imageY = (int) (y - images.chest().getHeight(null)*3/4);
-				if (viewDir == 1) {
-					graphic.drawImage(images.chest(), imageX, imageY, null);
-				}else{
-					graphic.drawImage(images.chestBack(), imageX, imageY, null);
-				}
+				imageY = (int) (y - images.chest(viewDir).getHeight(null)*3/4);
+				graphic.drawImage(images.chest(viewDir), imageX, imageY, null);
 				break;
 			case 'T':
 				imageX = (int)(x-images.tree().getWidth(null)/2 + tileWidth/2);
@@ -281,20 +277,21 @@ public class GameRenderer{
 				graphic.drawImage(images.tree(), imageX, imageY, null);
 				break;
 			case 'c':
-				imageX = (int) (x - tileWidth/2);
-				imageY = (int) (y - images.cave().getHeight(null) + tileHeight*2);
-				graphic.drawImage(images.cave(), imageX, imageY, null);
+				imageX = (int) (x - tileWidth);
+				imageY = (int) (y - images.cave(viewDir).getHeight(null));
+				graphic.drawImage(images.cave(viewDir), imageX, imageY, null);
 				break;
 			case 'b':
 				imageX = (int) (x - tileWidth*2);
-				imageY = (int) (y - images.building().getHeight(null) + tileHeight/2);
-				if(viewDir == 1){
-					graphic.drawImage(images.building(), imageX, imageY, null);
-				}else{
-					graphic.drawImage(images.buildingBack(), imageX, imageY, null);
-				}
+				imageY = (int) (y - images.building(viewDir).getHeight(null) + tileHeight/2);
+				graphic.drawImage(images.building(viewDir), imageX, imageY, null);
 				break;
 			case 'D':
+				imageX = (int) x;
+				imageY = (int) (y - images.door(doorIndex).getHeight(null) + tileHeight/2);
+				graphic.drawImage(images.door(doorIndex), imageX, imageY, null);
+				break;
+			case 'E':
 				imageX = (int) x;
 				imageY = (int) (y - images.door(doorIndex).getHeight(null) + tileHeight/2);
 				graphic.drawImage(images.door(doorIndex), imageX, imageY, null);
@@ -326,8 +323,8 @@ public class GameRenderer{
 				break;
 			case 'c':
 				imageX = (int) x;
-				imageY = (int) (y - images.cupcake().getHeight(null) + tileHeight/2);
-				graphic.drawImage(images.cupcake(), imageX, imageY, null);
+				imageY = (int) (y - images.cupcake(0).getHeight(null) + tileHeight/2);
+				graphic.drawImage(images.cupcake(viewDir), imageX, imageY, null);
 				break;
 			case 'b':
 				imageX = (int) x;
@@ -364,8 +361,8 @@ public class GameRenderer{
 
 	public void rotate(){
 		viewDir+=1;
-		if (viewDir>2)
-			viewDir = 1;
+		if (viewDir>1)
+			viewDir = 0;
 	}
 
 //	public int getOffsetX(){
