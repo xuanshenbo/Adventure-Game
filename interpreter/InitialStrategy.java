@@ -67,8 +67,6 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 				Main.clientMode(adr, 8888);
 				Main.setIP(ip);
 
-				System.out.println("here");
-
 				//request available avatars from game, as this will be required in the next step
 				Translator.InitialisationCommand cmd = Translator.InitialisationCommand.GET_AVAILABLE_AVATARS;
 				String msg = Translator.encode(cmd);

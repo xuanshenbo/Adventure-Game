@@ -1,6 +1,7 @@
 package view;
 
 import interpreter.StrategyInterpreter;
+import interpreter.Translator.Command;
 
 import java.awt.Dimension;
 import java.awt.Image;
@@ -34,6 +35,8 @@ public class RadioButtonPanel extends JPanel {
 	//only display the drop/use/move options on the first selection of a radio button option
 	private boolean firstButtonSelected = false;
 
+	private Command state;
+
 	//this constructor not currently used
 	public RadioButtonPanel(GameFrame container, String type){
 		containerFrame = container;
@@ -42,10 +45,13 @@ public class RadioButtonPanel extends JPanel {
 
 	/**
 	 * This constructor show the options for the inventory: what items, and drop, move to bag, or use.
-	 * @param inventoryContents An array list of string descriptions of items in the inventory to display
+	 * @param contents An array list of string descriptions of items in the inventory to display
+	 * @param state
 	 * @param radioInterp The strategyinterpreter which interprets radio button action events
 	 */
-	public RadioButtonPanel(ArrayList<String> inventoryContents, StrategyInterpreter buttonInterp, Dialog d) {
+	public RadioButtonPanel(ArrayList<String> contents, StrategyInterpreter buttonInterp, Dialog d, Command st) {
+		this.state = st;
+
 		this.firstButtonSelected = false;
 
 		this.containerDialog = d;
@@ -59,15 +65,15 @@ public class RadioButtonPanel extends JPanel {
 		/*
 		 * Create JLabels for each item in the inventory
 		 */
-		if(inventoryContents==null){
+		if(contents==null){
 
 			throw new IllegalArgumentException("The inventory/container shouldn't be null");
 		}
 
 		ButtonGroup inventoryGroup = new ButtonGroup();
 
-		for(int i = 0; i<inventoryContents.size(); i++){
-			String name = inventoryContents.get(i);
+		for(int i = 0; i<contents.size(); i++){
+			String name = contents.get(i);
 
 			final JRadioButton item;
 
@@ -79,11 +85,11 @@ public class RadioButtonPanel extends JPanel {
 				name = name.substring(0, 1).toUpperCase() + name.substring(1, name.length());
 
 				//attach a picture of the item to the jlabel
-				Image image= ImageLoader.loadImage(inventoryContents.get(i)+".png").getScaledInstance(imageSize.width, imageSize.height, -1);
+				Image image= ImageLoader.loadImage(contents.get(i)+".png").getScaledInstance(imageSize.width, imageSize.height, -1);
 				ImageIcon icon = new ImageIcon(image);
 				imageLabel.setIcon(icon);
 
-				item = new JRadioButton(inventoryContents.get(i));
+				item = new JRadioButton(contents.get(i));
 
 			}
 			else{
@@ -112,7 +118,14 @@ public class RadioButtonPanel extends JPanel {
 								//tell the dialog to display item options, but only if a choice hasn't yet been made
 								//ie don't keep adding options everytime a new option chosen
 								if(!firstButtonSelected){
-									containerDialog.displayItemOptions();
+									//need to display different button choices depending on whether this is a container
+									//or an inventory
+									if(state != null && state.equals(Command.DISPLAY_INVENTORY)){
+										containerDialog.displayItemOptions(true);
+									}
+									else if(state != null && state.equals(Command.DISPLAY_CONTAINER)){
+										containerDialog.displayItemOptions(false);
+									}
 									firstButtonSelected = true;
 								}
 

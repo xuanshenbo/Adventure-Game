@@ -13,6 +13,7 @@ public class GameRenderer{
 	private int width,height;
 	private double tileHeight, tileWidth;
 	private int viewWidth, viewHeight;
+	private int viewDir = 1;
 
 	//image size
 	private int imageScale = 3;
@@ -68,11 +69,11 @@ public class GameRenderer{
 
 		double halfTileWidth = tileWidth/2;
 		double halfTileHeight = tileHeight/2;
-		double startX = width/2;
 
 		double imageY = (width/2)/2*imageScale;
 		double screenOffsetY = (height/2 - imageY);
 
+		double startX = width/2;
 		double startY = -tileHeight/2 + screenOffsetY;
 		int groundOffsetY = images.ground().getWidth(null)/2;
 
@@ -88,33 +89,106 @@ public class GameRenderer{
 			groundImage = images.ground();
 		}
 
-		for (int y = 0; y < viewHeight; y++) {
-			for (int x = 0; x < viewWidth; x++) {
-				if(renderState.getMap()[y][x] != '\u0000') {
+		//draw from the normal view direction
+		if (viewDir == 1) {
+
+			for (int y = 0; y < viewHeight; y++) {
+				for (int x = 0; x < viewWidth; x++) {
+					if(renderState.getMap()[y][x] != '\u0000') {
+						screenX = startX + halfTileWidth * x;
+						screenY = startY + halfTileHeight * x;
+						graphic.drawImage(groundImage, (int)screenX, (int)screenY, null);
+					}
+				}
+				startX -= halfTileWidth;
+				startY += halfTileHeight;
+			}
+
+			startX = width/2;
+			startY = screenOffsetY;
+
+			//draw view and objects
+			for (int y = 0; y < viewHeight; y++) {
+				for (int x = 0; x < viewWidth; x++) {
 					screenX = startX + halfTileWidth * x;
 					screenY = startY + halfTileHeight * x;
-					graphic.drawImage(groundImage, (int)screenX, (int)screenY, null);
+					//draw map elements such as chests
+					drawTile(renderState.getMap()[y][x], screenX, screenY);
+					//in the building tile, draw building and redraw the players and zombies in the right place
+					if (renderState.getBuilding()[y][x] == 'b'){
+						drawTile(renderState.getBuilding()[y][x], screenX, screenY);
+						if (x > 0 && x < 29
+								&& y > 3 && y < 31){
+							for (int i = 4; i >= 0; i--){
+								screenX = (startX + halfTileWidth*i) + halfTileWidth * (x+1);
+								screenY = (startY - halfTileHeight*i) + halfTileHeight * (x+1);
+								drawTile(renderState.getNpc()[y-i][x+1], screenX, screenY);
+								screenX = (startX + halfTileWidth*i) + halfTileWidth * (x+2);
+								screenY = (startY - halfTileHeight*i) + halfTileHeight * (x+2);
+								drawTile(renderState.getNpc()[y-i][x+2], screenX, screenY);
+							}
+						}
+					}
+					//in the cave tile, draw cave
+					else if (renderState.getBuilding()[y][x] == 'c'){
+						drawTile(renderState.getBuilding()[y][x], screenX, screenY);
+					}
+					//in all other tiles, draw objects and npcs
+					else {
+						drawItem(objects[y][x], screenX, screenY);
+						drawTile(renderState.getNpc()[y][x], screenX, screenY);
+					}
 				}
+				startX -= halfTileWidth;
+				startY += halfTileHeight;
 			}
-			startX -= halfTileWidth;
-			startY += halfTileHeight;
+
 		}
 
-		startX = width/2;
-//		startY = -height/2*(imageScale-1) + (height - width/2)/2;
-		startY = screenOffsetY;
+		//draw from the back view direction
+		else if (viewDir == 2){
 
-		//draw view and objects
-		for (int y = 0; y < viewHeight; y++) {
-			for (int x = 0; x < viewWidth; x++) {
-				screenX = startX + halfTileWidth * x;
-				screenY = startY + halfTileHeight * x;
-				drawTile(renderState.getMap()[y][x], screenX, screenY);
-				drawItem(objects[y][x], screenX, screenY);
-				drawTile(renderState.getNpc()[y][x], screenX, screenY);
+			for (int y = viewHeight -1; y >= 0; y--) {
+				for (int x = viewWidth -1; x >= 0; x--) {
+					if(renderState.getMap()[y][x] != '\u0000') {
+						screenX = startX + halfTileWidth * (viewWidth-1-x);
+						screenY = startY + halfTileHeight * (viewWidth-1-x);
+						graphic.drawImage(groundImage, (int)screenX, (int)screenY, null);
+					}
+				}
+				startX -= halfTileWidth;
+				startY += halfTileHeight;
 			}
-			startX -= halfTileWidth;
-			startY += halfTileHeight;
+
+			startX = width/2;
+			startY = screenOffsetY;
+
+			for (int y = viewHeight -1; y >= 0; y--) {
+				for (int x = viewWidth -1; x >= 0; x--) {
+					screenX = startX + halfTileWidth * (viewWidth-1-x);
+					screenY = startY + halfTileHeight * (viewWidth-1-x);
+					//draw map elements such as chests
+					drawTile(renderState.getMap()[y][x], screenX, screenY);
+					//in the building tile, draw building and redraw the players and zombies in the right place
+					if (renderState.getBuilding()[y][x] == 'b'){
+						screenX += tileWidth*0.5;
+						screenY += tileHeight*3.5;
+						drawTile(renderState.getBuilding()[y][x], screenX, screenY);
+					}
+					//in the cave tile, draw cave
+					else if (renderState.getBuilding()[y][x] == 'c'){
+						drawTile(renderState.getBuilding()[y][x], screenX, screenY);
+					}
+					//in all other tiles, draw objects and npcs
+					else {
+						drawItem(objects[y][x], screenX, screenY);
+						drawTile(renderState.getNpc()[y][x], screenX, screenY);
+					}
+				}
+				startX -= halfTileWidth;
+				startY += halfTileHeight;
+			}
+
 		}
 
 		graphic.dispose();
@@ -173,7 +247,7 @@ public class GameRenderer{
 				break;
 			case 'O':
 				imageX = (int) x;
-				imageY = (int) (y - images.chest().getHeight(null));
+				imageY = (int) (y - images.chest().getHeight(null)*3/4);
 				graphic.drawImage(images.chest(), imageX, imageY, null);
 				break;
 			case 'T':
@@ -185,13 +259,13 @@ public class GameRenderer{
 				graphic.drawImage(images.tree(), imageX, imageY, null);
 				break;
 			case 'c':
-				imageX = (int) x;
-				imageY = (int) (y - (images.cave().getHeight(null)-tileHeight));
+				imageX = (int) (x - tileWidth/2);
+				imageY = (int) (y - images.cave().getHeight(null) + tileHeight*2);
 				graphic.drawImage(images.cave(), imageX, imageY, null);
 				break;
 			case 'b':
-				imageX = (int) (x - images.building().getWidth(null)/2);
-				imageY = (int) (y - images.building().getHeight(null));
+				imageX = (int) (x - tileWidth*2);
+				imageY = (int) (y - images.building().getHeight(null) + tileHeight/2);
 				graphic.drawImage(images.building(), imageX, imageY, null);
 				break;
 			case 'D':
@@ -221,17 +295,17 @@ public class GameRenderer{
 		switch (item) {
 			case 'k':
 				imageX = (int) x;
-				imageY = (int) (y - images.key().getHeight(null));
+				imageY = (int) (y - images.key().getHeight(null)+tileHeight/2);
 				graphic.drawImage(images.key(), imageX, imageY, null);
 				break;
 			case 'c':
 				imageX = (int) x;
-				imageY = (int) (y - images.cupcake().getHeight(null));
+				imageY = (int) (y - images.cupcake().getHeight(null) + tileHeight/2);
 				graphic.drawImage(images.cupcake(), imageX, imageY, null);
 				break;
 			case 'b':
 				imageX = (int) x;
-				imageY = (int) (y - images.bag().getHeight(null));
+				imageY = (int) (y - images.bag().getHeight(null) + tileHeight/2);
 				graphic.drawImage(images.bag(), imageX, imageY, null);
 				break;
 			default:
@@ -260,6 +334,12 @@ public class GameRenderer{
 			this.renderState.initialize(view);
 			doRender = false;
 		}
+	}
+
+	public void rotate(){
+		viewDir+=1;
+		if (viewDir>2)
+			viewDir = 1;
 	}
 
 //	public int getOffsetX(){

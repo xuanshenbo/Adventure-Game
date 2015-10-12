@@ -6,10 +6,12 @@ package renderer;
 public class RenderState {
     private char[][] map;
     private char[][] npc;
+    private char[][] building;
 
     public RenderState(char[][] view){
         map = new char[view[0].length][view.length];
         npc = new char[view[0].length][view.length];
+        building = new char[view[0].length][view.length];
         initialize(view);
     }
 
@@ -23,6 +25,9 @@ public class RenderState {
                         || view[y][x] == '4'
                         || view[y][x] == 'Z') {
                     npc[y][x] = view[y][x];
+                } else if (view[y][x] == 'b'
+                        || view[y][x] == 'c'){
+                    building[y][x] = view[y][x];
                 } else {
                     map[y][x] = view[y][x];
                 }
@@ -36,9 +41,12 @@ public class RenderState {
                 if (view[y][x] == '\u0000'){
                     map[y][x] = '\u0000';
                     npc[y][x] = '\u0000';
-                } else {
+                    building[y][x] = '\u0000';
+                }
+                else {
                     map[y][x] = 'N';
                     npc[y][x] = 'N';
+                    building[y][x] = 'N';
                 }
             }
         }
@@ -50,6 +58,10 @@ public class RenderState {
 
     public char[][] getNpc(){
         return npc;
+    }
+
+    public char[][] getBuilding(){
+        return building;
     }
 
 

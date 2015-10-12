@@ -70,15 +70,11 @@ public class ButtonStrategy implements StrategyInterpreter.Strategy{
 	private void notifyCommand(String text) {
 		Scanner sc = new Scanner(text);
 		String commandString = sc.next();
+		String msg = "";
 
 		Translator.Command cmd = Translator.toCommand(commandString);
 		if(cmd.equals(Translator.Command.DISPLAY_INVENTORY)){
-			String msg = Translator.encode(cmd);
-			try {
-				interpreter.getClient().send(msg);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			msg = Translator.encode(cmd);
 		}
 
 		else if(cmd.equals(Translator.Command.MOVE_ITEM)){
@@ -90,16 +86,12 @@ public class ButtonStrategy implements StrategyInterpreter.Strategy{
 					moveTo = -1;
 					return;
 				}
-				String msg = Translator.encode(cmd);
+				msg = Translator.encode(cmd);
 
 				msg += selectedItem; //add the index of the item being moved
 				msg += moveTo; //add the new index for the item being moved
 
-				try {
-					interpreter.getClient().send(msg);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				p(msg);
 
 				//reset the two indices
 				selectedItem = -1;
@@ -108,7 +100,14 @@ public class ButtonStrategy implements StrategyInterpreter.Strategy{
 			}
 			else{
 				isMove = true;
+				return; //don't want to sent to network until we know where they want to move the item to.
 			}
+		}
+
+		else if(cmd.equals(Command.MOVE_ITEM_TO_INVENTORY)){
+			msg = Translator.encode(cmd);
+			msg += selectedItem;
+
 		}
 
 		//if the player is trying to perform a non-move action on an item
@@ -118,19 +117,20 @@ public class ButtonStrategy implements StrategyInterpreter.Strategy{
 			//if they have selected an item
 			if(selectedItem!=-1){
 				//encode the action and append the inventory slot of the selected item
-				String msg = Translator.encode(cmd);
+				msg = Translator.encode(cmd);
 				msg += selectedItem;
-				//send encoded message via network
-				try {
-					interpreter.getClient().send(msg);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
 
 				//set selectedSlot back to -1
 				selectedItem = -1;
 
 			}
+		}
+
+		//send the encoded message via the network
+		try {
+			interpreter.getClient().send(msg);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 	}
