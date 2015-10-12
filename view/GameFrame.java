@@ -53,14 +53,11 @@ public class GameFrame extends JFrame{
 	private int gamePanelWidth = 800;
 	private int gamePanelHeight = 600;
 
-	private int bar_left = 20;
-	private int bar_top = 70;
-	private int bar_width = 100;
-	private int bar_height = 20;
-
 	private int happinessValue = 50;
 
-	//These constants define the main colour scheme and are used throughout all the panels which form the GameFrame
+	/*
+	 * These constants define the main colour scheme and are used throughout all the panels which form the GameFrame
+	 */
 	public static final Color col1 = Color.CYAN.darker();
 	public static final Color col2 = Color.PINK;
 	public static final Color fontColor = Color.PINK;
@@ -73,39 +70,34 @@ public class GameFrame extends JFrame{
 
 	private ArrayList<Avatar> avatars;
 
-	private String ip = "192...", time = "0100";
-
-	private Dimension mapSize = new Dimension(750, 400);
+	private String ip = "unassigned", time = "unassigned";
 
 	private Dimension gamePanelSize = new Dimension(800, 600);
+	private Dimension statusPanelSize = new Dimension (170, 125);
 
 	//public as needs to be accessed from ButtonPanel
 	public static final int buttonPaddingHorizontal = 50;
 	public static final int buttonPaddingVertical = 50;
 
-
-	//for testing
-	//private PlayerInfo player = new PlayerInfo(Avatar.MUFFIN_MACLAY);
-
 	private Avatar avatar;
+
 	/*
-	 * TODO Initialise these interpreters here rather than in Main method?
+	 * These are the interpreters which decide what to do with various user inputs
 	 */
 	private StrategyInterpreter keyInterpreter;
 	private StrategyInterpreter menuInterpreter;
 	private StrategyInterpreter buttonInterpreter;
 	private StrategyInterpreter radioInterpreter;
 
+	//these fields are set by the model, ready for display
 	private ArrayList<String> inventoryContents;
 	private ArrayList<String> containerContents;
 
-	//gap around main buttons/status panel
-	private int gap = 5;
+	//gap around main buttons/status panel. Public for use in StatusPanel
+	public static int gap = 5;
 
 	//have to initialise this here for use in WelcomeDialog
 	private StrategyInterpreter dialogInterpreter = new StrategyInterpreter(this, new DialogStrategy(), null);
-
-	private testRenderer data;
 
 	private PlayerProfilePanel playerProfilePanel;
 
@@ -113,22 +105,28 @@ public class GameFrame extends JFrame{
 
 	private JLayeredPane middleLayeredPane;
 
-	private JPanel botPanel;
+	private JPanel butPanel;
 
 	private GameCanvas canvas;
 
 	private Dialog container;
 
-	public boolean isServer = false;
+	private Dimension buttonPanelSize = new Dimension(265, 50);
+
+	//used for deciding what to do if the user tries to exit
+	private boolean isServerMode = false;
 
 	/**
-	 * First a WelcomeDialog is displayed and then
-	 * the constructor sets up the KeyListener using the KeyboardFocusManager, sets up the layout with all the appropriate Panels.
+	 * First a WelcomeDialog is displayed and then the constructor sets up the KeyListener
+	 * using the KeyboardFocusManager, sets up the layout with all the appropriate Panels.
 	 * @param title The title of the GameFrame, used in the super constructor
 	 */
 	public GameFrame(String title) {
 		super(title);
 
+		/*
+		 * Set the LookAndFeel to system default for client
+		 */
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
@@ -137,11 +135,12 @@ public class GameFrame extends JFrame{
 
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
 
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
 		/*
 		 *Prompt the user to confirm if they click the close button
 		 */
+
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
 		addWindowListener(new WindowAdapter() {
 
 			@Override
@@ -169,29 +168,26 @@ public class GameFrame extends JFrame{
 		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		manager.addKeyEventDispatcher(new MyDispatcher());
 
+		//the game doesn't resize, so it doesn't make logical sense for the window to be resizeable
 		setResizable(false);
-
-
-		//makePretty(topPanel.getPanels(), midPanel, botPanel);
-
-
-
 	}
 
-	public void setContainer(){
-
-	}
-
-	//add all the necessary panels with the appropriate GridBagConstraints. public visibility, for access in Main
+	/*
+	 * Add all the necessary panels with the appropriate GridBagConstraints.
+	 * It has public visibility, for access in Main
+	 */
 	public void setUpLayoutAndDisplay() {
 
-		addMenuBar();
+		//This just has a file menu, with options to save, exit etc
+		MenuBar bar = new MenuBar(menuInterpreter);
+		setJMenuBar(bar);
 
-		addTopPanel();
+		//The playerProfilePanel has the game logo, user avatar and name
+		playerProfilePanel = new PlayerProfilePanel(this);
+		add(playerProfilePanel);
 
+		//This has the main game image, with buttons and a status panel
 		addMiddlePanel();
-
-		addBottomPanel();
 
 		pack();
 		setLocationRelativeTo(null);	//set the frame at the center of the screen
@@ -199,6 +195,8 @@ public class GameFrame extends JFrame{
 
 	}
 
+	//add the middle pane as a JLayeredPane in order to be able to draw buttons and
+	//the status panel on top of the main game canvas
 	private void addMiddlePanel() {
 		middleLayeredPane = new JLayeredPane();
 
@@ -212,106 +210,46 @@ public class GameFrame extends JFrame{
 
 		middleLayeredPane.add(midPanel, new Integer(0), 0);
 
-		JPanel happinessPanel = createStatusPanel();
+		JPanel statusPanel = createStatusPanel();
 
-		Dimension buttonPanelSize = new Dimension(265, 50);
+		butPanel = createButtonPanel();
 
-		botPanel = new ButtonPanel(this, this.buttonInterpreter, Translator.MainGameState.MAIN);
-
-		//so as to be able to see the game behind the buttons
-		botPanel.setOpaque(false);
-
-		botPanel.setBounds(gamePanelWidth - buttonPanelSize.width - gap, gamePanelHeight - buttonPanelSize.height - gap, buttonPanelSize.width, buttonPanelSize.height);
-
-
-		middleLayeredPane.add(happinessPanel, new Integer(1), 0);
-
-		middleLayeredPane.add(botPanel, new Integer(1), 0);
+		//add the status panel and button panel ABOVE the main game canvas
+		middleLayeredPane.add(statusPanel, new Integer(1), 0);
+		middleLayeredPane.add(butPanel, new Integer(1), 0);
 
 		middleLayeredPane.setPreferredSize(new Dimension(gamePanelWidth, gamePanelHeight));
-
-		middleLayeredPane.revalidate();
 
 		add(middleLayeredPane);
 
 	}
 
+	//This has the two main game buttons: Inventory and Team
+	private JPanel createButtonPanel() {
+		JPanel buttonPanel = new ButtonPanel(this, this.buttonInterpreter, Translator.MainGameState.MAIN);
+
+		//so as to be able to see the game behind the buttons
+		butPanel.setOpaque(false);
+
+		int butPanelX, butPanelY;
+		butPanelX = gamePanelWidth - buttonPanelSize.width - gap;
+		butPanelY = gamePanelHeight - buttonPanelSize.height - gap;
+		butPanel.setBounds(butPanelX, butPanelY, buttonPanelSize.width, buttonPanelSize.height);
+
+		return buttonPanel;
+
+	}
+
+	//This displays the time, ip address, and the happiness level of the player
 	private JPanel createStatusPanel() {
-		JPanel statusPanel = null;
-		statusPanel = new JPanel(new BorderLayout());
 
-		JLabel hapLevel = new JLabel("Happiness Level");
-		JLabel ipAddress = new JLabel(ip);
-		JLabel timeLabel = new JLabel("The time is: "+time);
-
-
-		JLabel statusWindow = new JLabel(){
-			@Override
-			public void paintComponent(Graphics g){
-				//set the font and size of the text to be drawn
-				g.setFont(new Font("Serif", Font.BOLD, 16));
-
-				//draw the happiness level title
-				g.setColor(statusBarFontColor);
-				g.drawString("Happiness Level", gap, bar_top - 40);
-
-				//draw the happiness bar
-				g.setColor(happinessBarColor);
-				g.fillRect(gap, bar_top - 20, happinessValue, bar_height);
-
-				//draw a pink outline around the bar
-				g.setColor(statusBarFontColor);
-				g.drawRect(gap, bar_top - 20, bar_width, bar_height);
-
-				//draw the time info
-				g.setColor(statusBarFontColor);
-				g.drawString("The time is: "+time, gap, bar_top + 20);
-
-				//draw the player's ip address
-				g.setColor(statusBarFontColor);
-				g.drawString(ip+"", gap, bar_top + 40);
-
-			}
-
-		};
-
-		statusPanel.add(statusWindow, BorderLayout.CENTER);
-
-		//want to see the map behind panel, so make panel not opaque
-		statusPanel.setBackground(new Color(statusPanelColour.getRed(), statusPanelColour.getGreen(), statusPanelColour.getBlue(), 200));
-
-
-		Dimension statusPanelSize = new Dimension (170, 125);
+		//use a border layout to be able to center the status window
+		JPanel statusPanel = new StatusPanel(new BorderLayout(), this);
 
 		statusPanel.setBounds(gap, gap, statusPanelSize.width, statusPanelSize.height);
+
 		return statusPanel;
 	}
-
-	private void addTopPanel() {
-		playerProfilePanel = new PlayerProfilePanel(this);
-		add(playerProfilePanel);
-	}
-
-	private void addBottomPanel() {
-//		botPanel = new ButtonPanel(this, this.buttonInterpreter, Translator.MainGameState.MAIN);
-//
-//		botPanel.setVisible(true);
-//
-//		add(botPanel);
-
-	}
-
-
-	private void addMenuBar() {
-		//create a new JMenuBar
-		MenuBar bar = new MenuBar(menuInterpreter);
-
-		//bar.setInterpreter(menuInterpreter);
-
-		setJMenuBar(bar);
-	}
-
-
 
 	/**
 	 * Sends a message to server if the user presses an arrow key
@@ -370,14 +308,14 @@ public class GameFrame extends JFrame{
 			}
 			else if (e.getID() == KeyEvent.KEY_RELEASED) {
 				switch( e.getKeyCode()) {
-					case KeyEvent.VK_R:
+				case KeyEvent.VK_R:
 					try {
 						keyInterpreter.notify(Translator.Command.ROTATE_VIEW.toString());
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
-						canvas.getRenderer().rotate();
-						break;
+					canvas.getRenderer().rotate();
+					break;
 				}
 			}
 			else if (e.getID() == KeyEvent.KEY_TYPED) {
@@ -389,14 +327,6 @@ public class GameFrame extends JFrame{
 	public void updateRenderer(char type, char[][] map, char[][] items){
 		canvas.getRenderer().update(type, map, items);
 	}
-
-	/*	private void showDialog(String string) {
-		int PromptResult = JOptionPane.showConfirmDialog(this, "You pressed: "+string);
-
-		while(PromptResult==JOptionPane.NO_OPTION){
-			PromptResult = JOptionPane.showConfirmDialog(this, "Yes you did!");
-		}
-	}*/
 
 	/**
 	 * Get contents of this player's inventory from Game, via network
@@ -514,63 +444,16 @@ public class GameFrame extends JFrame{
 		this.dialogInterpreter = d;
 	}
 
-//	/**
-//	 * Returns a PlayerInfo object which contains information about this player
-//	 * @return PlayerInfo object which contains information about this player
-//	 */
-//	public PlayerInfo getPlayer() {
-//		return player;
-//	}
-//
-//	/**
-//	 * Assigns the argument to the Player field
-//	 * @param p The PlayerInfo object which contains information about this player
-//	 */
-//	public void setPlayer(PlayerInfo p){
-//		this.player = p;
-//	}
-
+	/**
+	 * @return The width of the main game canvas panel
+	 */
 	public int getMapWidth() {
 		return this.midPanel.getWidth();
 	}
 
-	private void makePretty(Set<JPanel> topPanels, JPanel p1, JPanel p2) {
-
-		HashSet<JPanel> panels = new HashSet<JPanel>();
-		panels.addAll(topPanels);
-		panels.add(p1);
-		panels.add(p2);
-
-		/*for(JPanel b:panels){
-			System.out.println(b);
-			javax.swing.border.Border line, raisedbevel, loweredbevel;
-			TitledBorder title;
-			javax.swing.border.Border empty;
-	        line = BorderFactory.createLineBorder(Color.black);
-	        raisedbevel = BorderFactory.createRaisedBevelBorder();
-	        loweredbevel = BorderFactory.createLoweredBevelBorder();
-	        title = BorderFactory.createTitledBorder("");
-	        empty = BorderFactory.createEmptyBorder(1, 1, 1, 1);
-	        final CompoundBorder compound, compound1, compound2;
-	        Color crl = (new Color(202, 0, 0));
-	        compound = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl));
-	        Color crl1 = (Color.red);
-	        compound1 = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl1));
-	        Color crl2 = (Color.black);
-	        compound2 = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl2));
-	        b.setFont(new Font("Serif", Font.BOLD, 14));
-	        b.setForeground(Color.darkGray);
-	        b.setPreferredSize(new Dimension(50, 30));
-
-//	        b.setBorderPainted(true);
-//	        b.setFocusPainted(false);
-	        b.setBorder(compound);
-
-
-		}*/
-
-	}
-
+	/**
+	 * @return The Radio button interpreter
+	 */
 	public StrategyInterpreter getRadioInterpreter() {
 		return radioInterpreter;
 	}
@@ -580,54 +463,105 @@ public class GameFrame extends JFrame{
 
 	}
 
+	/**
+	 * @return The button interpreter
+	 */
 	public StrategyInterpreter getButtonInterpreter() {
 		return this.buttonInterpreter;
 	}
 
 	/**
-	 * a getter for the MidPanel
-	 * @return
+	 * @return The GameCanvas
 	 */
 	public GameCanvas getCanvas() {
 		return canvas;
 	}
 
+	/**
+	 * @return The current time
+	 */
 	public String getTime() {
 		return time;
 	}
 
+	/**
+	 * @return The ip address of the client
+	 */
 	public String getIP() {
 		return ip;
 	}
 
+	/**
+	 *
+	 * @param t The new time to be assigned.
+	 */
 	public void setTime(String t) {
 		time = t;
 	}
 
+	/**
+	 *
+	 * @param ipAddress The ipAddress of this client, to be assigned to the field.
+	 */
 	public void setIP(String ipAddress) {
 		ip = ipAddress;
 	}
 
-	public boolean isServer() {
-		return isServer;
+	/**
+	 * @return true if this player is in server mode
+	 */
+	public boolean isServerMode() {
+		return isServerMode;
 	}
 
+	/**
+	 *
+	 * @param lvl The happiness level of this player, to be reassigned to the field.
+	 */
 	public void setHappinessLevel(int lvl){
 		this.happinessValue = lvl;
 		repaint();
 	}
 
+	/**
+	 *
+	 * @param chosenAvatar The avatar chosen by this player, to be displayed in the playerprofilepanel
+	 */
 	public void setAvatar(Avatar chosenAvatar) {
 		avatar = chosenAvatar;
 
 	}
 
+	/**
+	 *
+	 * @return This player's avatar
+	 */
 	public Avatar getAvatar() {
 		return avatar;
 	}
 
+	/**
+	 * Displays a message from the game to the user
+	 * @param msg The message to be displayed
+	 */
 	public void displayMessageFromGame(String msg){
 		JOptionPane.showMessageDialog(this, msg);
+	}
+
+	/**
+	 *
+	 * @return The gap to be used around panels. Used in the StatusPanel
+	 */
+	public int getGap() {
+		return gap;
+	}
+
+	/**
+	 *
+	 * @return This player's current happiness level
+	 */
+	public int getHappinessLevel() {
+		return happinessValue;
 	}
 
 }
