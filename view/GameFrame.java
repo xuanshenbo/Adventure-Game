@@ -248,7 +248,7 @@ public class GameFrame extends JFrame{
 		//use a border layout to be able to center the status window
 		JPanel statusPanel = new StatusPanel(new BorderLayout(), this);
 
-		statusPanel.setBounds(gap, gap, statusPanelSize.width, statusPanelSize.height);
+		statusPanel.setBounds(gap, gap * 2, statusPanelSize.width, statusPanelSize.height);
 
 		return statusPanel;
 	}

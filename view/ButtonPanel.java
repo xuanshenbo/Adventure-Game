@@ -118,7 +118,9 @@ public class ButtonPanel extends JPanel {
 		else if(state.equals(Translator.InitialisationCommand.LOAD_PLAYER_OR_CREATE_NEW_PLAYER)){
 			addLoadCreatePlayerButtons();
 		}
+
 	}
+
 
 	public ButtonPanel(Translator.Command state, StrategyInterpreter buttonInterp, Dialog d) {
 		this.dialog = d;
@@ -135,6 +137,7 @@ public class ButtonPanel extends JPanel {
 		else if(state.equals(Translator.Command.DISPLAY_CONTAINER_ITEM_OPTIONS)){
 			displayContainerItemOptions();
 		}
+
 	}
 
 	//should only appear when something has been selected
@@ -251,6 +254,8 @@ public class ButtonPanel extends JPanel {
 
 		removeAllButtons();
 
+
+
 		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical,0))); //pad between buttons
 		add(loadPlayer);
 		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical,0))); //pad between buttons
@@ -259,6 +264,28 @@ public class ButtonPanel extends JPanel {
 		setVisible(true);
 
 		repaint();
+
+	}
+
+
+	private int centerButtonsOnPanel(JButton... buttons) {
+		int size = 0;
+
+		for(JButton b: buttons){
+			//add the width of this button to the total size
+			size += b.getPreferredSize().width;
+		}
+
+
+
+		int panelWidth = welcomePanel.getPreferredSize().width;
+
+		System.out.println("panel size: "+panelWidth);
+		System.out.println(size);
+
+		int padding = (panelWidth - size) /4;
+
+		return padding;
 
 	}
 
@@ -295,9 +322,11 @@ public class ButtonPanel extends JPanel {
 
 		makeButtonsPretty(loadGame, newGame);
 
-		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical,0))); //pad between buttons
+		int extraPadding = centerButtonsOnPanel(loadGame, newGame);
+
+		add(Box.createRigidArea(new Dimension(extraPadding,0)));
 		add(loadGame);
-		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical,0))); //pad between buttons
+		add(Box.createRigidArea(new Dimension(extraPadding,0)));
 		add(newGame);
 
 
@@ -351,11 +380,13 @@ public class ButtonPanel extends JPanel {
 
 		makeButtonsPretty(client, serverclient);
 
+		int extraPadding = centerButtonsOnPanel(client, serverclient);
+
 		removeAllButtons();
 
-		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical,0))); //pad between buttons
+		add(Box.createRigidArea(new Dimension(extraPadding,0)));
 		add(client);
-		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical,0))); //pad between buttons
+		add(Box.createRigidArea(new Dimension(extraPadding,0)));
 		add(serverclient);
 
 	}

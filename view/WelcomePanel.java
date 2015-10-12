@@ -1,49 +1,24 @@
 package view;
 
-import interpreter.Translator;
-import interpreter.Translator.InitialisationCommand;
+import interpreter.Translator.*;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.HashMap;
-import java.util.List;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import main.Initialisation;
-import main.Main;
 
 /**
  * A subclass of JDialog which welcomes a new player and invites them to choose an avatar
@@ -67,7 +42,7 @@ public class WelcomePanel extends JPanel{
 	private Dimension imageSize = new Dimension(850, 400);
 
 	//static so as to be used in parent constructor
-	private static String welcome = "Welcome to the Happiness Game!";
+	private static String welcome = "The Happiness Game!";
 
 	//this will display different buttons depending on what the user needs to choose
 	private ButtonPanel bPanel;
@@ -75,7 +50,7 @@ public class WelcomePanel extends JPanel{
 	private JPanel sliderPanel;
 
 	//the state decides what to display
-	private Translator.InitialisationCommand state;
+	private InitialisationCommand state;
 
 	private String instructions = "If you wish to start a new game, please click OK, to choose an Avatar!";
 
@@ -104,87 +79,94 @@ public class WelcomePanel extends JPanel{
 
 		this.initialisation = i;
 
-		this.state = Translator.InitialisationCommand.SHOW_CLIENT_SERVER_OPTION;
+		this.state = InitialisationCommand.SHOW_CLIENT_SERVER_OPTION;
 
 		setLayout(new BorderLayout());
 
 		this.parentFrame = i.getFrame();
 
 		//The message is put in a panel, in case new messages will be added later
-		JPanel messagePane = new JPanel();
-		messagePane.setLayout(new BoxLayout(messagePane, BoxLayout.PAGE_AXIS));
+		//		JPanel messagePane = new JPanel();
+		//		messagePane.setLayout(new BoxLayout(messagePane, BoxLayout.PAGE_AXIS));
 
-		//display welcome message in appropriate size.
-		JLabel welcomeMessage = new JLabel(welcome);
+		//display welcome message in appropriate size, with the text centered
+		JLabel welcomeMessage = new JLabel(welcome, SwingConstants.CENTER);
 		welcomeMessage.setFont(new Font("Serif", Font.BOLD, heading1Size));
 		welcomeMessage.setForeground(GameFrame.fontColor);
 
-		messagePane.add(welcomeMessage);
+		//add the welcome message to the panel
+		add(welcomeMessage, BorderLayout.NORTH);
 
-		add(messagePane, BorderLayout.PAGE_START);
+		//create the cupcake image and put on jlabel
+		welcomeImage = ImageLoader.loadImage("cupcake.png");
+		welcomeImage = welcomeImage.getScaledInstance(imageSize.width, imageSize.height, -1);
+		ImageIcon icon = new ImageIcon(welcomeImage);
+		JLabel thumb = new JLabel();
+		thumb.setIcon(icon);
 
-		addWelcomeImage();
+		//add the cupcake image to panel
+		add(thumb, BorderLayout.CENTER);
 
+		//create a button panel and add to this panel
 		bPanel = new ButtonPanel(this, state, initialisation);
 		add(bPanel, BorderLayout.SOUTH);
-
 
 		//display the welcome panel
 		setVisible(true);
 	}
 
-	/*
-	 * Add an image to the screen
+	/**
+	 * This method takes care of the flow of logic when a user first enters the game.
+	 * @param state The new state
 	 */
-
-	private void addWelcomeImage() {
-
-		welcomeImage = ImageLoader.loadImage("cupcake.png");
-		welcomeImage = welcomeImage.getScaledInstance(imageSize.width, imageSize.height, -1);
-
-		ImageIcon icon = new ImageIcon(welcomeImage);
-		JLabel thumb = new JLabel();
-		thumb.setIcon(icon);
-		add(thumb, BorderLayout.CENTER);
-
-	}
-
-	public void transitionToNewState(Translator.InitialisationCommand state){
+	public void transitionToNewState(InitialisationCommand state){
 		bPanel.setVisible(false);
 		this.initState = state;
-		if(state.equals(Translator.InitialisationCommand.SHOW_LOAD_OR_NEW_OPTION)){
+
+		switch(state){
+
+		case SHOW_LOAD_OR_NEW_OPTION:
 			displayLoadNew();
-		}
-		else if(state.equals(Translator.InitialisationCommand.CONNECT_TO_SERVER)){
+			break;
+
+		case CONNECT_TO_SERVER:
 			displayConnect();
-		}
-		else if(state.equals(Translator.InitialisationCommand.LOAD_PLAYER_OR_CREATE_NEW_PLAYER)){
+			break;
+
+		case LOAD_PLAYER_OR_CREATE_NEW_PLAYER:
 			displayLoadCreatePlayerOptions();
-		}
-		else if(state.equals(Translator.InitialisationCommand.LOAD_GAME)){
+			break;
+
+		case LOAD_GAME:
 			if (!loadSavedGame()){	//if they cancelled the load option
-				transitionToNewState(Translator.InitialisationCommand.SHOW_LOAD_OR_NEW_OPTION);
+				transitionToNewState(InitialisationCommand.SHOW_LOAD_OR_NEW_OPTION);
 			}
-		}
-		else if(state.equals(Translator.InitialisationCommand.CHOOSE_SLIDER_OPTIONS)){
+			break;
+
+		case CHOOSE_SLIDER_OPTIONS:
 			displaySliderOptions();
-		}
-		else if(state.equals(Translator.InitialisationCommand.LOAD_SAVED_PLAYER)){
+			break;
+
+		case LOAD_SAVED_PLAYER:
 			displayAvatarOptions(true);
+			break;
 
-		}
-		else if(state.equals(Translator.InitialisationCommand.CREATE_NEW_PLAYER)){
+		case CREATE_NEW_PLAYER:
 			displayAvatarOptions(false);
+			break;
 
-		}
-		else if(state.equals(Translator.InitialisationCommand.START_GAME)){
+		case START_GAME:
 			try {
-				initialisation.notify(Translator.InitialisationCommand.START_GAME.toString());
+				initialisation.notify(InitialisationCommand.START_GAME.toString());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			break;
+
 		}
-		revalidate(); //resize panel to make room for any newly added panels
+
+		//resize panel to make room for any newly added panels
+		revalidate();
 		repaint();
 
 	}
@@ -194,7 +176,7 @@ public class WelcomePanel extends JPanel{
 	 */
 	private void displayLoadCreatePlayerOptions() {
 		remove(bPanel);
-		bPanel = new ButtonPanel(this, Translator.InitialisationCommand.LOAD_PLAYER_OR_CREATE_NEW_PLAYER, initialisation);
+		bPanel = new ButtonPanel(this, InitialisationCommand.LOAD_PLAYER_OR_CREATE_NEW_PLAYER, initialisation);
 		add(bPanel, BorderLayout.SOUTH);
 
 	}
@@ -214,7 +196,6 @@ public class WelcomePanel extends JPanel{
 			try {
 				initialisation.notify("open "+file);
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
@@ -223,7 +204,7 @@ public class WelcomePanel extends JPanel{
 	}
 
 	private void displaySliderOptions() {
-		remove(bPanel); //move this to transition method?
+		remove(bPanel);
 
 		//initialise the slider panel with a vertical box layout
 		sliderPanel = new SliderPanel(this);
@@ -239,7 +220,7 @@ public class WelcomePanel extends JPanel{
 		if(iPanel != null){
 			remove(iPanel); //remove old ipanel if need to redisplay it now
 		}
-		iPanel = new InputPanel(initialisation, Translator.InitialisationCommand.CONNECT_TO_SERVER, validIP);
+		iPanel = new InputPanel(initialisation, InitialisationCommand.CONNECT_TO_SERVER, validIP);
 		add(iPanel, BorderLayout.SOUTH);
 
 		revalidate();
@@ -251,7 +232,7 @@ public class WelcomePanel extends JPanel{
 	 */
 	private void displayLoadNew() {
 		remove(bPanel);
-		bPanel = new ButtonPanel(this, Translator.InitialisationCommand.SHOW_LOAD_OR_NEW_OPTION, initialisation);
+		bPanel = new ButtonPanel(this, InitialisationCommand.SHOW_LOAD_OR_NEW_OPTION, initialisation);
 		add(bPanel, BorderLayout.SOUTH);
 	}
 
@@ -263,8 +244,8 @@ public class WelcomePanel extends JPanel{
 		final String loadSavedMessage = "Select the avatar associated with your Player";
 		final String createNewMessage = "Choose an avatar for your Player";
 
-		final Translator.InitialisationCommand create = Translator.InitialisationCommand.CREATE_NEW_PLAYER;
-		final Translator.InitialisationCommand load = Translator.InitialisationCommand.LOAD_SAVED_PLAYER;
+		final InitialisationCommand create = InitialisationCommand.CREATE_NEW_PLAYER;
+		final InitialisationCommand load = InitialisationCommand.LOAD_SAVED_PLAYER;
 
 		Dialog avatarDialog = new Dialog("Available Avatars", loadingSavedPlayer ? loadSavedMessage : createNewMessage,
 				loadingSavedPlayer ? load : create, initialisation, WelcomePanel.this);
@@ -274,8 +255,7 @@ public class WelcomePanel extends JPanel{
 
 	}
 
-
-	/**	 *
+	/**
 	 * @param c TextField to store in a field
 	 */
 	public void setTextField(JTextField c){
@@ -283,7 +263,7 @@ public class WelcomePanel extends JPanel{
 	}
 
 	public void setValidIP(boolean b) {
-	this.validIP = b;
+		this.validIP = b;
 
 	}
 
