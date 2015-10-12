@@ -53,6 +53,7 @@ public class Player {
 		happiness --;
 		if(happiness < 1){
 			position = startingPosition;
+			happiness = 5;
 		}
 
 	}

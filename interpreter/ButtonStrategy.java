@@ -25,7 +25,6 @@ public class ButtonStrategy implements StrategyInterpreter.Strategy{
 
 	@Override
 	public void notify(String text) {
-		p(text);
 		if(Translator.isCommand(text)){
 			notifyCommand(text);
 		}
@@ -95,8 +94,6 @@ public class ButtonStrategy implements StrategyInterpreter.Strategy{
 
 				msg += selectedItem; //add the index of the item being moved
 				msg += moveTo; //add the new index for the item being moved
-				
-				p(msg);
 
 				try {
 					interpreter.getClient().send(msg);

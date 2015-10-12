@@ -357,11 +357,10 @@ public class Game {
 	public void moveInventory(Player player, int fromSlot, int toSlot) {
 		Item fromItem = player.getItemFromInventory(fromSlot);
 		Item toItem = player.getItemFromInventory(toSlot);
-		
-		if(toItem instanceof Container){
+		if(toItem instanceof Bag){
 			Bag bag = (Bag) toItem;
 			boolean notBag = bag.addItem(fromItem);
-			if(notBag){
+			if(!notBag){
 				player.removeItem(fromSlot);
 			}
 			return;
