@@ -2,7 +2,7 @@ package model.items;
 
 import model.state.Player;
 
-public class Cupcake extends Item{
+public class Cupcake extends Item implements Consumable{
 
 
 

@@ -59,12 +59,12 @@ public class MenuStrategy implements StrategyInterpreter.Strategy{
 			}
 		}
 
-		//TODO Implement this! Bobo
+		//TODO Bobo
 		else if(cmd.equals(Command.SAVE_AS)){
 
 		}
 
-		//TODO Implement this! Bobo
+		//TODO Bobo
 		else if(cmd.equals(Command.LOAD_FILE)){
 
 		}
