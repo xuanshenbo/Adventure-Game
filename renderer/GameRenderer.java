@@ -33,7 +33,10 @@ public class GameRenderer{
 	private boolean doRender = false;
 
 	private int doorIndex = 0;
+	private int playerAnimationIndex = 1;
 	private int times = 0;
+
+	private boolean doAnimation = false;
 
 	public GameRenderer(int width, int height, char[][] view, char[][] objects, GameCanvas canvas){
 
@@ -240,6 +243,14 @@ public class GameRenderer{
 		}
 
 		//door animation control
+		updateAnimation();
+
+		graphic.dispose();
+		canvas.updateImage(outPut);
+
+	}
+
+	private void updateAnimation() {
 		times +=1;
 		if (times > 2) {
 			times = 0;
@@ -248,16 +259,17 @@ public class GameRenderer{
 				doorIndex = 0;
 			}
 		}
-
-		graphic.dispose();
-		canvas.updateImage(outPut);
-
-	}
-
-	private void updateAnimation() {
-		animationIndex++;
+		animationIndex+=1;
 		if (animationIndex > 3){
 			animationIndex = 0;
+			playerAnimationIndex+=1;
+			if (playerAnimationIndex>6){
+				playerAnimationIndex = 1;
+			}
+		}
+
+		if (!doAnimation){
+			playerAnimationIndex = 0;
 		}
 	}
 
@@ -273,35 +285,35 @@ public class GameRenderer{
 		switch (tile){
 			case '1':
 				imageX = (int) x;
-				imageY = (int) (y - images.avatar().get(0).getHeight(null));
-				shadowWidth = images.avatar().get(0).getWidth(null);
-				shadowHeight = images.avatar().get(0).getHeight(null)/2;
+				imageY = (int) (y - images.avatar(0, playerAnimationIndex).getHeight(null));
+				shadowWidth = images.avatar(0, playerAnimationIndex).getWidth(null);
+				shadowHeight = images.avatar(0, playerAnimationIndex).getHeight(null)/2;
 				graphic.drawImage(images.shadow(), imageX, imageY+shadowHeight*3/2, shadowWidth, shadowHeight, null);
-				graphic.drawImage(images.avatar().get(0), imageX, imageY, null);
+				graphic.drawImage(images.avatar(0, playerAnimationIndex), imageX, imageY, null);
 				break;
 			case '2':
 				imageX = (int) x;
-				imageY = (int) (y - images.avatar().get(1).getHeight(null));
-				shadowWidth = images.avatar().get(0).getWidth(null);
-				shadowHeight = images.avatar().get(0).getHeight(null)/2;
+				imageY = (int) (y - images.avatar(1, playerAnimationIndex).getHeight(null));
+				shadowWidth = images.avatar(1, playerAnimationIndex).getWidth(null);
+				shadowHeight = images.avatar(1, playerAnimationIndex).getHeight(null)/2;
 				graphic.drawImage(images.shadow(), imageX, imageY+shadowHeight*3/2, shadowWidth, shadowHeight, null);
-				graphic.drawImage(images.avatar().get(1), imageX, imageY, null);
+				graphic.drawImage(images.avatar(1, playerAnimationIndex), imageX, imageY, null);
 				break;
 			case '3':
 				imageX = (int) x;
-				imageY = (int) (y - images.avatar().get(2).getHeight(null));
-				shadowWidth = images.avatar().get(0).getWidth(null);
-				shadowHeight = images.avatar().get(0).getHeight(null)/2;
+				imageY = (int) (y - images.avatar(2, playerAnimationIndex).getHeight(null));
+				shadowWidth = images.avatar(2, playerAnimationIndex).getWidth(null);
+				shadowHeight = images.avatar(2, playerAnimationIndex).getHeight(null)/2;
 				graphic.drawImage(images.shadow(), imageX, imageY+shadowHeight*3/2, shadowWidth, shadowHeight, null);
-				graphic.drawImage(images.avatar().get(2), imageX, imageY, null);
+				graphic.drawImage(images.avatar(2, playerAnimationIndex), imageX, imageY, null);
 				break;
 			case '4':
 				imageX = (int) x;
-				imageY = (int) (y - images.avatar().get(3).getHeight(null));
-				shadowWidth = images.avatar().get(0).getWidth(null);
-				shadowHeight = images.avatar().get(0).getHeight(null)/2;
+				imageY = (int) (y - images.avatar(3, playerAnimationIndex).getHeight(null));
+				shadowWidth = images.avatar(3, playerAnimationIndex).getWidth(null);
+				shadowHeight = images.avatar(3, playerAnimationIndex).getHeight(null)/2;
 				graphic.drawImage(images.shadow(), imageX, imageY+shadowHeight*3/2, shadowWidth, shadowHeight, null);
-				graphic.drawImage(images.avatar().get(3), imageX, imageY, null);
+				graphic.drawImage(images.avatar(3, playerAnimationIndex), imageX, imageY, null);
 				break;
 			case 'O':
 				imageX = (int) x;
@@ -407,6 +419,14 @@ public class GameRenderer{
 
 	public int getViewDir() {
 		return viewDir;
+	}
+
+	public void doAnimation(){
+		doAnimation = true;
+	}
+
+	public void stopAnimation(){
+		doAnimation = false;
 	}
 
 //	public int getOffsetX(){
