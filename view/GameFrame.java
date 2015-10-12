@@ -269,7 +269,7 @@ public class GameFrame extends JFrame{
 			String toNotify = "";
 
 			if (e.getID() == KeyEvent.KEY_PRESSED) {
-
+				canvas.getRenderer().doAnimation();
 				switch( e.getKeyCode()) {
 				case KeyEvent.VK_UP:
 					if (canvas.getRenderer().getViewDir() == 0)
@@ -303,6 +303,10 @@ public class GameFrame extends JFrame{
 					canvas.getRenderer().rotate();	//TODO this shouldn't be done here
 					break;
 				}
+			}
+
+			if (e.getID() == KeyEvent.KEY_RELEASED) {
+				canvas.getRenderer().stopAnimation();
 			}
 
 			//notify the key interpreter with the appropriate message

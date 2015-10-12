@@ -36,6 +36,8 @@ public class GameRenderer{
 	private int playerAnimationIndex = 1;
 	private int times = 0;
 
+	private boolean doAnimation = false;
+
 	public GameRenderer(int width, int height, char[][] view, char[][] objects, GameCanvas canvas){
 
 		size = view.length;
@@ -265,6 +267,10 @@ public class GameRenderer{
 				playerAnimationIndex = 1;
 			}
 		}
+
+		if (!doAnimation){
+			playerAnimationIndex = 0;
+		}
 	}
 
 	private void drawTile(char tile, double x, double y) {
@@ -413,6 +419,14 @@ public class GameRenderer{
 
 	public int getViewDir() {
 		return viewDir;
+	}
+
+	public void doAnimation(){
+		doAnimation = true;
+	}
+
+	public void stopAnimation(){
+		doAnimation = false;
 	}
 
 //	public int getOffsetX(){
