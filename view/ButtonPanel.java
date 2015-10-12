@@ -436,8 +436,11 @@ public class ButtonPanel extends JPanel {
 
 	}
 
-	//used in WelcomePanel, hence 'package' visibility
-	static void makeButtonsPretty(JButton... buttons) {
+/**
+ * This method is used to turn an average button, into an AMAZING button!
+ * @param buttons The buttons to be prettified
+ */
+	public static void makeButtonsPretty(JButton... buttons) {
 
 		for(JButton b: buttons){
 			javax.swing.border.Border line, raisedbevel, loweredbevel;
@@ -468,6 +471,10 @@ public class ButtonPanel extends JPanel {
 
 	}
 
+	/**
+	 * This method is used to turn an average label, into an AMAZING label!
+	 * @param labels The labels to be prettified
+	 */
 	public static void makeLabelPretty(JLabel... labels){
 
 		for(JLabel label: labels){
@@ -476,7 +483,10 @@ public class ButtonPanel extends JPanel {
 		}
 	}
 
-
+	/**
+	 * This method is used to turn an average radio button, into an AMAZING radio button!
+	 * @param radioButtons The radio buttons to be prettified
+	 */
 	public static void makeRadioButtonPretty(JRadioButton... radioButtons){
 
 		for(JRadioButton rbutton: radioButtons){
