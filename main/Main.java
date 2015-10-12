@@ -28,6 +28,7 @@ import interpreter.Translator;
 public class Main {
 	private static Server server;
 	private static Client client;
+	private static Client avatarClient;
 	private static Initialisation initial;
 	private static int uid;
 	private static Game game;
@@ -102,6 +103,8 @@ public class Main {
 	 */
 	public static void clientMode(InetAddress adr, int port, int uid) throws IOException{
 		try {
+			avatarClient.send("&");//this is to close the avatarClient socket
+			avatarClient = null;
 			Socket socket = new Socket(adr, port);
 			client = new Client(socket);
 			client.setUid(uid);//debug
@@ -129,7 +132,7 @@ public class Main {
 		server = null;
 		try {
 			Socket socket = new Socket(adr, port);
-			Client avatarClient = new Client(socket);
+			avatarClient = new Client(socket);
 			avatarClient.setUid(0);//debug
 			avatarClient.start();
 			initial.setClient(avatarClient);
@@ -211,6 +214,15 @@ public class Main {
 	public static void setIP(String ip) {
 		ipAddress = ip;
 	}
+
+	/**
+	 * a getter for server
+	 * @return
+	 */
+	public static Server getServer() {
+		return server;
+	}
+
 
 
 

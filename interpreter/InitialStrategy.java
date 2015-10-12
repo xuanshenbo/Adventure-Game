@@ -108,8 +108,20 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 		//add to the msg the integer corresponding to which avatar was chosen
 		msg += avatarInteger;
 
-		//TODO different methods for client mode.
-		Main.connectClient(avatarInteger);
+		if(Main.getServer() != null){
+			Main.connectClient(avatarInteger);
+		}
+		else{
+			InetAddress adr = null;
+			try {
+				adr = InetAddress.getByName(ip);
+				Main.clientMode(adr, 8888, avatarInteger);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
 
 		initialisation.setChosenAvatar(a);
 
