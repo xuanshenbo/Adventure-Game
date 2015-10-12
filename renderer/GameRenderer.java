@@ -32,6 +32,9 @@ public class GameRenderer{
 
 	private boolean doRender = false;
 
+	private int doorIndex = 0;
+	private int times = 0;
+
 	public GameRenderer(int width, int height, char[][] view, char[][] objects, GameCanvas canvas){
 
 		size = view.length;
@@ -117,14 +120,19 @@ public class GameRenderer{
 					//in the building tile, draw building and redraw the players and zombies in the right place
 					if (renderState.getBuilding()[y][x] == 'b'){
 						drawTile(renderState.getBuilding()[y][x], screenX, screenY);
+						if (x > 2) {
+							drawTile(renderState.getMap()[y][x - 2], screenX - tileWidth, screenY - tileHeight);
+						}
 						if (x > 0 && x < 29
 								&& y > 3 && y < 31){
 							for (int i = 4; i >= 0; i--){
 								screenX = (startX + halfTileWidth*i) + halfTileWidth * (x+1);
 								screenY = (startY - halfTileHeight*i) + halfTileHeight * (x+1);
+								drawItem(objects[y][x], screenX, screenY);
 								drawTile(renderState.getNpc()[y-i][x+1], screenX, screenY);
 								screenX = (startX + halfTileWidth*i) + halfTileWidth * (x+2);
 								screenY = (startY - halfTileHeight*i) + halfTileHeight * (x+2);
+								drawItem(objects[y][x], screenX, screenY);
 								drawTile(renderState.getNpc()[y-i][x+2], screenX, screenY);
 							}
 						}
@@ -191,6 +199,16 @@ public class GameRenderer{
 
 		}
 
+		//door animation control
+		times +=1;
+		if (times > 2) {
+			times = 0;
+			doorIndex += 1;
+			if (doorIndex > 10) {
+				doorIndex = 0;
+			}
+		}
+
 		graphic.dispose();
 		canvas.updateImage(outPut);
 
@@ -248,7 +266,11 @@ public class GameRenderer{
 			case 'O':
 				imageX = (int) x;
 				imageY = (int) (y - images.chest().getHeight(null)*3/4);
-				graphic.drawImage(images.chest(), imageX, imageY, null);
+				if (viewDir == 1) {
+					graphic.drawImage(images.chest(), imageX, imageY, null);
+				}else{
+					graphic.drawImage(images.chestBack(), imageX, imageY, null);
+				}
 				break;
 			case 'T':
 				imageX = (int)(x-images.tree().getWidth(null)/2 + tileWidth/2);
@@ -266,12 +288,16 @@ public class GameRenderer{
 			case 'b':
 				imageX = (int) (x - tileWidth*2);
 				imageY = (int) (y - images.building().getHeight(null) + tileHeight/2);
-				graphic.drawImage(images.building(), imageX, imageY, null);
+				if(viewDir == 1){
+					graphic.drawImage(images.building(), imageX, imageY, null);
+				}else{
+					graphic.drawImage(images.buildingBack(), imageX, imageY, null);
+				}
 				break;
 			case 'D':
 				imageX = (int) x;
-				imageY = (int) (y - images.door().getHeight(null));
-				graphic.drawImage(images.door(), imageX, imageY, null);
+				imageY = (int) (y - images.door(doorIndex).getHeight(null) + tileHeight/2);
+				graphic.drawImage(images.door(doorIndex), imageX, imageY, null);
 				break;
 			case 'Z':
 				imageX = (int) x;

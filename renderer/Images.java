@@ -24,8 +24,10 @@ public class Images {
 
     private Image treeImage;
     private Image chestImage;
+    private Image chestBackImage;
     private Image buildingImage;
-    private Image doorImage;
+    private Image buildingBackImage;
+    private Image[] doorImages;
     private Image keyImage;
     private Image caveImage;
     private Image shadow;
@@ -43,6 +45,7 @@ public class Images {
         this.imageScale = imageScale;
 
         this.avatarImages = new ArrayList<Image>();
+        this.doorImages = new Image[16];
 
         loadImages();
 
@@ -54,18 +57,24 @@ public class Images {
         this.caveGroundImage = loadImage("caveground.png", imageScale, imageScale*0.6f);
         this.treeImage = loadImage("tree.png", imageScale*2, imageScale*2);
         this.buildingImage = loadImage("building.png", imageScale*5, imageScale*5);
-        this.doorImage = loadImage("door.png", imageScale, imageScale);
+        this.buildingBackImage = loadImage("buildingback.png", imageScale*5, imageScale*5);
         this.caveImage = loadImage("cave2.png", imageScale*2, imageScale*2);
         this.shadow = loadImage("shadow.png", imageScale, imageScale);
 
         //load items images
         this.chestImage = loadImage("chest.png", imageScale, imageScale);
+        this.chestBackImage = loadImage("chestback.png", imageScale, imageScale);
         this.keyImage = loadImage("key.png", imageScale, imageScale*0.6f);
         this.cupcake = loadImage("pumpkin.png", imageScale, imageScale);
         this.bag = loadImage("bag.png", imageScale, imageScale);
 
         //load characters images
         this.zombie = loadImage("zombie.png", imageScale, imageScale);
+
+        //load door images
+        for (int i = 0; i < 16; i++){
+            doorImages[i] = loadImage("door/"+i+".png", imageScale, imageScale);
+        }
 
         for (int i = 0; i < 4; i++){
 //            int avatarImageIndex = new Random().nextInt(3);
@@ -102,8 +111,8 @@ public class Images {
         return buildingImage;
     }
 
-    public Image door(){
-        return doorImage;
+    public Image door(int doorIndex){
+        return doorImages[doorIndex];
     }
 
     public Image key() {
@@ -133,5 +142,13 @@ public class Images {
 
     public Image bag(){
         return bag;
+    }
+
+    public Image buildingBack() {
+        return buildingBackImage;
+    }
+
+    public Image chestBack() {
+        return chestBackImage;
     }
 }
