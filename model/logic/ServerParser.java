@@ -78,10 +78,15 @@ public class ServerParser {
 			}
 			break;
 		case 'Y'://Save As
-			//BOBO TODO
+			try {
+				Serializer.serializeAs(game.getGameState());
+			} catch (JAXBException e) {
+				e.printStackTrace();
+			}
 			break;
 		case 'L'://Loading game
 			//BOBO TODO
+			// set gameState? ask gareth
 			break;
 		case 'J'://Client joins the game
 			game.activatePlayer(id);
@@ -210,7 +215,7 @@ public class ServerParser {
 //					char dayNight = message[2];
 //					p("time:"+time+" "+dayNight);
 //				}
-				
+
 				server.getWriters()[player.getId()].write(message);
 				server.getWriters()[player.getId()].flush();
 			}
