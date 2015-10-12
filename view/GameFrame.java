@@ -98,6 +98,9 @@ public class GameFrame extends JFrame{
 	private ArrayList<String> inventoryContents;
 	private ArrayList<String> containerContents;
 
+	//gap around main buttons/status panel
+	private int gap = 5;
+
 	//have to initialise this here for use in WelcomeDialog
 	private StrategyInterpreter dialogInterpreter = new StrategyInterpreter(this, new DialogStrategy(), null);
 
@@ -210,12 +213,15 @@ public class GameFrame extends JFrame{
 
 		JPanel happinessPanel = createStatusPanel();
 
+		Dimension buttonPanelSize = new Dimension(400, 50);
+
 		botPanel = new ButtonPanel(this, this.buttonInterpreter, Translator.MainGameState.MAIN);
 		botPanel.setOpaque(false);
-		botPanel.setBounds(530, 550, 400, 50);
+		botPanel.setBounds(gamePanelWidth - gap, gamePanelHeight - gap, buttonPanelSize.width, buttonPanelSize.height);
 
 
 		middleLayeredPane.add(happinessPanel, new Integer(1), 0);
+
 		middleLayeredPane.add(botPanel, new Integer(1), 0);
 
 		middleLayeredPane.setPreferredSize(new Dimension(gamePanelWidth, gamePanelHeight));
@@ -234,7 +240,6 @@ public class GameFrame extends JFrame{
 		JLabel ipAddress = new JLabel(ip);
 		JLabel timeLabel = new JLabel("The time is: "+time);
 
-		int gap = 5;
 
 		JLabel statusWindow = new JLabel(){
 			@Override
@@ -275,9 +280,9 @@ public class GameFrame extends JFrame{
 
 
 
-		Dimension statusPanelSize = new Dimension (200, 200);
+		Dimension statusPanelSize = new Dimension (175, 175);
 
-		statusPanel.setBounds(20, -40, statusPanelSize.width, statusPanelSize.height);
+		statusPanel.setBounds(gap, gap, statusPanelSize.width, statusPanelSize.height);
 		return statusPanel;
 	}
 

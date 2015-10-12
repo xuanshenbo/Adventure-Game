@@ -27,24 +27,6 @@ public class MenuStrategy implements StrategyInterpreter.Strategy{
 		if(Translator.isCommand(text)){
 			notifyCommand(text);
 		}
-
-		else if(text.equals("save")){
-			System.out.println("Saving the game...");
-			try {
-				interpreter.getClient().send("Save");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			//			System.out.println("Saving the game...");
-			//			try {
-			//				Serializer.serialize(interpreter.getGame().getGameState());
-			//			} catch (JAXBException ex) {
-			//				System.out.println("Saving failed...");
-			//				return;
-			//			}
-			//			System.out.println("Done!");
-			//notify game
-		}
 	}
 
 	private void notifyCommand(String text) {
@@ -65,6 +47,25 @@ public class MenuStrategy implements StrategyInterpreter.Strategy{
 			}
 			Main.closeServer();
 			System.exit(0);
+
+		}
+
+		else if(cmd.equals(Command.SAVE)){
+			System.out.println("Saving the game...");
+			try {
+				interpreter.getClient().send(Translator.encode(cmd));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		//TODO Implement this! Bobo
+		else if(cmd.equals(Command.SAVE_AS)){
+
+		}
+
+		//TODO Implement this! Bobo
+		else if(cmd.equals(Command.LOAD_FILE)){
 
 		}
 
