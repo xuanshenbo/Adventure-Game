@@ -50,23 +50,13 @@ public class MenuStrategy implements StrategyInterpreter.Strategy{
 
 		}
 
-		else if(cmd.equals(Command.SAVE)){
+		else {
 			System.out.println("Saving the game...");
 			try {
 				interpreter.getClient().send(Translator.encode(cmd));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
-
-		//TODO Bobo
-		else if(cmd.equals(Command.SAVE_AS)){
-
-		}
-
-		//TODO Bobo
-		else if(cmd.equals(Command.LOAD_FILE)){
-
 		}
 
 	}

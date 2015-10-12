@@ -21,14 +21,15 @@ import model.state.GameState;
  */
 public class Serializer {
 
+	// file name of all the saved games will be stored
 	private static final String GAMES_PATH = "games/";
 
+	// macros for saving options chosen by user
 	private static final int OVERWRITE = 1;
 	private static final int SKIP = 0;
 
 	// So no one can accidently create a Serializer class
-	private Serializer() {
-	}
+	private Serializer() {}
 
 	/**
 	 * If the current game is loaded from a file, save the current game and
@@ -77,6 +78,12 @@ public class Serializer {
 		saveAs(m, game);
 	}
 
+	/*
+	 * ===================================================================
+	 * Helper methods below.
+	 * ===================================================================
+	 */
+
 	private static void save(Marshaller marshaller, GameState game, File file)
 			throws JAXBException {
 		marshaller.marshal(game, file);
@@ -115,6 +122,7 @@ public class Serializer {
 		save(marshaller, game, new File(GAMES_PATH + fileNameXml));
 	}
 
+	// a dialog that tells the user the fileName is not valid
 	private static void invalidNameWarning(String fileName) {
 		String[] options = { "OK" };
 		JPanel panel = new JPanel();
@@ -126,13 +134,13 @@ public class Serializer {
 				options, options[0]);
 	}
 
+	// return true if the given name is a valid Linux file name
 	private static boolean isValidName(String fileName) {
-		// Linux valid file names should not contain '/' or '\0' and should be
-		// less than 255 chars long
 		return !fileName.contains("/") && !fileName.isEmpty()
 				&& fileName != null && fileName.length() <= 255;
 	}
 
+	// a option pane tells user that the file name is used in the directory
 	private static int fileExistWarning(String fileName) {
 		String[] options = { "YES", "No", "Cancel" };
 		JPanel panel = new JPanel();
