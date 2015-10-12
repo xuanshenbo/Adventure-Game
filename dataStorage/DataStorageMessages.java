@@ -14,14 +14,22 @@ import javax.swing.JPanel;
  */
 public class DataStorageMessages {
 
-	// macros for saving options chosen by user
 	/**
-	 *
+	 * Represents user's decision to overwrite a file
 	 */
 	public static final int OVERWRITE = 1;
+
+	/**
+	 * Represents user's decision to not to overwrite a file
+	 */
 	public static final int SKIP = 0;
 
-	// a dialog that tells the user the fileName is not valid
+	/**
+	 * Pop up a dialog that tells the user the file name is not a valid Unix
+	 * file name
+	 *
+	 * @param fileName
+	 */
 	public static void invalidNameWarning(String fileName) {
 		String[] options = { "OK" };
 		JPanel panel = new JPanel();
@@ -33,7 +41,13 @@ public class DataStorageMessages {
 				options, options[0]);
 	}
 
-	// a option pane tells user that the file name is used in the directory
+	/**
+	 * Pop up a dialog that tells the user that the given file name exists in
+	 * the directory
+	 *
+	 * @param fileName
+	 * @return
+	 */
 	public static int fileExistWarning(String fileName) {
 		String[] options = { "YES", "No", "Cancel" };
 		JPanel panel = new JPanel();
@@ -48,7 +62,12 @@ public class DataStorageMessages {
 		return selectedOption == 0 ? OVERWRITE : SKIP;
 	}
 
-	// a dialog shows the game has been saved successfully
+	/**
+	 * Pop up a dialog that tells the user that the game has been saved
+	 * successfully
+	 *
+	 * @param file
+	 */
 	public static void saveSuccessNotice(File file) {
 		String[] options = { "OK" };
 		JPanel panel = new JPanel();
