@@ -204,13 +204,15 @@ public class Dialog extends JDialog implements ActionListener {
 	 * Add pictures
 	 */
 	private void displayInventory() {
-		RadioButtonPanel radioPanel = new RadioButtonPanel(parentFrame.getInventoryContents(), parentFrame.getRadioInterpreter(), this, state);
+		RadioButtonPanel radioPanel = new RadioButtonPanel(parentFrame.getInventoryContents(),
+				parentFrame.getRadioInterpreter(), this, state);
 		add(radioPanel);
 		revalidate();
 	}
 
 	private void displayContainer() {
-		RadioButtonPanel radioPanel = new RadioButtonPanel(parentFrame.getContainerContents(), parentFrame.getRadioInterpreter(), this, state);
+		RadioButtonPanel radioPanel = new RadioButtonPanel(parentFrame.getContainerContents(),
+				parentFrame.getRadioInterpreter(), this, state);
 		add(radioPanel);
 		revalidate();
 

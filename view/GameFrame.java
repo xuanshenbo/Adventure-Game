@@ -65,7 +65,7 @@ public class GameFrame extends JFrame{
 	public static final Color col2 = Color.PINK;
 	public static final Color fontColor = Color.PINK;
 	public static final Color buttonFontColor = new Color(0, 128, 255);
-	public static final Color statusBarFontColor = new Color(102, 102, 255);
+	public static final Color statusBarFontColor = new Color(152, 152, 255);
 	public static final Color happinessBarColor = new Color(255, 204, 255);
 	public static final Color statusPanelColour = Color.GRAY;
 
@@ -217,9 +217,9 @@ public class GameFrame extends JFrame{
 		Dimension buttonPanelSize = new Dimension(265, 50);
 
 		botPanel = new ButtonPanel(this, this.buttonInterpreter, Translator.MainGameState.MAIN);
-		botPanel.setOpaque(false);
 
-		System.out.println("x: "+ (gamePanelWidth - buttonPanelSize.width - gap) + "y: " + (gamePanelHeight - buttonPanelSize.height - gap) );
+		//so as to be able to see the game behind the buttons
+		botPanel.setOpaque(false);
 
 		botPanel.setBounds(gamePanelWidth - buttonPanelSize.width - gap, gamePanelHeight - buttonPanelSize.height - gap, buttonPanelSize.width, buttonPanelSize.height);
 

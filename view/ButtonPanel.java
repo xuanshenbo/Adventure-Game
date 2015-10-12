@@ -139,6 +139,7 @@ public class ButtonPanel extends JPanel {
 
 	//should only appear when something has been selected
 	private void displayContainerItemOptions() {
+
 		final JButton move = new JButton("Move to Inventory");
 		move.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -148,9 +149,13 @@ public class ButtonPanel extends JPanel {
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
+					dialog.dispose();
 				}
 			}
 		});
+
+		add(move);
+		makeButtonsPretty(move);
 	}
 
 
