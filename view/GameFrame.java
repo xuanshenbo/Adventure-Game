@@ -3,6 +3,7 @@ package view;
 import interpreter.DialogStrategy;
 import interpreter.StrategyInterpreter;
 import interpreter.Translator;
+import interpreter.Translator.Command;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -81,6 +82,8 @@ public class GameFrame extends JFrame {
 
 	private Avatar avatar;
 
+	private YesNoOptionPane yesno;
+
 	/*
 	 * These are the interpreters which decide what to do with various user
 	 * inputs
@@ -153,28 +156,11 @@ public class GameFrame extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent we) {
 
-				String ObjButtons[] = { "Yes", "No" };
-				int PromptResult = JOptionPane.showOptionDialog(null,
-						"Are you sure you want to exit?", "Happiness Game",
-						JOptionPane.DEFAULT_OPTION,
-						JOptionPane.WARNING_MESSAGE, null, ObjButtons,
-						ObjButtons[1]);
-				if (PromptResult == JOptionPane.YES_OPTION) {
-					/*
-					 * Rather than have a Game Strategy just for this, use the
-					 * menuInterpreter, which also has to deal with requests to
-					 * exit
-					 */
-					try {
-						menuInterpreter.notify(Translator.Command.EXIT
-								.toString());
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
+				yesno = new YesNoOptionPane(Command.EXIT, GameFrame.this, "Happiness Game");
 
-				}
 			}
 		});
+
 
 		KeyboardFocusManager manager = KeyboardFocusManager
 				.getCurrentKeyboardFocusManager();
@@ -627,6 +613,24 @@ public class GameFrame extends JFrame {
 	 */
 	public String getTeamMember2() {
 		return player.getTeamMember2();
+	}
+
+	public void yesSelected(Command state, boolean isYes){
+		if(state.equals(Command.EXIT)){
+			if(isYes){
+				try {
+					/*
+					 * Rather than have a Game Strategy just for this, use the
+					 * menuInterpreter, which also has to deal with requests to
+					 * exit
+					 */
+					menuInterpreter.notify(Translator.Command.EXIT.toString());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			remove(yesno);
+		}
 	}
 
 }
