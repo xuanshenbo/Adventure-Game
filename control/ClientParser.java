@@ -40,7 +40,6 @@ public class ClientParser {
 			readIP(message);
 			break;
 		case 'H'://happiness level
-			p();
 			readHappiness(message);
 			break;
 		case 'M'://map
@@ -50,7 +49,7 @@ public class ClientParser {
 			readInventory(message);
 			break;
 		case 'C'://container information
-			p();
+			p("Received C");
 			readContainer(message);
 			break;
 		case 'T'://time of day
