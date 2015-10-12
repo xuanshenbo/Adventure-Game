@@ -234,6 +234,8 @@ public class GameFrame extends JFrame{
 		JLabel ipAddress = new JLabel(ip);
 		JLabel timeLabel = new JLabel("The time is: "+time);
 
+		int gap = 5;
+
 		JLabel statusWindow = new JLabel(){
 			@Override
 			public void paintComponent(Graphics g){
@@ -268,6 +270,7 @@ public class GameFrame extends JFrame{
 
 		//want to see the map behind panel, so make panel not opaque
 		statusPanel.setBackground(new Color(col2.getRed(), col2.getGreen(), col2.getBlue(), 100));
+
 		//statusPanel.setOpaque(false);
 
 

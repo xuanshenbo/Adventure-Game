@@ -260,10 +260,10 @@ public class Dialog extends JDialog implements ActionListener {
 
 	public void displayItemOptions(boolean isInventory) {
 		if(isInventory){
-			this.itemOptions = new ButtonPanel(Command.DISPLAY_INVENTORY_ITEM_OPTIONS, parentFrame.getButtonInterpreter());
+			this.itemOptions = new ButtonPanel(Command.DISPLAY_INVENTORY_ITEM_OPTIONS, parentFrame.getButtonInterpreter(), this);
 		}
 		else{
-			this.itemOptions = new ButtonPanel(Command.DISPLAY_CONTAINER_ITEM_OPTIONS, parentFrame.getButtonInterpreter());
+			this.itemOptions = new ButtonPanel(Command.DISPLAY_CONTAINER_ITEM_OPTIONS, parentFrame.getButtonInterpreter(), this);
 		}
 		remove(ok);
 		add(itemOptions);
