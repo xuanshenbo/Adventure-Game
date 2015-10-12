@@ -98,7 +98,7 @@ public class Generator {
 		if(buildings  < 1){
 			buildings = 1;
 		}
-		this.caves = buildings/2 * 20;
+		this.caves = buildings/2;
 		if(caves < 1){
 			caves = 1;
 		}
