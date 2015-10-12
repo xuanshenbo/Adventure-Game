@@ -23,17 +23,15 @@ public class Images {
     private Image caveGroundImage;
 
     private Image treeImage;
-    private Image chestImage;
-    private Image chestBackImage;
-    private Image buildingImage;
-    private Image buildingBackImage;
+    private Image[] chestImage;
+    private Image[] buildingImage;
     private Image[] doorImages;
     private Image keyImage;
-    private Image caveImage;
+    private Image[] caveImage;
     private Image shadow;
     private Image zombie;
     private Image bag;
-    private Image cupcake;
+    private Image[] cupcake;
 
 
     private ArrayList<Image> avatarImages;
@@ -46,6 +44,10 @@ public class Images {
 
         this.avatarImages = new ArrayList<Image>();
         this.doorImages = new Image[16];
+        this.cupcake = new Image[2];
+        this.buildingImage = new Image[2];
+        this.chestImage = new Image[2];
+        this.caveImage = new Image[2];
 
         loadImages();
 
@@ -56,16 +58,23 @@ public class Images {
         this.worldGroundImage = loadImage("worldground.png", imageScale, imageScale*0.6f);
         this.caveGroundImage = loadImage("caveground.png", imageScale, imageScale*0.6f);
         this.treeImage = loadImage("tree.png", imageScale*2, imageScale*2);
-        this.buildingImage = loadImage("building.png", imageScale*5, imageScale*5);
-        this.buildingBackImage = loadImage("buildingback.png", imageScale*5, imageScale*5);
-        this.caveImage = loadImage("cave2.png", imageScale*2, imageScale*2);
+
+        buildingImage[0] = loadImage("building.png", imageScale*5, imageScale*5);
+        buildingImage[1] = loadImage("buildingback.png", imageScale*5, imageScale*5);
+
+        caveImage[0] = loadImage("cave3.png", imageScale*2, imageScale*2);
+        caveImage[1] = loadImage("caveback.png", imageScale*2, imageScale*2);
+
         this.shadow = loadImage("shadow.png", imageScale, imageScale);
 
         //load items images
-        this.chestImage = loadImage("chest.png", imageScale, imageScale);
-        this.chestBackImage = loadImage("chestback.png", imageScale, imageScale);
+        chestImage[0] = loadImage("chest.png", imageScale, imageScale);
+        chestImage[1] = loadImage("chestback.png", imageScale, imageScale);
         this.keyImage = loadImage("key.png", imageScale, imageScale*0.6f);
-        this.cupcake = loadImage("cupcake2.png", imageScale, imageScale);
+
+        cupcake[0] = loadImage("cupcake5.png", imageScale, imageScale);
+        cupcake[1] = loadImage("cupcakeback5.png", imageScale, imageScale);
+
         this.bag = loadImage("bag.png", imageScale, imageScale);
 
         //load characters images
@@ -103,12 +112,12 @@ public class Images {
         return treeImage;
     }
 
-    public Image chest(){
-        return chestImage;
+    public Image chest(int dir){
+        return chestImage[dir];
     }
 
-    public Image building(){
-        return buildingImage;
+    public Image building(int dir){
+        return buildingImage[dir];
     }
 
     public Image door(int doorIndex){
@@ -123,7 +132,7 @@ public class Images {
         return avatarImages;
     }
 
-    public Image cave() { return caveImage;
+    public Image cave(int dir) { return caveImage[dir];
     }
 
     public Image caveGround() { return caveGroundImage;
@@ -136,19 +145,12 @@ public class Images {
         return zombie;
     }
 
-    public Image cupcake() {
-        return cupcake;
+    public Image cupcake(int dir) {
+        return cupcake[dir];
     }
 
     public Image bag(){
         return bag;
     }
 
-    public Image buildingBack() {
-        return buildingBackImage;
-    }
-
-    public Image chestBack() {
-        return chestBackImage;
-    }
 }
