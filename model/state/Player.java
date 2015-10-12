@@ -88,6 +88,22 @@ public class Player {
 	public void removeSelectedItem(){
 		selectedItem = null;
 	}
+	
+
+
+	/**
+	 * Called when a player tries to move an item from the 
+	 * open container to their inventory.
+	 * @param  containerSlot
+	 */
+
+	public void moveToInventory(int containerSlot) {
+		boolean added = addItemToInventory(openContainer.getItem(containerSlot));
+		if(added){
+			openContainer.removeItemSlot(containerSlot);
+		}
+		
+	}
 
 	public boolean getKey() {
 		for(int i = 0; i < inventory.length; i++){

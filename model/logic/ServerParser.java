@@ -23,6 +23,7 @@ public class ServerParser {
 	private char[] tempItemArrayStorage = null;
 	private boolean testing;
 	private char[] playerList;
+	private char[] stringMessage;
 
 	public ServerParser(Game game, Server server, boolean testing) {
 		this.game = game;
@@ -65,6 +66,9 @@ public class ServerParser {
 
 		case 'F'://activating frame
 			game.activateFrame();
+			break;
+		case 'Z'://moving item from container to inventory [Z, containerSlot]
+			game.getGameState().getPlayer(id).moveToInventory(Character.getNumericValue(message[1]));
 			break;
 		case 'S'://Saving game
 			try {
@@ -133,6 +137,12 @@ public class ServerParser {
 					message[index++] = view.get(1)[r][c];
 				}
 			}
+		}else if(action == 'm'){
+			message = new char[stringMessage.length+2];
+			message[0] = action;
+			for(int i = 0; i < stringMessage.length; i++){
+				message[i+1] = stringMessage[i];
+			}
 		}else if(action == 'I'){// player inventory
 			char[] inventory = new char[player.getInventory().length];
 			for(int i = 0; i< inventory.length; i++){
@@ -185,6 +195,9 @@ public class ServerParser {
 				if(message[0] == 'H'){
 					p("Server sending Happiness level:"+message[1]);
 				}
+				if(message[0] == 'C'){
+					p("sending container contents");
+				}
 //				if(message[0] == 'T'){
 //					int time = Character.getNumericValue(message[1]);
 //					char dayNight = message[2];
@@ -230,6 +243,16 @@ public class ServerParser {
 		tempItemArrayStorage = itemArray;
 		sendToServer(player, 'I');
 
+	}
+
+	public void sendMessage(Player player, String message){
+		int count = 0;
+		stringMessage = new char[message.length()];
+		while(count < message.length()){
+			char c = message.charAt(count);
+			stringMessage[count++] = c;
+		}
+		sendToServer(player, 'm');
 	}
 
 	public void sendPlayers(Player player, char[] players) {

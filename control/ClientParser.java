@@ -50,6 +50,7 @@ public class ClientParser {
 			readInventory(message);
 			break;
 		case 'C'://container information
+			p();
 			readContainer(message);
 			break;
 		case 'T'://time of day

@@ -347,7 +347,7 @@ public class Game {
 		parser.sendToServer(player, 'M');
 
 	}
-	
+
 	/**
 	 * Called when a player tries to drop an item on the ground, it checks
 	 * that there is not an object on the ground already.
@@ -361,14 +361,6 @@ public class Game {
 		return area.getItems()[row][col] == null;
 	}
 
-	/**
-	 * This method is called when a player moves an item from their inventory to the open container
-	 * or from the open Container to their inventory.
-	 * @param player
-	 * @param inventorySlot: the slot of the item in the players inventory
-	 * @param containerSlot: the slot of the item in the open container.
-	 */
-
 	public void moveInventory(Player player, int fromSlot, int toSlot) {
 		Item fromItem = player.getItemFromInventory(fromSlot);
 		Item toItem = player.getItemFromInventory(toSlot);
@@ -380,46 +372,12 @@ public class Game {
 			}
 			return;
 		}
-		
 		player.getInventory()[fromSlot] = toItem;
 		player.getInventory()[toSlot] = fromItem;
-		
-		
-		parser.sendInventory(player, player.getInventory());;
-		
-		
-		
-		
-		
-//		Item inventoryItem = player.getItemFromInventory(inventorySlot);
-//		Container container = player.getOpenContainer();
-//		Item containerItem = container.getItem(containerSlot);
-//		//no items in either slot, do nothing
-//		if(inventoryItem == null && containerItem == null){
-//		}
-//		//inventorySlot has an item and containerSlot does not, move item from inventory to
-//		//container
-//		else if(inventoryItem != null && containerItem == null){
-//			player.removeItem(inventorySlot);
-//			container.addItem(inventoryItem);
-//		}
-//		//ContainerSlot has an item and InventorySlot does not, move item from container to
-//		//inventory
-//		else if(containerItem != null && inventoryItem == null){
-//			player.addItemToInventory(containerItem);
-//			container.removeItemSlot(containerSlot);
-//		}
-//		//Else both InventorySlot and ContainerSlot are both full and we swap the items
-//		else{
-//			player.removeItem(inventorySlot);
-//			container.addItem(inventoryItem);
-//			player.addItemToInventory(containerItem);
-//			container.removeItemSlot(containerSlot);
-//		}
 
+		parser.sendInventory(player, player.getInventory());;
 
 	}
-
 
 	/**
 	 * Called when a player selects an item.
