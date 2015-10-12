@@ -430,18 +430,12 @@ public class GameFrame extends JFrame{
 		}
 	}
 
-	/*******************************************************************************************************
-	 * TODO Server needs to do the following:
-	 * 1) set Inventory/Container Contents
-	 * 2) add Inventory/Container Dialog
-	 *
-	 *******************************************************************************************************/
-
 	/**
 	 * Set the inventory contents.
 	 * @param inventory The list of items as lower-case Strings
 	 */
 	public void setInventoryContents(ArrayList<String> inventory){
+		System.out.println("inventory contents.");
 		inventoryContents = inventory;
 		addInventoryDialog();
 	}
@@ -630,6 +624,10 @@ public class GameFrame extends JFrame{
 
 	public Avatar getAvatar() {
 		return avatar;
+	}
+
+	public void displayMessageFromGame(String msg){
+		JOptionPane.showMessageDialog(this, msg);
 	}
 
 }
