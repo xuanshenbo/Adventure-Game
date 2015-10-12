@@ -420,7 +420,7 @@ public class Game {
 		gameState.getPlayer(id).makeInactive();
 
 	}
-	
+
 	/**
 	 * This sends an array of available players to the server
 	 * when requested.
@@ -438,7 +438,10 @@ public class Game {
 			}
 		}
 		Player player = gameState.getPlayer(id);
-		
+		if(player == null){
+			player = new Player(0);
+		}
+		System.out.println("Game 441: before sending players");//debug
 		parser.sendPlayers(player, players);
 	}
 

@@ -115,7 +115,7 @@ public class GameFrame extends JFrame{
 	private Dimension buttonPanelSize = new Dimension(265, 50);
 
 	//used for deciding what to do if the user tries to exit
-	private boolean isServerMode = false;
+	//private boolean isServerMode = false;
 
 	/**
 	 * First a WelcomeDialog is displayed and then the constructor sets up the KeyListener
@@ -508,9 +508,9 @@ public class GameFrame extends JFrame{
 	/**
 	 * @return true if this player is in server mode
 	 */
-	public boolean isServerMode() {
+	/*public boolean isServerMode() {
 		return isServerMode;
-	}
+	}*/
 
 	/**
 	 *

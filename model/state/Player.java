@@ -45,6 +45,10 @@ public class Player {
 //		inventory[1] = new Key();
 	}
 
+	public Player(int id){
+		this.id = id;
+	}
+
 
 
 	public void increaseHappiness() {
@@ -88,11 +92,11 @@ public class Player {
 	public void removeSelectedItem(){
 		selectedItem = null;
 	}
-	
+
 
 
 	/**
-	 * Called when a player tries to move an item from the 
+	 * Called when a player tries to move an item from the
 	 * open container to their inventory.
 	 * @param  containerSlot
 	 */
@@ -102,7 +106,7 @@ public class Player {
 		if(added){
 			openContainer.removeItemSlot(containerSlot);
 		}
-		
+
 	}
 
 	public boolean getKey() {
@@ -111,14 +115,14 @@ public class Player {
 				inventory[i] = null;
 				return true;
 			}else if(inventory[i] instanceof Bag){
-				Bag bag = (Bag)inventory[i]; 
+				Bag bag = (Bag)inventory[i];
 				for(int j = 0; j < bag.open().length; j++){
 					if(bag.open()[i] instanceof Key){
 						bag.open()[i] = null;
 						return true;
 					}
 				}
-			}			
+			}
 		}
 		return false;
 	}
@@ -183,10 +187,10 @@ public class Player {
 	public void setOpenContainer(Container container){
 		openContainer = container;
 	}
-	
+
 	public void addChest(ChestTile container) {
 		openedChests.add(container);
-		
+
 	}
 
 	public boolean hasOpenedChest(ChestTile container) {
@@ -253,7 +257,7 @@ public class Player {
 
 
 
-	
+
 
 
 

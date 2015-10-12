@@ -73,8 +73,7 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 				String msg = Translator.encode(cmd);
 				initialisation.getClient().send(msg);
 
-
-				initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.LOAD_SAVED_PLAYER);
+				//initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.LOAD_SAVED_PLAYER);
 			}
 			catch (IOException e) {
 				//if invalid ip address entered, return to input state

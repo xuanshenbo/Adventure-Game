@@ -215,7 +215,7 @@ public class ServerParser {
 //					char dayNight = message[2];
 //					p("time:"+time+" "+dayNight);
 //				}
-
+				//System.out.println("ServerParser 218: before server sends the message");//debug
 				server.getWriters()[player.getId()].write(message);
 				server.getWriters()[player.getId()].flush();
 			}
@@ -274,6 +274,7 @@ public class ServerParser {
 		for(int i = 0; i < players.length; i++){
 			p(players[i]);
 		}
+		System.out.println("ServerParser 277: send player");///debug
 		sendToServer(player, 'R');
 	}
 

@@ -172,15 +172,15 @@ public class Server extends Thread{
 		public Void call() {
 			try {
 				Reader in = new InputStreamReader(connection.getInputStream());
-				char[] input = new char[2];
-				in.read(input);
-				id = Character.getNumericValue(input[1]);
+				char[] received = new char[2];
+				in.read(received);
+				id = Character.getNumericValue(received[1]);
 				//p("id: "+id);//debug
 
 				Writer out = new OutputStreamWriter(connection.getOutputStream());
 				writers[id] = out;
 				if(id != 0){
-					game.getParser().processClientEvent(input, out, id);
+					game.getParser().processClientEvent(received, out, id);
 				}
 				out.write("A"+address.getHostAddress().toString()+"X");// 'X' indicates the end of the message
 				out.flush();
@@ -201,8 +201,15 @@ public class Server extends Thread{
 					char[] message = new char[256];
 					//System.out.println("Stuck for twice");
 					in.read(message);
-					if(message[0] == '&'){
-						System.out.println("close the avatar client");
+					if(message[0] == '&'){//turn off the avatar client
+						System.out.println("Server 205: close the avatar client");//debug
+						writers[0] = null;
+						break;
+					}
+					else if(message[0] == 'Q'){
+						System.out.println("Server 210: close the client");//debug
+						game.getParser().processClientEvent(message, out, id);
+						writers[id] = null;
 						break;
 					}
 					/*int counter = 0;
@@ -211,10 +218,10 @@ public class Server extends Thread{
 					for(int i=0; i<message.length; i++){
 						if(message[i] == '\0' || message[i] == '\r' || message[i] == '\n') break;
 						input += message[i];
-					}*/
+					}
 
-					//System.out.println("======================"+input+"====================");//debug
-
+					System.out.println("======================"+input+"====================");//debug
+*/
 					//System.out.println("server printed input");//debug
 					//feedback(input, out, id);
 					game.getParser().processClientEvent(message, out, id);

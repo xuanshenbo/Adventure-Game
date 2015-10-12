@@ -183,6 +183,7 @@ public class Dialog extends JDialog implements ActionListener {
 		List<JRadioButton> buttons = new ArrayList<JRadioButton>();
 
 		for(final Avatar a: availAvatars){
+			System.out.println("Dialog 186: "+a.toString());//debug
 			JRadioButton avatar = new JRadioButton(a.toString());
 
 			ButtonPanel.makeRadioButtonPretty(avatar);

@@ -61,7 +61,17 @@ public class Client extends Thread {
 				char[] message = new char[1924];
 				//System.out.println("client starts reading");//debug
 				input.read(message);
-				//System.out.println("client run");//debug
+
+				/*String receive = "";
+				if(message[0] != '\0'){
+					for(int i=0; i<message.length; i++){
+						if(message[i] == '\0'|| message[i] == '\r' || message[i] == '\n' || message[i] == 'X') break;
+						receive+=message[i];
+						//System.out.print(message[i]);
+					}
+					System.out.println(receive);
+				}*/
+
 				parser.processMessage(message);
 
 				//only do something if the message is not null
