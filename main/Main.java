@@ -103,12 +103,13 @@ public class Main {
 	 */
 	public static void clientMode(InetAddress adr, int port, int uid) throws IOException{
 		try {
-			avatarClient.send("&");//this is to close the avatarClient socket
-			avatarClient = null;
+			//avatarClient.send("&");//this is to close the avatarClient socket
+			//avatarClient = null;
 			Socket socket = new Socket(adr, port);
 			client = new Client(socket);
 			client.setUid(uid);//debug
 			client.start();
+			initial.setClient(client);
 		}
 
 		catch(java.net.ConnectException e){
