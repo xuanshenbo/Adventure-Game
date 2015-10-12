@@ -56,7 +56,7 @@ public class Translator {
 		return null;
 	}
 
-	public static boolean isInitialisationState(String text) {
+	public static boolean isInitialisationCommand(String text) {
 
 		//iterate through each value in InitialisationState
 		for(InitialisationCommand s : InitialisationCommand.values()){

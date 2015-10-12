@@ -2,6 +2,8 @@ package control;
 
 import java.util.ArrayList;
 
+import main.Main;
+import view.Avatar;
 import view.GameFrame;
 import static utilities.PrintTool.p;
 
@@ -49,8 +51,35 @@ public class ClientParser {
 		case 'C'://container information
 			readContainer(message);
 			break;
+		case 'R':
+			readAvatar(message);
 		default:
 		}
+	}
+
+	/**
+	 * The following parses the available avatars and passes it to the initialisation
+	 * @param message
+	 */
+	private void readAvatar(char[] message) {
+		System.out.println("Got available avatars");//debug
+		ArrayList<Avatar> avatars = new ArrayList<Avatar>();
+		loop: for(int i=1; i<message.length; i++){
+			switch(message[i]){
+			case 'Y':
+				avatars.add(Avatar.getAvatarFromInt(i));
+				break;
+			case 'N':
+				break;
+			case 'X':
+				char[] newMessage = separateMessage(message, i);
+				if(newMessage != null) processMessage(newMessage);
+				break loop;
+			default:
+				System.out.println("unknown avatar");
+			}
+		}
+		Main.getInitial().setAvatars(avatars);
 	}
 
 	/**
