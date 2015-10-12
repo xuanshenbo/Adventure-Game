@@ -26,7 +26,7 @@ public class Images {
     private Image[] chestImage;
     private Image[] buildingImage;
     private Image[] doorImages;
-    private Image keyImage;
+    private Image[] keyImage;
     private Image[] caveImage;
     private Image shadow;
     private Image zombie;
@@ -48,6 +48,7 @@ public class Images {
         this.buildingImage = new Image[2];
         this.chestImage = new Image[2];
         this.caveImage = new Image[2];
+        this.keyImage = new Image[2];
 
         loadImages();
 
@@ -70,7 +71,10 @@ public class Images {
         //load items images
         chestImage[0] = loadImage("chest.png", imageScale, imageScale);
         chestImage[1] = loadImage("chestback.png", imageScale, imageScale);
-        this.keyImage = loadImage("key.png", imageScale, imageScale*0.6f);
+
+
+        keyImage[0] = loadImage("key.png", imageScale, imageScale*0.6f);
+        keyImage[1] = loadImage("keyback.png", imageScale, imageScale*0.6f);
 
         cupcake[0] = loadImage("cupcake5.png", imageScale, imageScale);
         cupcake[1] = loadImage("cupcakeback5.png", imageScale, imageScale);
@@ -124,8 +128,8 @@ public class Images {
         return doorImages[doorIndex];
     }
 
-    public Image key() {
-        return keyImage;
+    public Image key(int dir) {
+        return keyImage[dir];
     }
 
     public ArrayList<Image> avatar(){

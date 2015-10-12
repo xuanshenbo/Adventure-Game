@@ -185,6 +185,8 @@ public class GameRenderer{
 					}
 					//in the cave tile, draw cave
 					else if (renderState.getBuilding()[y][x] == 'c'){
+						screenX += tileWidth*0.8;
+						screenY += tileHeight*1.6;
 						drawTile(renderState.getBuilding()[y][x], screenX, screenY);
 					}
 					//in all other tiles, draw objects and npcs
@@ -298,7 +300,7 @@ public class GameRenderer{
 				break;
 			case 'Z':
 				imageX = (int) x;
-				imageY = (int) (y - images.key().getHeight(null));
+				imageY = (int) (y - images.zombie().getHeight(null));
 				graphic.drawImage(images.zombie(), imageX, imageY, null);
 				break;
 			default:
@@ -318,8 +320,8 @@ public class GameRenderer{
 		switch (item) {
 			case 'k':
 				imageX = (int) x;
-				imageY = (int) (y - images.key().getHeight(null)+tileHeight/2);
-				graphic.drawImage(images.key(), imageX, imageY, null);
+				imageY = (int) (y - images.key(viewDir).getHeight(null)+tileHeight/2);
+				graphic.drawImage(images.key(viewDir), imageX, imageY, null);
 				break;
 			case 'c':
 				imageX = (int) x;
