@@ -231,7 +231,8 @@ public class Game {
 		}
 		if (toTile != null && toTile.isContainer()) {
 			ChestTile container = (ChestTile) toTile;
-			if(player.getKey()){
+			if(player.getKey() || player.hasOpenedChest(container)){
+				player.addChest(container);
 				player.setOpenContainer(container);
 				Item[] items = container.open();
 				parser.sendContainer(player, items);

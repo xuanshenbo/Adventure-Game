@@ -5,7 +5,9 @@
 package model.state;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -15,7 +17,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import model.items.Bag;
 import model.items.Item;
 import model.items.Key;
-
+import model.tiles.ChestTile;
 import static utilities.PrintTool.p;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -31,6 +33,7 @@ public class Player {
 	private Item selectedItem = null;
 	private Container openContainer = null;
 	private Position startingPosition;
+	private Set<ChestTile> openedChests = new HashSet<ChestTile>();
 
 	public Player(Position p, int id) {
 		this.position = p;
@@ -163,6 +166,15 @@ public class Player {
 	public void setOpenContainer(Container container){
 		openContainer = container;
 	}
+	
+	public void addChest(ChestTile container) {
+		openedChests.add(container);
+		
+	}
+
+	public boolean hasOpenedChest(ChestTile container) {
+		return openedChests.contains(container);
+	}
 
 	public String toString() {
 		return Integer.toString(id);
@@ -221,6 +233,10 @@ public class Player {
 	public Container getOpenContainer(){
 		return openContainer;
 	}
+
+
+
+	
 
 
 
