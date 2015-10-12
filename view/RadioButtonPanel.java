@@ -27,7 +27,6 @@ public class RadioButtonPanel extends JPanel {
 
 	private StrategyInterpreter buttonInterpreter;
 
-
 	private Dimension imageSize = new Dimension(50, 50);
 
 	private Dialog containerDialog;

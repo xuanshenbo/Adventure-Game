@@ -73,7 +73,11 @@ public class ServerParser {
 				e.printStackTrace();
 			}
 			break;
+		case 'Y'://Save As
+			//BOBO TODO
+			break;
 		case 'L'://Loading game
+			//BOBO TODO
 			break;
 		case 'J'://Client joins the game
 			game.activatePlayer(id);
@@ -138,16 +142,16 @@ public class ServerParser {
 			}
 			message = new char[inventory.length+2];
 			message[0] = action;
-			for(int i = 0; i < inventory.length; i++){				
+			for(int i = 0; i < inventory.length; i++){
 				message[i+1] = inventory[i];
 			}
-			
+
 		}else if(action == 'H'){// player happiness
 			int happiness = player.getHappiness();
 			message = new char[3];
 			message[0] = action;
 			message[1] = (char)(happiness +'0');
-			
+
 		}else if(action == 'C'){// container inventory information
 			message = new char[tempItemArrayStorage.length+2];
 			message[0] = action;
