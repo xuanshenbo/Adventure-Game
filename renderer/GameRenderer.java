@@ -95,6 +95,7 @@ public class GameRenderer{
 		//draw from the normal view direction
 		if (viewDir == 0) {
 
+			//draw background tiles
 			for (int y = 0; y < viewHeight; y++) {
 				for (int x = 0; x < viewWidth; x++) {
 					if(renderState.getMap()[y][x] != '\u0000') {
@@ -115,32 +116,46 @@ public class GameRenderer{
 				for (int x = 0; x < viewWidth; x++) {
 					screenX = startX + halfTileWidth * x;
 					screenY = startY + halfTileHeight * x;
-					//draw map elements such as chests
+
+					//draw map elements such as chests and trees
 					drawTile(renderState.getMap()[y][x], screenX, screenY);
-					//in the building tile, draw building and redraw the players and zombies in the right place
+
+					//in the building tile, draw building and redraw all the other elements in the right place
 					if (renderState.getBuilding()[y][x] == 'b'){
 						drawTile(renderState.getBuilding()[y][x], screenX, screenY);
-						if (x > 2) {
-							drawTile(renderState.getBuilding()[y][x - 2], screenX - tileWidth, screenY - tileHeight);
+						if (x > 1) {
+							drawTile(renderState.getMap()[y][x - 2], screenX - tileWidth, screenY - tileHeight);
 						}
+						//after drawing a building, redraw objects and charactors to keep all elements in the right place
 						if (x > 0 && x < 29
 								&& y > 3 && y < 31){
+							//redraw objects and chatactors
 							for (int i = 4; i >= 0; i--){
-								screenX = (startX + halfTileWidth*i) + halfTileWidth * (x+1);
-								screenY = (startY - halfTileHeight*i) + halfTileHeight * (x+1);
-								drawItem(objects[y][x], screenX, screenY);
-								drawTile(renderState.getNpc()[y-i][x+1], screenX, screenY);
-								screenX = (startX + halfTileWidth*i) + halfTileWidth * (x+2);
-								screenY = (startY - halfTileHeight*i) + halfTileHeight * (x+2);
-								drawItem(objects[y][x], screenX, screenY);
-								drawTile(renderState.getNpc()[y-i][x+2], screenX, screenY);
+								for (int j = 1; j < 3; j++) {
+									screenX = (startX + halfTileWidth * i) + halfTileWidth * (x + j);
+									screenY = (startY - halfTileHeight * i) + halfTileHeight * (x + j);
+									drawItem(objects[y - i][x + j], screenX, screenY);
+									drawTile(renderState.getNpc()[y - i][x + j], screenX, screenY);
+								}
+							}
+							//redraw trees and chests
+							if (x < 27){
+								for (int i = 4; i >= 0; i--){
+									for (int j = 1; j < 5; j++) {
+										screenX = (startX + halfTileWidth * i) + halfTileWidth * (x + j);
+										screenY = (startY - halfTileHeight * i) + halfTileHeight * (x + j);
+										drawTile(renderState.getMap()[y - i][x + j], screenX, screenY);
+									}
+								}
 							}
 						}
 					}
+
 					//in the cave tile, draw cave
 					else if (renderState.getBuilding()[y][x] == 'c'){
 						drawTile(renderState.getBuilding()[y][x], screenX, screenY);
 					}
+
 					//in all other tiles, draw objects and npcs
 					else {
 						drawItem(objects[y][x], screenX, screenY);
@@ -156,6 +171,7 @@ public class GameRenderer{
 		//draw from the back view direction
 		else if (viewDir == 1){
 
+			//draw background tiles
 			for (int y = viewHeight -1; y >= 0; y--) {
 				for (int x = viewWidth -1; x >= 0; x--) {
 					if(renderState.getMap()[y][x] != '\u0000') {
@@ -171,28 +187,50 @@ public class GameRenderer{
 			startX = width/2;
 			startY = screenOffsetY;
 
+			//draw view and objects
 			for (int y = viewHeight -1; y >= 0; y--) {
 				for (int x = viewWidth -1; x >= 0; x--) {
 					screenX = startX + halfTileWidth * (viewWidth-1-x);
 					screenY = startY + halfTileHeight * (viewWidth-1-x);
+
 					//draw map elements such as chests
 					drawTile(renderState.getMap()[y][x], screenX, screenY);
-					//in the building tile, draw building and redraw the players and zombies in the right place
+
+					//in the building tile, draw building
 					if (renderState.getBuilding()[y][x] == 'b'){
 						screenX += tileWidth*0.5;
 						screenY += tileHeight*3.5;
 						drawTile(renderState.getBuilding()[y][x], screenX, screenY);
 					}
+
 					//in the cave tile, draw cave
 					else if (renderState.getBuilding()[y][x] == 'c'){
 						screenX += tileWidth*0.8;
 						screenY += tileHeight*1.6;
 						drawTile(renderState.getBuilding()[y][x], screenX, screenY);
 					}
-					//in all other tiles, draw objects and npcs
+
+					//in all other tiles, draw objects and npcs,
 					else {
 						drawItem(objects[y][x], screenX, screenY);
-						drawTile(renderState.getNpc()[y][x], screenX, screenY);
+						if (renderState.getNpc()[y][x] != '\u0000'
+								&& renderState.getNpc()[y][x] != 'N') {
+							drawTile(renderState.getNpc()[y][x], screenX, screenY);
+							// if a building is under any charactors,
+							// redraw the building to the right place
+							if (x > 4 && x < 31
+									&& y > 0 && y < 28) {
+								for (int i = 0; i < 4; i++) {
+									for (int j = 1; j < 4; j++) {
+										if (renderState.getBuilding()[y + i][x - j] == 'b') {
+											screenX = startX + halfTileWidth * i + halfTileWidth * (viewWidth - 1 - x + j) + tileWidth*0.5;
+											screenY = startY - halfTileHeight * i + halfTileHeight * (viewWidth - 1 - x + j) + tileHeight*3.5;
+											drawTile(renderState.getBuilding()[y + i][x - j], screenX, screenY);
+										}
+									}
+								}
+							}
+						}
 					}
 				}
 				startX -= halfTileWidth;
