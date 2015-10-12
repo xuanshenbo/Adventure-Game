@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -282,9 +283,6 @@ public class ButtonPanel extends JPanel {
 
 		int panelWidth = welcomePanel.getPreferredSize().width;
 
-		System.out.println("panel size: "+panelWidth);
-		System.out.println(size);
-
 		int padding = (panelWidth - size) /4;
 
 		return padding;
@@ -418,8 +416,13 @@ public class ButtonPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e){
+				String teamMember1 = randomTeamMember();
+				String teamMember2 = randomTeamMember();
+				while(teamMember1.equals(teamMember2)){
+					teamMember2 = randomTeamMember();
+				}
 				JOptionPane.showMessageDialog(containerFrame,
-						"Your team includes Ronald McDonald and Bottomley Potts",
+						"Your team includes "+teamMember1+" and "+teamMember2,
 						"Team",
 						JOptionPane.WARNING_MESSAGE);
 			}
@@ -434,6 +437,19 @@ public class ButtonPanel extends JPanel {
 
 		revalidate();
 
+	}
+
+protected String randomTeamMember() {
+		ArrayList<String> teamMembers = new ArrayList<String>();
+		teamMembers.add("Hercules Morse");
+		teamMembers.add("Ronald McDonald");
+		teamMembers.add("Bottomley Potts");
+		teamMembers.add("Scarface Claw");
+		teamMembers.add("Bitzer Maloney");
+		teamMembers.add("Schnitzel von Krumm");
+
+		int random = (int) (Math.random()*teamMembers.size());
+		return teamMembers.get(random);
 	}
 
 /**
