@@ -175,7 +175,7 @@ public class Server extends Thread{
 				char[] input = new char[2];
 				in.read(input);
 				id = Character.getNumericValue(input[1]);
-				p("id: "+id);//debug
+				//p("id: "+id);//debug
 
 				Writer out = new OutputStreamWriter(connection.getOutputStream());
 				writers[id] = out;
@@ -202,6 +202,7 @@ public class Server extends Thread{
 					//System.out.println("Stuck for twice");
 					in.read(message);
 					if(message[0] == '&'){
+						System.out.println("close the avatar client");
 						break;
 					}
 					/*int counter = 0;

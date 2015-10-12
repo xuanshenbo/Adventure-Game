@@ -73,16 +73,6 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 				String msg = Translator.encode(cmd);
 				initialisation.getClient().send(msg);
 
-				/*Socket socket = new Socket(adr, 8888);
-				Client avatarClient = new Client(socket);
-				client.setUid(4);//debug
-				client.start();
-				initial.setClient(client);*/
-
-				/*Client avatarClient =
-				Main.clientMode(adr, 8888);
-				Main.setIP(ip);*/
-
 
 				initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.LOAD_SAVED_PLAYER);
 			}
@@ -110,6 +100,7 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 
 		initialisation.setChosenAvatar(a);
 
+
 		if(Main.getServer() != null){
 			Main.connectClient(avatarInteger);
 		}
@@ -126,11 +117,7 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 		}
 
 
-
 		initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.START_GAME);
-
-
-
 	}
 
 	private void notifyCommand(String text) {

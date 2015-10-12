@@ -197,6 +197,7 @@ public class ClientParser {
 	 * @param message
 	 */
 	public void readIP(char[] message){
+		//System.out.println("IP is being read in the client parser");//debug
 		String receive = "";
 		int i = 1;
 		for(; i<message.length; i++){
@@ -206,8 +207,11 @@ public class ClientParser {
 		}
 		client.setIPaddress(receive);
 		//client.setUid(Character.getNumericValue(message[++i]));
-		System.out.println(client.getIPaddress());//debug
-		System.out.println(client.getUid());//debug
+		System.out.println("ClientParser 210: "+client.getIPaddress());//debug
+		System.out.println("ClientParser 211: "+client.getUid());//debug
+		if(Main.ipIsNull()){
+			Main.setIP(receive);
+		}
 	}
 
 	/**

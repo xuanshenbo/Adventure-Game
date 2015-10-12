@@ -89,6 +89,7 @@ public class Main {
 			client.setUid(id);
 			//Writer output = client.getOutput()repaint;
 			client.start();
+			//System.out.println("The client should be set after ip is read");//debug
 			initial.setClient(client);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -103,8 +104,8 @@ public class Main {
 	 */
 	public static void clientMode(InetAddress adr, int port, int uid) throws IOException{
 		try {
-			//avatarClient.send("&");//this is to close the avatarClient socket
-			//avatarClient = null;
+			avatarClient.send("&");//this is to close the avatarClient socket
+			avatarClient = null;
 			Socket socket = new Socket(adr, port);
 			client = new Client(socket);
 			client.setUid(uid);//debug
@@ -120,7 +121,7 @@ public class Main {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		displayMainGameFrame();//debug
+		//displayMainGameFrame();//debug
 	}
 
 	/**
@@ -137,27 +138,29 @@ public class Main {
 			avatarClient.setUid(0);//debug
 			avatarClient.start();
 			initial.setClient(avatarClient);
+			avatarClient.send("R");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public static void displayMainGameFrame() throws IOException{
-		if(!devMode){closeWelcome();}
+		closeWelcome();
+		/*if(!devMode){closeWelcome();}
 		else{
 //			clientMode();
-		}
+		}*/
 
 		/*
 		 * Initialise StrategyInterpreters here so as to pass the interpreter to the Strategy constructors
 		 */
+		//System.out.println("main.display is called?");//debug
 		StrategyInterpreter keyInterpreter = null;
 		StrategyInterpreter buttonInterpreter = null;
 		StrategyInterpreter menuInterpreter = null;
 		StrategyInterpreter radioInterpreter = null;
 
 		frame = new GameFrame("Adventure Game");
-
 		//set the chosen avatar
 		frame.setAvatar(initial.getChosenAvatar());
 
@@ -174,6 +177,7 @@ public class Main {
 
 		//set the ip address of the client for display
 		ipAddress = client.getIPaddress();
+		//System.out.println("Main 180: This ip is "+ipAddress);//debug
 		frame.setIP(ipAddress);
 
 		frame.setUpLayoutAndDisplay();
@@ -224,7 +228,21 @@ public class Main {
 		return server;
 	}
 
+	/**
+	 * set the ip string on the frame
+	 * @param ip
+	 */
+	public static void setFrameIP(String ip){
+		frame.setIP(ipAddress);
+	}
 
+	/**
+	 * Check if the ip address in null at this stage
+	 * @return
+	 */
+	public static boolean ipIsNull(){
+		return ipAddress == null;
+	}
 
 
 	/* A getter for the client

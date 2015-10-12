@@ -210,7 +210,7 @@ public class ServerParser {
 //					char dayNight = message[2];
 //					p("time:"+time+" "+dayNight);
 //				}
-				
+
 				server.getWriters()[player.getId()].write(message);
 				server.getWriters()[player.getId()].flush();
 			}
