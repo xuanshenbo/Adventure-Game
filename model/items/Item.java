@@ -17,7 +17,7 @@ import model.state.Player;
  * @author flanagdonn
  *
  */
-@XmlSeeAlso({ Bag.class, Key.class })
+@XmlSeeAlso({ Bag.class, Cupcake.class, Key.class, Pumpkin.class })
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class Item {
 

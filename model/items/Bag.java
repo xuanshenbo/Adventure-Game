@@ -1,9 +1,12 @@
 package model.items;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import model.logic.Generator;
 import model.state.Container;
 import model.state.Player;
 
+@XmlRootElement
 public class Bag extends Item implements Container {
 
 	private Item[] inventory = new Item[3];

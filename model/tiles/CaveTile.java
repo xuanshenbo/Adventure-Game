@@ -1,9 +1,14 @@
 package model.tiles;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
+
 import model.logic.Game.Direction;
 import model.state.Player;
 import model.state.Position;
 
+@XmlSeeAlso({ CaveAnchorTile.class })
+@XmlRootElement
 public class CaveTile implements Tile {
 
 	private char id = 'C';

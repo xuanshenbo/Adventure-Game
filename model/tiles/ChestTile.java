@@ -1,7 +1,8 @@
 package model.tiles;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import model.items.Item;
-import model.items.Key;
 import model.logic.Game.Direction;
 import model.logic.Generator;
 import model.state.Container;
@@ -9,6 +10,7 @@ import model.state.Player;
 import model.state.Position;
 import static utilities.PrintTool.p;
 
+@XmlRootElement
 public class ChestTile implements Tile, Container{
 
 	private char id = 'O';
@@ -18,6 +20,12 @@ public class ChestTile implements Tile, Container{
 	public ChestTile(Position position, String difficulty){
 		this.position = position;
 		fillChest(difficulty);
+	}
+
+	// JAXB needs a no-arg default constructor to instance ChestTile
+	@SuppressWarnings("unused")
+	private ChestTile() {
+		this(null, null);
 	}
 
 	/**
