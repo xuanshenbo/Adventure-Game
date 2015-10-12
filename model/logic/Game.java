@@ -420,17 +420,26 @@ public class Game {
 		gameState.getPlayer(id).makeInactive();
 
 	}
-
+	
+	/**
+	 * This sends an array of available players to the server
+	 * when requested.
+	 * @param id:
+	 */
 	public void getAvailablePlayers(int id) {
 		char[] players = new char[4];
 		for(int i = 0; i < players.length; i++){
-			if(!gameState.getPlayer(id).isInGame()){
+			p(gameState);
+			p(gameState.getPlayer(i+1));
+			if(!gameState.getPlayer(i+1).isInGame()){
 				players[i] = 'Y';
 			}else{
 				players[i] = 'N';
 			}
 		}
-		parser.sendPlayers(gameState.getPlayer(id), players);
+		Player player = gameState.getPlayer(id);
+		
+		parser.sendPlayers(player, players);
 	}
 
 

@@ -198,11 +198,19 @@ public class ServerParser {
 				if(message[0] == 'C'){
 					p("sending container contents");
 				}
+				if(message[0] == 'R'){
+					p("sending available players");
+					p(player.getId());
+					p(server);
+					p(server.getWriters());
+					p(server.getWriters()[player.getId()]);
+				}
 //				if(message[0] == 'T'){
 //					int time = Character.getNumericValue(message[1]);
 //					char dayNight = message[2];
 //					p("time:"+time+" "+dayNight);
 //				}
+				
 				server.getWriters()[player.getId()].write(message);
 				server.getWriters()[player.getId()].flush();
 			}
@@ -256,7 +264,11 @@ public class ServerParser {
 	}
 
 	public void sendPlayers(Player player, char[] players) {
+		p(player);
 		playerList = players;
+		for(int i = 0; i < players.length; i++){
+			p(players[i]);
+		}
 		sendToServer(player, 'R');
 	}
 
