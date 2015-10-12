@@ -1,7 +1,10 @@
 package model.items;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import model.state.Player;
 
+@XmlRootElement
 public class Cupcake extends Item implements Consumable{
 
 

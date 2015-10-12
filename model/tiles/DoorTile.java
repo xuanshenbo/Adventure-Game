@@ -1,10 +1,12 @@
 package model.tiles;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import model.logic.Game.Direction;
 import model.state.Player;
 import model.state.Position;
 
-
+@XmlRootElement
 public class DoorTile implements Tile {
 
 

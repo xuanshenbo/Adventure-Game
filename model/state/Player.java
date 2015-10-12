@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlTransient;
 
 import model.items.Bag;
 import model.items.Consumable;
@@ -33,6 +34,7 @@ public class Player {
 	private int happiness = 5;
 	private boolean inGame = false;
 	private Item selectedItem = null;
+	@XmlTransient
 	private Container openContainer = null;
 	private Position startingPosition;
 	private Set<ChestTile> openedChests = new HashSet<ChestTile>();

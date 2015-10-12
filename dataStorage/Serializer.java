@@ -144,7 +144,7 @@ public class Serializer {
 	private static int fileExistWarning(String fileName) {
 		String[] options = { "YES", "No", "Cancel" };
 		JPanel panel = new JPanel();
-		JLabel label1 = new JLabel("File " + fileName + " exist.");
+		JLabel label1 = new JLabel("File " + fileName + ".xml exists.");
 		JLabel label2 = new JLabel("Do you wish to overwrite it?");
 		panel.add(label1);
 		panel.add(label2);
