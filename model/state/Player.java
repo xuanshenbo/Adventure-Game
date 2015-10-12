@@ -15,6 +15,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
 import model.items.Bag;
+import model.items.Consumable;
+import model.items.Cupcake;
 import model.items.Item;
 import model.items.Key;
 import model.tiles.ChestTile;
@@ -129,12 +131,11 @@ public class Player {
 
 	public Item[] use(int inventorySlot){
 		Item item = inventory[inventorySlot];
-		p(item);
 		if(item instanceof Bag){
 			openContainer = (Container) item;
 			return item.use(this);
 		}
-		else if(item != null){
+		else if(item instanceof Consumable){
 			item.use(this);
 			inventory[inventorySlot] = null;
 		}

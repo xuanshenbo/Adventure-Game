@@ -20,6 +20,7 @@ import model.items.Bag;
 import model.items.Cupcake;
 import model.items.Item;
 import model.items.Key;
+import model.items.Pumpkin;
 import model.state.Area;
 import model.state.Position;
 import model.state.Area.AreaType;
@@ -131,10 +132,15 @@ public class Generator {
 		if(itemValue < 2){
 			return new Bag();
 		}else if(itemValue < 5){
-			return new Cupcake();
-		}else{
-			return new Key();
+			int consumable = (int) (Math.random()*2);
+			if(consumable == 1){
+				return new Cupcake();
+			}else if(consumable == 2){
+				return new Pumpkin();
+			}
 		}
+		return new Key();
+
 	}
 
 	/**
