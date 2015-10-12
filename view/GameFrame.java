@@ -5,6 +5,7 @@ import interpreter.StrategyInterpreter;
 import interpreter.Translator;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
 import javax.xml.bind.JAXBException;
@@ -170,6 +171,9 @@ public class GameFrame extends JFrame{
 
 		//the game doesn't resize, so it doesn't make logical sense for the window to be resizeable
 		setResizable(false);
+
+		//add a red border around the whole frame
+		getRootPane().setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.PINK));
 	}
 
 	/*
@@ -212,7 +216,7 @@ public class GameFrame extends JFrame{
 
 		JPanel statusPanel = createStatusPanel();
 
-		butPanel = createButtonPanel();
+		createButtonPanel();
 
 		//add the status panel and button panel ABOVE the main game canvas
 		middleLayeredPane.add(statusPanel, new Integer(1), 0);
@@ -225,8 +229,8 @@ public class GameFrame extends JFrame{
 	}
 
 	//This has the two main game buttons: Inventory and Team
-	private JPanel createButtonPanel() {
-		JPanel buttonPanel = new ButtonPanel(this, this.buttonInterpreter, Translator.MainGameState.MAIN);
+	private void createButtonPanel() {
+		butPanel = new ButtonPanel(this, this.buttonInterpreter, Translator.MainGameState.MAIN);
 
 		//so as to be able to see the game behind the buttons
 		butPanel.setOpaque(false);
@@ -235,8 +239,6 @@ public class GameFrame extends JFrame{
 		butPanelX = gamePanelWidth - buttonPanelSize.width - gap;
 		butPanelY = gamePanelHeight - buttonPanelSize.height - gap;
 		butPanel.setBounds(butPanelX, butPanelY, buttonPanelSize.width, buttonPanelSize.height);
-
-		return buttonPanel;
 
 	}
 

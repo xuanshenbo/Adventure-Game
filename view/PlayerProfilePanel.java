@@ -20,19 +20,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+/**
+ * This displays the player's avatar, name, and the game logo
+ * @author flanagdonn
+ *
+ */
 public class PlayerProfilePanel extends JPanel{
-	private JLabel playerPic;
-	private JLabel lifeline;
-	private JButton inventory;
-	private Dimension size = new Dimension(250, 100);
-	private Dimension pictureSize = new Dimension(100, 100);
-	private Dimension labelSize = new Dimension(40, 30);
-	private Image[] avatars;
 
-	private int bar_left = 5;
-	private int bar_top = 5;
-	private int bar_width = 100;
-	private int bar_height = 30;
+	private Dimension pictureSize = new Dimension(100, 100);
+	private Image[] avatars;
 
 	private int avatarFontSize = 30;
 
@@ -55,6 +51,7 @@ public class PlayerProfilePanel extends JPanel{
 		setLayout(new BorderLayout());
 		setBackground(GameFrame.col1.darker());
 
+		//add the player's avatar's name to the panel
 		JLabel name = new JLabel(avatar.toString());
 		name.setForeground(GameFrame.col2);
 		name.setFont(new Font("Serif", Font.BOLD, avatarFontSize));
