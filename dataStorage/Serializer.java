@@ -29,7 +29,8 @@ public class Serializer {
 	private static final int SKIP = 0;
 
 	// So no one can accidently create a Serializer class
-	private Serializer() {}
+	private Serializer() {
+	}
 
 	/**
 	 * If the current game is loaded from a file, save the current game and
@@ -84,17 +85,23 @@ public class Serializer {
 	 * ===================================================================
 	 */
 
+	// marshall the given game to the given file
 	private static void save(Marshaller marshaller, GameState game, File file)
 			throws JAXBException {
 		marshaller.marshal(game, file);
+		saveSuccessNotice(file);
 	}
 
+	// opens up a dialog ask user for file name. Then use save method to save
 	private static void saveAs(Marshaller marshaller, GameState game)
 			throws JAXBException {
 		String fileName = null;
+
+		// looping until user has input a valid file name
 		do {
 			fileName = JOptionPane.showInputDialog(null,
-					"Save as: (Please enter the file name without extension)");
+					"Save as: (Please enter the file name without extension)",
+					"newGame");
 			if (fileName == null) {
 				return;
 			}
@@ -109,17 +116,16 @@ public class Serializer {
 
 		String fileNameXml = fileName + ".xml";
 
+		// the file that is to be saved
 		File toSave = new File(GAMES_PATH + fileNameXml);
 
 		if (toSave.exists()) {
 			if (fileExistWarning(fileName) == OVERWRITE) {
 				save(marshaller, game, new File(GAMES_PATH + fileNameXml));
-			} else {
-				return;
 			}
+		} else {
+			save(marshaller, game, new File(GAMES_PATH + fileNameXml));
 		}
-
-		save(marshaller, game, new File(GAMES_PATH + fileNameXml));
 	}
 
 	// a dialog that tells the user the fileName is not valid
@@ -153,5 +159,17 @@ public class Serializer {
 				JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 
 		return selectedOption == 0 ? OVERWRITE : SKIP;
+	}
+
+	// a dialog shows the game has been saved successfully
+	private static void saveSuccessNotice(File file) {
+		String[] options = { "OK" };
+		JPanel panel = new JPanel();
+		JLabel label = new JLabel("The game is successfully saved to "
+				+ file.getPath());
+		panel.add(label);
+		JOptionPane.showOptionDialog(null, panel, "Saved Successfully.",
+				JOptionPane.NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
+				options, options[0]);
 	}
 }
