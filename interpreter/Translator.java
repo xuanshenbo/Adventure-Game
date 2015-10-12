@@ -17,8 +17,11 @@ public class Translator {
 	 *
 	 */
 	public enum Command{
-		DROP("D"), USE("U"), MOVE_ITEM("V"), ITEM_SELECTED("C"), DISPLAY_INVENTORY("I"), EXIT("DECIDE"), DISPLAY_CONTAINER("DECIDE"), PICK_UP("P"),
-		DISPLAY_ITEM_OPTIONS("DECIDE"), DISPLAY_AVATAR_OPTIONS("DECIDE"), MOVE_WEST("MW"), MOVE_EAST("ME"), MOVE_NORTH("MN"), MOVE_SOUTH("MS"), EXIT_CLIENT("Q");
+		//"N/A" as the code indicated that this command isn't sent through the pipe, and thus doesn't need to be encoded
+		DROP("D"), USE("U"), MOVE_ITEM("V"), ITEM_SELECTED("C"), DISPLAY_INVENTORY("I"),
+		EXIT("DECIDE"), DISPLAY_CONTAINER("DECIDE"), PICK_UP("P"), 	DISPLAY_INVENTORY_ITEM_OPTIONS("DECIDE"),
+		DISPLAY_AVATAR_OPTIONS("DECIDE"), MOVE_WEST("MW"), MOVE_EAST("ME"), MOVE_NORTH("MN"), MOVE_SOUTH("MS"),
+		EXIT_CLIENT("Q"), ROTATE_VIEW("O"), DISPLAY_CONTAINER_ITEM_OPTIONS("N/A"), MOVE_ITEM_TO_INVENTORY("Z");
 
 		public String code = "";
 		private Command(String c){

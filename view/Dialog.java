@@ -2,6 +2,7 @@ package view;
 
 import interpreter.StrategyInterpreter;
 import interpreter.Translator;
+import interpreter.Translator.Command;
 import interpreter.Translator.InitialisationCommand;
 
 import java.awt.BorderLayout;
@@ -15,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -102,15 +104,21 @@ public class Dialog extends JDialog implements ActionListener {
 			displayContainer();
 		}
 
+		addOKButton();
+
+		displayDialog();
+	}
+
+
+
+
+
+	private void addOKButton() {
 		ok = new JButton("OK");
 		ButtonPanel.makeButtonsPretty(ok);
 		ok.addActionListener(this);
+	//	ok.setMnemonic(KeyEvent.VK_ENTER);	//TODO fix this
 		add(ok);
-
-		//display the dialog
-		pack();
-		setLocationRelativeTo(null);
-		setVisible(true);
 	}
 
 
@@ -141,15 +149,21 @@ public class Dialog extends JDialog implements ActionListener {
 		}
 
 
-		ButtonPanel.makeButtonsPretty(ok);
-		ok.addActionListener(this);
-		add(ok);
+		addOKButton();
 
+		displayDialog();
+
+	}
+
+
+
+
+
+	private void displayDialog() {
 		//display the dialog
 		pack();
 		setLocationRelativeTo(null);
 		setVisible(true);
-
 	}
 
 
@@ -190,13 +204,13 @@ public class Dialog extends JDialog implements ActionListener {
 	 * Add pictures
 	 */
 	private void displayInventory() {
-		RadioButtonPanel radioPanel = new RadioButtonPanel(parentFrame.getInventoryContents(), parentFrame.getRadioInterpreter(), this);
+		RadioButtonPanel radioPanel = new RadioButtonPanel(parentFrame.getInventoryContents(), parentFrame.getRadioInterpreter(), this, state);
 		add(radioPanel);
 		revalidate();
 	}
 
 	private void displayContainer() {
-		RadioButtonPanel radioPanel = new RadioButtonPanel(parentFrame.getContainerContents(), parentFrame.getRadioInterpreter(), this);
+		RadioButtonPanel radioPanel = new RadioButtonPanel(parentFrame.getContainerContents(), parentFrame.getRadioInterpreter(), this, state);
 		add(radioPanel);
 		revalidate();
 
@@ -241,13 +255,22 @@ public class Dialog extends JDialog implements ActionListener {
 	}
 
 
-	public void displayItemOptions() {
-		this.itemOptions = new ButtonPanel(Translator.Command.DISPLAY_ITEM_OPTIONS, parentFrame.getButtonInterpreter());
+
+
+
+	public void displayItemOptions(boolean isInventory) {
+		if(isInventory){
+			this.itemOptions = new ButtonPanel(Command.DISPLAY_INVENTORY_ITEM_OPTIONS, parentFrame.getButtonInterpreter());
+		}
+		else{
+			this.itemOptions = new ButtonPanel(Command.DISPLAY_CONTAINER_ITEM_OPTIONS, parentFrame.getButtonInterpreter());
+		}
 		remove(ok);
 		add(itemOptions);
-		revalidate();
-		repaint();
-		pack();
+
+		displayDialog();
 
 	}
+
+
 }

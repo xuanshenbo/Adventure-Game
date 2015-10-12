@@ -50,8 +50,8 @@ public class Images {
 
     private  void loadImages(){
         //load environment images
-        this.worldGroundImage = loadImage("worldground.png", imageScale, imageScale*1.05f);
-        this.caveGroundImage = loadImage("caveground.png", imageScale, imageScale*1.05f);
+        this.worldGroundImage = loadImage("worldground.png", imageScale, imageScale*0.6f);
+        this.caveGroundImage = loadImage("caveground.png", imageScale, imageScale*0.6f);
         this.treeImage = loadImage("tree.png", imageScale*2, imageScale*2);
         this.buildingImage = loadImage("building.png", imageScale*5, imageScale*5);
         this.doorImage = loadImage("door.png", imageScale, imageScale);
@@ -60,8 +60,8 @@ public class Images {
 
         //load items images
         this.chestImage = loadImage("chest.png", imageScale, imageScale);
-        this.keyImage = loadImage("key.png", imageScale, imageScale);
-        this.cupcake = loadImage("cupcake.png", imageScale, imageScale);
+        this.keyImage = loadImage("key.png", imageScale, imageScale*0.6f);
+        this.cupcake = loadImage("pumpkin.png", imageScale, imageScale);
         this.bag = loadImage("bag.png", imageScale, imageScale);
 
         //load characters images
@@ -81,10 +81,7 @@ public class Images {
         BufferedImage img = new BufferedImage((int)tileWidth*scaleW, (int)(tileWidth*scaleH), BufferedImage.TYPE_INT_ARGB);
         //draw the image to bufferedImage
         Graphics2D g = img.createGraphics();
-//        g.drawImage(image, 0, 0, (int) tileWidth * scaleW, (int) tileHeight * scaleH, null);
         g.drawImage(image, 0, 0, (int) tileWidth * scaleW, (int) (tileWidth *scaleH), null);
-//		g.drawImage(image, 0, 0, (int) (tileWidth * scale), (int) (tileHeight * scale), 0, 0, width, height, null);
-        g.drawImage(image, 0, 0, 2, 2, null);
         g.dispose();
         return img;
     }

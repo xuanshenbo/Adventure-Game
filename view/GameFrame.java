@@ -65,6 +65,8 @@ public class GameFrame extends JFrame{
 	public static final Color col2 = Color.PINK;
 	public static final Color fontColor = Color.PINK;
 	public static final Color buttonFontColor = new Color(0, 128, 255);
+	public static final Color statusBarFontColor = new Color(102, 102, 255);
+	public static final Color happinessBarColor = new Color(255, 204, 255);
 
 	private Dialog ContainerDialog;
 
@@ -206,48 +208,7 @@ public class GameFrame extends JFrame{
 
 		middleLayeredPane.add(midPanel, new Integer(0), 0);
 
-		JPanel happinessPanel = null;
-		happinessPanel = new JPanel(new BorderLayout());
-		JLabel hapLevel = new JLabel("Happiness Level");
-		JLabel ipAddress = new JLabel(ip);
-		JLabel timeLabel = new JLabel("The time is: "+time);
-
-		JLabel hapBar = new JLabel(){
-			@Override
-			public void paintComponent(Graphics g){
-				//draw the happiness level title
-				g.setColor(col2);
-				g.drawString("Happiness Level", bar_left, bar_top - 20);
-
-				//draw the bar in white
-				g.setColor(Color.WHITE);
-				g.fillRect(bar_left, bar_top, happinessValue, bar_height);
-
-				//draw a pink outline around the bar
-				g.setColor(col2);
-				g.drawRect(bar_left, bar_top, bar_width, bar_height);
-
-				//draw the time info
-				g.setColor(col2);
-				g.drawString("The time is: "+time, bar_left, bar_top + 40);
-
-				//draw the player's ip address
-				g.setColor(col2);
-				g.drawString(ip+"", bar_left, bar_top + 60);
-
-			}
-
-		};
-
-		happinessPanel.add(hapBar, BorderLayout.CENTER);
-
-		//want to see the map behind panel, so make panel not opaque
-		happinessPanel.setOpaque(false);
-
-
-		Dimension hapPanelSize = new Dimension (500, 500);
-
-		happinessPanel.setBounds(20, -40, hapPanelSize.width, hapPanelSize.height);
+		JPanel happinessPanel = createStatusPanel();
 
 		botPanel = new ButtonPanel(this, this.buttonInterpreter, Translator.MainGameState.MAIN);
 		botPanel.setOpaque(false);
@@ -263,6 +224,58 @@ public class GameFrame extends JFrame{
 
 		add(middleLayeredPane);
 
+	}
+
+	private JPanel createStatusPanel() {
+		JPanel statusPanel = null;
+		statusPanel = new JPanel(new BorderLayout());
+
+		JLabel hapLevel = new JLabel("Happiness Level");
+		JLabel ipAddress = new JLabel(ip);
+		JLabel timeLabel = new JLabel("The time is: "+time);
+
+		JLabel statusWindow = new JLabel(){
+			@Override
+			public void paintComponent(Graphics g){
+				//set the font and size of the text to be drawn
+				g.setFont(new Font("Serif", Font.BOLD, 16));
+
+				//draw the happiness level title
+				g.setColor(statusBarFontColor);
+				g.drawString("Happiness Level", bar_left, bar_top -10);
+
+				//draw the happiness bar
+				g.setColor(happinessBarColor);
+				g.fillRect(bar_left, bar_top, happinessValue, bar_height);
+
+				//draw a pink outline around the bar
+				g.setColor(statusBarFontColor);
+				g.drawRect(bar_left, bar_top, bar_width, bar_height);
+
+				//draw the time info
+				g.setColor(statusBarFontColor);
+				g.drawString("The time is: "+time, bar_left, bar_top + 40);
+
+				//draw the player's ip address
+				g.setColor(statusBarFontColor);
+				g.drawString(ip+"", bar_left, bar_top + 60);
+
+			}
+
+		};
+
+		statusPanel.add(statusWindow, BorderLayout.CENTER);
+
+		//want to see the map behind panel, so make panel not opaque
+		statusPanel.setBackground(new Color(col2.getRed(), col2.getGreen(), col2.getBlue(), 100));
+		//statusPanel.setOpaque(false);
+
+
+
+		Dimension statusPanelSize = new Dimension (200, 200);
+
+		statusPanel.setBounds(20, -40, statusPanelSize.width, statusPanelSize.height);
+		return statusPanel;
 	}
 
 	private void addTopPanel() {
@@ -347,6 +360,16 @@ public class GameFrame extends JFrame{
 				}
 			}
 			else if (e.getID() == KeyEvent.KEY_RELEASED) {
+				switch( e.getKeyCode()) {
+					case KeyEvent.VK_R:
+					try {
+						keyInterpreter.notify(Translator.Command.ROTATE_VIEW.toString());
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+						canvas.getRenderer().rotate();
+						break;
+				}
 			}
 			else if (e.getID() == KeyEvent.KEY_TYPED) {
 			}

@@ -199,7 +199,7 @@ public class GameState {
 					}
 					boolean playerPos = false;
 					for(Player p: playerList){
-						if(p.getPosition().getX() == col && p.getPosition().getY() == row && p.getPosition().getArea() == a){
+						if(p.isInGame() && p.getPosition().getX() == col && p.getPosition().getY() == row && p.getPosition().getArea() == a){
 							view[r][c] = (char) (p.getId()+'0');
 							playerPos = true;
 						}
@@ -219,19 +219,6 @@ public class GameState {
 			c=0;
 			r++;
 		}
-
-		System.out.println("\nPlayer 1 view");
-		for(int row = 0; row<objects.length; row++){
-			for(int col = 0; col<objects[0].length; col++){
-				if(objects[row][col] != '\u0000'){
-					System.out.print(objects[row][col]);
-				}else{
-					System.out.print("N");
-				}
-			}
-			System.out.println("");
-		}
-
 		List<char[][]> worldInfo = new ArrayList<char[][]>();
 		worldInfo.add(view);
 		worldInfo.add(objects);
@@ -303,7 +290,7 @@ public class GameState {
 	/**
 	 * This method prints out the game state to the console
 	 * used for debugging.
-	 * @param innerAreas
+	 * @param innerAreas: true or false to draw the inner areas.
 	 */
 	public void printState(boolean innerAreas){
 		String suffix = "am";
@@ -372,16 +359,16 @@ public class GameState {
 
 	public void printView(int id){
 		char[][] playerOneView = getGameView(playerList.get(0)).get(0);
-		System.out.println("\nPlayer 1 view");
+		//System.out.println("\nPlayer 1 view");
 		for(int row = 0; row<playerOneView.length; row++){
 			for(int col = 0; col<playerOneView[0].length; col++){
 				if(playerOneView[row][col] != '\u0000'){
-					System.out.print(playerOneView[row][col]);
+					//System.out.print(playerOneView[row][col]);
 				}else{
-					System.out.print("N");
+					//System.out.print("N");
 				}
 			}
-			System.out.println("");
+			//System.out.println("");
 		}
 	}
 }

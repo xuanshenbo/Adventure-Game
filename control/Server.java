@@ -55,7 +55,10 @@ public class Server extends Thread{
 		world.setChests(para[6]);
 		world.setLootValue(para[7]);
 
-		game= new Game(this, world, false);
+		//game= new Game(this, world, false);
+		game = new Game(this, 200, 200, "easy", 50);
+
+		//game = new Game(Server server, int height, int width, String difficulty("easy", "medium", "hard", int density(1-100))
 		try{
 			server = new ServerSocket(PORT, 50, InetAddress.getLocalHost());
 			address = server.getInetAddress();

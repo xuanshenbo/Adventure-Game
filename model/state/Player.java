@@ -5,7 +5,9 @@
 package model.state;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -15,7 +17,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import model.items.Bag;
 import model.items.Item;
 import model.items.Key;
-
+import model.tiles.ChestTile;
 import static utilities.PrintTool.p;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -30,9 +32,12 @@ public class Player {
 	private boolean inGame = false;
 	private Item selectedItem = null;
 	private Container openContainer = null;
+	private Position startingPosition;
+	private Set<ChestTile> openedChests = new HashSet<ChestTile>();
 
 	public Player(Position p, int id) {
 		this.position = p;
+		this.startingPosition = p;
 		this.id = id;
 //		inventory[0] = new Bag();
 //		inventory[1] = new Key();
@@ -47,6 +52,15 @@ public class Player {
 		}
 	}
 
+	public void loseHappiness() {
+		happiness --;
+		if(happiness < 1){
+			position = startingPosition;
+			happiness = 5;
+		}
+
+	}
+
 	public boolean addItemToInventory(Item item){
 		for(int i = 0; i < inventory.length; i++){
 			if(inventory[i] == null){
@@ -59,7 +73,9 @@ public class Player {
 
 	public void makeActive() {
 		inGame = true;
-
+	}
+	public void makeInactive() {
+		inGame = false;
 	}
 
 	public Item getSelectedItem(){
@@ -69,6 +85,24 @@ public class Player {
 
 	public void removeSelectedItem(){
 		selectedItem = null;
+	}
+
+	public boolean getKey() {
+		for(int i = 0; i < inventory.length; i++){
+			if(inventory[i] instanceof Key){
+				inventory[i] = null;
+				return true;
+			}else if(inventory[i] instanceof Bag){
+				Bag bag = (Bag)inventory[i]; 
+				for(int j = 0; j < bag.open().length; j++){
+					if(bag.open()[i] instanceof Key){
+						bag.open()[i] = null;
+						return true;
+					}
+				}
+			}			
+		}
+		return false;
 	}
 
 	/**
@@ -95,7 +129,16 @@ public class Player {
 
 	public Item[] use(int inventorySlot){
 		Item item = inventory[inventorySlot];
-		return item.use(this);
+		p(item);
+		if(item instanceof Bag){
+			openContainer = (Container) item;
+			return item.use(this);
+		}
+		else if(item != null){
+			item.use(this);
+			inventory[inventorySlot] = null;
+		}
+		return null;
 	}
 
 	public void removeItem(int inventorySlot) {
@@ -122,6 +165,15 @@ public class Player {
 
 	public void setOpenContainer(Container container){
 		openContainer = container;
+	}
+	
+	public void addChest(ChestTile container) {
+		openedChests.add(container);
+		
+	}
+
+	public boolean hasOpenedChest(ChestTile container) {
+		return openedChests.contains(container);
 	}
 
 	public String toString() {
@@ -181,6 +233,18 @@ public class Player {
 	public Container getOpenContainer(){
 		return openContainer;
 	}
+
+
+
+	
+
+
+
+
+
+
+
+
 
 
 }

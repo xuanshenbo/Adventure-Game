@@ -82,21 +82,22 @@ public class Generator {
 		this.difficulty = difficulty;
 		int numberOfTiles = width*height;
 		if(difficulty.equals("easy")){
-			this.chests = numberOfTiles/50;
-			this.lootValue = 3;
+			this.chests = numberOfTiles/500;
+			this.lootValue = 20;
 		}else if(difficulty.equals("medium")){
-			this.chests = numberOfTiles/100;
-			lootValue = 2;
+			this.chests = numberOfTiles/1000;
+			lootValue = 10;
 		}else if(difficulty.equals("hard")){
-			this.chests = numberOfTiles/200;
+			this.chests = numberOfTiles/5000;
 			lootValue = 1;
 		}
-		this.trees = 1010-(density*10);
-		this.buildings = ((numberOfTiles/100)*density)/100;
+		this.trees = 300 - 290*(density/100);
+		//this.trees = 1010-(density*10);
+		this.buildings = ((numberOfTiles/1000)*density)/100;
 		if(buildings  < 1){
 			buildings = 1;
 		}
-		this.caves = buildings/4;
+		this.caves = buildings/2;
 		if(caves < 1){
 			caves = 1;
 		}
@@ -112,7 +113,7 @@ public class Generator {
 		for(int row = 0; row<area.getArea().length; row++){
 			for(int col = 0; col < area.getArea()[0].length; col++){
 				if(area.getArea()[row][col].isGround()){
-					if(Math.random()*200 < lootValue){
+					if(Math.random()*5000 < lootValue){
 						area.getItems()[row][col] = randomItem();
 					}
 				}
@@ -169,12 +170,12 @@ public class Generator {
 		for(int count = 0; count < buildings; count++){
 			boolean placed = false;
 			while(!placed){
-				int randomRow = new Random().nextInt(areaArray.length-4)+1;
-				int randomCol = new Random().nextInt(areaArray[0].length-6)+1;
+				int randomRow = new Random().nextInt(areaArray.length-20)+10;
+				int randomCol = new Random().nextInt(areaArray[0].length-21)+10;
 				boolean placeClear = true;
 
 				//check if the random place is open for a building
-				for(int row = randomRow; row < randomRow+3; row++){
+				for(int row = randomRow; row < randomRow+4; row++){
 					for(int col = randomCol; col < randomCol+5; col++){
 						if(invalidPosition[row][col]){
 							placeClear = false;
@@ -185,29 +186,29 @@ public class Generator {
 				}
 				//place the building down
 				if(placeClear){
-					for(int row = randomRow; row < randomRow+3; row++){
+					for(int row = randomRow; row < randomRow+4; row++){
 						for(int col = randomCol; col < randomCol+5; col++){
 							areaArray[row][col] = new BuildingTile(new Position(col, row, area));
 						}
 					}
 					//Create a boarder around the building so that no buildings can be side by side.
 					int invalidSize = 0;
-					for(int row = randomRow-1; row < randomRow+4; row++){
-						for(int col = randomCol-1; col < randomCol+6; col++){
+					for(int row = randomRow-6; row < randomRow+10; row++){
+						for(int col = randomCol-6; col < randomCol+11; col++){
 							invalidPosition[row][col] = true;
 							invalidSize++;
 						}
 					}
 
 					//place the door and create the new area
-					Position entrance = new Position(randomCol+2, randomRow+2, area);
-					areaArray[randomRow+3][randomCol+2] = new GroundTile(TileType.GRASS, new Position(randomCol+2, randomRow+3, area));
+					Position entrance = new Position(randomCol+2, randomRow+3, area);
+					areaArray[randomRow+4][randomCol+2] = new GroundTile(TileType.GRASS, new Position(randomCol+2, randomRow+4, area));
 					Area building = new Area(5, 5, AreaType.BUILDING, new Position(randomCol+2, randomRow+2, area));
 					Position exit = new Position(2, 4, building);
 
-					areaArray[randomRow+2][randomCol+2] = new DoorTile(entrance, exit);
+					areaArray[randomRow+3][randomCol+2] = new DoorTile(entrance, exit);
 					
-					areaArray[randomRow][randomCol] = new BuildingAnchorTile(new Position(randomCol, randomRow, area));
+					areaArray[randomRow+3][randomCol+4] = new BuildingAnchorTile(new Position(randomCol, randomRow, area));
 					building.getArea()[4][2] = new DoorTile(exit, entrance);
 					children.add(building);
 					placed = true;
