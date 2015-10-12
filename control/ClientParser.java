@@ -58,7 +58,7 @@ public class ClientParser {
 		case 'T'://time of day
 			int time = Character.getNumericValue(message[1]);
 			char dayNight = message[2];
-//			p("time:"+time+" "+dayNight);
+			//			p("time:"+time+" "+dayNight);
 			break;
 		case 'R':
 			readAvatar(message);
@@ -243,7 +243,9 @@ public class ClientParser {
 			}
 		}
 		//p("reading map in the client");
-		frame.updateRenderer(type, map, items);
+		if(frame != null){
+			frame.updateRenderer(type, map, items);
+		}
 	}
 
 
