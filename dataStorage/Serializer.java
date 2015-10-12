@@ -2,9 +2,7 @@ package dataStorage;
 
 import java.io.File;
 
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -23,10 +21,6 @@ public class Serializer {
 
 	// file name of all the saved games will be stored
 	private static final String GAMES_PATH = "games/";
-
-	// macros for saving options chosen by user
-	private static final int OVERWRITE = 1;
-	private static final int SKIP = 0;
 
 	// So no one can accidently create a Serializer class
 	private Serializer() {
@@ -89,7 +83,7 @@ public class Serializer {
 	private static void save(Marshaller marshaller, GameState game, File file)
 			throws JAXBException {
 		marshaller.marshal(game, file);
-		saveSuccessNotice(file);
+		DataStorageMessages.saveSuccessNotice(file);
 	}
 
 	// opens up a dialog ask user for file name. Then use save method to save
@@ -107,7 +101,7 @@ public class Serializer {
 			}
 
 			if (!isValidName(fileName)) {
-				invalidNameWarning(fileName);
+				DataStorageMessages.invalidNameWarning(fileName);
 			}
 		} while (!isValidName(fileName));
 
@@ -120,24 +114,12 @@ public class Serializer {
 		File toSave = new File(GAMES_PATH + fileNameXml);
 
 		if (toSave.exists()) {
-			if (fileExistWarning(fileName) == OVERWRITE) {
+			if (DataStorageMessages.fileExistWarning(fileName) == DataStorageMessages.OVERWRITE) {
 				save(marshaller, game, new File(GAMES_PATH + fileNameXml));
 			}
 		} else {
 			save(marshaller, game, new File(GAMES_PATH + fileNameXml));
 		}
-	}
-
-	// a dialog that tells the user the fileName is not valid
-	private static void invalidNameWarning(String fileName) {
-		String[] options = { "OK" };
-		JPanel panel = new JPanel();
-		JLabel label1 = new JLabel("File name: " + fileName
-				+ " is not a valid name.");
-		panel.add(label1);
-		JOptionPane.showOptionDialog(null, panel, "Invalid file name.",
-				JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE, null,
-				options, options[0]);
 	}
 
 	// return true if the given name is a valid Linux file name
@@ -146,30 +128,4 @@ public class Serializer {
 				&& fileName != null && fileName.length() <= 255;
 	}
 
-	// a option pane tells user that the file name is used in the directory
-	private static int fileExistWarning(String fileName) {
-		String[] options = { "YES", "No", "Cancel" };
-		JPanel panel = new JPanel();
-		JLabel label1 = new JLabel("File " + fileName + ".xml exists.");
-		JLabel label2 = new JLabel("Do you wish to overwrite it?");
-		panel.add(label1);
-		panel.add(label2);
-		int selectedOption = JOptionPane.showOptionDialog(null, panel,
-				"File exist.", JOptionPane.NO_OPTION,
-				JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
-
-		return selectedOption == 0 ? OVERWRITE : SKIP;
-	}
-
-	// a dialog shows the game has been saved successfully
-	private static void saveSuccessNotice(File file) {
-		String[] options = { "OK" };
-		JPanel panel = new JPanel();
-		JLabel label = new JLabel("The game is successfully saved to "
-				+ file.getPath());
-		panel.add(label);
-		JOptionPane.showOptionDialog(null, panel, "Saved Successfully.",
-				JOptionPane.NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
-				options, options[0]);
-	}
 }

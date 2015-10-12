@@ -1,11 +1,3 @@
-/**
- * A pointer class for the model.state.Area class to avoid serialization cycles.
- * Every time a cycle is detected at run time, rather than saving the original
- * model.state.Area class, this pointer class will be saved.
- *
- * @author Shenbo Xuan 300259386
- */
-
 package dataStorage.pointers;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,6 +8,13 @@ import model.items.Item;
 import model.state.Area.AreaType;
 import model.tiles.Tile;
 
+/**
+ * A pointer class for the model.state.Area class to avoid serialization cycles.
+ * Every time a cycle is detected at run time, rather than saving the original
+ * model.state.Area class, this pointer class will be saved.
+ *
+ * @author Shenbo Xuan 300259386
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AreaPointer {
 
