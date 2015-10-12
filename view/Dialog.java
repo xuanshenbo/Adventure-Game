@@ -146,10 +146,17 @@ public class Dialog extends JDialog implements ActionListener {
 
 	}
 
-	public Dialog(Command state, String message, GameFrame container){
-		//super(container);
+	/**
+	 * For displaying messages
+	 * @param state
+	 * @param message
+	 * @param container
+	 */
+	public Dialog(Command state, String message){
 
-		parentFrame = container;
+		this.state = state;
+
+		System.out.println(state);
 
 		addMessage(message);
 
@@ -158,6 +165,8 @@ public class Dialog extends JDialog implements ActionListener {
 		if(state.equals(Command.NOTIFY_USER_OF_MESSAGE)){
 			addOKButton();
 		}
+
+		displayDialog();
 
 	}
 
