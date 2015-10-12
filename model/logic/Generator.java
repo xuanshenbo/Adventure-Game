@@ -98,7 +98,7 @@ public class Generator {
 		if(buildings  < 1){
 			buildings = 1;
 		}
-		this.caves = buildings/2;
+		this.caves = buildings/2 * 20;
 		if(caves < 1){
 			caves = 1;
 		}
@@ -225,12 +225,12 @@ public class Generator {
 		for(int count = 0; count < caves; count++){
 			boolean placed = false;
 			while(!placed){
-				int randomRow = new Random().nextInt(areaArray.length-3)+1;
-				int randomCol = new Random().nextInt(areaArray[0].length-3)+1;
+				int randomRow = new Random().nextInt(areaArray.length-10)+5;
+				int randomCol = new Random().nextInt(areaArray[0].length-11)+5;
 				boolean placeClear = true;
 				//check if the random place is open for a cave
 				for(int row = randomRow; row < randomRow+2; row++){
-					for(int col = randomCol; col < randomCol+2; col++){
+					for(int col = randomCol; col < randomCol+3; col++){
 						if(invalidPosition[row][col]){
 							placeClear = false;
 							row = row+areaArray.length;
@@ -241,13 +241,13 @@ public class Generator {
 				//place the cave entrance down
 				if(placeClear){
 					for(int row = randomRow; row < randomRow+2; row++){
-						for(int col = randomCol; col < randomCol+2; col++){
+						for(int col = randomCol; col < randomCol+3; col++){
 							areaArray[row][col] = new CaveTile(new Position(col, row, area));
 						}
 					}
 					//Create a boarder around the building so that no buildings can be side by side.
-					for(int row = randomRow-1; row < randomRow+3; row++){
-						for(int col = randomCol-1; col < randomCol+3; col++){
+					for(int row = randomRow-3; row < randomRow+6; row++){
+						for(int col = randomCol-3; col < randomCol+7; col++){
 							invalidPosition[row][col] = true;
 						}
 					}
@@ -256,7 +256,7 @@ public class Generator {
 					Area cave = new Area(5, 10, AreaType.CAVE, new Position(randomCol+1, randomRow+1, area));
 					Position exit = new Position(0, 0, cave);
 					areaArray[randomRow+1][randomCol+1] = new CaveEntranceTile(entrance, exit);
-					areaArray[randomRow][randomCol] = new CaveAnchorTile(new Position(randomCol, randomRow, area));
+					areaArray[randomRow+1][randomCol+2] = new CaveAnchorTile(new Position(randomCol, randomRow, area));
 					area.addCaveEntrance(entrance);
 					cave.getArea()[0][0] = new CaveEntranceTile(exit, entrance);
 					children.add(cave);

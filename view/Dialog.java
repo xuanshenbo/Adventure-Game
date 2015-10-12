@@ -91,7 +91,9 @@ public class Dialog extends JDialog implements ActionListener {
 		parentFrame = gameFrame;
 
 		JPanel messagePane = new JPanel();
-		messagePane.add(new JLabel(msg));
+		JLabel messageLabel = new JLabel(msg);
+		ButtonPanel.makeLabelPretty(messageLabel);
+		messagePane.add(messageLabel);
 		getContentPane().add(messagePane);
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -127,14 +129,16 @@ public class Dialog extends JDialog implements ActionListener {
 
 	public Dialog(String title, String msg, Translator.InitialisationCommand state, Initialisation i, WelcomePanel wPanel) {
 
-
 		this.initialisation = i;
 		this.welcomePanel = wPanel;
 		getContentPane().setLayout( new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
 
 		JPanel messagePane = new JPanel();
 
-		messagePane.add(new JLabel(msg));
+		JLabel messageLabel = new JLabel(msg);
+		ButtonPanel.makeLabelPretty(messageLabel);
+		messagePane.add(messageLabel);
+
 		getContentPane().add(messagePane);
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -147,7 +151,6 @@ public class Dialog extends JDialog implements ActionListener {
 			this.state = Translator.Command.DISPLAY_AVATAR_OPTIONS;
 			displayAvatarOptions(true);
 		}
-
 
 		addOKButton();
 
@@ -181,6 +184,8 @@ public class Dialog extends JDialog implements ActionListener {
 
 		for(final Avatar a: availAvatars){
 			JRadioButton avatar = new JRadioButton(a.toString());
+
+			ButtonPanel.makeRadioButtonPretty(avatar);
 
 			ItemListener radioListener = new ItemListener(){
 				public void itemStateChanged(ItemEvent e) {

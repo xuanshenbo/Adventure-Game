@@ -26,7 +26,8 @@ public class RenderState {
                         || view[y][x] == 'Z') {
                     npc[y][x] = view[y][x];
                 } else if (view[y][x] == 'b'
-                        || view[y][x] == 'c'){
+                        || view[y][x] == 'c'
+                        || view[y][x] == 'D'){
                     building[y][x] = view[y][x];
                 } else {
                     map[y][x] = view[y][x];

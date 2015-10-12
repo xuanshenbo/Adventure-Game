@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -22,8 +23,10 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
@@ -163,9 +166,9 @@ public class ButtonPanel extends JPanel {
 
 
 	private void displayInventoryItemOptions() {
-		final JButton drop = new JButton("Drop item");
-		final JButton use = new JButton("EAT");
-		final JButton moveToBag = new JButton("Move item to bag");
+		final JButton drop = new JButton("Drop");
+		final JButton use = new JButton("Use");
+		final JButton moveToBag = new JButton("Move to bag");
 
 		ActionListener itemActionListener = new ActionListener(){
 			private boolean movePressed = false;
@@ -280,9 +283,6 @@ public class ButtonPanel extends JPanel {
 
 		int panelWidth = welcomePanel.getPreferredSize().width;
 
-		System.out.println("panel size: "+panelWidth);
-		System.out.println(size);
-
 		int padding = (panelWidth - size) /4;
 
 		return padding;
@@ -354,25 +354,20 @@ public class ButtonPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String msg = "";
 				if(e.getSource()==client){
-					try {
-						initialisation.notify(Translator.InitialisationCommand.SELECTED_CLIENT.toString());
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-
+					msg = Translator.InitialisationCommand.SELECTED_CLIENT.toString();
 				}
 				else if(e.getSource()==serverclient){	//conditional not strictly necessary, but added for completion
-					try {
-						initialisation.notify(Translator.InitialisationCommand.SELECTED_CLIENT_AND_SERVER.toString());
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-
+					msg = Translator.InitialisationCommand.SELECTED_CLIENT_AND_SERVER.toString();
 				}
 
+				try {
+					initialisation.notify(msg);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
-
 		};
 
 		client.addActionListener(serverclientListener);
@@ -421,8 +416,13 @@ public class ButtonPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e){
+				String teamMember1 = randomTeamMember();
+				String teamMember2 = randomTeamMember();
+				while(teamMember1.equals(teamMember2)){
+					teamMember2 = randomTeamMember();
+				}
 				JOptionPane.showMessageDialog(containerFrame,
-						"Your team includes Ronald McDonald and Bottomley Potts",
+						"Your team includes "+teamMember1+" and "+teamMember2,
 						"Team",
 						JOptionPane.WARNING_MESSAGE);
 			}
@@ -439,8 +439,24 @@ public class ButtonPanel extends JPanel {
 
 	}
 
-	//used in WelcomePanel, hence 'package' visibility
-	static void makeButtonsPretty(JButton... buttons) {
+protected String randomTeamMember() {
+		ArrayList<String> teamMembers = new ArrayList<String>();
+		teamMembers.add("Hercules Morse");
+		teamMembers.add("Ronald McDonald");
+		teamMembers.add("Bottomley Potts");
+		teamMembers.add("Scarface Claw");
+		teamMembers.add("Bitzer Maloney");
+		teamMembers.add("Schnitzel von Krumm");
+
+		int random = (int) (Math.random()*teamMembers.size());
+		return teamMembers.get(random);
+	}
+
+/**
+ * This method is used to turn an average button, into an AMAZING button!
+ * @param buttons The buttons to be prettified
+ */
+	public static void makeButtonsPretty(JButton... buttons) {
 
 		for(JButton b: buttons){
 			javax.swing.border.Border line, raisedbevel, loweredbevel;
@@ -455,8 +471,8 @@ public class ButtonPanel extends JPanel {
 
 			Color crl = GameFrame.col2;
 			compound = BorderFactory.createCompoundBorder(empty, new OldRoundedBorderLine(crl));
-			b.setFont(new Font("Sans-Serif", Font.BOLD, 16));
-			b.setForeground(Color.darkGray);
+			//			b.setFont(new Font("Sans-Serif", Font.BOLD, 16));
+			//			b.setForeground(Color.darkGray);
 
 			b.setPreferredSize(new Dimension(50, 30));
 
@@ -469,6 +485,30 @@ public class ButtonPanel extends JPanel {
 			b.setForeground(GameFrame.buttonFontColor);
 		}
 
+	}
+
+	/**
+	 * This method is used to turn an average label, into an AMAZING label!
+	 * @param labels The labels to be prettified
+	 */
+	public static void makeLabelPretty(JLabel... labels){
+
+		for(JLabel label: labels){
+			label.setFont(new Font("Serif", Font.BOLD, 14));
+			label.setForeground(GameFrame.buttonFontColor);
+		}
+	}
+
+	/**
+	 * This method is used to turn an average radio button, into an AMAZING radio button!
+	 * @param radioButtons The radio buttons to be prettified
+	 */
+	public static void makeRadioButtonPretty(JRadioButton... radioButtons){
+
+		for(JRadioButton rbutton: radioButtons){
+			rbutton.setFont(new Font("Serif", Font.BOLD, 14));
+			rbutton.setForeground(GameFrame.buttonFontColor);
+		}
 	}
 
 }
