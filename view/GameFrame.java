@@ -54,7 +54,7 @@ public class GameFrame extends JFrame{
 	private int gamePanelHeight = 600;
 
 	private int bar_left = 20;
-	private int bar_top = 100;
+	private int bar_top = 70;
 	private int bar_width = 100;
 	private int bar_height = 20;
 
@@ -67,6 +67,7 @@ public class GameFrame extends JFrame{
 	public static final Color buttonFontColor = new Color(0, 128, 255);
 	public static final Color statusBarFontColor = new Color(102, 102, 255);
 	public static final Color happinessBarColor = new Color(255, 204, 255);
+	public static final Color statusPanelColour = Color.GRAY;
 
 	private Dialog ContainerDialog;
 
@@ -213,11 +214,14 @@ public class GameFrame extends JFrame{
 
 		JPanel happinessPanel = createStatusPanel();
 
-		Dimension buttonPanelSize = new Dimension(400, 50);
+		Dimension buttonPanelSize = new Dimension(265, 50);
 
 		botPanel = new ButtonPanel(this, this.buttonInterpreter, Translator.MainGameState.MAIN);
 		botPanel.setOpaque(false);
-		botPanel.setBounds(gamePanelWidth - gap, gamePanelHeight - gap, buttonPanelSize.width, buttonPanelSize.height);
+
+		System.out.println("x: "+ (gamePanelWidth - buttonPanelSize.width - gap) + "y: " + (gamePanelHeight - buttonPanelSize.height - gap) );
+
+		botPanel.setBounds(gamePanelWidth - buttonPanelSize.width - gap, gamePanelHeight - buttonPanelSize.height - gap, buttonPanelSize.width, buttonPanelSize.height);
 
 
 		middleLayeredPane.add(happinessPanel, new Integer(1), 0);
@@ -249,23 +253,23 @@ public class GameFrame extends JFrame{
 
 				//draw the happiness level title
 				g.setColor(statusBarFontColor);
-				g.drawString("Happiness Level", bar_left, bar_top -10);
+				g.drawString("Happiness Level", gap, bar_top - 40);
 
 				//draw the happiness bar
 				g.setColor(happinessBarColor);
-				g.fillRect(bar_left, bar_top, happinessValue, bar_height);
+				g.fillRect(gap, bar_top - 20, happinessValue, bar_height);
 
 				//draw a pink outline around the bar
 				g.setColor(statusBarFontColor);
-				g.drawRect(bar_left, bar_top, bar_width, bar_height);
+				g.drawRect(gap, bar_top - 20, bar_width, bar_height);
 
 				//draw the time info
 				g.setColor(statusBarFontColor);
-				g.drawString("The time is: "+time, bar_left, bar_top + 40);
+				g.drawString("The time is: "+time, gap, bar_top + 20);
 
 				//draw the player's ip address
 				g.setColor(statusBarFontColor);
-				g.drawString(ip+"", bar_left, bar_top + 60);
+				g.drawString(ip+"", gap, bar_top + 40);
 
 			}
 
@@ -274,13 +278,10 @@ public class GameFrame extends JFrame{
 		statusPanel.add(statusWindow, BorderLayout.CENTER);
 
 		//want to see the map behind panel, so make panel not opaque
-		statusPanel.setBackground(new Color(col2.getRed(), col2.getGreen(), col2.getBlue(), 100));
-
-		//statusPanel.setOpaque(false);
+		statusPanel.setBackground(new Color(statusPanelColour.getRed(), statusPanelColour.getGreen(), statusPanelColour.getBlue(), 200));
 
 
-
-		Dimension statusPanelSize = new Dimension (175, 175);
+		Dimension statusPanelSize = new Dimension (170, 125);
 
 		statusPanel.setBounds(gap, gap, statusPanelSize.width, statusPanelSize.height);
 		return statusPanel;
