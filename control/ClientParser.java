@@ -38,6 +38,7 @@ public class ClientParser {
 			readIP(message);
 			break;
 		case 'H'://happiness level
+			p();
 			readHappiness(message);
 			break;
 		case 'M'://map
@@ -49,6 +50,11 @@ public class ClientParser {
 		case 'C'://container information
 			readContainer(message);
 			break;
+		case 'T'://time of day
+			int time = Character.getNumericValue(message[1]);
+			char dayNight = message[2];
+//			p("time:"+time+" "+dayNight);
+			break;
 		default:
 		}
 	}
@@ -58,7 +64,10 @@ public class ClientParser {
 	 * @param message
 	 */
 	private void readHappiness(char[] message) {
-
+		p(message[1]);
+		int happiness = (Character.getNumericValue(message[1]))*10;
+		p(happiness);
+		frame.setHappinessLevel(happiness);
 	}
 
 	/**

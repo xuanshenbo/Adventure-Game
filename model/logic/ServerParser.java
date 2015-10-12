@@ -147,7 +147,7 @@ public class ServerParser {
 			message = new char[3];
 			message[0] = action;
 			message[1] = (char)(happiness +'0');
-			p(message[1]);
+			
 		}else if(action == 'C'){// container inventory information
 			message = new char[tempItemArrayStorage.length+2];
 			message[0] = action;
@@ -178,6 +178,14 @@ public class ServerParser {
 		message[message.length-1] = 'X';
 		try {
 			if(!testing){
+				if(message[0] == 'H'){
+					p("Server sending Happiness level:"+message[1]);
+				}
+//				if(message[0] == 'T'){
+//					int time = Character.getNumericValue(message[1]);
+//					char dayNight = message[2];
+//					p("time:"+time+" "+dayNight);
+//				}
 				server.getWriters()[player.getId()].write(message);
 				server.getWriters()[player.getId()].flush();
 			}

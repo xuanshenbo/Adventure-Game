@@ -142,6 +142,9 @@ public class Game {
 				gameState.setDay(true);
 			}
 		}
+		for(Player player: gameState.getPlayerList()){
+			parser.sendToServer(player, 'T');
+		}
 		updateZombies();
 		if(frameActivated){
 			for(Player p: gameState.getPlayerList()){
@@ -298,11 +301,9 @@ public class Game {
 	 */
 
 	public void use(Player player, int inventorySlot){
-
-		p(player.getItemFromInventory(inventorySlot));
+		p();
 		if(player.getItemFromInventory(inventorySlot) != null){
 			Item[] inventory = player.use(inventorySlot);
-			p(inventory);
 			parser.sendToServer(player, 'I');
 			parser.sendToServer(player, 'H');
 			if(inventory != null){
@@ -338,13 +339,26 @@ public class Game {
 	public void drop(Player player, int inventorySlot) {
 		Position playerPosition = player.getPosition();
 		Item item = player.getItemFromInventory(inventorySlot);
-		if(item != null){
+		if(item != null && noObjects(playerPosition)){
 			player.removeItem(inventorySlot);
 			gameState.addItem(playerPosition, item);
 		}
 		parser.sendToServer(player, 'I');
 		parser.sendToServer(player, 'M');
 
+	}
+	
+	/**
+	 * Called when a player tries to drop an item on the ground, it checks
+	 * that there is not an object on the ground already.
+	 * @param playerPosition
+	 * @return
+	 */
+	public boolean noObjects(Position playerPosition) {
+		int row = playerPosition.getY();
+		int col = playerPosition.getX();
+		Area area = playerPosition.getArea();
+		return area.getItems()[row][col] == null;
 	}
 
 	/**

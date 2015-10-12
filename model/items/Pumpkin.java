@@ -2,12 +2,12 @@ package model.items;
 
 import model.state.Player;
 
-public class Cupcake extends Item implements Consumable{
+public class Pumpkin extends Item implements Consumable{
 
 
 
-	public Cupcake() {
-		super('c');
+	public Pumpkin() {
+		super('p');
 	}
 
 	@Override
