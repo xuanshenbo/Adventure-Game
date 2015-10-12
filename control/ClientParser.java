@@ -134,7 +134,7 @@ public class ClientParser {
 				inventory.add("key");
 				break;
 			case 'c':
-				inventory.add("cupcake");
+				inventory.add("cupcake2");
 				break;
 			case 'b':
 				inventory.add("bag");
