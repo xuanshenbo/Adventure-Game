@@ -77,8 +77,8 @@ public class PlayerProfilePanel extends JPanel{
 	}
 
 
+	//this generates an image file and saves it to the array
 	private void loadImages() {
-		//this generates an image file and saves it to the array
 
 		//image of Donald Duck
 		avatars[0] = ImageLoader.loadImage("donaldduck.png")

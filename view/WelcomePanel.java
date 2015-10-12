@@ -48,7 +48,7 @@ import main.Main;
 /**
  * A subclass of JDialog which welcomes a new player and invites them to choose an avatar
  */
-public class WelcomePanel extends JPanel implements ActionListener {
+public class WelcomePanel extends JPanel{
 
 	private JFrame parentFrame;
 
@@ -87,8 +87,6 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
 	//width and height of game
 	private int gameWidth = 50, gameHeight = 50;
-
-	private Dimension sliderPaddingVertical= new Dimension(0, 20);
 
 	private InitialisationCommand initState;
 
@@ -228,120 +226,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		remove(bPanel); //move this to transition method?
 
 		//initialise the slider panel with a vertical box layout
-		sliderPanel = new JPanel();
-		sliderPanel.setLayout(new BoxLayout(sliderPanel, BoxLayout.PAGE_AXIS));
-
-		/*
-		 * Create sliders and add vertical space for readability
-		 */
-		int tickSpacingDensity = 5, tickSpacingDifficulty = 1, tickSpacingWidth = 5, tickSpacingHeight = 5;
-
-		//density of game world
-		final JSlider gameObjectDensity = new JSlider(JSlider.HORIZONTAL, 0, Initialisation.maxTrees, Initialisation.maxTrees/2);
-		gameObjectDensity.add(Box.createRigidArea(sliderPaddingVertical));
-		gameObjectDensity.setPaintTicks(true);
-		gameObjectDensity.setMajorTickSpacing(tickSpacingDensity);
-
-		//difficulty: easy, medium or difficult
-		final JSlider difficulty = new JSlider(JSlider.HORIZONTAL, 0, 2, 1);
-		difficulty.add(Box.createRigidArea(sliderPaddingVertical));
-		difficulty.setPaintTicks(true);
-		difficulty.setMajorTickSpacing(tickSpacingDifficulty);
-
-		//height of game
-		final JSlider height = new JSlider(JSlider.HORIZONTAL, 10, 200, 50);
-		height.add(Box.createRigidArea(sliderPaddingVertical));
-		height.setPaintTicks(true);
-		height.setMajorTickSpacing(tickSpacingHeight);
-
-		//width of game
-		final JSlider width = new JSlider(JSlider.HORIZONTAL, 10, 200, 50);
-		width.add(Box.createRigidArea(sliderPaddingVertical));
-		width.setPaintTicks(true);
-		width.setMajorTickSpacing(tickSpacingWidth);
-
-		ChangeListener sliderListener = new ChangeListener(){
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				JSlider source = (JSlider)e.getSource();
-				if (!source.getValueIsAdjusting()) {
-					if(source == gameObjectDensity){
-						density = gameObjectDensity.getValue();
-					}
-					else if(source == difficulty){
-						difficultyLevel = difficulty.getValue();
-					}
-					else if(source == height){
-						gameHeight = height.getValue();
-					}
-					else if(source == width){
-						gameWidth = width.getValue();
-					}
-				}
-
-			}
-		};
-
-		JButton confirm = new JButton("OK");
-		confirm.add(Box.createRigidArea(new Dimension(this.getPreferredSize().width,20))); //centre confirm the button
-		ButtonPanel.makeButtonsPretty(confirm);
-
-		confirm.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				remove(sliderPanel);
-				try {
-					initialisation.notify("parameters "+gameHeight+" "+gameWidth+" "+difficultyLevel+" "+density);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-			}
-
-		});
-
-		gameObjectDensity.addChangeListener(sliderListener);
-		difficulty.addChangeListener(sliderListener);
-		width.addChangeListener(sliderListener);
-		height.addChangeListener(sliderListener);
-
-
-		/*
-		 * Create labels for the sliders, and create vertical space to make them more readable
-		 */
-		JLabel densityLabel = new JLabel("Choose the density of the game wrt the number of objects from 0% to 100%");
-		densityLabel.add(Box.createRigidArea(sliderPaddingVertical));
-		densityLabel.setFont(new Font("Serif", Font.BOLD, 12));
-		densityLabel.setForeground(GameFrame.buttonFontColor);
-
-		JLabel difficultyLabel = new JLabel("Choose the difficulty");
-		difficultyLabel.add(Box.createRigidArea(sliderPaddingVertical));
-		difficultyLabel.setFont(new Font("Serif", Font.BOLD, 12));
-		difficultyLabel.setForeground(GameFrame.buttonFontColor);
-
-		JLabel gameHeightLabel = new JLabel("Choose the Game height");
-		gameHeightLabel.add(Box.createRigidArea(sliderPaddingVertical));
-		gameHeightLabel.setFont(new Font("Serif", Font.BOLD, 12));
-		gameHeightLabel.setForeground(GameFrame.buttonFontColor);
-
-		JLabel gameWidthLabel = new JLabel("Choose the Game Width");
-		gameWidthLabel.add(Box.createRigidArea(sliderPaddingVertical));
-		gameWidthLabel.setFont(new Font("Serif", Font.BOLD, 12));
-		gameWidthLabel.setForeground(GameFrame.buttonFontColor);
-
-		sliderPanel.add(densityLabel);
-		sliderPanel.add(gameObjectDensity);
-
-		sliderPanel.add(difficultyLabel);
-		sliderPanel.add(difficulty);
-
-		sliderPanel.add(gameHeightLabel);
-		sliderPanel.add(height);
-
-		sliderPanel.add(gameWidthLabel);
-		sliderPanel.add(width);
-
-		sliderPanel.add(confirm);
+		sliderPanel = new SliderPanel(this);
 
 		add(sliderPanel, BorderLayout.SOUTH);
 
@@ -388,12 +273,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
 		remove(bPanel); //remove the previous buttons
 
 	}
-	/**
-	 * Called when the user clicks "Choose Avatar" on the dialog
-	 */
-	public void actionPerformed(ActionEvent e) {
 
-	}
 
 	/**	 *
 	 * @param c TextField to store in a field
@@ -405,5 +285,33 @@ public class WelcomePanel extends JPanel implements ActionListener {
 	public void setValidIP(boolean b) {
 	this.validIP = b;
 
+	}
+
+	public void setDensity(int value) {
+		density = value;
+	}
+
+	public void setDifficultyLevel(int value) {
+		difficultyLevel = value;
+	}
+
+	public void setGameHeight(int value) {
+		gameHeight = value;
+	}
+
+	public void setGameWidth(int value) {
+		gameWidth = value;
+	}
+
+	public void removeSliderPanel() {
+		remove(sliderPanel);
+	}
+
+	public void notifyParameters() {
+		try {
+			initialisation.notify("parameters "+gameHeight+" "+gameWidth+" "+difficultyLevel+" "+density);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

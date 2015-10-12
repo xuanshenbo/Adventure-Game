@@ -71,7 +71,7 @@ public class GameFrame extends JFrame{
 
 	private ArrayList<Avatar> avatars;
 
-	private String ip = "unassigned", time = "unassigned";
+	private String ip = "???", time = "???";
 
 	private Dimension gamePanelSize = new Dimension(800, 600);
 	private Dimension statusPanelSize = new Dimension (170, 125);
@@ -172,7 +172,7 @@ public class GameFrame extends JFrame{
 		//the game doesn't resize, so it doesn't make logical sense for the window to be resizeable
 		setResizable(false);
 
-		//add a red border around the whole frame
+		//add a pink border around the whole frame
 		getRootPane().setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.PINK));
 	}
 
@@ -257,75 +257,55 @@ public class GameFrame extends JFrame{
 	 * Sends a message to server if the user presses an arrow key
 	 */
 
-	//for testing renderer
 	private class MyDispatcher implements KeyEventDispatcher{
 		@Override
 		public boolean dispatchKeyEvent(KeyEvent e){
+
+			String toNotify = "";
 
 			if (e.getID() == KeyEvent.KEY_PRESSED) {
 
 				switch( e.getKeyCode()) {
 				case KeyEvent.VK_UP:
-					try {
-						keyInterpreter.notify(Translator.Command.MOVE_NORTH.toString());
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-
+					toNotify = Translator.Command.MOVE_NORTH.toString();
 					break;
 				case KeyEvent.VK_DOWN:
-					try {
-						keyInterpreter.notify(Translator.Command.MOVE_SOUTH.toString());
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-
+					toNotify = Translator.Command.MOVE_SOUTH.toString();
 					break;
 				case KeyEvent.VK_LEFT:
-					try {
-						keyInterpreter.notify(Translator.Command.MOVE_WEST.toString());
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
+					toNotify = Translator.Command.MOVE_WEST.toString();
 
 					break;
 				case KeyEvent.VK_RIGHT :
-					try {
-						keyInterpreter.notify(Translator.Command.MOVE_EAST.toString());
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-
+					toNotify = Translator.Command.MOVE_EAST.toString();
 					break;
 				case KeyEvent.VK_P:
-					try {
-						keyInterpreter.notify(Translator.Command.PICK_UP.toString());
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-
+					toNotify = Translator.Command.PICK_UP.toString();
 					break;
-
-				}
-			}
-			else if (e.getID() == KeyEvent.KEY_RELEASED) {
-				switch( e.getKeyCode()) {
 				case KeyEvent.VK_R:
-					try {
-						keyInterpreter.notify(Translator.Command.ROTATE_VIEW.toString());
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-					canvas.getRenderer().rotate();
+					toNotify = Translator.Command.ROTATE_VIEW.toString();
+					canvas.getRenderer().rotate();	//TODO this shouldn't be done here
 					break;
 				}
 			}
-			else if (e.getID() == KeyEvent.KEY_TYPED) {
+
+			//notify the key interpreter with the appropriate message
+			try {
+				keyInterpreter.notify(toNotify);
+			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
-			return false;
+			return false;	//should this return false?
 		}
 	}
 
+	/**
+	 * TODO Gareth/Lucas to fill in the gaps
+	 * Updates the renderer with the new view
+	 * @param type
+	 * @param map
+	 * @param items
+	 */
 	public void updateRenderer(char type, char[][] map, char[][] items){
 		canvas.getRenderer().update(type, map, items);
 	}
