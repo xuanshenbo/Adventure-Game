@@ -21,8 +21,7 @@ import model.state.GameState;
 public class Deserializer {
 
 	// So no one can accidently create a Deserializer class
-	private Deserializer() {
-	}
+	private Deserializer() {}
 
 	/**
 	 * Return a GameState that is stored in the given file

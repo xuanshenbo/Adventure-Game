@@ -101,7 +101,6 @@ public class MenuBar extends JMenuBar {
 
 	// action on laod
 	private void doLoad() {
-		System.out.println("here");
 		try {
 			menuInterpreter.notify(Command.LOAD_FILE.toString());
 		} catch (IOException e) {
