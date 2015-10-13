@@ -14,6 +14,11 @@ public class BuildingAnchorTile extends BuildingTile{
 		super(position);
 	}
 
+	@SuppressWarnings("unused")
+	private BuildingAnchorTile() {
+		this(null);
+	}
+
 	@Override
 	public char getType() {
 		return 'b';

@@ -101,14 +101,7 @@ public class MenuBar extends JMenuBar {
 
 	// action on laod
 	private void doLoad() {
-		// Create a file chooser
-		final JFileChooser fc = new JFileChooser();
-
-		int returnVal = fc.showOpenDialog(MenuBar.this);
-		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			File file = fc.getSelectedFile();
-			// notify interpreter to open file
-		}
+		System.out.println("here");
 		try {
 			menuInterpreter.notify(Command.LOAD_FILE.toString());
 		} catch (IOException e) {

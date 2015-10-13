@@ -383,6 +383,8 @@ public class GameRenderer{
 				imageY = (int) (y - images.bag().getHeight(null) + tileHeight/2);
 				graphic.drawImage(images.bag(), imageX, imageY, null);
 				break;
+			case 'p':
+				p("pumpkin");
 			default:
 				break;
 		}
@@ -393,7 +395,6 @@ public class GameRenderer{
 	}
 
 	public void update(char type, char[][] view, char[][] objects) {
-		//System.out.println("GameRenderer 396: should be only once");//debug
 		this.type = type;
 
 		for (int y = 0; y < viewHeight; y++) {

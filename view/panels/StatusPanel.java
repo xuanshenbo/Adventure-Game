@@ -19,7 +19,7 @@ public class StatusPanel extends JPanel {
 
 	private GameFrame frame;
 
-	private int bar_left = 20;
+	//constants for determining the position of the different bars
 	private int bar_top = 70;
 	private int bar_width = 100;
 	private int bar_height = 20;

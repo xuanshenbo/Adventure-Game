@@ -10,14 +10,14 @@ import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import view.styledComponents.HappinessButton;
 import view.styledComponents.HappinessLabel;
 
 /**
- * TODO refactor the two constructors
+ * This creates an option to the user of confirming, or
+ * cancelling. The buttons and labels conform to the game theme
  * @author flanagdonn
  *
  */
@@ -36,6 +36,12 @@ public class YesNoOptionWindow extends JFrame{
 
 	private GameFrame gameFrame;
 
+	/**
+	 * This creates a window connected to a GameFrame
+	 * @param cmd The command from the frame
+	 * @param gFrame The GameFrame connected to this window.
+	 * @param title The title of the frame
+	 */
 	public YesNoOptionWindow(Command cmd, GameFrame gFrame, String title){
 		super(title);
 
@@ -49,6 +55,12 @@ public class YesNoOptionWindow extends JFrame{
 
 	}
 
+	/**
+	 * This creates a window connected to a WelcomeFrame
+	 * @param cmd The command from the frame
+	 * @param wFrame The WelcomeFrame connected to this window.
+	 * @param title The title of the frame
+	 */
 	public YesNoOptionWindow(Command cmd, WelcomeFrame wFrame, String title){
 		super(title);
 
@@ -112,7 +124,7 @@ public class YesNoOptionWindow extends JFrame{
 						welcomeFrame.yesSelected(state, true);
 					}
 					else{
-						gameFrame.yesSelected(state, true);
+						gameFrame.exitSelected(state, true);
 					}
 				}
 				else{
@@ -120,7 +132,7 @@ public class YesNoOptionWindow extends JFrame{
 						welcomeFrame.yesSelected(state, false);
 					}
 					else{
-						gameFrame.yesSelected(state, false);
+						gameFrame.exitSelected(state, false);
 					}
 				}
 
@@ -132,12 +144,12 @@ public class YesNoOptionWindow extends JFrame{
 		yes.addActionListener(yesnoListener);
 		no.addActionListener(yesnoListener);
 
-		buttons.add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingHorizontal,0)));
+		buttons.add(Box.createRigidArea(new Dimension(GameFrame.BUTTON_PADDING_HORIZONTAL,0)));
 		buttons.add(yes);
 
 		//pad between buttons
 		int buttonpadding = centerButtonsOnPanel(yes, no);
-		buttons.add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingHorizontal,0)));
+		buttons.add(Box.createRigidArea(new Dimension(GameFrame.BUTTON_PADDING_HORIZONTAL,0)));
 		buttons.add(no);
 
 	}

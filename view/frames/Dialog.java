@@ -1,50 +1,29 @@
 package view.frames;
 
-import interpreter.StrategyInterpreter;
 import interpreter.Translator;
 import interpreter.Translator.Command;
-import interpreter.Translator.InitialisationCommand;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
 
 import view.panels.ButtonPanel;
 import view.panels.ContainerInventoryDisplayPanel;
-import view.panels.WelcomePanel;
 import view.styledComponents.HappinessButton;
 import view.styledComponents.HappinessLabel;
 import view.styledComponents.HappinessRadioButton;
 import view.utilities.Avatar;
 import main.Initialisation;
-import model.items.Item;
 
 /**
  * A subclass of JDialog which presents options to the player and displays warning messages *
@@ -57,18 +36,9 @@ public class Dialog extends JDialog implements ActionListener {
 
 	private Translator.Command state;
 
-	private StrategyInterpreter dialogInterpreter;
-
 	private Initialisation initialisation;
 
-	private WelcomePanel welcomePanel;
-
-	private boolean loadingSavedPlayer;
-
 	private ButtonPanel itemOptions;
-
-
-	private InitialisationCommand initState;
 
 	//The OK button is used on most dialogs
 	private JButton ok = new JButton("OK");
@@ -76,8 +46,6 @@ public class Dialog extends JDialog implements ActionListener {
 	private JPanel messagePane;
 
 	private HappinessLabel messageLabel;
-
-	private boolean isYes;
 
 	/**
 	 * Creates a dialog with a message, and different behaviour depending on the state
@@ -87,12 +55,10 @@ public class Dialog extends JDialog implements ActionListener {
 	 * @param msg Message to display
 	 * @param i The state of the Game
 	 */
-	public Dialog(GameFrame gameFrame, String title, String msg, Translator.Command state, StrategyInterpreter dialogInterp) {
+	public Dialog(GameFrame gameFrame, String title, String msg, Translator.Command state) {
 		super(gameFrame, title, true);
 
 		this.state = state;
-
-		this.dialogInterpreter = dialogInterp;
 
 		getContentPane().setLayout( new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
 
@@ -126,10 +92,9 @@ public class Dialog extends JDialog implements ActionListener {
 	 * @param i The Initialisation interpreter
 	 * @param wPanel The welcome panel on which this dialog lives
 	 */
-	public Dialog(String title, String msg, Translator.InitialisationCommand state, Initialisation i, WelcomePanel wPanel) {
+	public Dialog(String title, String msg, Translator.InitialisationCommand state, Initialisation i) {
 
 		this.initialisation = i;
-		this.welcomePanel = wPanel;
 		getContentPane().setLayout( new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
 
 		addMessage(msg);
@@ -153,9 +118,8 @@ public class Dialog extends JDialog implements ActionListener {
 
 	/**
 	 * For displaying messages
-	 * @param state
-	 * @param message
-	 * @param container
+	 * @param state The state of the game which determines what to display
+	 * @param message The message to display
 	 */
 	public Dialog(Command state, String message){
 
@@ -200,8 +164,6 @@ public class Dialog extends JDialog implements ActionListener {
 
 
 	private void displayAvatarOptions(boolean b) {
-
-		this.loadingSavedPlayer = b;
 
 		JPanel avatarOptions = new JPanel();
 		List<Avatar> availAvatars= initialisation.getAvailableAvatars();
@@ -260,7 +222,6 @@ public class Dialog extends JDialog implements ActionListener {
 		if(state.equals(Translator.Command.DISPLAY_INVENTORY) || state.equals(Translator.Command.DISPLAY_CONTAINER)){
 			//notify that inventory closed?
 			validInput = true;
-			initState = null;
 		}
 
 		if(state.equals(Translator.Command.DISPLAY_AVATAR_OPTIONS)){
@@ -282,14 +243,8 @@ public class Dialog extends JDialog implements ActionListener {
 	}
 
 	/**
-	 * @param c TextField to store in a field
-	 */
-	public void setTextField(JTextField c){
-
-	}
-
-	/*
 	 * Display the item options, with a different button panel depending on whether this is an inventory or container
+	 * @param isInventory Whether or not the container being shown is an inventory or not
 	 */
 	public void displayItemOptions(boolean isInventory) {
 		if(isInventory){

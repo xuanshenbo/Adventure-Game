@@ -31,7 +31,7 @@ import control.Server;
 
 /**
  * The following initialises a game. It asks user to choose from creating a client or a server together with a client.
- * @author yanlong
+ * @author yanlong, flanagdonn
  *
  */
 public class Initialisation extends StrategyInterpreter{
@@ -67,7 +67,8 @@ public class Initialisation extends StrategyInterpreter{
 
 		frame = new WelcomeFrame("Welcome to Adventure Game", this);
 
-		welcome = new WelcomePanel(this);
+		welcome = new WelcomePanel(this);		
+		
 
 		frame.add(welcome);
 
@@ -78,12 +79,17 @@ public class Initialisation extends StrategyInterpreter{
 
 	}
 
-
+/**
+ * Used for determining what avatar options to display to the user
+ * for selection
+ * @return A list of the available avatars
+ */
 	public ArrayList<Avatar> getAvailableAvatars() {
 		ArrayList<Avatar> avatarOptions = this.avatars;
 
 		if(avatarOptions == null){
 			avatarOptions = new ArrayList<Avatar>();
+
 			//for testing purposes
 			avatarOptions.add(Avatar.DONALD_DUCK);
 			avatarOptions.add(Avatar.MICKEY_MOUSE);
@@ -110,8 +116,6 @@ public class Initialisation extends StrategyInterpreter{
 		return frame;
 	}
 
-
-
 	/**
 	 * The following will call the method in main to display the main game frame
 	 */
@@ -131,23 +135,6 @@ public class Initialisation extends StrategyInterpreter{
 		return welcome;
 	}
 
-
-	/**
-	 * a setter for server
-	 * @param server
-	 */
-	/*public void setServer(Server server) {
-		this.server = server;
-	}*/
-
-	/**
-	 * a getter for server
-	 * @return
-	 */
-	/*public Server getServer() {
-		return server;
-	}*/
-
 	/**
 	 * Close the server so as to not have to manually terminate
 	 */
@@ -164,11 +151,4 @@ public class Initialisation extends StrategyInterpreter{
 		return chosenAvatar;
 	}
 
-
-
-	/*public void closeServer() {
-		Main.closeServer();
-
-	}
-	 */
 }

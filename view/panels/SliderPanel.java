@@ -1,15 +1,12 @@
 package view.panels;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
@@ -149,15 +146,17 @@ public class SliderPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				welcome.notifyParameters();
 				welcome.removeSliderPanel();
+				welcome.startServer();
 			}
 
 		});
 	}
 
+	/*
+	 * Create sliders and add vertical space for readability
+	 */
 	private void setUpSliders() {
-		/*
-		 * Create sliders and add vertical space for readability
-		 */
+
 		int tickSpacingDensity = 5, tickSpacingDifficulty = 1, tickSpacingWidth = 5, tickSpacingHeight = 5;
 
 		//density of game world
@@ -173,18 +172,15 @@ public class SliderPanel extends JPanel {
 		difficulty.setMajorTickSpacing(tickSpacingDifficulty);
 
 		//height of game
-		height = new JSlider(JSlider.HORIZONTAL, 10, 200, 50);
+		height = new JSlider(JSlider.HORIZONTAL, 30, 200, 100);
 		height.add(Box.createRigidArea(sliderPaddingVertical));
 		height.setPaintTicks(true);
 		height.setMajorTickSpacing(tickSpacingHeight);
 
 		//width of game
-		width = new JSlider(JSlider.HORIZONTAL, 10, 200, 50);
+		width = new JSlider(JSlider.HORIZONTAL, 30, 200, 100);
 		width.add(Box.createRigidArea(sliderPaddingVertical));
 		width.setPaintTicks(true);
 		width.setMajorTickSpacing(tickSpacingWidth);
-
-
-
 	}
 }

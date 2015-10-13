@@ -76,8 +76,8 @@ public class ClientParser {
 
 	private void readMessageToDisplay(char[] message) {
 		String messageToDisplay = "";
-		int count = 0;
-		while(count < message.length){
+		int count = 1;
+		while(count < message.length && message[count] != 'X'){
 			messageToDisplay += message[count++];
 		}
 		frame.displayMessageFromGame(messageToDisplay);
