@@ -58,11 +58,9 @@ public class Area implements CycleRecoverable {
 	}
 
 	private final AreaType type; // the type of area this is and determines the ground texture
-	@XmlElementWrapper
-	@XmlElement(name="item")
+	@XmlTransient
 	private final Item[][] items; // the array of items in the area based on their location
-	@XmlElementWrapper
-	@XmlElement(name="tile")
+	@XmlTransient
 	private final Tile[][] area; // the array of tiles that make up the area
 	private Position entrance; // the position on the parent of the entrance to this area
 	@XmlElementWrapper

@@ -312,7 +312,7 @@ public class Game {
 		}
 		if(item != null){
 			Item[] inventory = player.use(inventorySlot);
-			
+
 			//parser.sendToServer(player, 'I');
 			parser.sendToServer(player, 'H');
 			if(inventory != null){
@@ -392,7 +392,7 @@ public class Game {
 		p(containerSlot);
 		player.moveToInventory(containerSlot);
 		parser.sendInventory(player, player.getInventory());
-		
+
 	}
 
 	/**
@@ -488,6 +488,10 @@ public class Game {
 
 	public ServerParser getParser() {
 		return parser;
+	}
+
+	public void setGameState(GameState gameState) {
+		this.gameState = gameState;
 	}
 
 	/**

@@ -7,7 +7,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
-import sun.reflect.generics.tree.Tree;
 import dataStorage.pointers.AreaPointer;
 import model.state.GameState;
 import model.tiles.*;
@@ -38,11 +37,11 @@ public class Serializer {
 	 */
 	public static void serialize(GameState game) throws JAXBException {
 		JAXBContext context = JAXBContext
-				.newInstance(new Class[] { GameState.class, AreaPointer.class,
+				.newInstance(new Class[] { GameState.class, AreaPointer.class/*,
 						BuildingAnchorTile.class, BuildingTile.class,
 						CaveAnchorTile.class, CaveEntranceTile.class,
 						CaveTile.class, ChestTile.class, DoorTile.class,
-						GroundTile.class, PortalTile.class, Tree.class });
+						GroundTile.class, PortalTile.class, TreeTile.class*/ });
 		Marshaller m = context.createMarshaller();
 		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 

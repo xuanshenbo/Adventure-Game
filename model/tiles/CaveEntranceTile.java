@@ -21,6 +21,11 @@ public class CaveEntranceTile implements Tile {
 		this.exit = exit;
 	}
 
+	@SuppressWarnings("unused")
+	private CaveEntranceTile() {
+		this(null, null);
+	}
+
 	@Override
 	public void move(Player player, Direction direction) {
 		if(player.getPosition() == exit){

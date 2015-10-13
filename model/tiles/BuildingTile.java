@@ -21,6 +21,11 @@ public class BuildingTile implements Tile {
 		this.position = position;
 	}
 
+	@SuppressWarnings("unused")
+	private BuildingTile() {
+		this(null);
+	}
+
 	@Override
 	public void move(Player player, Direction direction) {
 		// TODO Auto-generated method stub

@@ -21,6 +21,11 @@ public class CaveTile implements Tile {
 		this.position = position;
 	}
 
+	@SuppressWarnings("unused")
+	private CaveTile() {
+		this(null);
+	}
+
 	@Override
 	public void move(Player player, Direction direction) {
 		// TODO Auto-generated method stub
