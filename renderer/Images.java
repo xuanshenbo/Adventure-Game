@@ -21,6 +21,7 @@ public class Images {
     //ground images
     private Image worldGroundImage;
     private Image caveGroundImage;
+    private Image buildingGroundImage;
 
     private Image treeImage;
     private Image[] chestImage;
@@ -60,6 +61,7 @@ public class Images {
         //load environment images
         this.worldGroundImage = loadImage("worldground.png", imageScale, imageScale*0.6f);
         this.caveGroundImage = loadImage("caveground.png", imageScale, imageScale*0.6f);
+        this.buildingGroundImage = loadImage("buildingground.png", imageScale, imageScale*0.6f);
         this.treeImage = loadImage("tree.png", imageScale*2, imageScale*2);
 
         buildingImage[0] = loadImage("building.png", imageScale*5, imageScale*5);
@@ -146,6 +148,9 @@ public class Images {
     }
 
     public Image caveGround() { return caveGroundImage;
+    }
+
+    public Image buildingGround() { return buildingGroundImage;
     }
 
     public Image shadow() { return shadow;

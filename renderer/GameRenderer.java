@@ -93,6 +93,8 @@ public class GameRenderer{
 
 		if (type == 'R'){
 			groundImage = images.caveGround();
+		} else if (type == 'W'){
+			groundImage = images.buildingGround();
 		} else {
 			groundImage = images.ground();
 		}
@@ -441,38 +443,4 @@ public class GameRenderer{
 		if(playerAnimationIndex < animationBound - 7)
 		playerAnimationIndex = animationBound - 6;
 	}
-
-//	public int getOffsetX(){
-//		return offsetX;
-//	}
-//
-//	public int getOffsetY(){
-//		return offsetY;
-//	}
-//
-//	public boolean setOffsetX(int offsetX){
-//		this.offsetX += offsetX;
-//		if (offsetX > tileWidth/2){
-//			offsetX = -(int)(tileWidth/2);
-//			return true;
-//		}
-//		if (offsetX < -tileWidth/2){
-//			offsetX = (int)(tileWidth/2);
-//			return true;
-//		}
-//		return false;
-//	}
-//
-//	public boolean setOffsetY(int offsetY){
-//		this.offsetY += offsetY;
-//		if (offsetY > tileHeight/2){
-//			offsetY = -(int)(tileHeight/2);
-//			return true;
-//		}
-//		if (offsetY < -tileHeight/2){
-//			offsetY = (int)(tileHeight/2);
-//			return true;
-//		}
-//		return false;
-//	}
 }
