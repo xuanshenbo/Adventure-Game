@@ -434,7 +434,7 @@ public class GameRenderer{
 		}
 
 		if ((view[23][9] != '\u0000' && view[23][10] == '\u0000')
-				|| (view[22][10] != '\u0000' && view[23][10] == '\u0000')){
+				|| (view[22][16] != '\u0000' && view[23][16] == '\u0000')){
 			doRender = false;
 		}
 
