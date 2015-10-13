@@ -1,6 +1,6 @@
 package view.frames;
 
-import interpreter.DialogStrategy;
+
 import interpreter.StrategyInterpreter;
 import interpreter.Translator;
 import interpreter.Translator.Command;
@@ -73,20 +73,15 @@ public class GameFrame extends JFrame {
 	public static final Color HAPPINESS_BAR_COLOR = new Color(255, 204, 255);
 	public static final Color STATUS_PANEL_COLOR = Color.GRAY;
 
-	private Dialog ContainerDialog;
-
-	private ArrayList<Avatar> avatars;
-
 	private String ip = "???", time = "???";
 
-	private Dimension gamePanelSize = new Dimension(800, 600);
 	private Dimension statusPanelSize = new Dimension(170, 125);
 
-	// public as needs to be accessed from ButtonPanel
-	public static final int buttonPaddingHorizontal = 50;
-	public static final int buttonPaddingVertical = 50;
-
-	private Avatar avatar;
+	/**
+	 * These constants determine the padding between all buttons used in the game
+	 */
+	public static final int BUTTON_PADDING_HORIZONTAL = 50;
+	public static final int BUTTON_PADDING_VERTICAL = 50;
 
 	private YesNoOptionWindow yesno;
 
@@ -106,9 +101,9 @@ public class GameFrame extends JFrame {
 	// gap around main buttons/status panel. Public for use in StatusPanel
 	public static int gap = 5;
 
-	// have to initialise this here for use in WelcomeDialog
-	private StrategyInterpreter dialogInterpreter = new StrategyInterpreter(
-			this, new DialogStrategy(), null);
+//	// have to initialise this here for use in WelcomeDialog
+//	private StrategyInterpreter dialogInterpreter = new StrategyInterpreter(
+//			this, new DialogStrategy(), null);
 
 	private PlayerProfilePanel playerProfilePanel;
 
@@ -124,10 +119,8 @@ public class GameFrame extends JFrame {
 
 	private Dimension buttonPanelSize = new Dimension(265, 50);
 
+	//The information object associated with this player
 	private PlayerInfo player;
-
-	// used for deciding what to do if the user tries to exit
-	// private boolean isServerMode = false;
 
 	/**
 	 * First a WelcomeDialog is displayed and then the constructor sets up the
@@ -185,7 +178,7 @@ public class GameFrame extends JFrame {
 
 	}
 
-	/*
+	/**
 	 * Add all the necessary panels with the appropriate GridBagConstraints. It
 	 * has public visibility, for access in Main
 	 */
@@ -209,9 +202,10 @@ public class GameFrame extends JFrame {
 
 	}
 
-	// add the middle pane as a JLayeredPane in order to be able to draw buttons
-	// and
-	// the status panel on top of the main game canvas
+	/*
+	 * add the middle pane as a JLayeredPane in order to be able to draw buttons  and
+	 * the status panel on top of the main game canvas
+	 */
 	private void addMiddlePanel() {
 		middleLayeredPane = new JLayeredPane();
 
@@ -236,11 +230,6 @@ public class GameFrame extends JFrame {
 		middleLayeredPane.setPreferredSize(new Dimension(gamePanelWidth,
 				gamePanelHeight));
 
-		// TODO this isn't working add a plain black border around the whole
-		// panel
-		Border blackline = BorderFactory.createLineBorder(Color.black, 2, true);
-		middleLayeredPane.setBorder(blackline);
-
 		add(middleLayeredPane);
 
 	}
@@ -248,7 +237,7 @@ public class GameFrame extends JFrame {
 	// This has the two main game buttons: Inventory and Team
 	private void createButtonPanel() {
 		butPanel = new ButtonPanel(this, this.buttonInterpreter,
-				Translator.MainGameState.MAIN);
+				Command.MAIN);
 
 		// so as to be able to see the game behind the buttons
 		butPanel.setOpaque(false);
@@ -274,9 +263,84 @@ public class GameFrame extends JFrame {
 	}
 
 	/**
-	 * Sends a message to server if the user presses an arrow key
+	 * TODO Gareth/Lucas to fill in the gaps Updates the renderer with the new
+	 * view
+	 *
+	 * @param type
+	 * @param map
+	 * @param items
+	 */
+	public void updateRenderer(char type, char[][] map, char[][] items) {
+		canvas.getRenderer().update(type, map, items);
+	}
+
+	/*
+	 * Create a dialog showing the container contents.
+	 */
+	private void addContainerDialog() {
+		if (container != null) {
+			container.dispose();
+		}
+		container = new Dialog(this, "Display Container",
+				"This container contains:",
+				Command.DISPLAY_CONTAINER);
+	}
+
+	/*
+	 * Create a dialog showing the inventory.
+	 */
+	private void addInventoryDialog() {
+		Dialog inventory = new Dialog(this, "Display Inventory",
+				"Your inventory contains:",
+				Command.DISPLAY_INVENTORY);
+	}
+
+
+
+	/**
+	 * @return true if this player is in server mode
+	 */
+	/*
+	 * public boolean isServerMode() { return isServerMode; }
 	 */
 
+	/**
+	 * Displays a message from the game to the user
+	 *
+	 * @param msg
+	 *            The message to be displayed
+	 */
+	public void displayMessageFromGame(String msg) {
+		MessageWindow m = new MessageWindow(msg);
+	}
+
+	/**
+	 * This method determines whether the user has confirmed they wish to
+	 * close the window or not
+	 * @param state The state: should be EXIT
+	 * @param isYes True if the user confirmed, false if they cancelled
+	 */
+	public void exitSelected(Command state, boolean isYes){
+		if(state.equals(Command.EXIT)){
+			if(isYes){
+				try {
+					/*
+					 * Rather than have a Game Strategy just for this, use the
+					 * menuInterpreter, which also has to deal with requests to
+					 * exit
+					 */
+					menuInterpreter.notify(Command.EXIT.toString());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			remove(yesno);
+		}
+	}
+
+	/*
+	 * Sends a message to server if the user presses an arrow key
+	 */
 	private class MyDispatcher implements KeyEventDispatcher {
 		@Override
 		public boolean dispatchKeyEvent(KeyEvent e) {
@@ -288,35 +352,37 @@ public class GameFrame extends JFrame {
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_UP:
 					if (canvas.getRenderer().getViewDir() == 0)
-						toNotify = Translator.Command.MOVE_NORTH.toString();
+						toNotify = Command.MOVE_NORTH.toString();
 					else
-						toNotify = Translator.Command.MOVE_SOUTH.toString();
+						toNotify = Command.MOVE_SOUTH.toString();
 					break;
 				case KeyEvent.VK_DOWN:
 					if (canvas.getRenderer().getViewDir() == 0)
-						toNotify = Translator.Command.MOVE_SOUTH.toString();
+						toNotify = Command.MOVE_SOUTH.toString();
 					else
-						toNotify = Translator.Command.MOVE_NORTH.toString();
+						toNotify = Command.MOVE_NORTH.toString();
 					break;
 				case KeyEvent.VK_LEFT:
 					if (canvas.getRenderer().getViewDir() == 0)
-						toNotify = Translator.Command.MOVE_WEST.toString();
+						toNotify = Command.MOVE_WEST.toString();
 					else
-						toNotify = Translator.Command.MOVE_EAST.toString();
+						toNotify = Command.MOVE_EAST.toString();
 					break;
 				case KeyEvent.VK_RIGHT:
 					if (canvas.getRenderer().getViewDir() == 0)
-						toNotify = Translator.Command.MOVE_EAST.toString();
+						toNotify = Command.MOVE_EAST.toString();
 					else
-						toNotify = Translator.Command.MOVE_WEST.toString();
+						toNotify = Command.MOVE_WEST.toString();
 					break;
 				case KeyEvent.VK_P:
-					toNotify = Translator.Command.PICK_UP.toString();
+					toNotify = Command.PICK_UP.toString();
 					break;
 				case KeyEvent.VK_R:
-					toNotify = Translator.Command.ROTATE_VIEW.toString();
-					canvas.getRenderer().rotate(); // TODO this shouldn't be
-													// done here
+					toNotify = Command.ROTATE_VIEW.toString();
+
+					//TODO this shouldn't be done here
+					canvas.getRenderer().rotate();
+
 					break;
 				}
 			}
@@ -331,26 +397,18 @@ public class GameFrame extends JFrame {
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-			return false; // should this return false?
+			return false;
 		}
 	}
 
-	/**
-	 * TODO Gareth/Lucas to fill in the gaps Updates the renderer with the new
-	 * view
-	 *
-	 * @param type
-	 * @param map
-	 * @param items
-	 */
-	public void updateRenderer(char type, char[][] map, char[][] items) {
-		canvas.getRenderer().update(type, map, items);
-	}
+	//====================================================================
+	//===================GETTERS AND SETTERS FOLLOW=======================
+	//====================================================================
 
 	/**
 	 * Get contents of this player's inventory from Game, via network
 	 *
-	 * @return
+	 * @return The list of items represented as Strings
 	 */
 	public ArrayList<String> getInventoryContents() {
 		ArrayList<String> inventory = new ArrayList<String>();
@@ -366,7 +424,7 @@ public class GameFrame extends JFrame {
 	/**
 	 * Get contents of this player's container from Game, via network
 	 *
-	 * @return
+	 * @return The list of items represented as Strings
 	 */
 	public ArrayList<String> getContainerContents() {
 		ArrayList<String> container = new ArrayList<String>();
@@ -377,6 +435,97 @@ public class GameFrame extends JFrame {
 			container.add("cupcake");
 			return container;
 		}
+	}
+
+	/**
+	 *
+	 * @return The Key-Action-Event Interpreter
+	 */
+	public StrategyInterpreter getKeyInterpreter() {
+		return keyInterpreter;
+	}
+
+
+	/**
+	 * @return The width of the main game canvas panel
+	 */
+	public int getMapWidth() {
+		return this.midPanel.getWidth();
+	}
+
+	/**
+	 * @return The Radio button interpreter
+	 */
+	public StrategyInterpreter getRadioInterpreter() {
+		return radioInterpreter;
+	}
+
+	/**
+	 * @return The button interpreter
+	 */
+	public StrategyInterpreter getButtonInterpreter() {
+		return this.buttonInterpreter;
+	}
+
+	/**
+	 * @return The GameCanvas
+	 */
+	public GameCanvas getCanvas() {
+		return canvas;
+	}
+
+	/**
+	 * @return The current time
+	 */
+	public String getTime() {
+		return time;
+	}
+
+	/**
+	 * @return The ip address of the client
+	 */
+	public String getIP() {
+		return ip;
+	}
+
+	/**
+	 *
+	 * @return This player's avatar
+	 */
+	public Avatar getAvatar() {
+		return player.getAvatar();
+	}
+
+	/**
+	 *
+	 * @return The gap to be used around panels. Used in the StatusPanel
+	 */
+	public int getGap() {
+		return gap;
+	}
+
+	/**
+	 *
+	 * @return This player's current happiness level
+	 */
+	public int getHappinessLevel() {
+		return player.getHappinessValue();
+	}
+
+	/**
+	 *
+	 * @return This player's imaginary team mate number 1
+	 */
+	public String getTeamMember1() {
+		return player.getTeamMember1();
+	}
+
+	/**
+	 *
+	 * @return This player's imaginary team mate number 2
+	 */
+	public String getTeamMember2() {
+		return player.getTeamMember2();
 	}
 
 	/**
@@ -401,40 +550,6 @@ public class GameFrame extends JFrame {
 		System.out.println("setting container content");// debug
 		containerContents = containerItems;
 		addContainerDialog();
-	}
-
-	private void addContainerDialog() {
-		if (container != null) {
-			container.dispose();
-		}
-		container = new Dialog(this, "Display Container",
-				"This container contains:",
-				Translator.Command.DISPLAY_CONTAINER, this.dialogInterpreter);
-	}
-
-	/**
-	 * Create a dialog showing the inventory.
-	 */
-	public void addInventoryDialog() {
-		Dialog inventory = new Dialog(this, "Display Inventory",
-				"Your inventory contains:",
-				Translator.Command.DISPLAY_INVENTORY, this.dialogInterpreter);
-	}
-
-	/**
-	 *
-	 * @return The Key-Action-Event Interpreter
-	 */
-	public StrategyInterpreter getKeyInterpreter() {
-		return keyInterpreter;
-	}
-
-	/**
-	 *
-	 * @return The Dialog-Action-Event Interpreter.
-	 */
-	public StrategyInterpreter getDialogInterpreter() {
-		return dialogInterpreter;
 	}
 
 	/**
@@ -468,60 +583,14 @@ public class GameFrame extends JFrame {
 	}
 
 	/**
-	 * Assigns the argument to the DialogInterpreter field
+	 * Assigns the argument to the RadioInterpreter field
 	 *
 	 * @param d
-	 *            The Dialog-Action-Event Interpreter
+	 *            The Radio Button-Action-Event Interpreter
 	 */
-	public void setDialogInterpreter(StrategyInterpreter d) {
-		this.dialogInterpreter = d;
-	}
-
-	/**
-	 * @return The width of the main game canvas panel
-	 */
-	public int getMapWidth() {
-		return this.midPanel.getWidth();
-	}
-
-	/**
-	 * @return The Radio button interpreter
-	 */
-	public StrategyInterpreter getRadioInterpreter() {
-		return radioInterpreter;
-	}
-
 	public void setRadioInterpreter(StrategyInterpreter menuInterpreter) {
 		this.radioInterpreter = menuInterpreter;
 
-	}
-
-	/**
-	 * @return The button interpreter
-	 */
-	public StrategyInterpreter getButtonInterpreter() {
-		return this.buttonInterpreter;
-	}
-
-	/**
-	 * @return The GameCanvas
-	 */
-	public GameCanvas getCanvas() {
-		return canvas;
-	}
-
-	/**
-	 * @return The current time
-	 */
-	public String getTime() {
-		return time;
-	}
-
-	/**
-	 * @return The ip address of the client
-	 */
-	public String getIP() {
-		return ip;
 	}
 
 	/**
@@ -530,7 +599,8 @@ public class GameFrame extends JFrame {
 	 *            The new time to be assigned.
 	 */
 	public void setTime(int t) {
-		time = t+":00";
+		int absoluteValue = Math.abs(t);
+		time = absoluteValue+":00";
 	}
 
 	/**
@@ -569,75 +639,6 @@ public class GameFrame extends JFrame {
 	public void setAvatar(Avatar chosenAvatar) {
 		player.setAvatar(chosenAvatar);
 
-	}
-
-	/**
-	 *
-	 * @return This player's avatar
-	 */
-	public Avatar getAvatar() {
-		return player.getAvatar();
-	}
-
-	/**
-	 * Displays a message from the game to the user
-	 *
-	 * @param msg
-	 *            The message to be displayed
-	 */
-	public void displayMessageFromGame(String msg) {
-		MessageWindow m = new MessageWindow(msg);
-//		JOptionPane.showMessageDialog(this, msg);
-	}
-
-	/**
-	 *
-	 * @return The gap to be used around panels. Used in the StatusPanel
-	 */
-	public int getGap() {
-		return gap;
-	}
-
-	/**
-	 *
-	 * @return This player's current happiness level
-	 */
-	public int getHappinessLevel() {
-		return player.getHappinessValue();
-	}
-
-	/**
-	 *
-	 * @return This player's imaginary team mate number 1
-	 */
-	public String getTeamMember1() {
-		return player.getTeamMember1();
-	}
-
-	/**
-	 *
-	 * @return This player's imaginary team mate number 2
-	 */
-	public String getTeamMember2() {
-		return player.getTeamMember2();
-	}
-
-	public void yesSelected(Command state, boolean isYes){
-		if(state.equals(Command.EXIT)){
-			if(isYes){
-				try {
-					/*
-					 * Rather than have a Game Strategy just for this, use the
-					 * menuInterpreter, which also has to deal with requests to
-					 * exit
-					 */
-					menuInterpreter.notify(Translator.Command.EXIT.toString());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			remove(yesno);
-		}
 	}
 
 }

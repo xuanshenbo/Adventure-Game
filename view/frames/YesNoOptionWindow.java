@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import view.styledComponents.HappinessButton;
@@ -112,7 +111,7 @@ public class YesNoOptionWindow extends JFrame{
 						welcomeFrame.yesSelected(state, true);
 					}
 					else{
-						gameFrame.yesSelected(state, true);
+						gameFrame.exitSelected(state, true);
 					}
 				}
 				else{
@@ -120,7 +119,7 @@ public class YesNoOptionWindow extends JFrame{
 						welcomeFrame.yesSelected(state, false);
 					}
 					else{
-						gameFrame.yesSelected(state, false);
+						gameFrame.exitSelected(state, false);
 					}
 				}
 
@@ -132,12 +131,12 @@ public class YesNoOptionWindow extends JFrame{
 		yes.addActionListener(yesnoListener);
 		no.addActionListener(yesnoListener);
 
-		buttons.add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingHorizontal,0)));
+		buttons.add(Box.createRigidArea(new Dimension(GameFrame.BUTTON_PADDING_HORIZONTAL,0)));
 		buttons.add(yes);
 
 		//pad between buttons
 		int buttonpadding = centerButtonsOnPanel(yes, no);
-		buttons.add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingHorizontal,0)));
+		buttons.add(Box.createRigidArea(new Dimension(GameFrame.BUTTON_PADDING_HORIZONTAL,0)));
 		buttons.add(no);
 
 	}

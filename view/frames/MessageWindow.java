@@ -1,26 +1,18 @@
 package view.frames;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import interpreter.Translator.Command;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 import view.styledComponents.HappinessButton;
 import view.styledComponents.HappinessLabel;
 
 public class MessageWindow extends JFrame {
-
-	private String msg = "";
-
-	private Command state;
 
 	private HappinessLabel messageLabel;
 

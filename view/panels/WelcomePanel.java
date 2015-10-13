@@ -5,7 +5,6 @@ import interpreter.Translator.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -31,9 +30,6 @@ public class WelcomePanel extends JPanel{
 	private JFrame parentFrame;
 
 	private int heading1Size = 50;
-	private int heading2Size = 30;
-	private GridBagConstraints buttonPanelConstraints;
-	private GridBagConstraints sliderPanelConstraints;
 
 	//the image to be displayed on the opening welcome panel
 	private Image welcomeImage;
@@ -55,8 +51,6 @@ public class WelcomePanel extends JPanel{
 	//the state decides what to display
 	private InitialisationCommand state;
 
-	private String instructions = "If you wish to start a new game, please click OK, to choose an Avatar!";
-
 	//how many trees the user wants
 	private int density = 50;
 
@@ -65,8 +59,6 @@ public class WelcomePanel extends JPanel{
 
 	//width and height of game
 	private int gameWidth = 50, gameHeight = 50;
-
-	private InitialisationCommand initState;
 
 	//has the user entered a sensible ip?
 	private boolean validIP = true;
@@ -124,7 +116,6 @@ public class WelcomePanel extends JPanel{
 	 */
 	public void transitionToNewState(InitialisationCommand state){
 		bPanel.setVisible(false);
-		this.initState = state;
 
 		switch(state){
 
@@ -231,7 +222,6 @@ public class WelcomePanel extends JPanel{
 
 	/*
 	 * Displays option dialog to get user to decide to load a game, or start a new game
-	 * TODO why is this panel not being displayed?
 	 */
 	private void displayLoadNew() {
 		remove(bPanel);
@@ -258,34 +248,6 @@ public class WelcomePanel extends JPanel{
 
 	}
 
-	/**
-	 * @param c TextField to store in a field
-	 */
-	public void setTextField(JTextField c){
-
-	}
-
-	public void setValidIP(boolean b) {
-		this.validIP = b;
-
-	}
-
-	public void setDensity(int value) {
-		density = value;
-	}
-
-	public void setDifficultyLevel(int value) {
-		difficultyLevel = value;
-	}
-
-	public void setGameHeight(int value) {
-		gameHeight = value;
-	}
-
-	public void setGameWidth(int value) {
-		gameWidth = value;
-	}
-
 	public void removeSliderPanel() {
 		remove(sliderPanel);
 	}
@@ -296,5 +258,57 @@ public class WelcomePanel extends JPanel{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	//====================================================================
+	//===================GETTERS AND SETTERS FOLLOW=======================
+	//====================================================================
+
+	/**
+	 * @param c TextField to store in a field
+	 */
+	public void setTextField(JTextField c){
+
+	}
+
+	/**
+	 * Set whether the user has entered a valid ip address
+	 * @param b True if the input is valid
+	 */
+	public void setValidIP(boolean b) {
+		this.validIP = b;
+
+	}
+
+	/**
+	 * Sets the value chosen by the user, for use when creating game
+	 * @param value The density level
+	 */
+	public void setDensity(int value) {
+		density = value;
+	}
+
+	/**
+	 * Sets the value chosen by the user, for use when creating game
+	 * @param value The difficulty level
+	 */
+	public void setDifficultyLevel(int value) {
+		difficultyLevel = value;
+	}
+
+	/**
+	 * Sets the value chosen by the user, for use when creating game
+	 * @param value The game height
+	 */
+	public void setGameHeight(int value) {
+		gameHeight = value;
+	}
+
+	/**
+	 * Sets the value chosen by the user, for use when creating game
+	 * @param value The game width
+	 */
+	public void setGameWidth(int value) {
+		gameWidth = value;
 	}
 }

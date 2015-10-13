@@ -57,8 +57,6 @@ public class Dialog extends JDialog implements ActionListener {
 
 	private Translator.Command state;
 
-	private StrategyInterpreter dialogInterpreter;
-
 	private Initialisation initialisation;
 
 	private WelcomePanel welcomePanel;
@@ -87,12 +85,10 @@ public class Dialog extends JDialog implements ActionListener {
 	 * @param msg Message to display
 	 * @param i The state of the Game
 	 */
-	public Dialog(GameFrame gameFrame, String title, String msg, Translator.Command state, StrategyInterpreter dialogInterp) {
+	public Dialog(GameFrame gameFrame, String title, String msg, Translator.Command state) {
 		super(gameFrame, title, true);
 
 		this.state = state;
-
-		this.dialogInterpreter = dialogInterp;
 
 		getContentPane().setLayout( new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
 
@@ -153,9 +149,8 @@ public class Dialog extends JDialog implements ActionListener {
 
 	/**
 	 * For displaying messages
-	 * @param state
-	 * @param message
-	 * @param container
+	 * @param state The state of the game which determines what to display
+	 * @param message The message to display
 	 */
 	public Dialog(Command state, String message){
 
@@ -282,14 +277,8 @@ public class Dialog extends JDialog implements ActionListener {
 	}
 
 	/**
-	 * @param c TextField to store in a field
-	 */
-	public void setTextField(JTextField c){
-
-	}
-
-	/*
 	 * Display the item options, with a different button panel depending on whether this is an inventory or container
+	 * @param isInventory Whether or not the container being shown is an inventory or not
 	 */
 	public void displayItemOptions(boolean isInventory) {
 		if(isInventory){

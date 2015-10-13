@@ -9,10 +9,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -20,15 +16,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import view.frames.Dialog;
-import view.frames.GameFrame;
-import view.styledComponents.HappinessLabel;
 import view.styledComponents.HappinessRadioButton;
 import view.utilities.ImageLoader;
 
 public class ContainerInventoryDisplayPanel extends JPanel {
 
-	private GameFrame containerFrame;
-	private Set<HappinessRadioButton> buttonOptions = new HashSet<HappinessRadioButton>();
 
 	private StrategyInterpreter buttonInterpreter;
 
@@ -40,12 +32,6 @@ public class ContainerInventoryDisplayPanel extends JPanel {
 	private boolean firstButtonSelected = false;
 
 	private Command state;
-
-	//this constructor not currently used
-	public ContainerInventoryDisplayPanel(GameFrame container, String type){
-		containerFrame = container;
-
-	}
 
 	/**
 	 * This constructor show the options for the inventory: what items, and drop, move to bag, or use.
@@ -63,10 +49,6 @@ public class ContainerInventoryDisplayPanel extends JPanel {
 		this.containerDialog = d;
 
 		this.buttonInterpreter = buttonInterp;
-
-		Map<String, HappinessLabel> HappinessLabels = new HashMap<String, HappinessLabel>();
-
-		int countEmptySlots = 0;
 
 		/*
 		 * Create HappinessLabels for each item in the inventory

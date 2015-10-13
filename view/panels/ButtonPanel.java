@@ -1,35 +1,18 @@
 package view.panels;
 
 import interpreter.StrategyInterpreter;
-import interpreter.Translator;
 import interpreter.Translator.Command;
 import interpreter.Translator.InitialisationCommand;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.util.ArrayList;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.layout.Border;
-
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ButtonModel;
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.SwingConstants;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
 
 import view.frames.Dialog;
 import view.frames.GameFrame;
@@ -44,12 +27,8 @@ import main.Initialisation;
  */
 public class ButtonPanel extends JPanel {
 
-	private int height = 100;
-	private int width = 300;
-
 	private HappinessButton inventory;
 	private HappinessButton team;
-	private HappinessButton exchange;
 	private GameFrame containerFrame;
 
 	private HappinessButton loadGame = new HappinessButton("Load saved game");
@@ -67,23 +46,23 @@ public class ButtonPanel extends JPanel {
 	private StrategyInterpreter buttonInterpreter;
 	private Dialog dialog;
 
+
 	/**
 	 * The constructor stores the button interpreter to a field
-	 *
-	 * @param container
-	 * @param boxLayout2
+	 * @param container The container for this panel
+	 * @param interpreter The interpreter for communicating user actions
+	 * @param state The state of the game
 	 */
-	public ButtonPanel(GameFrame container, StrategyInterpreter b,
-			Translator.MainGameState state) {
-		buttonInterpreter = b;
+	public ButtonPanel(GameFrame container, StrategyInterpreter interpreter,
+			Command state) {
+		buttonInterpreter = interpreter;
 		containerFrame = container;
 
 		// make buttons layout top to bottom
 		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS);
-		// display main game-play buttons horizontally
 		setLayout(boxLayout);
 
-		if (state.equals(Translator.MainGameState.MAIN)) {
+		if (state.equals(Command.MAIN)) {
 			if (containerFrame != null) {
 				CreateMainButtons();
 			} else {
@@ -139,7 +118,14 @@ public class ButtonPanel extends JPanel {
 
 	}
 
-	public ButtonPanel(Translator.Command state,
+	/**
+	 * This constructor is used to display the options for
+	 * interacting with a container or inventory
+	 * @param state The state of the game
+	 * @param buttonInterp The interpreter to notify of user actions
+	 * @param d The dialog on which this panel lies.
+	 */
+	public ButtonPanel(Command state,
 			StrategyInterpreter buttonInterp, Dialog d) {
 		this.dialog = d;
 
@@ -148,12 +134,12 @@ public class ButtonPanel extends JPanel {
 		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS);
 		setLayout(boxLayout);
 
-		if (state.equals(Translator.Command.DISPLAY_INVENTORY_ITEM_OPTIONS)) {
+		if (state.equals(Command.DISPLAY_INVENTORY_ITEM_OPTIONS)) {
 			displayInventoryItemOptions();
 		}
 
 		else if (state
-				.equals(Translator.Command.DISPLAY_CONTAINER_ITEM_OPTIONS)) {
+				.equals(Command.DISPLAY_CONTAINER_ITEM_OPTIONS)) {
 			displayContainerItemOptions();
 		}
 
@@ -192,15 +178,15 @@ public class ButtonPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				String msg = "";
 				if (e.getSource() == drop) {
-					msg = Translator.Command.DROP.toString();
+					msg = Command.DROP.toString();
 					dialog.dispose(); // no longer display inventory
 
 				} else if (e.getSource() == use) {
-					msg = Translator.Command.USE.toString();
+					msg = Command.USE.toString();
 					dialog.dispose(); // no longer display inventory
 
 				} else if (e.getSource() == moveToBag) {
-					msg = Translator.Command.MOVE_ITEM.toString();
+					msg = Command.MOVE_ITEM.toString();
 					/*
 					 * we know something is selected at this point, because
 					 *  the drop/use/move options only appear after something is selected
@@ -281,9 +267,9 @@ public class ButtonPanel extends JPanel {
 		/*
 		 * Add the buttons with padding
 		 */
-		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical, 0)));
+		add(Box.createRigidArea(new Dimension(GameFrame.BUTTON_PADDING_VERTICAL, 0)));
 		add(loadPlayer);
-		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical,0)));
+		add(Box.createRigidArea(new Dimension(GameFrame.BUTTON_PADDING_VERTICAL,0)));
 		add(createPlayer);
 
 		setVisible(true);
@@ -350,7 +336,7 @@ public class ButtonPanel extends JPanel {
 
 	}
 
-	/**
+	/*
 	 * Adds two buttons to the panel: A button to play as a Client, and another
 	 * to play as Server/Client.
 	 */
@@ -417,7 +403,7 @@ public class ButtonPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					buttonInterpreter
-					.notify(Translator.Command.DISPLAY_INVENTORY
+					.notify(Command.DISPLAY_INVENTORY
 							.toString());
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -445,10 +431,10 @@ public class ButtonPanel extends JPanel {
 		 * Add buttons with padding
 		 */
 		add(Box.createRigidArea(new Dimension(
-				GameFrame.buttonPaddingHorizontal, 0)));
+				GameFrame.BUTTON_PADDING_HORIZONTAL, 0)));
 		add(inventory);
 		add(Box.createRigidArea(new Dimension(
-				GameFrame.buttonPaddingHorizontal, 0)));
+				GameFrame.BUTTON_PADDING_HORIZONTAL, 0)));
 		add(team);
 
 		revalidate();

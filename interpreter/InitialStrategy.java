@@ -17,7 +17,12 @@ import view.utilities.Avatar;
 import main.Initialisation;
 import main.Main;
 
-
+/**
+ * An implementation of the Observer and Strategy design patterns, combined to
+ * allow strict observation of the overarching MVC design pattern
+ * The ButtonStrategy governs interaction between the user, during the
+ * setting up stages of the game
+ */
 public class InitialStrategy implements StrategyInterpreter.Strategy{
 	//private Initialisation s;
 	private String ip;

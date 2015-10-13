@@ -51,7 +51,7 @@ public class WelcomeFrame extends JFrame {
 		if(state.equals(Command.EXIT)){
 			if(isYes){
 				try {
-					initialisation.notify(Translator.Command.EXIT.toString());
+					initialisation.notify(Command.EXIT.toString());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

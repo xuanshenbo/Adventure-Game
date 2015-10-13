@@ -33,7 +33,7 @@ public class KeyStrategy implements StrategyInterpreter.Strategy{
 	}
 
 	private void notifyCommand(String text) {
-		Translator.Command cmd = Translator.toCommand(text);
+		Command cmd = Translator.toCommand(text);
 		String msg = Translator.encode(cmd);
 		try {
 			interpreter.getClient().send(msg);

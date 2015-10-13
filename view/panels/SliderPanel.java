@@ -1,15 +1,12 @@
 package view.panels;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
@@ -154,10 +151,11 @@ public class SliderPanel extends JPanel {
 		});
 	}
 
+	/*
+	 * Create sliders and add vertical space for readability
+	 */
 	private void setUpSliders() {
-		/*
-		 * Create sliders and add vertical space for readability
-		 */
+
 		int tickSpacingDensity = 5, tickSpacingDifficulty = 1, tickSpacingWidth = 5, tickSpacingHeight = 5;
 
 		//density of game world
@@ -183,8 +181,5 @@ public class SliderPanel extends JPanel {
 		width.add(Box.createRigidArea(sliderPaddingVertical));
 		width.setPaintTicks(true);
 		width.setMajorTickSpacing(tickSpacingWidth);
-
-
-
 	}
 }
