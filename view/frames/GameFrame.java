@@ -351,35 +351,43 @@ public class GameFrame extends JFrame {
 				canvas.getRenderer().doAnimation();
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_UP:
-
-					if (canvas.getRenderer().getViewDir() == 0)
+					canvas.getRenderer().setDir(23);
+					if (canvas.getRenderer().getViewDir() == 0) {
 						toNotify = Command.MOVE_NORTH.toString();
-					else
+					}
+					else {
 						toNotify = Command.MOVE_SOUTH.toString();
+					}
 					break;
 
 				case KeyEvent.VK_DOWN:
-
-					if (canvas.getRenderer().getViewDir() == 0)
+					canvas.getRenderer().setDir(7);
+					if (canvas.getRenderer().getViewDir() == 0) {
 						toNotify = Command.MOVE_SOUTH.toString();
-					else
+					}
+					else {
 						toNotify = Command.MOVE_NORTH.toString();
+					}
 					break;
 
 				case KeyEvent.VK_LEFT:
-
-					if (canvas.getRenderer().getViewDir() == 0)
+					canvas.getRenderer().setDir(15);
+					if (canvas.getRenderer().getViewDir() == 0) {
 						toNotify = Command.MOVE_WEST.toString();
-					else
+					}
+					else {
 						toNotify = Command.MOVE_EAST.toString();
+					}
 					break;
 
 				case KeyEvent.VK_RIGHT:
-
-					if (canvas.getRenderer().getViewDir() == 0)
+					canvas.getRenderer().setDir(31);
+					if (canvas.getRenderer().getViewDir() == 0) {
 						toNotify = Command.MOVE_EAST.toString();
-					else
+					}
+					else {
 						toNotify = Command.MOVE_WEST.toString();
+					}
 					break;
 
 				case KeyEvent.VK_P:

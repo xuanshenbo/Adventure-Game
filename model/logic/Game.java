@@ -214,7 +214,6 @@ public class Game {
 	 *            : direction to move in.
 	 */
 	public void move(Player player, Direction direction) {
-		p("maxZombies:"+maxZombies);
 		Position playerPosition = player.getPosition();
 		Tile toTile = destinationTile(direction, player);
 
