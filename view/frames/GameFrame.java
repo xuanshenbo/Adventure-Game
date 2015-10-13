@@ -529,8 +529,8 @@ public class GameFrame extends JFrame {
 	 * @param t
 	 *            The new time to be assigned.
 	 */
-	public void setTime(String t) {
-		time = t;
+	public void setTime(int t) {
+		time = t+":00";
 	}
 
 	/**
