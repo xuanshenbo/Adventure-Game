@@ -12,7 +12,7 @@ import view.frames.GameFrame;
 
 /**
  * ClockThread is a clock trigger to display the game at a certain rate by updating the GameFrame
- * @author yanlong
+ * @author yanlong, Mingmin Ying
  *
  */
 public class ClockThread extends Thread{

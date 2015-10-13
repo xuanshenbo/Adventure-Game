@@ -6,11 +6,15 @@ import java.awt.image.BufferedImage;
 import static utilities.PrintTool.p;
 
 /**
+ * This is the Game Renderer, parsing all the map information
+ * and render the out put image for the main canvas to draw.
+ *
  * Created by lucas on 7/10/15
+ * @author Mingmin Ying 300266387
  */
 public class GameRenderer{
 
-	//all different sizes needed
+	//all data needed to render elements in the right place
 	private int size;
 	private int offsetX, offsetY;
 	private int width,height;
@@ -429,7 +433,8 @@ public class GameRenderer{
 			}
 		}
 
-		if (view[23][9] != '\u0000' && view[23][10] == '\u0000'){
+		if ((view[23][9] != '\u0000' && view[23][10] == '\u0000')
+				|| (view[22][10] != '\u0000' && view[23][10] == '\u0000')){
 			doRender = false;
 		}
 

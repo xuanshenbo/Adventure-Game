@@ -9,7 +9,9 @@ import model.state.Player;
 import static utilities.PrintTool.p;
 
 /**
+ *
  * Created by lucas on 27/09/15.
+ * @author Mingmin Ying 300266387
  */
 public class Images {
 
