@@ -125,7 +125,8 @@ public class Main {
 			avatarClient.setUid(0);//debug
 			avatarClient.start();
 			initial.setClient(avatarClient);
-			System.out.println("Main 141: avatar client is sending R");//debug
+			//System.out.println("Main 141: avatar client is sending R");//debug
+			System.out.print("");//debug
 			avatarClient.send("R");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -166,6 +167,9 @@ public class Main {
 		//set the ip address of the client for display
 		ipAddress = client.getIPaddress();
 		//System.out.println("Main 180: This ip is "+ipAddress);//debug
+		while(ipAddress == null){
+			//do nothing and wait for the ip address?
+		}
 		frame.setIP(ipAddress);
 
 		frame.setUpLayoutAndDisplay();

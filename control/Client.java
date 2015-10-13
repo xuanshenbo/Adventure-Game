@@ -58,9 +58,37 @@ public class Client extends Thread {
 
 				//output.write("This is the server machine!");
 				//output.flush();
-				char[] message = new char[2048];
+				char[] message = new char[1924];
 				//System.out.println("client starts reading");//debug
 				input.read(message);
+
+				/*if(message[0] == 'M'){
+					char[][] map = new char[31][31];
+					int index = 2;
+					for(int row=0; row < map.length; row++){
+						for(int col=0; col < map[0].length; col++){
+							if(message[index] == '\0'){
+								//System.out.println("Client 71: index: "+index);
+								break;
+							}
+							map[row][col] = message[index++];
+							index++;
+							//items[row][col] = message[index++];
+						}
+					}
+					char[][] playerOneView = map;
+					System.out.println("\nPlayer 1 view");
+					for(int row = 0; row<playerOneView.length; row++){
+						for(int col = 0; col<playerOneView[0].length; col++){
+							if(playerOneView[row][col] != '\u0000'){
+								System.out.print(playerOneView[row][col]);
+							}else{
+								System.out.print("N");
+							}
+						}
+						System.out.println("");
+					}
+				}*/
 
 				/*String receive = "";
 				if(message[0] != '\0'){
@@ -71,49 +99,18 @@ public class Client extends Thread {
 					}
 					System.out.println(receive);
 				}*/
-
-				parser.processMessage(message);
-
-				//only do something if the message is not null
-				/*String receive = "";
-				if(message[0] != '\0'){
-					for(int i=0; i<message.length; i++){
-						if(message[i] == '\0'|| message[i] == '\r' || message[i] == '\n') break;
-						receive+=message[i];
-						System.out.print(message[i]);
-					}
-					System.out.println();
-				}
-				if(receive.substring(0,2).equals("ID")){
-					uid = Integer.valueOf(receive.substring(3,4));
+				boolean update = true;
+				/*				if(message[1448] == '\0' && message[0] == 'M' ){
+					System.out.println("Client 104: false update detected");
+					update = false;
 				}*/
+				if(update){
+					parser.processMessage(message);
+				}
+				update = true;
 			}
 			socket.close();
-			/*int i = 0;
-			String rowString = "";
-			String colString = "";
-			while(message[i] != 'x'){
-				rowString = rowString+message[i];
-				i++;
-			}
-			i++;
-			while(message[i] != 'x'){
-				colString = colString+message[i];
-				i++;
-			}
-			i++;
-			int rowInt = Integer.valueOf(rowString);
-			int colInt = Integer.valueOf(colString);
 
-			map = new char[rowInt][colInt];
-			for(int row=0; row<rowInt; row++){
-				for(int col=0; col<colInt; col++){
-					map[row][col] = message[i];
-					System.out.print(message[i]);
-					i++;
-				}
-				System.out.println("");
-			}*/
 		} catch (IOException e) {
 			e.printStackTrace();
 			try {

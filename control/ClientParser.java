@@ -106,14 +106,14 @@ public class ClientParser {
 				System.out.println("unknown avatar");
 			}
 		}
-		System.out.println("ClientParser 101: avatar is being read");//debug
+		//System.out.println("ClientParser 101: avatar is being read");//debug
 		//debug
-		for(Avatar avatar: avatars){
+		/*for(Avatar avatar: avatars){
 			System.out.println(avatar.toString());
-		}
+		}*/
 		Initialisation initial = Main.getInitial();
 		initial.setAvatars(avatars);
-		System.out.println("ClientParser 112: display avatar once");
+		//System.out.println("ClientParser 112: display avatar once");
 		initial.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.LOAD_SAVED_PLAYER);//this will display avatar
 
 	}
@@ -246,7 +246,7 @@ public class ClientParser {
 				items[row][col] = message[index++];
 			}
 		}
-		char[][] playerOneView = map;
+		/*char[][] playerOneView = map;
 		System.out.println("\nPlayer 1 view");
 		for(int row = 0; row<playerOneView.length; row++){
 			for(int col = 0; col<playerOneView[0].length; col++){
@@ -257,7 +257,7 @@ public class ClientParser {
 				}
 			}
 			System.out.println("");
-		}
+		}*/
 		//p("reading map in the client");
 		if(frame != null){
 			frame.updateRenderer(type, map, items);
