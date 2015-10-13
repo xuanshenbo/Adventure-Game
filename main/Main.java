@@ -65,18 +65,20 @@ public class Main {
 	/**
 	 * The following creates a server for the old game that is ready to be loaded
 	 */
-	public static void oldGame(){
+	public static boolean oldGame(){
 		GameState toLoad = null;
 		try {
 			toLoad = Deserializer.deserialize();
 			if (toLoad == null) {
-				return;
+				return false;
 			}
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
 		server = new Server(toLoad);
 		server.start();
+
+		return true;
 	}
 
 	/**
@@ -156,7 +158,7 @@ public class Main {
 		StrategyInterpreter menuInterpreter = null;
 		StrategyInterpreter radioInterpreter = null;
 
-		frame = new GameFrame("Adventure Game");
+		frame = new GameFrame("The Happiness Game");
 		//set the chosen avatar
 		frame.setAvatar(initial.getChosenAvatar());
 

@@ -22,7 +22,7 @@ import main.Main;
  * allow strict observation of the overarching MVC design pattern
  * The ButtonStrategy governs interaction between the user, during the
  * setting up stages of the game
- * @author  flanagdonn, yanlong
+ * @author  flanagdonn
  */
 public class InitialStrategy implements StrategyInterpreter.Strategy{
 	//private Initialisation s;
@@ -60,20 +60,16 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 			difficulty = sc.nextInt();
 			density = sc.nextInt();
 
-			//notify server of params here!!
-
-
 			initialisation.getWelcomePanel().transitionToNewState(InitialisationCommand.CREATE_NEW_PLAYER);
-
-
 		}
 
+
 		else{	//entered ipaddress
-			ip = text;
-			InetAddress adr = null;
+			ip = text;	//@author yanlong
+			InetAddress adr = null; //@author yanlong
 			try {
-				adr = InetAddress.getByName(ip);
-				Main.avatarClient(adr, 8888);
+				adr = InetAddress.getByName(ip); //@author yanlong
+				Main.avatarClient(adr, 8888); //@author yanlong
 
 				//request available avatars from game, as this will be required in the next step
 				Translator.InitialisationCommand cmd = Translator.InitialisationCommand.GET_AVAILABLE_AVATARS;

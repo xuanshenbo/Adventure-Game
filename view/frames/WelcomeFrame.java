@@ -16,6 +16,12 @@ import javax.swing.JOptionPane;
 
 import main.Initialisation;
 
+/**
+ * This frame contains the Welcome Panel, used to guide the logic at the beginning
+ * of the game. It is in the theme of the game
+ * @author flanagdonn
+ *
+ */
 public class WelcomeFrame extends JFrame {
 
 	private Initialisation initialisation;
@@ -47,6 +53,12 @@ public class WelcomeFrame extends JFrame {
 
 	}
 
+	/**
+	 * This method notifies the server of whether the user wishes to exit the game
+	 * or not
+	 * @param state The state of the game
+	 * @param isYes Whether the user confirmed or not
+	 */
 	public void yesSelected(Command state, boolean isYes){
 		if(state.equals(Command.EXIT)){
 			if(isYes){

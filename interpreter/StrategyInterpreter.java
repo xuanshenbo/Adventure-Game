@@ -11,6 +11,7 @@ import control.Client;
 /**
  * An implementation of the Strategy design pattern. A StrategyInterpreter acts as an Observer
  * and behaves differently depending on what the Strategy is.
+ * @author flanagdonn
  */
 public class StrategyInterpreter implements Observer{
 

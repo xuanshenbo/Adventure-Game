@@ -13,6 +13,10 @@ import view.frames.GameFrame;
  */
 public class HappinessRadioButton extends JRadioButton {
 
+	/**
+	 * This RadioButton is like a JRadioButton but has the theme of the game
+	 * @param message The message to be displayed on the RadioButton
+	 */
 public HappinessRadioButton(String name){
 	super(name);
 

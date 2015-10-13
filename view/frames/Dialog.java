@@ -26,7 +26,8 @@ import view.utilities.Avatar;
 import main.Initialisation;
 
 /**
- * A subclass of JDialog which presents options to the player and displays warning messages *
+ * A subclass of JDialog which presents options to the player and displays warning messages =
+ * @author flanagdonn
  */
 public class Dialog extends JDialog implements ActionListener {
 

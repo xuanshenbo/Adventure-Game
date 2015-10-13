@@ -14,6 +14,10 @@ public class PlayerInfo {
 
 	private int happinessValue = 50;
 
+	/**
+	 * Creates a Player Info object with two random team members to create
+	 * a sense of teammembership even when there is no team
+	 */
 	public PlayerInfo(){
 		//set this player's team mates
 		teamMember1 = randomTeamMember();
@@ -90,6 +94,10 @@ public class PlayerInfo {
 		return happinessValue;
 	}
 
+	/**
+	 * Set this player's avatar to what they chose
+	 * @param chosenAvatar The Avatar the player chose to represent them
+	 */
 	public void setAvatar(Avatar chosenAvatar) {
 		avatar = chosenAvatar;
 
