@@ -53,7 +53,7 @@ public class ServerParser {
 			game.pickUp(game.getGameState().getPlayer(id));
 			break;
 		case 'C'://Selected [C, int inventorySlot]
-			game.select(game.getGameState().getPlayer(id), Character.getNumericValue(message[1]));
+			game.select(game.getGameState().getPlayer(id), Character.getNumericValue(message[1])); 
 			break;
 		case 'V'://move Item in 1st inventory slot  into a bag in the 2nd inventory slot[m, int inventorySlot, int inventorySlot]
 			game.moveInventory(game.getGameState().getPlayer(id), Character.getNumericValue(message[1]), Character.getNumericValue(message[2]));
@@ -148,7 +148,6 @@ public class ServerParser {
 				}
 			}
 		}else if(action == 'm'){
-			p();
 			message = new char[stringMessage.length+2];
 			message[0] = action;
 			for(int i = 0; i < stringMessage.length; i++){
@@ -173,7 +172,7 @@ public class ServerParser {
 			message[0] = action;
 			message[1] = (char)(happiness +'0');
 
-		}else if(action == 'C'){// container inventory information
+		}else if(action == 'S'){// container inventory information
 			message = new char[tempItemArrayStorage.length+2];
 			message[0] = action;
 			for(int i = 1; i< tempItemArrayStorage.length; i++){
@@ -203,25 +202,6 @@ public class ServerParser {
 		message[message.length-1] = 'X';
 		try {
 			if(!testing){
-				if(message[0] == 'H'){
-					p("Server sending Happiness level:"+message[1]);
-				}
-				if(message[0] == 'C'){
-					p("sending container contents");
-				}
-				if(message[0] == 'R'){
-					p("sending available players");
-					p(player.getId());
-					p(server);
-					p(server.getWriters());
-					p(server.getWriters()[player.getId()]);
-				}
-//				if(message[0] == 'T'){
-//					int time = Character.getNumericValue(message[1]);
-//					char dayNight = message[2];
-//					p("time:"+time+" "+dayNight);
-//				}
-				//System.out.println("ServerParser 218: before server sends the message");//debug
 				server.getWriters()[player.getId()].write(message);
 				server.getWriters()[player.getId()].flush();
 			}
@@ -243,7 +223,7 @@ public class ServerParser {
 			}
 		}
 		tempItemArrayStorage = itemArray;
-		sendToServer(player, 'C');
+		sendToServer(player, 'S');
 
 	}
 

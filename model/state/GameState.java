@@ -43,10 +43,10 @@ public class GameState {
 		world.addGameState(this);
 	}
 
-	@SuppressWarnings("unused")
+/*	@SuppressWarnings("unused")
 	private GameState() {
 		this(null, null);
-	}
+	}*/
 
 	/**
 	 * Goes through the player list and checks the players id
@@ -224,24 +224,12 @@ public class GameState {
 		return worldInfo;
 	}
 
-	public void setLoadedFile(String loadedFile) {
-		this.loadedFile = loadedFile;
-	}
-
-	public void setTime(int time){
-		this.time = time;
-	}
-
-	public void setDay(boolean day){
-		this.day = day;
-	}
-
 	public void addItem(Position playerPosition, Item item) {
 		int col = playerPosition.getX();
 		int row = playerPosition.getY();
 		Area a = playerPosition.getArea();
 		a.getItems()[row][col] = item;
-	}	
+	}
 
 	// ================================================
 	// getters from here
@@ -281,10 +269,41 @@ public class GameState {
 		return loadedFile;
 	}
 
+	// ================================================
+	// setters from here
+	// ================================================
+
+	public void setLoadedFile(String loadedFile) {
+		this.loadedFile = loadedFile;
+	}
+
+	public void setTime(int time){
+		this.time = time;
+	}
+
+	public void setDay(boolean day){
+		this.day = day;
+	}
+
+	public void setPlayerList(ArrayList<Player> playerList) {
+		this.playerList = playerList;
+	}
+
+	public void setZombieList(ArrayList<Zombie> zombieList) {
+		this.zombieList = zombieList;
+	}
+
+	public void setWorld(Area world) {
+		this.world = world;
+	}
+
+	public void setViewPortSize(int viewPortSize) {
+		this.viewPortSize = viewPortSize;
+	}
+
 	//===================================
 	// DEBUGGING AND TESTING METHODS
 	//===================================
-
 
 	/**
 	 * This method prints out the game state to the console

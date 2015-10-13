@@ -163,20 +163,6 @@ public class Area implements CycleRecoverable {
 	}
 
 	/**
-	 * Sets the exit position of this area
-	 */
-	public void setExitPosition(Position p){
-		exitPosition = p;
-	}
-
-	/**
-	 * Sets the entrance position of this area
-	 */
-	public void setEntrance(Position entrance) {
-		this.entrance = entrance;
-	}
-
-	/**
 	 * Adds a cave entrance to the world, this is called when the
 	 * cave is made.
 	 * @param caveEntrance
@@ -194,13 +180,10 @@ public class Area implements CycleRecoverable {
 		g.fillTiles(this);
 		g.placeLoot(this);
 	}
-
+	
+	@Override
 	public String toString(){
 		return (entrance+" "+type);
-	}
-
-	public void printTile(Position p){
-		//System.out.print(area[p.getY()][p.getX()]);
 	}
 
 	@Override
@@ -253,10 +236,48 @@ public class Area implements CycleRecoverable {
 		return exitPosition;
 	}
 
+	// ================================================
+	// setters from here
+	// ================================================
+
+	/**
+	 * Sets the exit position of this area
+	 */
+	public void setExitPosition(Position p){
+		this.exitPosition = p;
+	}
+
+	/**
+	 * Sets the entrance position of this area
+	 */
+	public void setEntrance(Position entrance) {
+		this.entrance = entrance;
+	}
+
+	public void setInternalAreas(ArrayList<Area> internalAreas) {
+		this.internalAreas = internalAreas;
+	}
+
+	public void setCaveEntrances(ArrayList<Position> caveEntrances) {
+		this.caveEntrances = caveEntrances;
+	}
+
+	public void setGameState(GameState gameState) {
+		this.gameState = gameState;
+	}
+
 	/**========================
 	 * TESTING METHODS
 	 * ========================
 	 */
+
+	public ArrayList<Position> getCaveEntrances() {
+		return caveEntrances;
+	}
+
+	public GameState getGameState() {
+		return gameState;
+	}
 
 	/**
 	 * This prints out the area for testing

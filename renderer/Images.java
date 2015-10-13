@@ -13,6 +13,7 @@ import static utilities.PrintTool.p;
  */
 public class Images {
 
+    private int screenWidth, screenHeight;
     private double tileWidth, tileHeight;
     private int imageScale;
 
@@ -35,14 +36,18 @@ public class Images {
     private Image[] cupcake;
     private Image[] pumpkin;
 
+    private Image night;
+
 
     private ArrayList<ArrayList<Image>> avatarImages;
 
 
-    public Images(double tileWidth, double tileHeight, int imageScale) {
+    public Images(double tileWidth, double tileHeight, int imageScale, int screenWidth, int screenHeight) {
         this.tileWidth = tileWidth;
         this.tileHeight = tileHeight;
         this.imageScale = imageScale;
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
 
         this.avatarImages = new ArrayList<ArrayList<Image>>();
         this.doorImages = new Image[16];
@@ -70,7 +75,8 @@ public class Images {
         caveImage[0] = loadImage("cave3.png", imageScale*2, imageScale*2);
         caveImage[1] = loadImage("caveback.png", imageScale*2, imageScale*2);
 
-        this.shadow = loadImage("shadow.png", imageScale, imageScale);
+        shadow = loadImage("shadow.png", imageScale, imageScale);
+        night = loadImage("night.png", (int)(screenWidth/tileWidth)+1, (int)(screenHeight/tileHeight/2));
 
         //load items images
         chestImage[0] = loadImage("chest.png", imageScale, imageScale);
@@ -170,5 +176,9 @@ public class Images {
 
     public Image pumpkin(int dir) {
         return pumpkin[dir];
+    }
+
+    public Image getNightImage() {
+        return night;
     }
 }

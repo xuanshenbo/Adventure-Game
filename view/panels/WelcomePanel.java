@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import dataStorage.Deserializer;
 import view.frames.Dialog;
 import view.frames.GameFrame;
 import view.utilities.ImageLoader;

@@ -7,13 +7,18 @@ import java.awt.image.BufferedImage;
 import static utilities.PrintTool.p;
 
 /**
- * Created by lucas on 7/10/15.
+ * Created by lucas on 7/10/15
  */
 public class GameCanvas extends JPanel {
     private BufferedImage image;
     private int width, height;
     private GameRenderer renderer;
 
+    /**
+     * Game canvas that showing the main game, based on the width and height that are passed in
+     * @param width: the width of the main game
+     * @param height: the height of the main game
+     */
     public GameCanvas(int width, int height){
         super();
         this.width = width;
@@ -24,6 +29,10 @@ public class GameCanvas extends JPanel {
         setPreferredSize(new Dimension(width, height));
     }
 
+    /**
+     * paint this game canvas
+     * @param g graphics to draw
+     */
     public void paintComponent(Graphics g){
         Graphics2D g2 = (Graphics2D) g;
         if(image == null){
@@ -33,11 +42,19 @@ public class GameCanvas extends JPanel {
         }
     }
 
+    /**
+     * update the main screen image from the renderer
+     * @param img the out put image from renderer
+     */
     public void updateImage(BufferedImage img){
         image = img;
         repaint();
     }
 
+    /**
+     * return renderer
+     * @return renderer
+     */
     public GameRenderer getRenderer(){
         return renderer;
     }

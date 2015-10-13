@@ -2,20 +2,12 @@ package view.frames;
 
 
 import interpreter.StrategyInterpreter;
-import interpreter.Translator;
 import interpreter.Translator.Command;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.TitledBorder;
-import javax.xml.bind.JAXBException;
 
-import dataStorage.Serializer;
 import renderer.GameCanvas;
-import renderer.GameRenderer;
 //import renderer.GuiForTest;
-import renderer.testRenderer;
 import view.panels.ButtonPanel;
 import view.panels.PlayerProfilePanel;
 import view.panels.StatusPanel;
@@ -24,28 +16,12 @@ import view.utilities.Avatar;
 import view.utilities.PlayerInfo;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.io.IOException;
-import java.io.Writer;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
-import main.Main;
-import model.items.Item;
-import model.items.Key;
-import model.logic.Game;
-import model.logic.Game.Direction;
-import model.logic.Generator;
-import model.state.Area;
-import model.state.GameState;
-import model.state.Player;
-import model.state.Position;
 import static utilities.PrintTool.p;
 
 /**

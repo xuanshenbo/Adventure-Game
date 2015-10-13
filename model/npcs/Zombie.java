@@ -30,19 +30,18 @@ public class Zombie {
 		position = strategy.move(position);
 	}
 
+	// ================================================
+	// getters from here
+	// ================================================
+
 	public ZombieStrategy getStrategy() {
 		return strategy;
-	}
-
-	public void setStrategy(ZombieStrategy strategy) {
-		this.strategy = strategy;
 	}
 
 	public char getid(){
 		return id;
 	}
-	
-	
+
 	/**
 	 * This method returns the position of the Zombie. It is called after the
 	 * Zombie has moved based on the strategy and then is used to draw the Zombie
@@ -51,5 +50,21 @@ public class Zombie {
 	 */
 	public Position getPosition() {
 		return position;
+	}
+
+	// ================================================
+	// setters from here
+	// ================================================
+
+	public void setStrategy(ZombieStrategy strategy) {
+		this.strategy = strategy;
+	}
+
+	public void setPosition(Position position) {
+		this.position = position;
+	}
+
+	public void setId(char id) {
+		this.id = id;
 	}
 }

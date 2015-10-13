@@ -118,7 +118,6 @@ public class ChestTile implements Tile, Container{
 	@Override
 	public void removeItemSlot(int containerSlot) {
 		inventory[containerSlot+1] = null;
-
 	}
 
 	public Item[] open(){
