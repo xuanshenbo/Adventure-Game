@@ -53,6 +53,10 @@ public class Client extends Thread {
 			output.flush();
 			boolean exit = false;
 			while(!exit){
+				//handles the disconnection gracefully
+				if(socket.isInputShutdown() || socket.isOutputShutdown()){
+					break;
+				}
 				char[] message = new char[3072];
 				input.read(message);
 

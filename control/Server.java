@@ -164,6 +164,14 @@ public class Server extends Thread{
 				out.flush();
 
 				while(true){
+					//handles the disconnection gracefully
+					if(connection.isInputShutdown() || connection.isOutputShutdown()){
+						System.out.println("Server 210: close the client");//debug
+						char[] quit = {'Q'};
+						game.getParser().processClientEvent(quit, out, id);
+						writers[id] = null;
+						break;
+					}
 					char[] message = new char[256];
 					in.read(message);
 					if(message[0] == '&'){//turn off the avatar client
