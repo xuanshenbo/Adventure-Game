@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import main.Initialisation;
 import main.Main;
-import view.Avatar;
-import view.GameFrame;
+import view.frames.GameFrame;
+import view.utilities.Avatar;
 import interpreter.Translator;
 import static utilities.PrintTool.p;
 
@@ -59,6 +59,7 @@ public class ClientParser {
 		case 'T'://time of day
 			int time = Character.getNumericValue(message[1]);
 			char dayNight = message[2];
+			frame.setTime(time);
 			//			p("time:"+time+" "+dayNight);
 			break;
 		case 'R':

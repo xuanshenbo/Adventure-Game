@@ -1,4 +1,4 @@
-package view;
+package view.panels;
 
 import interpreter.StrategyInterpreter;
 import interpreter.Translator.Command;
@@ -18,12 +18,17 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+
+import view.frames.Dialog;
+import view.frames.GameFrame;
+import view.styledComponents.HappinessLabel;
+import view.styledComponents.HappinessRadioButton;
+import view.utilities.ImageLoader;
 
 public class ContainerInventoryDisplayPanel extends JPanel {
 
 	private GameFrame containerFrame;
-	private Set<JRadioButton> buttonOptions = new HashSet<JRadioButton>();
+	private Set<HappinessRadioButton> buttonOptions = new HashSet<HappinessRadioButton>();
 
 	private StrategyInterpreter buttonInterpreter;
 
@@ -59,12 +64,12 @@ public class ContainerInventoryDisplayPanel extends JPanel {
 
 		this.buttonInterpreter = buttonInterp;
 
-		Map<String, JLabel> jlabels = new HashMap<String, JLabel>();
+		Map<String, HappinessLabel> HappinessLabels = new HashMap<String, HappinessLabel>();
 
 		int countEmptySlots = 0;
 
 		/*
-		 * Create JLabels for each item in the inventory
+		 * Create HappinessLabels for each item in the inventory
 		 */
 		if(contents==null){
 
@@ -76,7 +81,7 @@ public class ContainerInventoryDisplayPanel extends JPanel {
 		for(int i = 0; i<contents.size(); i++){
 			String name = contents.get(i);
 
-			final JRadioButton item;
+			final HappinessRadioButton item;
 
 			final JLabel imageLabel = new JLabel();
 
@@ -85,16 +90,16 @@ public class ContainerInventoryDisplayPanel extends JPanel {
 				//capitalise the first letter of the item description
 				name = name.substring(0, 1).toUpperCase() + name.substring(1, name.length());
 
-				//attach a picture of the item to the jlabel
+				//attach a picture of the item to the HappinessLabel
 				Image image= ImageLoader.loadImage(contents.get(i)+".png").getScaledInstance(imageSize.width, imageSize.height, -1);
 				ImageIcon icon = new ImageIcon(image);
 				imageLabel.setIcon(icon);
 
-				item = new JRadioButton(contents.get(i));
+				item = new HappinessRadioButton(contents.get(i));
 
 			}
 			else{
-				item = new JRadioButton("Empty");
+				item = new HappinessRadioButton("Empty");
 
 				//attach a picture of a blank square
 				Image image= ImageLoader.loadImage("emptyslot.png").getScaledInstance(imageSize.width, imageSize.height, -1);

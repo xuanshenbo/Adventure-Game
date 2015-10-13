@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import view.ImageLoader;
+import view.utilities.ImageLoader;
 import model.state.Player;
 import static utilities.PrintTool.p;
 

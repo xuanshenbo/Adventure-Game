@@ -1,4 +1,4 @@
-package view;
+package view.frames;
 
 import interpreter.InitialStrategy;
 import interpreter.StrategyInterpreter;
@@ -20,7 +20,7 @@ public class WelcomeFrame extends JFrame {
 
 	private Initialisation initialisation;
 
-	private YesNoOptionPane yesno;
+	private YesNoOptionWindow yesno;
 
 	public WelcomeFrame(String string, Initialisation initStrategy) {
 		super(string);
@@ -37,7 +37,7 @@ public class WelcomeFrame extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent we) {
 
-				yesno = new YesNoOptionPane(Command.EXIT, WelcomeFrame.this, "Happiness Game");
+				yesno = new YesNoOptionWindow(Command.EXIT, WelcomeFrame.this, "Happiness Game");
 
 			}
 		});

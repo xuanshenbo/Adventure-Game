@@ -63,12 +63,11 @@ public class ServerParser {
 		case 'D'://Drop [D, inventorySlot]
 			game.drop(game.getGameState().getPlayer(id), Character.getNumericValue(message[1]));
 			break;
-
 		case 'F'://activating frame
 			game.activateFrame();
 			break;
 		case 'Z'://moving item from container to inventory [Z, containerSlot]
-			game.getGameState().getPlayer(id).moveToInventory(Character.getNumericValue(message[1]));
+			game.moveFromContainerToInventory(game.getGameState().getPlayer(id), Character.getNumericValue(message[1]));
 			break;
 		case 'S'://Saving game
 			try {

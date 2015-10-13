@@ -1,4 +1,4 @@
-package view;
+package view.styledComponents;
 
 import interpreter.StrategyInterpreter;
 
@@ -11,6 +11,8 @@ import java.awt.event.FocusListener;
 import java.io.IOException;
 
 import javax.swing.JTextField;
+
+import view.frames.GameFrame;
 
 /**
  * A JTextField which stores the users input for retrieval from the game via the input interpreter

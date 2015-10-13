@@ -1,4 +1,4 @@
-package view;
+package view.styledComponents;
 
 import java.awt.*;
 import java.awt.event.*;

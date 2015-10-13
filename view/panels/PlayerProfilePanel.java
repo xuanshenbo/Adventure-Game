@@ -1,4 +1,4 @@
-package view;
+package view.panels;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -19,6 +19,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
+
+import view.frames.GameFrame;
+import view.utilities.Avatar;
+import view.utilities.ImageLoader;
 
 /**
  * This displays the player's avatar, name, and the game logo

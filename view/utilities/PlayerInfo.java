@@ -1,4 +1,4 @@
-package view;
+package view.utilities;
 
 import java.util.ArrayList;
 

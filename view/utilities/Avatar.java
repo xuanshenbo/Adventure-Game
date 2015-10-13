@@ -1,4 +1,4 @@
-package view;
+package view.utilities;
 
 import interpreter.Translator.Command;
 

@@ -1,4 +1,4 @@
-package view;
+package view.frames;
 
 import interpreter.DialogStrategy;
 import interpreter.StrategyInterpreter;
@@ -16,6 +16,12 @@ import renderer.GameCanvas;
 import renderer.GameRenderer;
 import renderer.GuiForTest;
 import renderer.testRenderer;
+import view.panels.ButtonPanel;
+import view.panels.PlayerProfilePanel;
+import view.panels.StatusPanel;
+import view.styledComponents.MenuBar;
+import view.utilities.Avatar;
+import view.utilities.PlayerInfo;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -82,7 +88,7 @@ public class GameFrame extends JFrame {
 
 	private Avatar avatar;
 
-	private YesNoOptionPane yesno;
+	private YesNoOptionWindow yesno;
 
 	/*
 	 * These are the interpreters which decide what to do with various user
@@ -156,7 +162,7 @@ public class GameFrame extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent we) {
 
-				yesno = new YesNoOptionPane(Command.EXIT, GameFrame.this, "Happiness Game");
+				yesno = new YesNoOptionWindow(Command.EXIT, GameFrame.this, "Happiness Game");
 
 			}
 		});
@@ -523,8 +529,8 @@ public class GameFrame extends JFrame {
 	 * @param t
 	 *            The new time to be assigned.
 	 */
-	public void setTime(String t) {
-		time = t;
+	public void setTime(int t) {
+		time = t+":00";
 	}
 
 	/**
@@ -580,7 +586,8 @@ public class GameFrame extends JFrame {
 	 *            The message to be displayed
 	 */
 	public void displayMessageFromGame(String msg) {
-		JOptionPane.showMessageDialog(this, msg);
+		MessageWindow m = new MessageWindow(msg);
+//		JOptionPane.showMessageDialog(this, msg);
 	}
 
 	/**

@@ -14,7 +14,7 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
-import view.GameFrame;
+import view.frames.GameFrame;
 import static utilities.PrintTool.p;
 
 /**

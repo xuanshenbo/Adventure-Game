@@ -55,7 +55,7 @@ public class ChestTile implements Tile, Container{
 
 	@Override
 	public Item getItem(int containerSlot) {
-		return inventory[containerSlot];
+		return inventory[containerSlot+1];
 	}
 
 	@Override
@@ -117,12 +117,11 @@ public class ChestTile implements Tile, Container{
 
 	@Override
 	public void removeItemSlot(int containerSlot) {
-		inventory[containerSlot] = null;
+		inventory[containerSlot+1] = null;
 
 	}
 
 	public Item[] open(){
-		p();
 		return inventory;
 	}
 

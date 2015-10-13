@@ -1,4 +1,4 @@
-package view;
+package view.panels;
 
 import interpreter.Translator;
 
@@ -8,6 +8,8 @@ import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import view.styledComponents.HappinessLabel;
+import view.styledComponents.TextFieldImpl;
 import main.Initialisation;
 
 /**
@@ -31,9 +33,7 @@ public class InputPanel extends JPanel{
 		setLayout(new FlowLayout());
 
 		if(state.equals(Translator.InitialisationCommand.CONNECT_TO_SERVER)){
-			JLabel message = new JLabel(validIP ? standardMessage : errorMessage);
-
-			ButtonPanel.makeLabelPretty(message);
+			HappinessLabel message = new HappinessLabel(validIP ? standardMessage : errorMessage);
 
 			add(message);
 			//add the TextField for the user to enter the ip address

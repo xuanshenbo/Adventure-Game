@@ -1,4 +1,4 @@
-package view;
+package view.panels;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -7,6 +7,8 @@ import java.awt.Graphics;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import view.frames.GameFrame;
 
 /**
  * 	This displays the time, ip address, and the happiness level of the player

@@ -1,4 +1,4 @@
-package view;
+package view.panels;
 
 import interpreter.Translator.*;
 
@@ -18,6 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import view.frames.Dialog;
+import view.frames.GameFrame;
+import view.utilities.ImageLoader;
 import main.Initialisation;
 
 /**

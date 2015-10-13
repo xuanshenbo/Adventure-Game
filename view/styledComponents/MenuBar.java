@@ -1,4 +1,4 @@
-package view;
+package view.styledComponents;
 
 import static java.awt.event.KeyEvent.VK_A;
 import static java.awt.event.KeyEvent.VK_E;
@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 
 /**
  * A simple Menubar with an Exit option
+ * @author Shenbo Xuan
  */
 public class MenuBar extends JMenuBar {
 
@@ -73,18 +74,10 @@ public class MenuBar extends JMenuBar {
 
 	// action on exit
 	private void doExit() {
-		String ObjButtons[] = { "Yes", "No" };
-		int PromptResult = JOptionPane.showOptionDialog(null,
-				"Are you sure you want to exit?", "Adventure Game",
-				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null,
-				ObjButtons, ObjButtons[1]);
-		if (PromptResult == JOptionPane.YES_OPTION) {
-			try {
-				menuInterpreter.notify("exit");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			System.exit(0);
+		try {
+			menuInterpreter.notify(Command.EXIT.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
