@@ -383,6 +383,8 @@ public class GameRenderer{
 				imageY = (int) (y - images.bag().getHeight(null) + tileHeight/2);
 				graphic.drawImage(images.bag(), imageX, imageY, null);
 				break;
+			case 'p':
+				p("pumpkin");
 			default:
 				break;
 		}

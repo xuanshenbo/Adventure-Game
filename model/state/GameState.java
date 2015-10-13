@@ -181,7 +181,6 @@ public class GameState {
 		char[][] objects = new char[viewPortSize][viewPortSize];
 
 		Area a = getWorld(player);
-		// TODO Auto-generated method stub
 		int left = player.getPosition().getX() - (viewPortSize/2);
 		int right = player.getPosition().getX() + (viewPortSize/2);
 		int top = player.getPosition().getY() - (viewPortSize/2);
@@ -307,29 +306,18 @@ public class GameState {
 				boolean playerPos = false;
 				for(Player p: playerList){
 					if(p.getPosition().getX() == col && p.getPosition().getY() == row && p.getPosition().getArea() == world){
-						//System.out.print(p);
 						playerPos = true;
 					}
 				}
 				for(Zombie z: zombieList){
 					if(z.getPosition().getX() == col && z.getPosition().getY() == row && z.getPosition().getArea() == world && !playerPos){
-						//System.out.print(z.getid());
 						playerPos = true;
 					}
 				}
 				if(!playerPos){
-					//System.out.print(a[row][col]);
 				}
 			}
-			//System.out.println("");
 		}
-
-//		for(int row = 0; row<a.length; row++){
-//			for(int col = 0; col<a[0].length; col++){
-//				System.out.print("("+a[row][col].getPosition()+")");
-//			}
-//			System.out.println("");
-//		}
 		if(innerAreas){
 			for(Area innerArea: world.getInternalAreas()){
 				System.out.println("");
@@ -359,16 +347,12 @@ public class GameState {
 
 	public void printView(int id){
 		char[][] playerOneView = getGameView(playerList.get(0)).get(0);
-		//System.out.println("\nPlayer 1 view");
 		for(int row = 0; row<playerOneView.length; row++){
 			for(int col = 0; col<playerOneView[0].length; col++){
 				if(playerOneView[row][col] != '\u0000'){
-					//System.out.print(playerOneView[row][col]);
 				}else{
-					//System.out.print("N");
 				}
 			}
-			//System.out.println("");
 		}
 	}
 }

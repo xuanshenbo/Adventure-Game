@@ -116,6 +116,7 @@ public class Generator {
 				if(area.getArea()[row][col].isGround()){
 					if(Math.random()*5000 < lootValue){
 						area.getItems()[row][col] = randomItem();
+						p(area.getItems()[row][col]);
 					}
 				}
 			}
@@ -132,7 +133,8 @@ public class Generator {
 		if(itemValue < 2){
 			return new Bag();
 		}else if(itemValue < 5){
-			int consumable = (int) (Math.random()*2);
+			int consumable = (int) ((Math.random()*2)+1);
+			p(consumable);
 			if(consumable == 1){
 				return new Cupcake();
 			}else if(consumable == 2){
