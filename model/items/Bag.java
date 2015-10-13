@@ -76,5 +76,10 @@ public class Bag extends Item implements Container {
 		return inventory;
 	}
 
+	@Override
+	public String toString(){
+		return "Bag";
+	}
+
 
 }

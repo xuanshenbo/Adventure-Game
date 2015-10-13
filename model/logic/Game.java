@@ -174,6 +174,10 @@ public class Game {
 				if (playerInRange(player, zombie)) {
 					zombie.setStrategy(new ChaseZombie());
 					player.loseHappiness();
+					if(player.getHappiness() <= 0){
+						player.die();
+						parser.sendMessage(player, "You died! Start again");
+					}
 					parser.sendToServer(player, 'H');
 				}
 			}

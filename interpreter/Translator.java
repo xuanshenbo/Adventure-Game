@@ -12,7 +12,8 @@ import interpreter.Translator.InitialisationCommand;
 public class Translator {
 
 	/**
-	 * These command
+	 * These commands are used to determine which actions to perform
+	 * or what to send through the network
 	 * @author flanagdonn
 	 *
 	 */
@@ -23,7 +24,7 @@ public class Translator {
 		DISPLAY_AVATAR_OPTIONS("DECIDE"), MOVE_WEST("MW"), MOVE_EAST("ME"), MOVE_NORTH("MN"), MOVE_SOUTH("MS"),
 		EXIT_CLIENT("Q"), ROTATE_VIEW("O"), DISPLAY_CONTAINER_ITEM_OPTIONS("N/A"), MOVE_ITEM_TO_INVENTORY("Z"),
 		SAVE("S"), SAVE_AS("Y"), LOAD_FILE("L"), NOTIFY_USER_OF_MESSAGE("N/A"), DISPLAY_CONFIRM_OR_CANCEL_OPTION("N/A"),
-		YES_SELECTED("N/A");
+		YES_SELECTED("N/A"), MAIN("N/A");
 
 		public String code = "";
 		private Command(String c){
@@ -31,6 +32,12 @@ public class Translator {
 		}
 	}
 
+	/**
+	 * These commands are made during the setting-up stage,
+	 * and help control the sequence of events
+	 * @author flanagdonn
+	 *
+	 */
 	public enum InitialisationCommand {
 		SHOW_CLIENT_SERVER_OPTION, SHOW_LOAD_OR_NEW_OPTION, CONNECT_TO_SERVER,
 		START_GAME, LOAD_GAME, CHOOSE_SLIDER_OPTIONS, LOAD_SAVED_PLAYER,
@@ -38,9 +45,7 @@ public class Translator {
 		SELECTED_CLIENT, SELECTED_CLIENT_AND_SERVER, SELECTED_NEW_GAME, GET_AVAILABLE_AVATARS;
 	}
 
-	public enum MainGameState {
-		MAIN
-	}
+
 
 	public static String encode(Command command) {
 		return command.code;

@@ -1,5 +1,4 @@
 package interpreter;
-
 import interpreter.Translator.Command;
 
 import java.io.IOException;
@@ -11,6 +10,12 @@ import view.frames.GameFrame;
 import main.Main;
 import dataStorage.Serializer;
 
+/**
+ * An implementation of the Observer and Strategy design patterns, combined to
+ * allow strict observation of the overarching MVC design pattern
+ * The ButtonStrategy governs interaction between the users and the buttons
+ * @author flanagdonn
+ */
 public class MenuStrategy implements StrategyInterpreter.Strategy{
 
 	private StrategyInterpreter interpreter;
@@ -30,12 +35,12 @@ public class MenuStrategy implements StrategyInterpreter.Strategy{
 	}
 
 	private void notifyCommand(String text) {
-		Translator.Command cmd = Translator.toCommand(text);
-		if(cmd.equals(Translator.Command.EXIT)){
+		Command cmd = Translator.toCommand(text);
+		if(cmd.equals(Command.EXIT)){
 
 			if(Main.getServer() == null){
 
-				Translator.Command exit = Translator.Command.EXIT_CLIENT;
+				Command exit = Command.EXIT_CLIENT;
 				String msg = Translator.encode(exit);
 				msg += interpreter.getClient().getUid();
 				try {

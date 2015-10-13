@@ -9,6 +9,13 @@ import java.util.Scanner;
 import main.Main;
 import static utilities.PrintTool.p;
 
+
+/**
+ * An implementation of the Observer and Strategy design patterns, combined to
+ * allow strict observation of the overarching MVC design pattern
+ * The ButtonStrategy governs interaction between the users and the buttons
+ * @author flanagdonn
+ */
 public class ButtonStrategy implements StrategyInterpreter.Strategy{
 
 	private StrategyInterpreter interpreter;
@@ -72,12 +79,12 @@ public class ButtonStrategy implements StrategyInterpreter.Strategy{
 		String commandString = sc.next();
 		String msg = "";
 
-		Translator.Command cmd = Translator.toCommand(commandString);
-		if(cmd.equals(Translator.Command.DISPLAY_INVENTORY)){
+		Command cmd = Translator.toCommand(commandString);
+		if(cmd.equals(Command.DISPLAY_INVENTORY)){
 			msg = Translator.encode(cmd);
 		}
 
-		else if(cmd.equals(Translator.Command.MOVE_ITEM)){
+		else if(cmd.equals(Command.MOVE_ITEM)){
 			if(moveTo != -1){
 
 				//shouldn't get here
@@ -111,8 +118,8 @@ public class ButtonStrategy implements StrategyInterpreter.Strategy{
 		}
 
 		//if the player is trying to perform a non-move action on an item
-		else if(cmd.equals(Translator.Command.DROP) ||
-				cmd.equals(Translator.Command.USE)){
+		else if(cmd.equals(Command.DROP) ||
+				cmd.equals(Command.USE)){
 
 			//if they have selected an item
 			if(selectedItem!=-1){

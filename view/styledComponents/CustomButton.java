@@ -15,11 +15,7 @@ public class CustomButton extends JButton{
 
     public CustomButton(String msg) {
     	this.button = new JButton(msg);
-        Border line, raisedbevel, loweredbevel, title, empty;
-        line = BorderFactory.createLineBorder(Color.black);
-        raisedbevel = BorderFactory.createRaisedBevelBorder();
-        loweredbevel = BorderFactory.createLoweredBevelBorder();
-        title = BorderFactory.createTitledBorder("");
+        Border empty;
         empty = BorderFactory.createEmptyBorder(1, 1, 1, 1);
         final Border compound;
         Color crl = (Color.blue);
@@ -130,13 +126,6 @@ class ModifButtonUI extends MetalButtonUI {
         g2D.fill(rec2);
     }
 
-    /*@Override
-    public void paintButtonPressed(Graphics g, AbstractButton b) {
-        paintText(g, b, b.getBounds(), b.getText());
-        g.setColor(Color.red.brighter());
-        g.fillRect(0, 0, b.getSize().width, b.getSize().height);
-    }
-*/
     public void paintBorder(Graphics g) {
     }
 

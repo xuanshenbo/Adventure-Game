@@ -152,6 +152,7 @@ public class ServerParser {
 				}
 			}
 		}else if(action == 'm'){
+			p();
 			message = new char[stringMessage.length+2];
 			message[0] = action;
 			for(int i = 0; i < stringMessage.length; i++){

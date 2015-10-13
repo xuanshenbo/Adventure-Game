@@ -17,7 +17,7 @@ public class GameRenderer{
 
 	//image size
 	private int imageScale = 3;
-	
+
 	private char[][] objects;
 	private char[][] view;
 	private int animationIndex;
@@ -394,7 +394,7 @@ public class GameRenderer{
 
 	public void update(char type, char[][] view, char[][] objects) {
 		this.type = type;
-		
+
 		for (int y = 0; y < viewHeight; y++) {
 			for (int x = 0; x < viewWidth; x++) {
 				if (view[y][x] != this.view[y][x] || objects[y][x] != this.objects[y][x]) {
