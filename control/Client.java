@@ -58,19 +58,19 @@ public class Client extends Thread {
 
 				//output.write("This is the server machine!");
 				//output.flush();
-				char[] message = new char[1924];
+				char[] message = new char[3072];
 				//System.out.println("client starts reading");//debug
 				input.read(message);
 
-				/*if(message[0] == 'M'){
+				if(message[0] == 'M'){
 					char[][] map = new char[31][31];
 					int index = 2;
 					for(int row=0; row < map.length; row++){
 						for(int col=0; col < map[0].length; col++){
-							if(message[index] == '\0'){
+							/*if(message[index] == '\0'){
 								//System.out.println("Client 71: index: "+index);
 								break;
-							}
+							}*/
 							map[row][col] = message[index++];
 							index++;
 							//items[row][col] = message[index++];
@@ -88,7 +88,7 @@ public class Client extends Thread {
 						}
 						System.out.println("");
 					}
-				}*/
+				}
 
 				/*String receive = "";
 				if(message[0] != '\0'){

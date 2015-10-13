@@ -7,12 +7,15 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
+import javax.xml.bind.JAXBException;
 
 import view.frames.GameFrame;
 import model.logic.Game;
+import model.state.GameState;
 import control.Client;
 import control.ClockThread;
 import control.Server;
+import dataStorage.Deserializer;
 import interpreter.ButtonStrategy;
 import interpreter.KeyStrategy;
 import interpreter.MenuStrategy;
@@ -59,6 +62,23 @@ public class Main {
 		//int[] parameters = {height, width, players,trees, buildings, caves, chests, lootValue};
 		server = new Server(height, width, density, difficulty);
 		game = server.getGame();
+		server.start();
+	}
+
+	/**
+	 * The following creates a server for the old game
+	 */
+	public static void oldGame(){
+		GameState toLoad = null;
+		try {
+			toLoad = Deserializer.deserialize();
+			if (toLoad == null) {
+				return;
+			}
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+		Server server = new Server(toLoad);
 		server.start();
 	}
 
@@ -124,8 +144,8 @@ public class Main {
 			avatarClient.setUid(0);//debug
 			avatarClient.start();
 			initial.setClient(avatarClient);
-			//System.out.println("Main 141: avatar client is sending R");//debug
-			System.out.print("");//debug
+			System.out.println("Main 141: avatar client is sending R");//debug
+			//System.out.print("");//debug
 			avatarClient.send("R");
 		} catch (IOException e) {
 			e.printStackTrace();

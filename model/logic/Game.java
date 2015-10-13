@@ -77,6 +77,7 @@ public class Game {
 	public Game(Server server, GameState state) {
 		this.gameState = state;
 		parser = new ServerParser(this, server, false);
+		this.clock = new Clock(2000, this);
 		clock.start();
 	}
 
@@ -136,7 +137,7 @@ public class Game {
 			day = "PM";
 		}
 		gameState.setTime(gameState.getTime() + 1);
-		if (gameState.getTime() == 12) {
+		if (gameState.getTime() == 10) {
 			gameState.setTime(0);
 			if (gameState.getDay()) {
 				gameState.setDay(false);

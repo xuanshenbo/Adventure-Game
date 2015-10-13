@@ -61,6 +61,7 @@ public class ClientParser {
 			char dayNight = message[2];
 			if(frame != null){
 				frame.setTime(time);
+				frame.getCanvas().getRenderer().updateDayNight(dayNight);
 			}
 			//			p("time:"+time+" "+dayNight);
 			break;
@@ -154,7 +155,8 @@ public class ClientParser {
 				if(newMessage != null) processMessage(newMessage);
 				break loop;
 			default:
-				System.out.println("unknown container item");
+				System.out.println("ClientParser 157: unknown item: "+message[i]);//debug
+				return;
 			}
 		}
 		frame.setContainerContents(container);

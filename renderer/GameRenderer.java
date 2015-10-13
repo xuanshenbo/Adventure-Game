@@ -37,6 +37,8 @@ public class GameRenderer{
 	private char playerDir = 's';
 	private int times = 0;
 
+	private boolean night;
+
 	private boolean doAnimation = false;
 	private int animationBound = 7;
 
@@ -57,7 +59,7 @@ public class GameRenderer{
 		this.objects = objects;
 		this.view = view;
 		//this.players = players;
-		this.images = new Images(tileWidth, tileHeight, 1);
+		this.images = new Images(tileWidth, tileHeight, 1, width, height);
 
 		this.canvas = canvas;
 		this.background = new Rectangle(width, height);
@@ -246,6 +248,10 @@ public class GameRenderer{
 
 		}
 
+		if (night){
+			graphic.drawImage(images.getNightImage(), 0, 0, null);
+		}
+
 		//door animation control
 		updateAnimation();
 
@@ -412,6 +418,10 @@ public class GameRenderer{
 			}
 		}
 
+		if (view[23][9] != '\u0000' && view[23][10] == '\u0000'){
+			doRender = false;
+		}
+
 		if (doRender) {
 			this.view = view;
 			this.objects = objects;
@@ -442,5 +452,13 @@ public class GameRenderer{
 		animationBound = dir;
 		if(playerAnimationIndex < animationBound - 7)
 		playerAnimationIndex = animationBound - 6;
+	}
+
+	public void updateDayNight(char dayNight) {
+		if (dayNight == 'N'){
+			night = true;
+		} else {
+			night = false;
+		}
 	}
 }
