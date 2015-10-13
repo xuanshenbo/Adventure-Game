@@ -5,6 +5,9 @@ import java.awt.image.BufferedImage;
 
 import static utilities.PrintTool.p;
 
+/**
+ * Created by lucas on 7/10/15
+ */
 public class GameRenderer{
 
 	//all different sizes needed
@@ -42,6 +45,14 @@ public class GameRenderer{
 	private boolean doAnimation = false;
 	private int animationBound = 7;
 
+	/**
+	 * create a game renderer.
+	 * @param width
+	 * @param height
+	 * @param view
+	 * @param objects
+	 * @param canvas
+	 */
 	public GameRenderer(int width, int height, char[][] view, char[][] objects, GameCanvas canvas){
 
 		size = view.length;
