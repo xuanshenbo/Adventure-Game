@@ -6,6 +6,10 @@ import model.logic.Game.Direction;
 import model.state.Player;
 import model.state.Position;
 
+@XmlSeeAlso({ BuildingAnchorTile.class, BuildingTile.class,
+		CaveAnchorTile.class, CaveEntranceTile.class, CaveTile.class,
+		ChestTile.class, DoorTile.class, GroundTile.class, PortalTile.class,
+		TreeTile.class })
 public interface Tile {
 
 	/**

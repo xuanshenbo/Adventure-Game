@@ -3,11 +3,13 @@ package dataStorage.test.model;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Cat implements Pet {
 
+	@XmlTransient
 	private String name;
 	private int weight;
 	private int height;

@@ -35,10 +35,14 @@ public class GroundTile implements Tile {
 	private TileType type;
 	@XmlTransient
 	private Position position;
+	private int x;
+	private int y;
 
 	public GroundTile(TileType t, Position position) {
 		this.type = t;
 		this.position = position;
+		x = position.getX();
+		y = position.getY();
 	}
 
 	@SuppressWarnings("unused")
@@ -70,7 +74,6 @@ public class GroundTile implements Tile {
 		return position;
 	}
 
-
 	@Override
 	public boolean isGround() {
 		return true;
@@ -80,5 +83,30 @@ public class GroundTile implements Tile {
 	public boolean isContainer() {
 		return false;
 	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public void setType(TileType type) {
+		this.type = type;
+	}
+
+	public void setPosition(Position position) {
+		this.position = position;
+	}
+
 
 }

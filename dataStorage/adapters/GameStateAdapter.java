@@ -12,6 +12,14 @@ import model.state.Area;
 import model.state.GameState;
 import model.state.Player;
 
+/**
+ * An adapter class for model.state.GameState. It is useful to create a
+ * customised marshalling. In this case, GameStateAdapter class can set
+ * model.state.GameState's fileds and does not require its constructor.
+ *
+ * @author Shenbo Xuan 300259386
+ *
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GameStateAdapter extends XmlAdapter<GameStateAdapter, GameState> {
 
@@ -39,7 +47,6 @@ public class GameStateAdapter extends XmlAdapter<GameStateAdapter, GameState> {
 	@Override
 	public GameState unmarshal(GameStateAdapter adaptedGameState)
 			throws Exception {
-		System.out.println("here");
 		return new GameState(adaptedGameState.getWorld(),
 				adaptedGameState.getPlayerList());
 	}
