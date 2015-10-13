@@ -174,6 +174,10 @@ public class Game {
 				if (playerInRange(player, zombie)) {
 					zombie.setStrategy(new ChaseZombie());
 					player.loseHappiness();
+					if(player.getHappiness() <= 0){
+						player.die();
+						parser.sendMessage(player, "You died! Start again");
+					}
 					parser.sendToServer(player, 'H');
 				}
 			}
@@ -307,7 +311,7 @@ public class Game {
 		}
 		if(item != null){
 			Item[] inventory = player.use(inventorySlot);
-			
+
 			//parser.sendToServer(player, 'I');
 			parser.sendToServer(player, 'H');
 			if(inventory != null){
@@ -387,7 +391,7 @@ public class Game {
 		p(containerSlot);
 		player.moveToInventory(containerSlot);
 		parser.sendInventory(player, player.getInventory());
-		
+
 	}
 
 	/**
@@ -483,6 +487,10 @@ public class Game {
 
 	public ServerParser getParser() {
 		return parser;
+	}
+
+	public void setGameState(GameState gameState) {
+		this.gameState = gameState;
 	}
 
 	/**

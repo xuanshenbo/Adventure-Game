@@ -67,7 +67,8 @@ public class Initialisation extends StrategyInterpreter{
 
 		frame = new WelcomeFrame("Welcome to Adventure Game", this);
 
-		welcome = new WelcomePanel(this);
+		welcome = new WelcomePanel(this);		
+		
 
 		frame.add(welcome);
 

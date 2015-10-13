@@ -38,6 +38,10 @@ public class GroundTile implements Tile {
 		this.position = position;
 	}
 
+	@SuppressWarnings("unused")
+	private GroundTile() {
+		this(null, null);
+	}
 
 	@Override
 	public void move(Player player, Direction direction) {

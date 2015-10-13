@@ -19,4 +19,10 @@ public class Cupcake extends Item implements Consumable{
 		return null;
 	}
 
+
+	@Override
+	public String toString(){
+		return "Cupcake";
+	}
+
 }

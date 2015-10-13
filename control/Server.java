@@ -46,17 +46,17 @@ public class Server extends Thread{
 
 
 
-	public Server(int[] para) {
+	public Server(int height, int width, int density, String difficulty) {
 		//System.out.println(Server.class.getClassLoader().getResource("requests"));
-		WorldParameters world = new WorldParameters(para[0],para[1],para[2],false);
+/*		WorldParameters world = new WorldParameters(para[0],para[1],para[2],false);
 		world.setTrees(para[3]);
 		world.setBuildings(para[4]);
 		world.setCaves(para[5]);
 		world.setChests(para[6]);
-		world.setLootValue(para[7]);
+		world.setLootValue(para[7]);*/
 
 		//game= new Game(this, world, false);
-		game = new Game(this, 200, 200, "easy", 50);
+		game = new Game(this, height, width, difficulty, density);
 
 		//game = new Game(Server server, int height, int width, String difficulty("easy", "medium", "hard", int density(1-100))
 		try{
