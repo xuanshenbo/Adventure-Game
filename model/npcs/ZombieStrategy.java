@@ -8,7 +8,6 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 
 import model.state.Position;
 
-@XmlSeeAlso({ ChaseZombie.class, RandomZombie.class, RunZombie.class })
 public interface ZombieStrategy {
 
 	public Position move(Position oldPosition);

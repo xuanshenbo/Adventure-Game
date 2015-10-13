@@ -1,14 +1,9 @@
 package model.tiles;
 
-import javax.xml.bind.annotation.XmlSeeAlso;
-
 import model.logic.Game.Direction;
 import model.state.Player;
 import model.state.Position;
 
-@XmlSeeAlso({ BuildingTile.class, CaveEntranceTile.class, CaveTile.class,
-		ChestTile.class, DoorTile.class, GroundTile.class, PortalTile.class,
-		TreeTile.class })
 public interface Tile {
 
 	/**

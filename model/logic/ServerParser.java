@@ -136,11 +136,19 @@ public class ServerParser {
 			message[0] = action;
 			message[1] = type;
 			int index = 2;
+			System.out.println("\nPlayer 1 view");
 			for(int r = 0; r < 31; r++){
 				for(int c = 0; c < 31; c++){
 					message[index++] = view.get(0)[r][c];
+					if(message[index-1] != '\u0000'){
+						System.out.print(message[index-1]);
+					}else{
+						System.out.print("N");
+					}
 					message[index++] = view.get(1)[r][c];
+					
 				}
+				System.out.println("");
 			}
 		}else if(action == 'm'){
 			message = new char[stringMessage.length+2];
