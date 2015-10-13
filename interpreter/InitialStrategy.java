@@ -121,7 +121,7 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 
 		}
 
-
+		System.out.println("jere"); //debug
 		initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.START_GAME);
 	}
 
@@ -180,6 +180,7 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 		}*/
 
 		else if(initState.equals(Translator.InitialisationCommand.START_GAME)){
+			System.out.println("InitialStrategy 183: about to start the frame");
 			initialisation.displayMainGameFrame();
 		}
 

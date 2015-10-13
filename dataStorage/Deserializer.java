@@ -1,8 +1,6 @@
 package dataStorage;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 
 import javax.swing.JFileChooser;
 import javax.xml.bind.JAXBContext;
@@ -10,7 +8,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import dataStorage.pointers.AreaPointer;
-import view.styledComponents.MenuBar;
 import model.state.GameState;
 
 /**
@@ -44,7 +41,12 @@ public class Deserializer {
 
 		Unmarshaller um = context.createUnmarshaller();
 
-		return (GameState) um.unmarshal(file);
+//		return (GameState) um.unmarshal(file);
+		GameState gs = (GameState) um.unmarshal(file);
+		GameState gameState = new GameState(gs.getWorld(), gs.getPlayerList());
+		gameState.setTime(gs.getTime());
+		gameState.setDay(gs.getDay());
+		return gameState;
 
 	}
 

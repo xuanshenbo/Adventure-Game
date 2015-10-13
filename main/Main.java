@@ -78,7 +78,7 @@ public class Main {
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-		Server server = new Server(toLoad);
+		server = new Server(toLoad);
 		server.start();
 	}
 
@@ -186,9 +186,9 @@ public class Main {
 		//set the ip address of the client for display
 		ipAddress = client.getIPaddress();
 		//System.out.println("Main 180: This ip is "+ipAddress);//debug
-		while(ipAddress == null){
+		/*while(ipAddress == null){
 			//do nothing and wait for the ip address?
-		}
+		}*/
 		frame.setIP(ipAddress);
 
 		frame.setUpLayoutAndDisplay();

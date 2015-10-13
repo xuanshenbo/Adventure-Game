@@ -26,6 +26,10 @@ public class Position {
 		this.a = a;
 	}
 
+	private Position() {
+
+	}
+
 	/**
 	 * This method checks if the tile is ground
 	 * @return true or false if it is a ground tile.

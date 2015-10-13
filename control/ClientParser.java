@@ -216,7 +216,7 @@ public class ClientParser {
 	 * @param message
 	 */
 	public void readIP(char[] message){
-		//System.out.println("IP is being read in the client parser");//debug
+		System.out.println("IP is being read in the client parser");//debug
 		String receive = "";
 		int i = 1;
 		for(; i<message.length; i++){

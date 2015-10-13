@@ -13,12 +13,15 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import dataStorage.adapters.GameStateAdapter;
 import model.items.Item;
 import model.npcs.Zombie;
 import model.tiles.Tile;
 import static utilities.PrintTool.p;
 
+@XmlJavaTypeAdapter(GameStateAdapter.class)
 @XmlRootElement(namespace = "savedGame")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GameState {
@@ -43,10 +46,10 @@ public class GameState {
 		world.addGameState(this);
 	}
 
-/*	@SuppressWarnings("unused")
 	private GameState() {
-		this(null, null);
-	}*/
+		time = 0;
+		day = true;
+	}
 
 	/**
 	 * Goes through the player list and checks the players id

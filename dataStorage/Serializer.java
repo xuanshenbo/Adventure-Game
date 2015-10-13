@@ -9,7 +9,6 @@ import javax.xml.bind.Marshaller;
 
 import dataStorage.pointers.AreaPointer;
 import model.state.GameState;
-import model.tiles.*;
 
 /**
  * Provide static save methods for the game. It uses the binding method to save

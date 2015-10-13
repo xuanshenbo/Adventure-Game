@@ -26,6 +26,10 @@ public class Zombie {
 		this.position = position;
 	}
 
+	private Zombie() {
+
+	}
+
 	public void tick(){
 		position = strategy.move(position);
 	}

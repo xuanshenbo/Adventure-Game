@@ -12,7 +12,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import dataStorage.adapters.PlayerAdapter;
 import model.items.Bag;
 import model.items.Consumable;
 import model.items.Item;
@@ -20,6 +22,7 @@ import model.items.Key;
 import model.tiles.ChestTile;
 import static utilities.PrintTool.p;
 
+@XmlJavaTypeAdapter(PlayerAdapter.class)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Player {
 
@@ -43,39 +46,35 @@ public class Player {
 		this.position = p;
 		this.startingPosition = p;
 		this.id = id;
-//		inventory[0] = new Bag();
-//		inventory[1] = new Key();
+		// inventory[0] = new Bag();
+		// inventory[1] = new Key();
 	}
 
-	public Player(int id){
+	public Player(int id) {
 		this.id = id;
 	}
 
-
-
 	public void increaseHappiness() {
-		happiness ++;
-		if(happiness > 9){
+		happiness++;
+		if (happiness > 9) {
 			happiness = 9;
 		}
 	}
 
 	public void loseHappiness() {
-		happiness --;
+		happiness--;
 	}
 
-
-
 	public void die() {
-		if(happiness < 1){
+		if (happiness < 1) {
 			position = startingPosition;
 			happiness = 5;
 		}
 	}
 
-	public boolean addItemToInventory(Item item){
-		for(int i = 0; i < inventory.length; i++){
-			if(inventory[i] == null){
+	public boolean addItemToInventory(Item item) {
+		for (int i = 0; i < inventory.length; i++) {
+			if (inventory[i] == null) {
 				inventory[i] = item;
 				return true;
 			}
@@ -86,44 +85,43 @@ public class Player {
 	public void makeActive() {
 		inGame = true;
 	}
+
 	public void makeInactive() {
 		inGame = false;
 	}
 
-	public Item getSelectedItem(){
+	public Item getSelectedItem() {
 		return selectedItem;
 	}
 
-
-	public void removeSelectedItem(){
+	public void removeSelectedItem() {
 		selectedItem = null;
 	}
 
-
-
 	/**
-	 * Called when a player tries to move an item from the
-	 * open container to their inventory.
-	 * @param  containerSlot
+	 * Called when a player tries to move an item from the open container to
+	 * their inventory.
+	 *
+	 * @param containerSlot
 	 */
 
 	public void moveToInventory(int containerSlot) {
 		boolean added = addItemToInventory(openContainer.getItem(containerSlot));
-		if(added){
+		if (added) {
 			openContainer.removeItemSlot(containerSlot);
 		}
 
 	}
 
 	public boolean getKey() {
-		for(int i = 0; i < inventory.length; i++){
-			if(inventory[i] instanceof Key){
+		for (int i = 0; i < inventory.length; i++) {
+			if (inventory[i] instanceof Key) {
 				inventory[i] = null;
 				return true;
-			}else if(inventory[i] instanceof Bag){
-				Bag bag = (Bag)inventory[i];
-				for(int j = 0; j < bag.open().length; j++){
-					if(bag.open()[i] instanceof Key){
+			} else if (inventory[i] instanceof Bag) {
+				Bag bag = (Bag) inventory[i];
+				for (int j = 0; j < bag.open().length; j++) {
+					if (bag.open()[i] instanceof Key) {
 						bag.open()[i] = null;
 						return true;
 					}
@@ -150,18 +148,16 @@ public class Player {
 	}
 
 	/**
-	 * Player uses the item that is passed in. If it is a container
-	 * it will return the inventory of that container, else it will
-	 * return null
+	 * Player uses the item that is passed in. If it is a container it will
+	 * return the inventory of that container, else it will return null
 	 */
 
-	public Item[] use(int inventorySlot){
+	public Item[] use(int inventorySlot) {
 		Item item = inventory[inventorySlot];
-		if(item instanceof Bag){
+		if (item instanceof Bag) {
 			openContainer = (Container) item;
 			return item.use(this);
-		}
-		else if(item instanceof Consumable){
+		} else if (item instanceof Consumable) {
 			item.use(this);
 			inventory[inventorySlot] = null;
 		}
@@ -190,7 +186,7 @@ public class Player {
 		selectedItem = inventory[inventorySlot];
 	}
 
-	public void setOpenContainer(Container container){
+	public void setOpenContainer(Container container) {
 		openContainer = container;
 	}
 
@@ -257,7 +253,7 @@ public class Player {
 		return inGame;
 	}
 
-	public Container getOpenContainer(){
+	public Container getOpenContainer() {
 		return openContainer;
 	}
 
