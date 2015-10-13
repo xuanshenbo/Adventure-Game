@@ -5,6 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlTransient;
 
 import model.items.Item;
 import model.logic.Game.Direction;
@@ -19,6 +21,7 @@ import static utilities.PrintTool.p;
 public class ChestTile implements Tile, Container{
 
 	private char id = 'O';
+	@XmlTransient
 	private Position position;
 	@XmlElementWrapper
 	@XmlElement(name = "inventory")

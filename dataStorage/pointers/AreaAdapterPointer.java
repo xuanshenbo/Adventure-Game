@@ -6,8 +6,6 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlTransient;
 
-import com.sun.xml.internal.bind.CycleRecoverable;
-
 import model.items.Item;
 import model.state.Area.AreaType;
 import model.tiles.Tile;
@@ -20,7 +18,7 @@ import model.tiles.Tile;
  * @author Shenbo Xuan 300259386
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AreaPointer {
+public class AreaAdapterPointer {
 
 	@XmlElementWrapper
 	@XmlAnyElement

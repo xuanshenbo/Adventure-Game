@@ -13,18 +13,21 @@ package model.state;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.sun.xml.internal.bind.CycleRecoverable;
 
+import dataStorage.adapters.AreaAdapter;
 import dataStorage.pointers.AreaPointer;
 import static utilities.PrintTool.p;
 import model.items.Item;
@@ -34,6 +37,7 @@ import model.tiles.Tile;
 import model.tiles.GroundTile.TileType;
 
 //@XmlType(propOrder = { "type", "area", "items", "entrance", "internalAreas", "exitPosition" })
+@XmlJavaTypeAdapter(AreaAdapter.class)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Area implements CycleRecoverable {
 
@@ -57,11 +61,19 @@ public class Area implements CycleRecoverable {
 
 	}
 
+	// serialization testing
+	@XmlElementWrapper
+	@XmlAnyElement
+	private Tile[] areasSerializable;
+
+	private int height;
+	private int width;
+
 	private final AreaType type; // the type of area this is and determines the ground texture
 	@XmlTransient
-	private final Item[][] items; // the array of items in the area based on their location
+	private Item[][] items; // the array of items in the area based on their location
 	@XmlTransient
-	private final Tile[][] area; // the array of tiles that make up the area
+	private Tile[][] area; // the array of tiles that make up the area
 	private Position entrance; // the position on the parent of the entrance to this area
 	@XmlElementWrapper
 	@XmlElement(name="internalArea")
@@ -89,6 +101,29 @@ public class Area implements CycleRecoverable {
 				}
 			}
 		}
+
+		this.height = height;
+		this.width = width;
+
+		// serialization testing
+		areasSerializable = new Tile[height * width];
+		areasSerializable = toArray(area);
+	}
+
+	private Tile[] toArray(Tile[][] area) {
+		List<Tile> temp = new ArrayList<Tile>();
+		for (int i = 0; i < area.length; i++) {
+			for (int j = 0; j < area[i].length; j++) {
+				temp.add(area[i][j]);
+			}
+		}
+
+		Tile[] areaSerializable = new Tile[temp.size()];
+		for (int i = 0; i < areaSerializable.length; i++) {
+			areaSerializable[i] = temp.get(i);
+		}
+
+		return areaSerializable;
 	}
 
 	public void addGameState(GameState gameState){
@@ -180,7 +215,7 @@ public class Area implements CycleRecoverable {
 		g.fillTiles(this);
 		g.placeLoot(this);
 	}
-	
+
 	@Override
 	public String toString(){
 		return (entrance+" "+type);
@@ -236,6 +271,18 @@ public class Area implements CycleRecoverable {
 		return exitPosition;
 	}
 
+	public Tile[] getAreasSerializable() {
+		return areasSerializable;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
 	// ================================================
 	// setters from here
 	// ================================================
@@ -264,6 +311,30 @@ public class Area implements CycleRecoverable {
 
 	public void setGameState(GameState gameState) {
 		this.gameState = gameState;
+	}
+
+	public void setAreasSerializable(Tile[] areasSerializable) {
+		this.areasSerializable = areasSerializable;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public void setItems(Item[][] items) {
+		this.items = items;
+	}
+
+	public void setArea(Tile[][] area) {
+		this.area = area;
+	}
+
+	public void setCaveEntrance(ArrayList<Position> caveEntrances) {
+		this.caveEntrances = caveEntrances;
 	}
 
 	/**========================
@@ -305,7 +376,7 @@ public class Area implements CycleRecoverable {
 	public Object onCycleDetected(Context arg0) {
 		AreaPointer areaPointer = new AreaPointer();
 		areaPointer.setType(type);
-		areaPointer.setArea(area);
+		areaPointer.setAreaSerialzable(areasSerializable);
 		areaPointer.setItems(items);
 		return areaPointer;
 	}

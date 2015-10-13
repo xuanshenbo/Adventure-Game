@@ -3,6 +3,8 @@ package model.tiles;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlTransient;
 
 import model.logic.Game.Direction;
 import model.state.Player;
@@ -12,7 +14,9 @@ import model.state.Position;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PortalTile implements Tile {
 
+	@XmlTransient
 	private Position entry;
+	@XmlTransient
 	private Position exit;
 
 	public PortalTile(Position entry, Position exit){

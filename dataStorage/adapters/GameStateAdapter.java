@@ -2,6 +2,8 @@ package dataStorage.adapters;
 
 import java.util.ArrayList;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
@@ -10,6 +12,7 @@ import model.state.Area;
 import model.state.GameState;
 import model.state.Player;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class GameStateAdapter extends XmlAdapter<GameStateAdapter, GameState> {
 
 	@XmlElementWrapper
@@ -36,6 +39,7 @@ public class GameStateAdapter extends XmlAdapter<GameStateAdapter, GameState> {
 	@Override
 	public GameState unmarshal(GameStateAdapter adaptedGameState)
 			throws Exception {
+		System.out.println("here");
 		return new GameState(adaptedGameState.getWorld(),
 				adaptedGameState.getPlayerList());
 	}

@@ -52,6 +52,7 @@ public class Client extends Thread {
 			output.write("J"+uid);
 			output.flush();
 			boolean exit = false;
+			//System.out.println("Client 55: after sending id");
 			while(!exit){
 				//handles the disconnection gracefully
 				if(socket.isInputShutdown() || socket.isOutputShutdown()){

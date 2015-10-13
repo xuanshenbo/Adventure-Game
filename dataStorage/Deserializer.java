@@ -7,8 +7,9 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
-import dataStorage.pointers.AreaPointer;
+import dataStorage.pointers.*;
 import model.state.GameState;
+import model.tiles.*;
 
 /**
  * Provide static load method to load a saved game from an xml file.
@@ -37,15 +38,21 @@ public class Deserializer {
 		}
 
 		JAXBContext context = JAXBContext.newInstance(new Class[] {
-				GameState.class, AreaPointer.class });
+				GameState.class, AreaPointer.class, BuildingAnchorTile.class,
+				BuildingTile.class, CaveAnchorTile.class,
+				CaveEntranceTile.class, CaveTile.class, ChestTile.class,
+				DoorTile.class, GroundTile.class, PortalTile.class,
+				TreeTile.class, PositionPointer.class });
 
 		Unmarshaller um = context.createUnmarshaller();
 
-//		return (GameState) um.unmarshal(file);
 		GameState gs = (GameState) um.unmarshal(file);
+
 		GameState gameState = new GameState(gs.getWorld(), gs.getPlayerList());
 		gameState.setTime(gs.getTime());
 		gameState.setDay(gs.getDay());
+		gameState.getWorld().setGameState(gameState);
+
 		return gameState;
 
 	}

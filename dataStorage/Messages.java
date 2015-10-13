@@ -7,12 +7,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
- * Provide GUI messages for user when using saving functions.
+ * Provide GUI messages for user when using saving functions. Only accessable to
+ * dataStorage package
  *
  * @author Shenbo Xuan 300259386
  *
  */
-public class DataStorageMessages {
+class Messages {
 
 	/**
 	 * Represents user's decision to overwrite a file

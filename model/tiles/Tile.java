@@ -1,5 +1,7 @@
 package model.tiles;
 
+import javax.xml.bind.annotation.XmlSeeAlso;
+
 import model.logic.Game.Direction;
 import model.state.Player;
 import model.state.Position;

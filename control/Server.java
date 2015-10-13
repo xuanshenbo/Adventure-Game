@@ -150,16 +150,20 @@ public class Server extends Thread{
 		@Override
 		public Void call() {
 			try {
+				//System.out.println("Server 153: before reading from client");
 				Reader in = new InputStreamReader(connection.getInputStream());
+				//System.out.println("Server 155: after reading from client");
 				char[] received = new char[2];
 				in.read(received);
 				id = Character.getNumericValue(received[1]);
+				//System.out.println("Server 159: Id: "+id);
 
 				Writer out = new OutputStreamWriter(connection.getOutputStream());
 				writers[id] = out;
 				if(id != 0){
 					game.getParser().processClientEvent(received, out, id);
 				}
+				System.out.println("Server 163: before sending address");
 				out.write("A"+address.getHostAddress().toString()+"X");// 'X' indicates the end of the message
 				out.flush();
 

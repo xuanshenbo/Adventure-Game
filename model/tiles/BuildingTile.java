@@ -4,17 +4,19 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlTransient;
 
 import model.logic.Game.Direction;
 import model.state.Player;
 import model.state.Position;
 
-@XmlSeeAlso({ BuildingAnchorTile.class })
+@XmlSeeAlso({BuildingAnchorTile.class})
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BuildingTile implements Tile {
 
 	private char id = 'B';
+	@XmlTransient
 	private Position position;
 
 	public BuildingTile(Position position){

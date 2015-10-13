@@ -9,7 +9,7 @@ import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -29,15 +29,15 @@ public class Player {
 	private Position position; // Position of the player in the world
 	private final int id; // unique identifier of the player
 	@XmlElementWrapper
-	@XmlElement(name = "item")
+	@XmlAnyElement
 	private Item[] inventory = new Item[6]; // The inventory of the player
 	private int happiness = 5;
 	@XmlTransient
 	private boolean inGame = false;
+	@XmlTransient
 	private Item selectedItem = null;
 	@XmlTransient
 	private Container openContainer = null;
-	@XmlTransient
 	private Position startingPosition;
 	@XmlElementWrapper
 	private Set<ChestTile> openedChests = new HashSet<ChestTile>();

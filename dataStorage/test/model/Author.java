@@ -2,6 +2,9 @@ package dataStorage.test.model;
 
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlTransient;
@@ -9,14 +12,19 @@ import javax.xml.bind.annotation.XmlType;
 
 import com.sun.xml.internal.bind.CycleRecoverable;
 
-@XmlType(propOrder = { "name", "phoneNumber", "friends", "pet" })
+//@XmlType(propOrder = { "name", "phoneNumber", "friends", "pet" })
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Author implements CycleRecoverable {
 
 	private String name;
 	private int age;
 	private PhoneNumber phoneNumber;
+	@XmlElementWrapper
+	@XmlElement(name = "friend")
 	private List<Author> friends;
-	private Pet pet;
+	@XmlElementWrapper
+	@XmlAnyElement
+	private List<Pet> pets;
 
 	public String getName() {
 		return name;
@@ -26,7 +34,6 @@ public class Author implements CycleRecoverable {
 		this.name = name;
 	}
 
-	@XmlTransient
 	public int getAge() {
 		return age;
 	}
@@ -43,8 +50,6 @@ public class Author implements CycleRecoverable {
 		this.phoneNumber = phoneNumber;
 	}
 
-	@XmlElementWrapper
-	@XmlElement(name="friend")
 	public List<Author> getFriends() {
 		return friends;
 	}
@@ -53,12 +58,12 @@ public class Author implements CycleRecoverable {
 		this.friends = friends;
 	}
 
-	public Pet getPet() {
-		return pet;
+	public List<Pet> getPet() {
+		return pets;
 	}
 
-	public void setPet(Pet pet) {
-		this.pet = pet;
+	public void setPet(List<Pet> pets) {
+		this.pets = pets;
 	}
 
 	@Override

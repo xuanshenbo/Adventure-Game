@@ -25,7 +25,7 @@ public class SerialiseMain {
 
 		// create JAXB context and instantiate marshaller
 		JAXBContext context = JAXBContext.newInstance(new Class[] {
-				Shelf.class, AuthorPointer.class });
+				Shelf.class, AuthorPointer.class, Cat.class, Dog.class });
 		Marshaller m = context.createMarshaller();
 		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
@@ -39,10 +39,11 @@ public class SerialiseMain {
 		System.out.println();
 		System.out.println("Output from our XML File: ");
 		JAXBContext context2 = JAXBContext.newInstance(new Class[] {
-				Shelf.class, AuthorPointer.class });
+				Shelf.class, AuthorPointer.class, Cat.class, Dog.class });
 
 		Unmarshaller um = context2.createUnmarshaller();
-		//Shelf politics2 = (Shelf) um.unmarshal(new FileReader("./myshelf.xml"));
+		// Shelf politics2 = (Shelf) um.unmarshal(new
+		// FileReader("./myshelf.xml"));
 		Shelf politics2 = (Shelf) um.unmarshal(new FileReader(SHELF_XML));
 		ArrayList<Book> list = (ArrayList<Book>) politics2.getBookList();
 		for (Book book : list) {
@@ -88,13 +89,24 @@ public class SerialiseMain {
 		mao.setName("Mao");
 		mao.setPhoneNumber(chinaNumber);
 
-		//set pets
-		Cat cat = new Cat();
+		// set pets
+		Cat cat1 = new Cat();
+		Cat cat2 = new Cat();
 		Dog dog = new Dog();
 
-		celia.setPet(cat);
-		len.setPet(dog);
-		mao.setPet(dog);
+		ArrayList<Pet> celiaPets = new ArrayList<Pet>();
+		celiaPets.add(cat1);
+		celiaPets.add(dog);
+
+		ArrayList<Pet> lenPets = new ArrayList<Pet>();
+		lenPets.add(dog);
+		lenPets.add(cat2);
+
+		ArrayList<Pet> maoPets = new ArrayList<Pet>();
+
+		celia.setPet(celiaPets);
+		len.setPet(lenPets);
+		mao.setPet(maoPets);
 
 		// set friends
 		List<Author> celiaFriends = new ArrayList<Author>();

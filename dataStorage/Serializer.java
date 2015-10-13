@@ -7,8 +7,9 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
-import dataStorage.pointers.AreaPointer;
+import dataStorage.pointers.*;
 import model.state.GameState;
+import model.tiles.*;
 
 /**
  * Provide static save methods for the game. It uses the binding method to save
@@ -23,7 +24,8 @@ public class Serializer {
 	private static final String GAMES_PATH = "games/";
 
 	// So no one can accidently create a Serializer class
-	private Serializer() {}
+	private Serializer() {
+	}
 
 	/**
 	 * If the current game is loaded from a file, save the current game and
@@ -34,17 +36,17 @@ public class Serializer {
 	 * @throws JAXBException
 	 */
 	public static void serialize(GameState game) throws JAXBException {
-		JAXBContext context = JAXBContext
-				.newInstance(new Class[] { GameState.class, AreaPointer.class/*,
-						BuildingAnchorTile.class, BuildingTile.class,
-						CaveAnchorTile.class, CaveEntranceTile.class,
-						CaveTile.class, ChestTile.class, DoorTile.class,
-						GroundTile.class, PortalTile.class, TreeTile.class*/ });
+		JAXBContext context = JAXBContext.newInstance(new Class[] {
+				GameState.class, AreaPointer.class, BuildingAnchorTile.class,
+				BuildingTile.class, CaveAnchorTile.class,
+				CaveEntranceTile.class, CaveTile.class, ChestTile.class,
+				DoorTile.class, GroundTile.class, PortalTile.class,
+				TreeTile.class, PositionPointer.class });
 		Marshaller m = context.createMarshaller();
 		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
 		// Write to System.out
-		m.marshal(game, System.out);
+		//m.marshal(game, System.out);
 
 		// Write to File
 		File file = null;
@@ -86,7 +88,7 @@ public class Serializer {
 	private static void save(Marshaller marshaller, GameState game, File file)
 			throws JAXBException {
 		marshaller.marshal(game, file);
-		DataStorageMessages.saveSuccessNotice(file);
+		Messages.saveSuccessNotice(file);
 	}
 
 	// opens up a dialog ask user for file name. Then use save method to save
@@ -104,7 +106,7 @@ public class Serializer {
 			}
 
 			if (!isValidName(fileName)) {
-				DataStorageMessages.invalidNameWarning(fileName);
+				Messages.invalidNameWarning(fileName);
 			}
 		} while (!isValidName(fileName));
 
@@ -117,7 +119,7 @@ public class Serializer {
 		File toSave = new File(GAMES_PATH + fileNameXml);
 
 		if (toSave.exists()) {
-			if (DataStorageMessages.fileExistWarning(fileName) == DataStorageMessages.OVERWRITE) {
+			if (Messages.fileExistWarning(fileName) == Messages.OVERWRITE) {
 				save(marshaller, game, new File(GAMES_PATH + fileNameXml));
 			}
 		} else {

@@ -4,13 +4,14 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import model.logic.Game.Direction;
 import model.state.Player;
 import model.state.Position;
-
 import static utilities.PrintTool.p;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GroundTile implements Tile {
@@ -32,6 +33,7 @@ public class GroundTile implements Tile {
 	}
 
 	private TileType type;
+	@XmlTransient
 	private Position position;
 
 	public GroundTile(TileType t, Position position) {
@@ -73,7 +75,6 @@ public class GroundTile implements Tile {
 	public boolean isGround() {
 		return true;
 	}
-
 
 	@Override
 	public boolean isContainer() {
