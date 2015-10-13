@@ -32,6 +32,7 @@ public class Images {
     private Image zombie;
     private Image bag;
     private Image[] cupcake;
+    private Image[] pumpkin;
 
 
     private ArrayList<ArrayList<Image>> avatarImages;
@@ -45,6 +46,7 @@ public class Images {
         this.avatarImages = new ArrayList<ArrayList<Image>>();
         this.doorImages = new Image[16];
         this.cupcake = new Image[2];
+        this.pumpkin = new Image[2];
         this.buildingImage = new Image[2];
         this.chestImage = new Image[2];
         this.caveImage = new Image[2];
@@ -79,6 +81,9 @@ public class Images {
         cupcake[0] = loadImage("cupcake5.png", imageScale, imageScale);
         cupcake[1] = loadImage("cupcakeback5.png", imageScale, imageScale);
 
+        pumpkin[0] = loadImage("pumpkin.png", imageScale, imageScale);
+        pumpkin[1] = loadImage("pumpkinback.png", imageScale, imageScale);
+
         this.bag = loadImage("bag.png", imageScale, imageScale);
 
         //load characters images
@@ -91,8 +96,8 @@ public class Images {
 
         for (int i = 0; i < 4; i++){
             ArrayList<Image> avatarSequence = new ArrayList<Image>();
-            for (int n = 0; n < 7; n++) {
-                avatarSequence.add(loadImage("avatar/" + n + ".png", imageScale, imageScale));
+            for (int n = 0; n < 32; n++) {
+                avatarSequence.add(loadImage("avatar/" + i + "/" + n + ".png", imageScale, imageScale));
             }
             this.avatarImages.add(avatarSequence);
         }
@@ -158,4 +163,7 @@ public class Images {
         return bag;
     }
 
+    public Image pumpkin(int dir) {
+        return pumpkin[dir];
+    }
 }

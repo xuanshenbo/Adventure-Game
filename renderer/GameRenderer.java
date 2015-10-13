@@ -20,7 +20,6 @@ public class GameRenderer{
 
 	private char[][] objects;
 	private char[][] view;
-	private int animationIndex;
 	private BufferedImage outPut;
 	private Shape background;
 	private Graphics2D graphic;
@@ -32,11 +31,14 @@ public class GameRenderer{
 
 	private boolean doRender = false;
 
+	private int animationIndex;
 	private int doorIndex = 0;
 	private int playerAnimationIndex = 1;
+	private char playerDir = 's';
 	private int times = 0;
 
 	private boolean doAnimation = false;
+	private int animationBound = 7;
 
 	public GameRenderer(int width, int height, char[][] view, char[][] objects, GameCanvas canvas){
 
@@ -263,13 +265,13 @@ public class GameRenderer{
 		if (animationIndex > 3){
 			animationIndex = 0;
 			playerAnimationIndex+=1;
-			if (playerAnimationIndex>6){
-				playerAnimationIndex = 1;
+			if (playerAnimationIndex > animationBound){
+				playerAnimationIndex = animationBound - 6;
 			}
 		}
 
 		if (!doAnimation){
-			playerAnimationIndex = 0;
+			playerAnimationIndex = animationBound-7;
 		}
 	}
 
@@ -383,6 +385,11 @@ public class GameRenderer{
 				imageY = (int) (y - images.bag().getHeight(null) + tileHeight/2);
 				graphic.drawImage(images.bag(), imageX, imageY, null);
 				break;
+			case 'p':
+				imageX = (int) x;
+				imageY = (int) (y - images.pumpkin(0).getHeight(null) + tileHeight/2);
+				graphic.drawImage(images.pumpkin(viewDir), imageX, imageY, null);
+				break;
 			default:
 				break;
 		}
@@ -428,6 +435,12 @@ public class GameRenderer{
 
 	public void stopAnimation(){
 		doAnimation = false;
+	}
+
+	public void setDir(int dir){
+		animationBound = dir;
+		if(playerAnimationIndex < animationBound - 7)
+		playerAnimationIndex = animationBound - 6;
 	}
 
 //	public int getOffsetX(){
