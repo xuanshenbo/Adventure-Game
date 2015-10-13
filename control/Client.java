@@ -76,18 +76,6 @@ public class Client extends Thread {
 							//items[row][col] = message[index++];
 						}
 					}
-					char[][] playerOneView = map;
-					System.out.println("\nPlayer 1 view");
-					for(int row = 0; row<playerOneView.length; row++){
-						for(int col = 0; col<playerOneView[0].length; col++){
-							if(playerOneView[row][col] != '\u0000'){
-								System.out.print(playerOneView[row][col]);
-							}else{
-								System.out.print("N");
-							}
-						}
-						System.out.println("");
-					}
 				}
 
 				/*String receive = "";

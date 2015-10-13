@@ -5,6 +5,9 @@ import java.awt.image.BufferedImage;
 
 import static utilities.PrintTool.p;
 
+/**
+ * Created by lucas on 7/10/15
+ */
 public class GameRenderer{
 
 	//all different sizes needed
@@ -37,9 +40,19 @@ public class GameRenderer{
 	private char playerDir = 's';
 	private int times = 0;
 
+	private boolean night;
+
 	private boolean doAnimation = false;
 	private int animationBound = 7;
 
+	/**
+	 * create a game renderer.
+	 * @param width
+	 * @param height
+	 * @param view
+	 * @param objects
+	 * @param canvas
+	 */
 	public GameRenderer(int width, int height, char[][] view, char[][] objects, GameCanvas canvas){
 
 		size = view.length;
@@ -57,7 +70,7 @@ public class GameRenderer{
 		this.objects = objects;
 		this.view = view;
 		//this.players = players;
-		this.images = new Images(tileWidth, tileHeight, 1);
+		this.images = new Images(tileWidth, tileHeight, 1, width, height);
 
 		this.canvas = canvas;
 		this.background = new Rectangle(width, height);
@@ -246,6 +259,10 @@ public class GameRenderer{
 
 		}
 
+		if (night){
+			graphic.drawImage(images.getNightImage(), 0, 0, null);
+		}
+
 		//door animation control
 		updateAnimation();
 
@@ -411,7 +428,7 @@ public class GameRenderer{
 				}
 			}
 		}
-		p("set false, 23,9: " + view[23][9] + " 23,10: " + view[23][10]);
+
 		if (view[23][9] != '\u0000' && view[23][10] == '\u0000'){
 			doRender = false;
 		}
@@ -446,5 +463,13 @@ public class GameRenderer{
 		animationBound = dir;
 		if(playerAnimationIndex < animationBound - 7)
 		playerAnimationIndex = animationBound - 6;
+	}
+
+	public void updateDayNight(char dayNight) {
+		if (dayNight == 'N'){
+			night = true;
+		} else {
+			night = false;
+		}
 	}
 }

@@ -5,6 +5,8 @@
 
 package model.logic;
 
+import static utilities.PrintTool.p;
+
 public class WorldParameters {
 
 	private int buildings;
@@ -15,8 +17,8 @@ public class WorldParameters {
 	private int chests;
 	private int playerCount;
 	private int trees;
-	
-	
+
+
 
 	public WorldParameters(int height, int width, int playerCount, boolean test){
 		this.height = height;
@@ -31,7 +33,7 @@ public class WorldParameters {
 			buildings = 0;
 			lootValue = 0;
 			caves = 0;
-			trees = 0;
+			trees = 1;
 		}
 	}
 

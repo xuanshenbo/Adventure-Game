@@ -52,8 +52,8 @@ public class ClientParser {
 			p("received inventory information");
 			readInventory(message);
 			break;
-		case 'C'://container information
-			p("Received C");
+		case 'S'://container information
+			p("Received S");
 			readContainer(message);
 			break;
 		case 'T'://time of day
@@ -61,6 +61,7 @@ public class ClientParser {
 			char dayNight = message[2];
 			if(frame != null){
 				frame.setTime(time);
+				frame.getCanvas().getRenderer().updateDayNight(dayNight);
 			}
 			//			p("time:"+time+" "+dayNight);
 			break;

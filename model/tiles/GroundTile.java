@@ -10,6 +10,7 @@ import model.logic.Game.Direction;
 import model.state.Player;
 import model.state.Position;
 
+import static utilities.PrintTool.p;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GroundTile implements Tile {

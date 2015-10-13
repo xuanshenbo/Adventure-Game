@@ -74,12 +74,9 @@ public class Player {
 	}
 
 	public boolean addItemToInventory(Item item){
-		p(item);
 		for(int i = 0; i < inventory.length; i++){
 			if(inventory[i] == null){
 				inventory[i] = item;
-				p(i);
-				p(inventory[i]);
 				return true;
 			}
 		}
@@ -112,7 +109,6 @@ public class Player {
 
 	public void moveToInventory(int containerSlot) {
 		boolean added = addItemToInventory(openContainer.getItem(containerSlot));
-		p(added);
 		if(added){
 			openContainer.removeItemSlot(containerSlot);
 		}
