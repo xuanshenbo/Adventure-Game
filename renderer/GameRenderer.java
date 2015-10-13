@@ -50,12 +50,13 @@ public class GameRenderer{
 	private int animationBound = 7;
 
 	/**
-	 * create a game renderer.
-	 * @param width
-	 * @param height
-	 * @param view
-	 * @param objects
-	 * @param canvas
+	 * create a game renderer. pass the size of the game, two 2d arrays of map elements into
+	 * this for rendering usage.
+	 * @param width width of the game screen
+	 * @param height height of the game screen
+	 * @param view basic map elements such as buildings, caves, trees, etc.
+	 * @param objects items in the game
+	 * @param canvas game canvas which show the rendered image
 	 */
 	public GameRenderer(int width, int height, char[][] view, char[][] objects, GameCanvas canvas){
 
