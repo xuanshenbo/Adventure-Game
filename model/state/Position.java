@@ -30,7 +30,6 @@ public class Position implements CycleRecoverable {
 	}
 
 	private Position() {
-
 	}
 
 	/**

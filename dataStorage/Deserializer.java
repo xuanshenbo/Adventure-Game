@@ -45,7 +45,7 @@ public class Deserializer {
 				TreeTile.class, PositionPointer.class });
 
 		Unmarshaller um = context.createUnmarshaller();
-
+		
 		GameState gs = (GameState) um.unmarshal(file);
 
 		GameState gameState = new GameState(gs.getWorld(), gs.getPlayerList());

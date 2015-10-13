@@ -20,10 +20,18 @@ public class DoorTile implements Tile {
 	private Position entry;
 	@XmlTransient
 	private Position exit;
+	private int entryX;
+	private int entryY;
+	private int exitX;
+	private int exitY;
 
 	public DoorTile(Position entry, Position exit){
 		this.entry = entry;
 		this.exit = exit;
+		entryX = entry.getX();
+		entryY = entry.getY();
+		exitX = exit.getX();
+		exitY = exit.getY();
 	}
 
 	@SuppressWarnings("unused")
@@ -68,6 +76,62 @@ public class DoorTile implements Tile {
 	@Override
 	public boolean isContainer() {
 		return false;
+	}
+
+	public char getId() {
+		return id;
+	}
+
+	public void setId(char id) {
+		this.id = id;
+	}
+
+	public Position getEntry() {
+		return entry;
+	}
+
+	public void setEntry(Position entry) {
+		this.entry = entry;
+	}
+
+	public Position getExit() {
+		return exit;
+	}
+
+	public void setExit(Position exit) {
+		this.exit = exit;
+	}
+
+	public int getEntryX() {
+		return entryX;
+	}
+
+	public void setEntryX(int entryX) {
+		this.entryX = entryX;
+	}
+
+	public int getEntryY() {
+		return entryY;
+	}
+
+	public void setEntryY(int entryY) {
+		this.entryY = entryY;
+	}
+
+	public int getExitX() {
+		return exitX;
+	}
+
+	public void setExitX(int exitX) {
+		this.exitX = exitX;
+	}
+
+	public int getExitY() {
+		return exitY;
+	}
+
+	public void setExitY(int exitY) {
+		this.exitY = exitY;
 	}
 
 }

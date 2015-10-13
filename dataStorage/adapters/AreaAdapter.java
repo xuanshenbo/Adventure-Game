@@ -14,13 +14,20 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import com.sun.xml.internal.bind.CycleRecoverable;
 
-import dataStorage.pointers.AreaAdapterPointer;
 import dataStorage.pointers.AreaPointer;
 import model.items.Item;
 import model.state.Area;
 import model.state.Position;
 import model.tiles.Tile;
 
+/**
+ * An adapter class for model.state.Area. It is useful to create a customised
+ * marshalling. In this case, AreaAdapter class can set model.state.Area's
+ * fileds and does not require its constructor.
+ *
+ * @author Shenbo Xuan 300259386
+ *
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AreaAdapter extends XmlAdapter<AreaAdapter, Area> implements
 		CycleRecoverable {
@@ -141,6 +148,7 @@ public class AreaAdapter extends XmlAdapter<AreaAdapter, Area> implements
 		Area area = new Area(adaptedArea.getHeight(), adaptedArea.getWidth(),
 				adaptedArea.getType(), adaptedArea.getEntrance());
 		area.setItems(adaptedArea.getItems());
+		area.setAreasSerializable(adaptedArea.getAreasSerializable());
 		area.setArea(to2dArray(adaptedArea.getAreasSerializable(),
 				adaptedArea.getHeight(), adaptedArea.getWidth()));
 		area.setInternalAreas(adaptedArea.getInternalAreas());
@@ -178,7 +186,7 @@ public class AreaAdapter extends XmlAdapter<AreaAdapter, Area> implements
 
 	@Override
 	public Object onCycleDetected(Context arg0) {
-		AreaAdapterPointer areaPointer = new AreaAdapterPointer();
+		AreaPointer areaPointer = new AreaPointer();
 		areaPointer.setType(type);
 		areaPointer.setAreaSerialzable(areasSerializable);
 		areaPointer.setItems(items);

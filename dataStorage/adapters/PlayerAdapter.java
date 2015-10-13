@@ -8,6 +8,14 @@ import model.items.Item;
 import model.state.Player;
 import model.state.Position;
 
+/**
+ * An adapter class for model.state.Player. It is useful to create a customised
+ * marshalling. In this case, PlayerAdapter class can set model.state.Player's
+ * fileds and does not require its constructor.
+ *
+ * @author Shenbo Xuan 300259386
+ *
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PlayerAdapter extends XmlAdapter<PlayerAdapter, Player> {
 
@@ -59,7 +67,8 @@ public class PlayerAdapter extends XmlAdapter<PlayerAdapter, Player> {
 
 	@Override
 	public Player unmarshal(PlayerAdapter adaptedPlayer) throws Exception {
-		Player player = new Player(adaptedPlayer.getPosition(), adaptedPlayer.getId());
+		Player player = new Player(adaptedPlayer.getPosition(),
+				adaptedPlayer.getId());
 		player.setInventory(adaptedPlayer.getInventory());
 		player.setHappiness(adaptedPlayer.getHappiness());
 		player.setStartingPosition(adaptedPlayer.getStartingPosition());
