@@ -411,6 +411,10 @@ public class GameRenderer{
 				}
 			}
 		}
+		p("set false, 23,9: " + view[23][9] + " 23,10: " + view[23][10]);
+		if (view[23][9] != '\u0000' && view[23][10] == '\u0000'){
+			doRender = false;
+		}
 
 		if (doRender) {
 			this.view = view;

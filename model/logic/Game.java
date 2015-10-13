@@ -77,6 +77,7 @@ public class Game {
 	public Game(Server server, GameState state) {
 		this.gameState = state;
 		parser = new ServerParser(this, server, false);
+		this.clock = new Clock(2000, this);
 		clock.start();
 	}
 
