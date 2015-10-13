@@ -124,8 +124,8 @@ public class Main {
 			avatarClient.setUid(0);//debug
 			avatarClient.start();
 			initial.setClient(avatarClient);
-			//System.out.println("Main 141: avatar client is sending R");//debug
-			System.out.print("");//debug
+			System.out.println("Main 141: avatar client is sending R");//debug
+			//System.out.print("");//debug
 			avatarClient.send("R");
 		} catch (IOException e) {
 			e.printStackTrace();

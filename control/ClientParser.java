@@ -154,7 +154,7 @@ public class ClientParser {
 				if(newMessage != null) processMessage(newMessage);
 				break loop;
 			default:
-				System.out.println("unknown container item");
+				System.out.println("ClientParser 157: unknown item: "+message[i]);//debug
 			}
 		}
 		frame.setContainerContents(container);
