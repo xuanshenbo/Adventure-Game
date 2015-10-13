@@ -54,11 +54,10 @@ public class Main {
 	/**
 	 * Sets up the network for a server-client mode
 	 */
-	public static void serverClient(){
-		int height = 61, width = 61, players = 4, trees = 20;
-		int buildings = 2, caves = 1, chests = 5, lootValue = 1;
-		int[] parameters = {height, width, players,trees, buildings, caves, chests, lootValue};
-		server = new Server(parameters);
+	public static void serverClient(int height, int width, int density, String difficulty){
+		int players = 4;
+		//int[] parameters = {height, width, players,trees, buildings, caves, chests, lootValue};
+		server = new Server(height, width, density, difficulty);
 		game = server.getGame();
 		server.start();
 	}

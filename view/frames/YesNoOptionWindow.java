@@ -16,7 +16,8 @@ import view.styledComponents.HappinessButton;
 import view.styledComponents.HappinessLabel;
 
 /**
- * TODO refactor the two constructors
+ * This creates an option to the user of confirming, or
+ * cancelling. The buttons and labels conform to the game theme
  * @author flanagdonn
  *
  */
@@ -35,6 +36,12 @@ public class YesNoOptionWindow extends JFrame{
 
 	private GameFrame gameFrame;
 
+	/**
+	 * This creates a window connected to a GameFrame
+	 * @param cmd The command from the frame
+	 * @param gFrame The GameFrame connected to this window.
+	 * @param title The title of the frame
+	 */
 	public YesNoOptionWindow(Command cmd, GameFrame gFrame, String title){
 		super(title);
 
@@ -48,6 +55,12 @@ public class YesNoOptionWindow extends JFrame{
 
 	}
 
+	/**
+	 * This creates a window connected to a WelcomeFrame
+	 * @param cmd The command from the frame
+	 * @param wFrame The WelcomeFrame connected to this window.
+	 * @param title The title of the frame
+	 */
 	public YesNoOptionWindow(Command cmd, WelcomeFrame wFrame, String title){
 		super(title);
 

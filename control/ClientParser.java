@@ -76,8 +76,8 @@ public class ClientParser {
 
 	private void readMessageToDisplay(char[] message) {
 		String messageToDisplay = "";
-		int count = 0;
-		while(count < message.length){
+		int count = 1;
+		while(count < message.length && message[count] != 'X'){
 			messageToDisplay += message[count++];
 		}
 		frame.displayMessageFromGame(messageToDisplay);
@@ -246,7 +246,7 @@ public class ClientParser {
 				items[row][col] = message[index++];
 			}
 		}
-		char[][] playerOneView = map;
+		/*char[][] playerOneView = map;
 		System.out.println("\nPlayer 1 view");
 		for(int row = 0; row<playerOneView.length; row++){
 			for(int col = 0; col<playerOneView[0].length; col++){
@@ -257,7 +257,7 @@ public class ClientParser {
 				}
 			}
 			System.out.println("");
-		}
+		}*/
 		//p("reading map in the client");
 		if(frame != null){
 			frame.updateRenderer(type, map, items);

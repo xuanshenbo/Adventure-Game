@@ -146,6 +146,7 @@ public class SliderPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				welcome.notifyParameters();
 				welcome.removeSliderPanel();
+				welcome.startServer();
 			}
 
 		});
@@ -171,13 +172,13 @@ public class SliderPanel extends JPanel {
 		difficulty.setMajorTickSpacing(tickSpacingDifficulty);
 
 		//height of game
-		height = new JSlider(JSlider.HORIZONTAL, 10, 200, 50);
+		height = new JSlider(JSlider.HORIZONTAL, 30, 200, 100);
 		height.add(Box.createRigidArea(sliderPaddingVertical));
 		height.setPaintTicks(true);
 		height.setMajorTickSpacing(tickSpacingHeight);
 
 		//width of game
-		width = new JSlider(JSlider.HORIZONTAL, 10, 200, 50);
+		width = new JSlider(JSlider.HORIZONTAL, 30, 200, 100);
 		width.add(Box.createRigidArea(sliderPaddingVertical));
 		width.setPaintTicks(true);
 		width.setMajorTickSpacing(tickSpacingWidth);

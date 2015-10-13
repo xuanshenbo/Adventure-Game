@@ -393,9 +393,8 @@ public class GameRenderer{
 	}
 
 	public void update(char type, char[][] view, char[][] objects) {
-		System.out.println("GameRenderer 396: should be only once");//debug
 		this.type = type;
-		
+
 		for (int y = 0; y < viewHeight; y++) {
 			for (int x = 0; x < viewWidth; x++) {
 				if (view[y][x] != this.view[y][x] || objects[y][x] != this.objects[y][x]) {

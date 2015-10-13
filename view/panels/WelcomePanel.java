@@ -21,6 +21,7 @@ import view.frames.Dialog;
 import view.frames.GameFrame;
 import view.utilities.ImageLoader;
 import main.Initialisation;
+import main.Main;
 
 /**
  * A subclass of JDialog which welcomes a new player and invites them to choose an avatar
@@ -260,6 +261,24 @@ public class WelcomePanel extends JPanel{
 		}
 	}
 
+	/**
+	 * The following starts the server in a server-client mode
+	 */
+	public void startServer() {
+		String diffLevel = "";
+		if(difficultyLevel == 0){
+			diffLevel = "easy";
+		}
+		else if(difficultyLevel == 1){
+			diffLevel = "medium";
+		}
+		else{
+			diffLevel = "hard";
+		}
+
+		Main.serverClient(gameHeight, gameWidth, density, diffLevel);
+	}
+
 	//====================================================================
 	//===================GETTERS AND SETTERS FOLLOW=======================
 	//====================================================================
@@ -311,4 +330,6 @@ public class WelcomePanel extends JPanel{
 	public void setGameWidth(int value) {
 		gameWidth = value;
 	}
+
+
 }

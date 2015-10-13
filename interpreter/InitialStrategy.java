@@ -59,13 +59,14 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 			difficulty = sc.nextInt();
 			density = sc.nextInt();
 
+			//notify server of params here!!
+
+
 			initialisation.getWelcomePanel().transitionToNewState(InitialisationCommand.CREATE_NEW_PLAYER);
 
-			//TODO let game know the chosen parameters
+
 		}
 
-
-		//TODO fix bug here when I enter 130.195.6.190 as the address.
 		else{	//entered ipaddress
 			ip = text;
 			InetAddress adr = null;
@@ -174,9 +175,9 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 
 		}*/
 
-		if(initState.equals(Translator.InitialisationCommand.SELECTED_CLIENT_AND_SERVER)){
+		/*if(initState.equals(Translator.InitialisationCommand.SELECTED_CLIENT_AND_SERVER)){
 			Main.serverClient();
-		}
+		}*/
 
 		else if(initState.equals(Translator.InitialisationCommand.START_GAME)){
 			initialisation.displayMainGameFrame();

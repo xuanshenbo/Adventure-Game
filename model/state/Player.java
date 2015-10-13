@@ -61,12 +61,16 @@ public class Player {
 	}
 
 	public void loseHappiness() {
-		happiness --;
+		happiness --;		
+	}
+	
+
+
+	public void die() {
 		if(happiness < 1){
 			position = startingPosition;
 			happiness = 5;
-		}
-
+		}		
 	}
 
 	public boolean addItemToInventory(Item item){
