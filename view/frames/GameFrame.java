@@ -14,7 +14,7 @@ import javax.xml.bind.JAXBException;
 import dataStorage.Serializer;
 import renderer.GameCanvas;
 import renderer.GameRenderer;
-import renderer.GuiForTest;
+//import renderer.GuiForTest;
 import renderer.testRenderer;
 import view.panels.ButtonPanel;
 import view.panels.PlayerProfilePanel;

@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 
 import model.logic.Game;
 import model.logic.WorldParameters;
+import model.state.GameState;
 import static utilities.PrintTool.p;
 
 /**
@@ -29,8 +30,8 @@ import static utilities.PrintTool.p;
  */
 public class Server extends Thread{
 	public final static int PORT = 8888;
-	private final static Logger auditLogger = Logger.getLogger("requests");
-	private final static Logger errorLogger = Logger.getLogger("errors");
+	//private final static Logger auditLogger = Logger.getLogger("requests");
+	//private final static Logger errorLogger = Logger.getLogger("errors");
 	private InetAddress address;
 	private ServerSocket server;
 	private char[] map;
@@ -63,14 +64,29 @@ public class Server extends Thread{
 			server = new ServerSocket(PORT, 50, InetAddress.getLocalHost());
 			address = server.getInetAddress();
 		} catch (IOException ex) {
-			errorLogger.log(Level.SEVERE, "Couldn't start server", ex);
+			//errorLogger.log(Level.SEVERE, "Couldn't start server", ex);
 		} catch (RuntimeException ex) {
-			errorLogger.log(Level.SEVERE, "Couldn't start server: " + ex.getMessage(), ex);
+			//errorLogger.log(Level.SEVERE, "Couldn't start server: " + ex.getMessage(), ex);
 		}
 	}
 
 	/**
-	 * Alternative Constructor for testing the game();
+	 * Alternative Constructor for loading the game();
+	 */
+	public Server(GameState state){
+		game = new Game(this,state);
+		try{
+			server = new ServerSocket(PORT, 50, InetAddress.getLocalHost());
+			address = server.getInetAddress();
+		} catch (IOException ex) {
+			//errorLogger.log(Level.SEVERE, "Couldn't start server", ex);
+		} catch (RuntimeException ex) {
+			//errorLogger.log(Level.SEVERE, "Couldn't start server: " + ex.getMessage(), ex);
+		}
+	}
+
+	/**
+	 * A constructor for the JUnit test
 	 */
 	public Server(){
 

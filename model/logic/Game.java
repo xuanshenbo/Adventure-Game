@@ -74,8 +74,10 @@ public class Game {
 	 * this is used only for testing.
 	 * @param state
 	 */
-	public Game(GameState state) {
+	public Game(Server server, GameState state) {
 		this.gameState = state;
+		parser = new ServerParser(this, server, false);
+		clock.start();
 	}
 
 	/**

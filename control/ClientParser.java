@@ -201,7 +201,7 @@ public class ClientParser {
 	 */
 	private char[] separateMessage(char[] message, int i){
 		if(message[i+1] == '\0') return null;
-		char[] newMessage = new char[message.length-i];
+		char[] newMessage = new char[message.length];
 		for(int k=0; k<newMessage.length; k++){
 			if(message[i] == '\0') break;
 			newMessage[k] = message[++i];
