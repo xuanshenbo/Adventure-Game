@@ -316,18 +316,15 @@ public class ButtonPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				String msg = "";
 				if (e.getSource() == loadGame) {
-					msg = InitialisationCommand.LOAD_GAME
-							.toString();
+					msg = InitialisationCommand.LOAD_GAME.toString();
 
 
 				} else if (e.getSource() == newGame) {
-					InitialisationCommand.SELECTED_NEW_GAME
-					.toString();
-
+					msg = InitialisationCommand.SELECTED_NEW_GAME.toString();
 				}
 
 				try {
-					buttonInterpreter.notify(msg);
+					initialisation.notify(msg);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
