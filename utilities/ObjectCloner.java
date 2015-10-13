@@ -13,7 +13,7 @@ import model.logic.*;
 import model.state.*;
 import model.tiles.*;
 import renderer.*;
-import view.*;
+import view.utilities.*;
 
 /**
  * Provides a static method deepCopy(Object) to deep clone an object using

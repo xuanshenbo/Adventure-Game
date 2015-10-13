@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import view.GameFrame;
+import view.frames.GameFrame;
 import model.logic.Game;
 import control.Client;
 import control.ClockThread;

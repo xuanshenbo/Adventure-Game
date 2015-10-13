@@ -1,4 +1,4 @@
-package view;
+package view.panels;
 
 import interpreter.StrategyInterpreter;
 import interpreter.Translator;
@@ -21,9 +21,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonModel;
-import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -32,31 +30,35 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 
+import view.frames.Dialog;
+import view.frames.GameFrame;
+import view.frames.MessageWindow;
+import view.styledComponents.HappinessButton;
 import main.Initialisation;
 
 /**
  * A panel to store the button options
  *
- * @author flanagdonn TODO MAKE BUTTONS RESIZE PROPERLY
+ * @author flanagdonn
  */
 public class ButtonPanel extends JPanel {
 
 	private int height = 100;
 	private int width = 300;
 
-	private JButton inventory;
-	private JButton team;
-	private JButton exchange;
+	private HappinessButton inventory;
+	private HappinessButton team;
+	private HappinessButton exchange;
 	private GameFrame containerFrame;
 
-	private JButton loadGame = new JButton("Load saved game");
-	private JButton newGame = new JButton("Start new game");
+	private HappinessButton loadGame = new HappinessButton("Load saved game");
+	private HappinessButton newGame = new HappinessButton("Start new game");
 
-	private JButton loadPlayer = new JButton("Load saved player");
-	private JButton createPlayer = new JButton("Create new player");
+	private HappinessButton loadPlayer = new HappinessButton("Load saved player");
+	private HappinessButton createPlayer = new HappinessButton("Create new player");
 
-	private JButton client = new JButton("Client");
-	private JButton serverclient = new JButton("Server + Client");
+	private HappinessButton client = new HappinessButton("Client");
+	private HappinessButton serverclient = new HappinessButton("Server + Client");
 
 	private StrategyInterpreter initialisation;
 
@@ -76,11 +78,8 @@ public class ButtonPanel extends JPanel {
 		containerFrame = container;
 
 		// make buttons layout top to bottom
-		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS); // display
-		// main
-		// game-play
-		// buttons
-		// horizontally
+		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS);
+		// display main game-play buttons horizontally
 		setLayout(boxLayout);
 
 		if (state.equals(Translator.MainGameState.MAIN)) {
@@ -162,7 +161,7 @@ public class ButtonPanel extends JPanel {
 	// should only appear when something has been selected
 	private void displayContainerItemOptions() {
 
-		final JButton move = new JButton("Move to Inventory");
+		final HappinessButton move = new HappinessButton("Move to Inventory");
 		move.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == move) {
@@ -178,71 +177,62 @@ public class ButtonPanel extends JPanel {
 		});
 
 		add(move);
-		makeButtonsPretty(move);
 	}
 
 	private void displayInventoryItemOptions() {
-		final JButton drop = new JButton("Drop");
-		final JButton use = new JButton("Use");
-		final JButton moveToBag = new JButton("Move to bag");
+		final HappinessButton drop = new HappinessButton("Drop");
+		final HappinessButton use = new HappinessButton("Use");
+		final HappinessButton moveToBag = new HappinessButton("Move to bag");
 
 		ActionListener itemActionListener = new ActionListener() {
 			private boolean movePressed = false;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String msg = "";
 				if (e.getSource() == drop) {
-					try {
-						buttonInterpreter.notify(Translator.Command.DROP
-								.toString());
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-
+					msg = Translator.Command.DROP.toString();
 					dialog.dispose(); // no longer display inventory
+
 				} else if (e.getSource() == use) {
-					try {
-						buttonInterpreter.notify(Translator.Command.USE
-								.toString());
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-
+					msg = Translator.Command.USE.toString();
 					dialog.dispose(); // no longer display inventory
+
 				} else if (e.getSource() == moveToBag) {
-					try {
-						buttonInterpreter.notify(Translator.Command.MOVE_ITEM
-								.toString());
-						// we know something is selected at this point, because
-						// the drop/use/move
-						// options only appear after something is selected
+					msg = Translator.Command.MOVE_ITEM.toString();
+					/*
+					 * we know something is selected at this point, because
+					 *  the drop/use/move options only appear after something is selected
+					 *  only display dialog if this is the first time move
+					 *  item has been selected
+					 */
 
-						// only display dialog if this is the first time move
-						// item has been selected
+					if (!movePressed) {
 
-						if (!movePressed) {
-							//make the dialog invisible, so can display message window
-							dialog.setVisible(false);
+						//make the dialog invisible, so can display message window
+						dialog.setVisible(false);
 
-							/*
-							 * Create and display a message window
-							 */
-							MessageWindow window = new MessageWindow("Now select where to move the item", "Happiness Game", dialog);
-							window.pack();
-							window.setLocationRelativeTo(null);
-							window.setVisible(true);
+						//Create and display a message window
 
-							//change button text
-							moveToBag.setText("Move to this slot");
-							movePressed = true;
-						} else {
-							//change button text
-							moveToBag.setText("Move item to bag");
-							movePressed = false;
-						}
-					} catch (IOException e1) {
-						e1.printStackTrace();
+						MessageWindow window = new MessageWindow("Now select where to move the item", "Happiness Game", dialog);
+
+						//change button text
+						moveToBag.setText("Move to this slot");
+						movePressed = true;
+
+					} else {
+
+						//change button text
+						moveToBag.setText("Move item to bag");
+						movePressed = false;
 					}
+				}
+
+				//send the message to the interpreter
+				try {
+					buttonInterpreter.notify(msg);
+				} catch (IOException e1) {
+					e1.printStackTrace();
 				}
 			}
 
@@ -251,8 +241,6 @@ public class ButtonPanel extends JPanel {
 		drop.addActionListener(itemActionListener);
 		moveToBag.addActionListener(itemActionListener);
 		use.addActionListener(itemActionListener);
-
-		makeButtonsPretty(drop, moveToBag, use);
 
 		add(drop);
 		add(use);
@@ -272,11 +260,7 @@ public class ButtonPanel extends JPanel {
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
-				} else if (e.getSource() == createPlayer) { // conditional not
-					// strictly
-					// necessary, but
-					// added for
-					// completion
+				} else if (e.getSource() == createPlayer) {
 					try {
 						initialisation
 						.notify(Translator.InitialisationCommand.CREATE_NEW_PLAYER
@@ -291,15 +275,14 @@ public class ButtonPanel extends JPanel {
 		loadPlayer.addActionListener(loadcreate);
 		createPlayer.addActionListener(loadcreate);
 
-		makeButtonsPretty(loadPlayer, createPlayer);
-
 		removeAllButtons();
 
-		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical,
-				0))); // pad between buttons
+		/*
+		 * Add the buttons with padding
+		 */
+		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical, 0)));
 		add(loadPlayer);
-		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical,
-				0))); // pad between buttons
+		add(Box.createRigidArea(new Dimension(GameFrame.buttonPaddingVertical,0)));
 		add(createPlayer);
 
 		setVisible(true);
@@ -308,10 +291,10 @@ public class ButtonPanel extends JPanel {
 
 	}
 
-	private int centerButtonsOnPanel(JButton... buttons) {
+	private int centerButtonsOnPanel(HappinessButton... buttons) {
 		int size = 0;
 
-		for (JButton b : buttons) {
+		for (HappinessButton b : buttons) {
 			// add the width of this button to the total size
 			size += b.getPreferredSize().width;
 		}
@@ -361,8 +344,6 @@ public class ButtonPanel extends JPanel {
 
 		removeAllButtons();
 
-		makeButtonsPretty(loadGame, newGame);
-
 		int extraPadding = centerButtonsOnPanel(loadGame, newGame);
 
 		add(Box.createRigidArea(new Dimension(extraPadding, 0)));
@@ -396,11 +377,7 @@ public class ButtonPanel extends JPanel {
 				if (e.getSource() == client) {
 					msg = Translator.InitialisationCommand.SELECTED_CLIENT
 							.toString();
-				} else if (e.getSource() == serverclient) { // conditional not
-					// strictly
-					// necessary, but
-					// added for
-					// completion
+				} else if (e.getSource() == serverclient) {
 					msg = Translator.InitialisationCommand.SELECTED_CLIENT_AND_SERVER
 							.toString();
 				}
@@ -416,12 +393,13 @@ public class ButtonPanel extends JPanel {
 		client.addActionListener(serverclientListener);
 		serverclient.addActionListener(serverclientListener);
 
-		makeButtonsPretty(client, serverclient);
-
 		int extraPadding = centerButtonsOnPanel(client, serverclient);
 
 		removeAllButtons();
 
+		/*
+		 * Add buttons with padding
+		 */
 		add(Box.createRigidArea(new Dimension(extraPadding, 0)));
 		add(client);
 		add(Box.createRigidArea(new Dimension(extraPadding, 0)));
@@ -437,7 +415,7 @@ public class ButtonPanel extends JPanel {
 	}
 
 	private void CreateMainButtons() {
-		inventory = new JButton("Inventory");
+		inventory = new HappinessButton("Inventory");
 		inventory.setMnemonic(KeyEvent.VK_I);
 		inventory.setToolTipText("Display your inventory");
 		inventory.addActionListener(new ActionListener() {
@@ -454,7 +432,7 @@ public class ButtonPanel extends JPanel {
 			}
 		});
 
-		team = new JButton("Team");
+		team = new HappinessButton("Team");
 		team.setMnemonic(KeyEvent.VK_T);
 		team.setToolTipText("Display your team");
 		team.addActionListener(new ActionListener() {
@@ -471,8 +449,6 @@ public class ButtonPanel extends JPanel {
 			}
 		});
 
-		makeButtonsPretty(inventory, team);
-
 		add(Box.createRigidArea(new Dimension(
 				GameFrame.buttonPaddingHorizontal, 0))); // pad between buttons
 		add(inventory);
@@ -484,71 +460,6 @@ public class ButtonPanel extends JPanel {
 
 	}
 
-	/**
-	 * This method is used to turn an average button, into an AMAZING button!
-	 *
-	 * @param buttons
-	 *            The buttons to be prettified
-	 */
-	public static void makeButtonsPretty(JButton... buttons) {
 
-		for (JButton b : buttons) {
-			javax.swing.border.Border line, raisedbevel, loweredbevel;
-			TitledBorder title;
-			javax.swing.border.Border empty;
-			line = BorderFactory.createLineBorder(Color.black);
-			raisedbevel = BorderFactory.createRaisedBevelBorder();
-			loweredbevel = BorderFactory.createLoweredBevelBorder();
-			title = BorderFactory.createTitledBorder("");
-			empty = BorderFactory.createEmptyBorder(1, 1, 1, 1);
-			final CompoundBorder compound, compound1, compound2;
-
-			Color crl = GameFrame.COL2;
-			compound = BorderFactory.createCompoundBorder(empty,
-					new OldRoundedBorderLine(crl));
-			// b.setFont(new Font("Sans-Serif", Font.BOLD, 16));
-			// b.setForeground(Color.darkGray);
-
-			b.setPreferredSize(new Dimension(50, 30));
-
-			b.setBorderPainted(true);
-			b.setFocusPainted(false);
-			b.setBorder(compound);
-
-			b.revalidate();
-
-			b.setForeground(GameFrame.BUTTON_FONT_COLOR);
-		}
-
-	}
-
-	/**
-	 * This method is used to turn an average label, into an AMAZING label!
-	 *
-	 * @param labels
-	 *            The labels to be prettified
-	 */
-	public static void makeLabelPretty(JLabel... labels) {
-
-		for (JLabel label : labels) {
-			label.setFont(new Font("Serif", Font.BOLD, 14));
-			label.setForeground(GameFrame.BUTTON_FONT_COLOR);
-		}
-	}
-
-	/**
-	 * This method is used to turn an average radio button, into an AMAZING
-	 * radio button!
-	 *
-	 * @param radioButtons
-	 *            The radio buttons to be prettified
-	 */
-	public static void makeRadioButtonPretty(JRadioButton... radioButtons) {
-
-		for (JRadioButton rbutton : radioButtons) {
-			rbutton.setFont(new Font("Serif", Font.BOLD, 14));
-			rbutton.setForeground(GameFrame.BUTTON_FONT_COLOR);
-		}
-	}
 
 }

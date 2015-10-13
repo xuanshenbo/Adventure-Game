@@ -1,4 +1,4 @@
-package view;
+package view.panels;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -10,16 +10,18 @@ import java.io.IOException;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import view.frames.GameFrame;
+import view.styledComponents.HappinessButton;
+import view.styledComponents.HappinessLabel;
 import main.Initialisation;
 
 /**
- * This JPanel is used to display the Sliders and JLabels used in the WelcomePanel.
+ * This JPanel is used to display the Sliders and HappinessLabels used in the WelcomePanel.
  * @author flanagdonn
  *
  */
@@ -36,15 +38,15 @@ public class SliderPanel extends JPanel {
 	private JSlider width;
 
 	//OK button used when user finished selecting
-	private JButton confirm;
+	private HappinessButton confirm;
 
 	//labels to go with the sliders, indicating what the sliders are for.
-	private JLabel densityLabel;
-	private JLabel difficultyLabel;
-	private JLabel gameHeightLabel;
-	private JLabel gameWidthLabel;
+	private HappinessLabel densityLabel;
+	private HappinessLabel difficultyLabel;
+	private HappinessLabel gameHeightLabel;
+	private HappinessLabel gameWidthLabel;
 
-	//The font to be used on the jlabels
+	//The font to be used on the HappinessLabels
 	private Font labelFont = new Font("Serif", Font.BOLD, 12);
 
 	/**
@@ -89,8 +91,8 @@ public class SliderPanel extends JPanel {
 
 		//add a button for when the user is finished adjusting levels
 		createConfirmButton();
-		//add jlabels to indicate what each slider is for
-		addJLabelsForSliders();
+		//add HappinessLabels to indicate what each slider is for
+		addHappinessLabelsForSliders();
 
 		//add each label and corresponding slider to the panel
 		add(densityLabel);
@@ -113,23 +115,23 @@ public class SliderPanel extends JPanel {
 	/*
 	 * Create labels for the sliders, and create vertical space to make them more readable
 	 */
-	private void addJLabelsForSliders() {
-		densityLabel = new JLabel("Choose the density of the game ie the number of objects from 0% to 100%");
+	private void addHappinessLabelsForSliders() {
+		densityLabel = new HappinessLabel("Choose the density of the game ie the number of objects from 0% to 100%");
 		densityLabel.add(Box.createRigidArea(sliderPaddingVertical));
 		densityLabel.setFont(labelFont);
 		densityLabel.setForeground(GameFrame.BUTTON_FONT_COLOR);
 
-		difficultyLabel = new JLabel("Choose the difficulty");
+		difficultyLabel = new HappinessLabel("Choose the difficulty");
 		difficultyLabel.add(Box.createRigidArea(sliderPaddingVertical));
 		difficultyLabel.setFont(labelFont);
 		difficultyLabel.setForeground(GameFrame.BUTTON_FONT_COLOR);
 
-		gameHeightLabel = new JLabel("Choose the Game height");
+		gameHeightLabel = new HappinessLabel("Choose the Game height");
 		gameHeightLabel.add(Box.createRigidArea(sliderPaddingVertical));
 		gameHeightLabel.setFont(labelFont);
 		gameHeightLabel.setForeground(GameFrame.BUTTON_FONT_COLOR);
 
-		gameWidthLabel = new JLabel("Choose the Game width");
+		gameWidthLabel = new HappinessLabel("Choose the Game width");
 		gameWidthLabel.add(Box.createRigidArea(sliderPaddingVertical));
 		gameWidthLabel.setFont(labelFont);
 		gameWidthLabel.setForeground(GameFrame.BUTTON_FONT_COLOR);
@@ -138,9 +140,8 @@ public class SliderPanel extends JPanel {
 	}
 
 	private void createConfirmButton() {
-		confirm = new JButton("OK");
+		confirm = new HappinessButton("OK");
 		confirm.add(Box.createRigidArea(new Dimension(welcome.getPreferredSize().width,20))); //centre confirm the button
-		ButtonPanel.makeButtonsPretty(confirm);
 
 		confirm.addActionListener(new ActionListener(){
 

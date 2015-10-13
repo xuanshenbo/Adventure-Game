@@ -4,7 +4,7 @@ import interpreter.Translator.Command;
 import java.io.IOException;
 import java.io.Writer;
 
-import view.GameFrame;
+import view.frames.GameFrame;
 import model.logic.Game;
 import control.Client;
 

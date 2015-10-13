@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 import control.Client;
 import jdk.nashorn.internal.runtime.linker.JavaAdapterFactory;
-import view.Avatar;
+import view.utilities.Avatar;
 import main.Initialisation;
 import main.Main;
 

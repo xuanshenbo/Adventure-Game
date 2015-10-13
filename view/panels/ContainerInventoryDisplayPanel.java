@@ -1,4 +1,4 @@
-package view;
+package view.panels;
 
 import interpreter.StrategyInterpreter;
 import interpreter.Translator.Command;
@@ -19,6 +19,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+
+import view.frames.Dialog;
+import view.frames.GameFrame;
+import view.utilities.ImageLoader;
 
 public class ContainerInventoryDisplayPanel extends JPanel {
 

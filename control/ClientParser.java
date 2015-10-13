@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import main.Initialisation;
 import main.Main;
-import view.Avatar;
-import view.GameFrame;
+import view.frames.GameFrame;
+import view.utilities.Avatar;
 import interpreter.Translator;
 import static utilities.PrintTool.p;
 

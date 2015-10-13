@@ -1,4 +1,4 @@
-package view;
+package view.styledComponents;
 
 import static java.awt.event.KeyEvent.VK_A;
 import static java.awt.event.KeyEvent.VK_E;

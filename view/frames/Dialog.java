@@ -1,4 +1,4 @@
-package view;
+package view.frames;
 
 import interpreter.StrategyInterpreter;
 import interpreter.Translator;
@@ -31,12 +31,17 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import view.panels.ButtonPanel;
+import view.panels.ContainerInventoryDisplayPanel;
+import view.panels.WelcomePanel;
+import view.styledComponents.HappinessButton;
+import view.styledComponents.HappinessLabel;
+import view.utilities.Avatar;
 import main.Initialisation;
 import model.items.Item;
 
@@ -69,7 +74,7 @@ public class Dialog extends JDialog implements ActionListener {
 
 	private JPanel messagePane;
 
-	private JLabel messageLabel;
+	private HappinessLabel messageLabel;
 
 	private boolean isYes;
 
@@ -93,8 +98,7 @@ public class Dialog extends JDialog implements ActionListener {
 		parentFrame = gameFrame;
 
 		messagePane = new JPanel();
-		messageLabel = new JLabel(msg);
-		ButtonPanel.makeLabelPretty(messageLabel);
+		messageLabel = new HappinessLabel(msg);
 		messagePane.add(messageLabel);
 		getContentPane().add(messagePane);
 
@@ -173,8 +177,7 @@ public class Dialog extends JDialog implements ActionListener {
 	private void addMessage(String message) {
 
 		messagePane = new JPanel();
-		messageLabel = new JLabel(message);
-		ButtonPanel.makeLabelPretty(messageLabel);
+		messageLabel = new HappinessLabel(message);
 
 		messagePane.add(messageLabel);
 		add(messagePane);
@@ -182,8 +185,7 @@ public class Dialog extends JDialog implements ActionListener {
 
 	//add a confirm button
 	private void addOKButton() {
-		ok = new JButton("OK");
-		ButtonPanel.makeButtonsPretty(ok);
+		ok = new HappinessButton("OK");
 		ok.addActionListener(this);
 		ok.setMnemonic(KeyEvent.VK_ENTER);	//TODO fix this
 		add(ok);
@@ -212,8 +214,6 @@ public class Dialog extends JDialog implements ActionListener {
 		for(final Avatar a: availAvatars){
 			System.out.println("Dialog 186: "+a.toString());//debug
 			JRadioButton avatar = new JRadioButton(a.toString());
-
-			ButtonPanel.makeRadioButtonPretty(avatar);
 
 			ItemListener radioListener = new ItemListener(){
 				public void itemStateChanged(ItemEvent e) {

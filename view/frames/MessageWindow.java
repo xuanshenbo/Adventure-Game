@@ -1,4 +1,4 @@
-package view;
+package view.frames;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -7,9 +7,10 @@ import java.awt.event.KeyEvent;
 
 import interpreter.Translator.Command;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+
+import view.styledComponents.HappinessButton;
+import view.styledComponents.HappinessLabel;
 
 public class MessageWindow extends JFrame {
 
@@ -17,9 +18,9 @@ public class MessageWindow extends JFrame {
 
 	private Command state;
 
-	private JLabel messageLabel;
+	private HappinessLabel messageLabel;
 
-	private JButton ok = new JButton("OK");
+	private HappinessButton ok = new HappinessButton("OK");
 
 	private Dialog dialog;
 
@@ -32,19 +33,25 @@ public class MessageWindow extends JFrame {
 
 		setLayout(new BorderLayout());
 
-		messageLabel = new JLabel(msg);
-		ButtonPanel.makeLabelPretty(messageLabel);
+		messageLabel = new HappinessLabel(msg);
 
 		add(messageLabel, BorderLayout.NORTH);
 
 		addOKButton();
 
+		displayWindow();
+
+	}
+
+	private void displayWindow() {
+		pack();
+		setLocationRelativeTo(null);
+		setVisible(true);
 	}
 
 	//add a confirm button
 		private void addOKButton() {
-			ok = new JButton("OK");
-			ButtonPanel.makeButtonsPretty(ok);
+			ok = new HappinessButton("OK");
 			ok.addActionListener(new ActionListener(){
 
 				@Override

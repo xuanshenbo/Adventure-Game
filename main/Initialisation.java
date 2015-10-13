@@ -20,11 +20,11 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import view.Avatar;
-import view.GameFrame;
-import view.WelcomeFrame;
-import view.WelcomePanel;
-import view.YesNoOptionPane;
+import view.frames.GameFrame;
+import view.frames.WelcomeFrame;
+import view.frames.YesNoOptionWindow;
+import view.panels.WelcomePanel;
+import view.utilities.Avatar;
 import model.logic.Game;
 import control.Client;
 import control.Server;

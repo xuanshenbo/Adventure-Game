@@ -1,3 +1,4 @@
+package view.panels;
 /*package view;
 
 import interpreter.StrategyInterpreter;

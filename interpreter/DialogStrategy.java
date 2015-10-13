@@ -1,6 +1,6 @@
 package interpreter;
 
-import view.*;
+import view.utilities.*;
 import interpreter.Translator.Command;
 
 public class DialogStrategy implements StrategyInterpreter.Strategy{

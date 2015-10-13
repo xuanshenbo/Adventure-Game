@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import javax.xml.bind.JAXBException;
 
-import view.GameFrame;
+import view.frames.GameFrame;
 import main.Main;
 import dataStorage.Serializer;
 

@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlTransient;
 
-import view.ImageLoader;
+import view.utilities.ImageLoader;
 import model.state.Player;
 
 /**
