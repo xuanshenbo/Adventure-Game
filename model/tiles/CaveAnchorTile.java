@@ -14,6 +14,11 @@ public class CaveAnchorTile extends CaveTile{
 		super(position);
 	}
 
+	@SuppressWarnings("unused")
+	private CaveAnchorTile() {
+		this(null);
+	}
+
 	@Override
 	public char getType() {
 		return 'c';

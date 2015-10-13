@@ -19,6 +19,11 @@ public class TreeTile implements Tile {
 		this.position = position;
 	}
 
+	@SuppressWarnings("unused")
+	private TreeTile() {
+		this(null);
+	}
+
 	@Override
 	public void move(Player player, Direction direction) {
 

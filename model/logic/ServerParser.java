@@ -7,9 +7,11 @@ import java.util.List;
 import javax.xml.bind.JAXBException;
 
 import control.Server;
+import dataStorage.Deserializer;
 import dataStorage.Serializer;
 import model.items.Item;
 import model.logic.Game.Direction;
+import model.state.GameState;
 import model.state.Player;
 import static utilities.PrintTool.p;
 
@@ -84,8 +86,15 @@ public class ServerParser {
 			}
 			break;
 		case 'L'://Loading game
-			//BOBO TODO
-			// set gameState? ask gareth
+			try {
+				GameState toLoad = Deserializer.deserialize();
+				if (toLoad == null) {
+					return;
+				}
+				game.setGameState(toLoad);
+			} catch (JAXBException e) {
+				e.printStackTrace();
+			}
 			break;
 		case 'J'://Client joins the game
 			game.activatePlayer(id);
@@ -135,19 +144,12 @@ public class ServerParser {
 			message[0] = action;
 			message[1] = type;
 			int index = 2;
-			System.out.println("\nPlayer 1 view");
 			for(int r = 0; r < 31; r++){
 				for(int c = 0; c < 31; c++){
 					message[index++] = view.get(0)[r][c];
-					if(message[index-1] != '\u0000'){
-						System.out.print(message[index-1]);
-					}else{
-						System.out.print("N");
-					}
 					message[index++] = view.get(1)[r][c];
-					
+
 				}
-				System.out.println("");
 			}
 		}else if(action == 'm'){
 			message = new char[stringMessage.length+2];

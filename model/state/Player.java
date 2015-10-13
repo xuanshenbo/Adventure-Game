@@ -4,6 +4,7 @@
 
 package model.state;
 
+import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -32,11 +33,14 @@ public class Player {
 	@XmlElement(name = "item")
 	private Item[] inventory = new Item[6]; // The inventory of the player
 	private int happiness = 5;
+	@XmlTransient
 	private boolean inGame = false;
 	private Item selectedItem = null;
 	@XmlTransient
 	private Container openContainer = null;
+	@XmlTransient
 	private Position startingPosition;
+	@XmlElementWrapper
 	private Set<ChestTile> openedChests = new HashSet<ChestTile>();
 
 	public Player(Position p, int id) {

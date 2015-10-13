@@ -20,6 +20,11 @@ public class PortalTile implements Tile {
 		this.exit = exit;
 	}
 
+	@SuppressWarnings("unused")
+	private PortalTile() {
+		this(null, null);
+	}
+
 	@Override
 	public void move(Player player, Direction direction) {
 		if(player.getPosition() == exit){
