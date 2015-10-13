@@ -133,9 +133,8 @@ public class WelcomePanel extends JPanel{
 			break;
 
 		case LOAD_GAME:
-			if (!loadSavedGame()){	//if they cancelled the load option
-				transitionToNewState(InitialisationCommand.SHOW_LOAD_OR_NEW_OPTION);
-			}
+			Main.oldGame();
+			displayAvatarOptions(true);
 			break;
 
 		case CHOOSE_SLIDER_OPTIONS:
