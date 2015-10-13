@@ -241,7 +241,7 @@ public class WelcomePanel extends JPanel{
 		final InitialisationCommand load = InitialisationCommand.LOAD_SAVED_PLAYER;
 
 		Dialog avatarDialog = new Dialog("Available Avatars", loadingSavedPlayer ? loadSavedMessage : createNewMessage,
-				loadingSavedPlayer ? load : create, initialisation, WelcomePanel.this);
+				loadingSavedPlayer ? load : create, initialisation);
 
 
 		remove(bPanel); //remove the previous buttons
