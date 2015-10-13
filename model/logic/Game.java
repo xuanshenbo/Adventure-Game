@@ -234,7 +234,7 @@ public class Game {
 		}
 		if (toTile != null && toTile.isContainer()) {
 			ChestTile container = (ChestTile) toTile;
-			if(player.getKey() || player.hasOpenedChest(container)){
+			if(player.hasOpenedChest(container) || player.getKey()){
 				player.addChest(container);
 				player.setOpenContainer(container);
 				Item[] items = container.open();
@@ -301,10 +301,14 @@ public class Game {
 	 */
 
 	public void use(Player player, int inventorySlot){
-		p();
-		if(player.getItemFromInventory(inventorySlot) != null){
+		Item item = player.getItemFromInventory(inventorySlot);
+		if(item != null){
+			parser.sendMessage(player, "You used "+item);
+		}
+		if(item != null){
 			Item[] inventory = player.use(inventorySlot);
-			parser.sendToServer(player, 'I');
+			
+			//parser.sendToServer(player, 'I');
 			parser.sendToServer(player, 'H');
 			if(inventory != null){
 				parser.sendContainer(player, inventory);
@@ -377,6 +381,13 @@ public class Game {
 
 		parser.sendInventory(player, player.getInventory());;
 
+	}
+
+	public void moveFromContainerToInventory(Player player, int containerSlot) {
+		p(containerSlot);
+		player.moveToInventory(containerSlot);
+		parser.sendInventory(player, player.getInventory());
+		
 	}
 
 	/**
