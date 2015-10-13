@@ -1,5 +1,9 @@
 package model.items;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import model.logic.Generator;
@@ -7,8 +11,11 @@ import model.state.Container;
 import model.state.Player;
 
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Bag extends Item implements Container {
 
+	@XmlElementWrapper
+	@XmlElement(name="inventory")
 	private Item[] inventory = new Item[3];
 
 	public Bag() {

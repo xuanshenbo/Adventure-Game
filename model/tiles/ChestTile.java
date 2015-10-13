@@ -1,5 +1,9 @@
 package model.tiles;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import model.items.Item;
@@ -11,10 +15,13 @@ import model.state.Position;
 import static utilities.PrintTool.p;
 
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ChestTile implements Tile, Container{
 
 	private char id = 'O';
 	private Position position;
+	@XmlElementWrapper
+	@XmlElement(name = "inventory")
 	private Item[] inventory = new Item[10];
 
 	public ChestTile(Position position, String difficulty){
