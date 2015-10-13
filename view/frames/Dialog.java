@@ -161,8 +161,6 @@ public class Dialog extends JDialog implements ActionListener {
 
 		this.state = state;
 
-		System.out.println(state);
-
 		addMessage(message);
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -188,7 +186,8 @@ public class Dialog extends JDialog implements ActionListener {
 	private void addOKButton() {
 		ok = new HappinessButton("OK");
 		ok.addActionListener(this);
-		ok.setMnemonic(KeyEvent.VK_ENTER);	//TODO fix this
+		ok.setMnemonic(KeyEvent.VK_ENTER);
+
 		add(ok);
 	}
 
@@ -208,8 +207,6 @@ public class Dialog extends JDialog implements ActionListener {
 		List<Avatar> availAvatars= initialisation.getAvailableAvatars();
 
 		ButtonGroup group = new ButtonGroup();
-
-		List<JRadioButton> buttons = new ArrayList<JRadioButton>();
 
 		for(final Avatar a: availAvatars){
 			System.out.println("Dialog 186: "+a.toString());//debug

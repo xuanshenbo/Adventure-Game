@@ -73,18 +73,10 @@ public class MenuBar extends JMenuBar {
 
 	// action on exit
 	private void doExit() {
-		String ObjButtons[] = { "Yes", "No" };
-		int PromptResult = JOptionPane.showOptionDialog(null,
-				"Are you sure you want to exit?", "Adventure Game",
-				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null,
-				ObjButtons, ObjButtons[1]);
-		if (PromptResult == JOptionPane.YES_OPTION) {
-			try {
-				menuInterpreter.notify("exit");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			System.exit(0);
+		try {
+			menuInterpreter.notify(Command.EXIT.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 

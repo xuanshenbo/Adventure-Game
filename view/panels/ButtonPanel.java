@@ -435,10 +435,9 @@ public class ButtonPanel extends JPanel {
 				String teamMember1 = containerFrame.getTeamMember1();
 				String teamMember2 = containerFrame.getTeamMember2();
 
-				JOptionPane.showMessageDialog(containerFrame,
-						"Your team includes " + teamMember1 + " and "
-								+ teamMember2, "Team",
-								JOptionPane.WARNING_MESSAGE);
+				MessageWindow notifyUser = new MessageWindow("Your team includes " + teamMember1 + " and "
+								+ teamMember2);
+
 			}
 		});
 
