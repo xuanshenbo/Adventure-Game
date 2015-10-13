@@ -136,7 +136,7 @@ public class Game {
 			day = "PM";
 		}
 		gameState.setTime(gameState.getTime() + 1);
-		if (gameState.getTime() == 12) {
+		if (gameState.getTime() == 10) {
 			gameState.setTime(0);
 			if (gameState.getDay()) {
 				gameState.setDay(false);

@@ -61,6 +61,7 @@ public class ClientParser {
 			char dayNight = message[2];
 			if(frame != null){
 				frame.setTime(time);
+				frame.getCanvas().getRenderer().updateDayNight(dayNight);
 			}
 			//			p("time:"+time+" "+dayNight);
 			break;
