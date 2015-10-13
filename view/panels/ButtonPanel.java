@@ -3,6 +3,7 @@ package view.panels;
 import interpreter.StrategyInterpreter;
 import interpreter.Translator;
 import interpreter.Translator.Command;
+import interpreter.Translator.InitialisationCommand;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -106,7 +107,7 @@ public class ButtonPanel extends JPanel {
 	 *            Which buttons are to be displayed?
 	 */
 	public ButtonPanel(WelcomePanel welcomeDialog,
-			Translator.InitialisationCommand state, Initialisation i) {
+			InitialisationCommand state, Initialisation i) {
 
 		setOpaque(false);
 
@@ -120,19 +121,19 @@ public class ButtonPanel extends JPanel {
 
 		// display server or server+client buttons
 		if (state
-				.equals(Translator.InitialisationCommand.SHOW_CLIENT_SERVER_OPTION)) {
+				.equals(InitialisationCommand.SHOW_CLIENT_SERVER_OPTION)) {
 			createServerClientButtons();
 		}
 
 		// display option to load a game or start a new game
 		else if (state
-				.equals(Translator.InitialisationCommand.SHOW_LOAD_OR_NEW_OPTION)) {
+				.equals(InitialisationCommand.SHOW_LOAD_OR_NEW_OPTION)) {
 			addLoadNewButtons();
 		}
 
 		// display option to either load a player or create a new player
 		else if (state
-				.equals(Translator.InitialisationCommand.LOAD_PLAYER_OR_CREATE_NEW_PLAYER)) {
+				.equals(InitialisationCommand.LOAD_PLAYER_OR_CREATE_NEW_PLAYER)) {
 			addLoadCreatePlayerButtons();
 		}
 
@@ -255,7 +256,7 @@ public class ButtonPanel extends JPanel {
 				if (e.getSource() == loadPlayer) {
 					try {
 						initialisation
-						.notify(Translator.InitialisationCommand.LOAD_SAVED_PLAYER
+						.notify(InitialisationCommand.LOAD_SAVED_PLAYER
 								.toString());
 					} catch (IOException e1) {
 						e1.printStackTrace();
@@ -263,7 +264,7 @@ public class ButtonPanel extends JPanel {
 				} else if (e.getSource() == createPlayer) {
 					try {
 						initialisation
-						.notify(Translator.InitialisationCommand.CREATE_NEW_PLAYER
+						.notify(InitialisationCommand.CREATE_NEW_PLAYER
 								.toString());
 					} catch (IOException e1) {
 						e1.printStackTrace();
@@ -313,27 +314,22 @@ public class ButtonPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String msg = "";
 				if (e.getSource() == loadGame) {
-					try {
-						initialisation
-						.notify(Translator.InitialisationCommand.LOAD_GAME
-								.toString());
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
+					msg = InitialisationCommand.LOAD_GAME
+							.toString();
 
-				} else if (e.getSource() == newGame) { // conditional not
-					// strictly necessary,
-					// but added for
-					// completion
-					try {
-						initialisation
-						.notify(Translator.InitialisationCommand.SELECTED_NEW_GAME
-								.toString());
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
 
+				} else if (e.getSource() == newGame) {
+					InitialisationCommand.SELECTED_NEW_GAME
+					.toString();
+
+				}
+
+				try {
+					buttonInterpreter.notify(msg);
+				} catch (IOException e1) {
+					e1.printStackTrace();
 				}
 			}
 
@@ -375,10 +371,10 @@ public class ButtonPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				String msg = "";
 				if (e.getSource() == client) {
-					msg = Translator.InitialisationCommand.SELECTED_CLIENT
+					msg = InitialisationCommand.SELECTED_CLIENT
 							.toString();
 				} else if (e.getSource() == serverclient) {
-					msg = Translator.InitialisationCommand.SELECTED_CLIENT_AND_SERVER
+					msg = InitialisationCommand.SELECTED_CLIENT_AND_SERVER
 							.toString();
 				}
 
@@ -449,11 +445,14 @@ public class ButtonPanel extends JPanel {
 			}
 		});
 
+		/*
+		 * Add buttons with padding
+		 */
 		add(Box.createRigidArea(new Dimension(
-				GameFrame.buttonPaddingHorizontal, 0))); // pad between buttons
+				GameFrame.buttonPaddingHorizontal, 0)));
 		add(inventory);
 		add(Box.createRigidArea(new Dimension(
-				GameFrame.buttonPaddingHorizontal, 0))); // pad between buttons
+				GameFrame.buttonPaddingHorizontal, 0)));
 		add(team);
 
 		revalidate();
