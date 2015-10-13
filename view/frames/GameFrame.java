@@ -351,39 +351,45 @@ public class GameFrame extends JFrame {
 				canvas.getRenderer().doAnimation();
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_UP:
+
 					if (canvas.getRenderer().getViewDir() == 0)
 						toNotify = Command.MOVE_NORTH.toString();
 					else
 						toNotify = Command.MOVE_SOUTH.toString();
 					break;
+
 				case KeyEvent.VK_DOWN:
+
 					if (canvas.getRenderer().getViewDir() == 0)
 						toNotify = Command.MOVE_SOUTH.toString();
 					else
 						toNotify = Command.MOVE_NORTH.toString();
 					break;
+
 				case KeyEvent.VK_LEFT:
+
 					if (canvas.getRenderer().getViewDir() == 0)
 						toNotify = Command.MOVE_WEST.toString();
 					else
 						toNotify = Command.MOVE_EAST.toString();
 					break;
+
 				case KeyEvent.VK_RIGHT:
+
 					if (canvas.getRenderer().getViewDir() == 0)
 						toNotify = Command.MOVE_EAST.toString();
 					else
 						toNotify = Command.MOVE_WEST.toString();
 					break;
+
 				case KeyEvent.VK_P:
+
 					toNotify = Command.PICK_UP.toString();
 					break;
+
 				case KeyEvent.VK_R:
-					toNotify = Command.ROTATE_VIEW.toString();
-
-					//TODO this shouldn't be done here
 					canvas.getRenderer().rotate();
-
-					break;
+					return false; //don't need to notify the game of anything
 				}
 			}
 
