@@ -13,10 +13,10 @@ import view.frames.GameFrame;
  */
 public class HappinessRadioButton extends JRadioButton {
 
-private JRadioButton button;
-
 public HappinessRadioButton(String name){
-	button.setFont(new Font("Serif", Font.BOLD, 14));
-	button.setForeground(GameFrame.BUTTON_FONT_COLOR);
+	super(name);
+
+	setFont(new Font("Serif", Font.BOLD, 14));
+	setForeground(GameFrame.BUTTON_FONT_COLOR);
 }
 }

@@ -41,6 +41,7 @@ import view.panels.ContainerInventoryDisplayPanel;
 import view.panels.WelcomePanel;
 import view.styledComponents.HappinessButton;
 import view.styledComponents.HappinessLabel;
+import view.styledComponents.HappinessRadioButton;
 import view.utilities.Avatar;
 import main.Initialisation;
 import model.items.Item;
@@ -203,7 +204,6 @@ public class Dialog extends JDialog implements ActionListener {
 
 		this.loadingSavedPlayer = b;
 
-		//TODO use RadioButtonPanel instead?
 		JPanel avatarOptions = new JPanel();
 		List<Avatar> availAvatars= initialisation.getAvailableAvatars();
 
@@ -213,7 +213,7 @@ public class Dialog extends JDialog implements ActionListener {
 
 		for(final Avatar a: availAvatars){
 			System.out.println("Dialog 186: "+a.toString());//debug
-			JRadioButton avatar = new JRadioButton(a.toString());
+			HappinessRadioButton avatar = new HappinessRadioButton(a.toString());
 
 			ItemListener radioListener = new ItemListener(){
 				public void itemStateChanged(ItemEvent e) {
