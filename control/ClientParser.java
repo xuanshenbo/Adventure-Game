@@ -59,7 +59,9 @@ public class ClientParser {
 		case 'T'://time of day
 			int time = Character.getNumericValue(message[1]);
 			char dayNight = message[2];
-			frame.setTime(time);
+			if(frame != null){
+				frame.setTime(time);
+			}
 			//			p("time:"+time+" "+dayNight);
 			break;
 		case 'R':
@@ -243,6 +245,18 @@ public class ClientParser {
 				map[row][col] = message[index++];
 				items[row][col] = message[index++];
 			}
+		}
+		char[][] playerOneView = map;
+		System.out.println("\nPlayer 1 view");
+		for(int row = 0; row<playerOneView.length; row++){
+			for(int col = 0; col<playerOneView[0].length; col++){
+				if(playerOneView[row][col] != '\u0000'){
+					System.out.print(playerOneView[row][col]);
+				}else{
+					System.out.print("N");
+				}
+			}
+			System.out.println("");
 		}
 		//p("reading map in the client");
 		if(frame != null){
