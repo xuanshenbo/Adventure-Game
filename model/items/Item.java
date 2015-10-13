@@ -23,8 +23,8 @@ public abstract class Item {
 
 	// every time an Item is created, generate an id for it using this field
 	private static int idCounter = 0;
-	@XmlTransient
-	private Image img;
+//	@XmlTransient
+//	private Image img;
 	private int id;
 	private char type;
 
@@ -43,4 +43,28 @@ public abstract class Item {
 	public char getType(){
 		return type;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Item other = (Item) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
+	
+	
 }

@@ -194,13 +194,10 @@ public class Area implements CycleRecoverable {
 		g.fillTiles(this);
 		g.placeLoot(this);
 	}
-
+	
+	@Override
 	public String toString(){
 		return (entrance+" "+type);
-	}
-
-	public void printTile(Position p){
-		//System.out.print(area[p.getY()][p.getX()]);
 	}
 
 	@Override

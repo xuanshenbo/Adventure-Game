@@ -278,12 +278,14 @@ public class Game {
 
 		} else if (direction == Direction.RIGHT) {
 			if (x == areaArray[0].length - 1) {
+				p();
 				return null;
 			}
 			return areaArray[y][x + 1];
 
 		} else if (direction == Direction.LEFT) {
 			if (x == 0) {
+				p();
 				return null;
 			}
 			return areaArray[y][x - 1];
@@ -371,6 +373,15 @@ public class Game {
 		return area.getItems()[row][col] == null;
 	}
 
+	/**
+	 * Called when the player tries to move an item around inside their
+	 * inventory, if they try to move it to a bag then it will put the
+	 * item in the bag.
+	 * @param player: player moving the item
+	 * @param fromSlot: inventory slot of the item being moved
+	 * @param toSlot: inventory slot that the player is moving the item to
+	 */
+
 	public void moveInventory(Player player, int fromSlot, int toSlot) {
 		Item fromItem = player.getItemFromInventory(fromSlot);
 		Item toItem = player.getItemFromInventory(toSlot);
@@ -390,7 +401,6 @@ public class Game {
 	}
 
 	public void moveFromContainerToInventory(Player player, int containerSlot) {
-		p(containerSlot);
 		player.moveToInventory(containerSlot);
 		parser.sendInventory(player, player.getInventory());
 

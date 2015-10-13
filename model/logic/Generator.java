@@ -44,8 +44,8 @@ public class Generator {
 	private int chests;
 	private int lootValue;
 	private String difficulty = "easy";
-	
-	
+
+
 	/**
 	 * Generator that creates the random world based on the values that are passed in
 	 * @param trees: the amount of tiles per tree
@@ -134,11 +134,11 @@ public class Generator {
 			return new Bag();
 		}else if(itemValue < 5){
 			int consumable = (int) ((Math.random()*2)+1);
-			p(consumable);
 			if(consumable == 1){
 				return new Cupcake();
 			}else if(consumable == 2){
-				return new Pumpkin();
+				return new Cupcake();
+				//return new Pumpkin();
 			}
 		}
 		return new Key();
@@ -165,7 +165,8 @@ public class Generator {
 		for(int row=1; row < areaArray.length-1; row++){
 			for(int col=1; col < areaArray[0].length-1; col++){
 				//generate trees
-				if(new Random().nextInt(trees) == trees-1){
+				int random = new Random().nextInt(trees);
+				if(random == trees-1){
 					areaArray[row][col] = new TreeTile(new Position(col, row, area));
 				}
 			}
@@ -215,7 +216,7 @@ public class Generator {
 					Position exit = new Position(2, 4, building);
 
 					areaArray[randomRow+3][randomCol+2] = new DoorTile(entrance, exit);
-					
+
 					areaArray[randomRow+3][randomCol+4] = new BuildingAnchorTile(new Position(randomCol, randomRow, area));
 					building.getArea()[4][2] = new DoorTile(exit, entrance);
 					children.add(building);
