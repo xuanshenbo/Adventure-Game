@@ -215,7 +215,7 @@ public class ButtonPanel extends JPanel {
 
 						//Create and display a message window
 
-						MessageWindow window = new MessageWindow("Now select where to move the item", "Happiness Game", dialog);
+						MessageWindow window = new MessageWindow("Now select where to move the item", dialog);
 
 						//change button text
 						moveToBag.setText("Move to this slot");

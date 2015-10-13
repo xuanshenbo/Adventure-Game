@@ -586,7 +586,8 @@ public class GameFrame extends JFrame {
 	 *            The message to be displayed
 	 */
 	public void displayMessageFromGame(String msg) {
-		JOptionPane.showMessageDialog(this, msg);
+		MessageWindow m = new MessageWindow(msg);
+//		JOptionPane.showMessageDialog(this, msg);
 	}
 
 	/**

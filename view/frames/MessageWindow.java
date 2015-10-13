@@ -24,10 +24,41 @@ public class MessageWindow extends JFrame {
 
 	private Dialog dialog;
 
-	public MessageWindow(String msg, String title, Dialog d) {
+	private static String title = "Happiness Game";
+
+	/**
+	 * This constructor creates a message window for use
+	 * in conjunction with a display inventory dialog
+	 * @param msg The message to display
+	 * @param d The dialog displaying the inventory
+	 */
+	public MessageWindow(String msg, Dialog d) {
 		super(title);
 
 		dialog = d;
+
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		setLayout(new BorderLayout());
+
+		messageLabel = new HappinessLabel(msg);
+
+		add(messageLabel, BorderLayout.NORTH);
+
+		addOKButton();
+
+		displayWindow();
+
+	}
+
+	/**
+	 * This constructor creates a message window for use
+	 * in any circumstance where the user needs to be notified
+	 * of something.
+	 *  @param msg The message to display to the user
+	 */
+	public MessageWindow(String msg) {
+		super(title);
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -50,8 +81,11 @@ public class MessageWindow extends JFrame {
 	}
 
 	//add a confirm button
-		private void addOKButton() {
-			ok = new HappinessButton("OK");
+	private void addOKButton() {
+		ok = new HappinessButton("OK");
+
+		//If this window is being used with the inventory/container dialog
+		if(dialog != null){
 			ok.addActionListener(new ActionListener(){
 
 				@Override
@@ -62,9 +96,23 @@ public class MessageWindow extends JFrame {
 				}
 
 			});
-
-			ok.setMnemonic(KeyEvent.VK_ENTER);	//TODO fix this
-			add(ok, BorderLayout.CENTER);
 		}
+
+		// else if this is just a message to display to the user
+		// simply close the window when the ok button is presses
+		else {
+			ok.addActionListener(new ActionListener(){
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					setVisible(false);
+				}
+
+			});
+		}
+
+		ok.setMnemonic(KeyEvent.VK_ENTER);	//TODO fix this
+		add(ok, BorderLayout.CENTER);
+	}
 
 }
