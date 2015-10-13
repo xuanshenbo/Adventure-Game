@@ -18,21 +18,22 @@ import view.frames.GameFrame;
 public class ClockThread extends Thread{
 
 	final int delay; // the delay between pulses.
-	//final Game game;
 	final GameCanvas canvas;
 
 	public ClockThread(int d, GameCanvas canvas){
 		this.delay = d;
-		//this.game = g;
 		this.canvas = canvas;
 	}
 
+	/**
+	 * The following runs a eternal loop to keep updating the game canvas.
+	 * It updates 1000/delay times a second.
+	 */
 	public void run(){
 		while(1 == 1) {
 			// Loop forever
 			try {
 				Thread.sleep(delay);
-				//game.tick();
 				if(canvas != null) {
 					canvas.getRenderer().render();
 				}

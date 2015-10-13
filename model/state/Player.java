@@ -4,10 +4,7 @@
 
 package model.state;
 
-import java.beans.Transient;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -18,7 +15,6 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import model.items.Bag;
 import model.items.Consumable;
-import model.items.Cupcake;
 import model.items.Item;
 import model.items.Key;
 import model.tiles.ChestTile;
@@ -65,16 +61,16 @@ public class Player {
 	}
 
 	public void loseHappiness() {
-		happiness --;		
+		happiness --;
 	}
-	
+
 
 
 	public void die() {
 		if(happiness < 1){
 			position = startingPosition;
 			happiness = 5;
-		}		
+		}
 	}
 
 	public boolean addItemToInventory(Item item){
@@ -265,17 +261,40 @@ public class Player {
 		return openContainer;
 	}
 
+	public Position getStartingPosition() {
+		return startingPosition;
+	}
 
+	// ================================================
+	// setters from here
+	// ================================================
 
+	public void setStartingPosition(Position startingPosition) {
+		this.startingPosition = startingPosition;
+	}
 
+	public Set<ChestTile> getOpenedChests() {
+		return openedChests;
+	}
 
+	public void setOpenedChests(Set<ChestTile> openedChests) {
+		this.openedChests = openedChests;
+	}
 
+	public void setInventory(Item[] inventory) {
+		this.inventory = inventory;
+	}
 
+	public void setHappiness(int happiness) {
+		this.happiness = happiness;
+	}
 
+	public void setInGame(boolean inGame) {
+		this.inGame = inGame;
+	}
 
-
-
-
-
+	public void setSelectedItem(Item selectedItem) {
+		this.selectedItem = selectedItem;
+	}
 
 }

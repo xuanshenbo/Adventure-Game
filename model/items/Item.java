@@ -23,8 +23,7 @@ public abstract class Item {
 
 	// every time an Item is created, generate an id for it using this field
 	private static int idCounter = 0;
-//	@XmlTransient
-//	private Image img;
+
 	private int id;
 	private char type;
 
@@ -36,12 +35,28 @@ public abstract class Item {
 
 	public abstract Item[] use(Player player);
 
+	// ================================================
+	// getters from here
+	// ================================================
+
 	public int getId() {
 		return id;
 	}
 
 	public char getType(){
 		return type;
+	}
+
+	// ================================================
+	// setters from here
+	// ================================================
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setType(char type) {
+		this.type = type;
 	}
 
 	@Override
@@ -65,6 +80,5 @@ public abstract class Item {
 			return false;
 		return true;
 	}
-	
-	
+
 }
