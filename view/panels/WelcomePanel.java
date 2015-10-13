@@ -26,6 +26,7 @@ import main.Main;
 
 /**
  * A subclass of JDialog which welcomes a new player and invites them to choose an avatar
+ * @author flanagdonn, yanlong
  */
 public class WelcomePanel extends JPanel{
 

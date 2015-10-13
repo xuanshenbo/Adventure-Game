@@ -7,7 +7,9 @@ import java.awt.image.BufferedImage;
 import static utilities.PrintTool.p;
 
 /**
+ * create a game canvas to show the out put screen
  * Created by lucas on 7/10/15
+ * @author Mingmin Ying 300266387
  */
 public class GameCanvas extends JPanel {
     private BufferedImage image;

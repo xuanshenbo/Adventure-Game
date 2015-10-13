@@ -22,6 +22,7 @@ import main.Main;
  * allow strict observation of the overarching MVC design pattern
  * The ButtonStrategy governs interaction between the user, during the
  * setting up stages of the game
+ * @author  flanagdonn, yanlong
  */
 public class InitialStrategy implements StrategyInterpreter.Strategy{
 	//private Initialisation s;

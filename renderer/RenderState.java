@@ -2,6 +2,7 @@ package renderer;
 
 /**
  * Created by lucas on 7/10/15.
+ * @author Mingmin Ying 300266387
  */
 public class RenderState {
     private char[][] map;

@@ -67,8 +67,8 @@ public class Initialisation extends StrategyInterpreter{
 
 		frame = new WelcomeFrame("Welcome to Adventure Game", this);
 
-		welcome = new WelcomePanel(this);		
-		
+		welcome = new WelcomePanel(this);
+
 
 		frame.add(welcome);
 
@@ -143,10 +143,18 @@ public class Initialisation extends StrategyInterpreter{
 	}
 
 
+	/**
+	 * a setter for the chosen avatar
+	 * @param a
+	 */
 	public void setChosenAvatar(Avatar a) {
 		chosenAvatar = a;
 	}
 
+	/**
+	 * a getter for the chosen avatar
+	 * @return chosenAvatar
+	 */
 	public Avatar getChosenAvatar(){
 		return chosenAvatar;
 	}
