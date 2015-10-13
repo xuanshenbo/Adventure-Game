@@ -24,8 +24,7 @@ public class Serializer {
 	private static final String GAMES_PATH = "games/";
 
 	// So no one can accidently create a Serializer class
-	private Serializer() {
-	}
+	private Serializer() {}
 
 	/**
 	 * If the current game is loaded from a file, save the current game and

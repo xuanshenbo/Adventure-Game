@@ -9,6 +9,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
+import dataStorage.pointers.AreaPointer;
 import view.styledComponents.MenuBar;
 import model.state.GameState;
 
@@ -21,7 +22,8 @@ import model.state.GameState;
 public class Deserializer {
 
 	// So no one can accidently create a Deserializer class
-	private Deserializer() {}
+	private Deserializer() {
+	}
 
 	/**
 	 * Return a GameState that is stored in the given file
@@ -37,8 +39,8 @@ public class Deserializer {
 			return null;
 		}
 
-		JAXBContext context = JAXBContext
-				.newInstance(new Class[] { GameState.class });
+		JAXBContext context = JAXBContext.newInstance(new Class[] {
+				GameState.class, AreaPointer.class });
 
 		Unmarshaller um = context.createUnmarshaller();
 
@@ -48,7 +50,6 @@ public class Deserializer {
 
 	// get a file from user
 	private static File getFile() {
-		System.out.println("here");
 		// Create a file chooser
 		final JFileChooser fc = new JFileChooser("games/");
 
