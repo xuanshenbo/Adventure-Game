@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 
 /**
  * A simple Menubar with an Exit option
+ * @author Shenbo Xuan
  */
 public class MenuBar extends JMenuBar {
 

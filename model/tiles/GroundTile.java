@@ -1,14 +1,21 @@
 package model.tiles;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 import model.logic.Game.Direction;
 import model.state.Player;
 import model.state.Position;
 
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class GroundTile implements Tile {
 
+	@XmlType(name = "TileType")
+	@XmlEnum
 	public enum TileType {
 		GRASS('G'),
 		ROCK('R'),

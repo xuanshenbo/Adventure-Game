@@ -59,6 +59,7 @@ public class ClientParser {
 		case 'T'://time of day
 			int time = Character.getNumericValue(message[1]);
 			char dayNight = message[2];
+			frame.setTime(time);
 			//			p("time:"+time+" "+dayNight);
 			break;
 		case 'R':
