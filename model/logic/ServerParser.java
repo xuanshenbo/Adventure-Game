@@ -16,10 +16,6 @@ import model.state.Player;
 import static utilities.PrintTool.p;
 
 public class ServerParser {
-
-
-
-
 	private Game game;
 	private Server server;
 	private char[] tempItemArrayStorage = null;
