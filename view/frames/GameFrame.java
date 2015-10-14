@@ -322,7 +322,7 @@ private MessageWindow messageWindow;
 				canvas.getRenderer().doAnimation();
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_UP:
-					canvas.getRenderer().setDir(23);
+					canvas.getRenderer().setPlayerFacingDir(23);
 					if (canvas.getRenderer().getViewDir() == 0) {
 						toNotify = Command.MOVE_NORTH.toString();
 					}
@@ -332,7 +332,7 @@ private MessageWindow messageWindow;
 					break;
 
 				case KeyEvent.VK_DOWN:
-					canvas.getRenderer().setDir(7);
+					canvas.getRenderer().setPlayerFacingDir(7);
 					if (canvas.getRenderer().getViewDir() == 0) {
 						toNotify = Command.MOVE_SOUTH.toString();
 					}
@@ -342,7 +342,7 @@ private MessageWindow messageWindow;
 					break;
 
 				case KeyEvent.VK_LEFT:
-					canvas.getRenderer().setDir(15);
+					canvas.getRenderer().setPlayerFacingDir(15);
 					if (canvas.getRenderer().getViewDir() == 0) {
 						toNotify = Command.MOVE_WEST.toString();
 					}
@@ -352,7 +352,7 @@ private MessageWindow messageWindow;
 					break;
 
 				case KeyEvent.VK_RIGHT:
-					canvas.getRenderer().setDir(31);
+					canvas.getRenderer().setPlayerFacingDir(31);
 					if (canvas.getRenderer().getViewDir() == 0) {
 						toNotify = Command.MOVE_EAST.toString();
 					}
