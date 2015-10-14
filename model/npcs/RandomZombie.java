@@ -23,9 +23,13 @@ public class RandomZombie implements ZombieStrategy {
 		
 		List<Position> validPositions = oldPosition.getValid();
 		int i = (int) (Math.random()*validPositions.size());
-		Position newPosition = validPositions.get(i);
+		if(validPositions.size() != 0)	{
+			return validPositions.get(i);
+		}else{
+			return oldPosition;
+		}
 		
-		return newPosition;
+		
 		
 	}
 
