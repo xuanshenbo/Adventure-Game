@@ -79,7 +79,14 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 				//request available avatars from game, as this will be required in the next step
 				Translator.InitialisationCommand cmd = Translator.InitialisationCommand.GET_AVAILABLE_AVATARS;
 				String msg = Translator.encode(cmd);
-				initialisation.getClient().send(msg);
+
+				if(initialisation.getClient() == null){
+					initialisation.getWelcomePanel().setValidIP(false);
+					initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.CONNECT_TO_SERVER);
+				}
+				else{
+					initialisation.getClient().send(msg);
+				}
 
 				//initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.LOAD_SAVED_PLAYER);
 			}

@@ -115,7 +115,6 @@ public class WelcomePanel extends JPanel{
 	 * @param state The new state
 	 */
 	public void transitionToNewState(InitialisationCommand state){
-		System.out.println(state);
 		bPanel.setVisible(false);
 
 		switch(state){
@@ -219,7 +218,6 @@ public class WelcomePanel extends JPanel{
 		if(iPanel != null){
 			remove(iPanel); //remove old ipanel if need to redisplay it now
 		}
-		System.out.println("display connect called");
 		iPanel = new InputPanel(initialisation, InitialisationCommand.CONNECT_TO_SERVER, validIP);
 		add(iPanel, BorderLayout.SOUTH);
 

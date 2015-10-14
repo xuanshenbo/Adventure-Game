@@ -43,8 +43,7 @@ public class Client extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}AD_SAVED_PLAYER
-	LOAD_SAVED_PLAYER
+	}
 
 
 	/**

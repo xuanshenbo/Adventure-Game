@@ -144,9 +144,16 @@ public class Main {
 			System.out.println();
 			System.out.println();
 			avatarClient.send("R");
-		} catch (IOException e) {
+		}
+		catch(java.net.ConnectException e){
+			//if invalid ip address entered, return to input state
+			initial.getWelcomePanel().setValidIP(false);
+			initial.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.CONNECT_TO_SERVER);
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	public static void displayMainGameFrame() throws IOException{
