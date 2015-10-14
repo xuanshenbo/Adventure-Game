@@ -33,6 +33,10 @@ public class Client extends Thread {
 	private GameFrame gui;
 	private ClientParser parser;
 
+	/**
+	 * The following constructs a client with a socket.
+	 * @param s
+	 */
 	public Client(Socket s){
 		socket = s;
 		try {
@@ -148,7 +152,7 @@ public class Client extends Thread {
 			output.flush();
 
 		} catch (SocketException ex){//this handles the disconnection of the server
-			System.out.println("The server is broken");
+			System.out.println("The server has been closed");
 			System.exit(0);
 		}
 	}
