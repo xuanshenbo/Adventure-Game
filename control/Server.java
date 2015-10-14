@@ -33,6 +33,7 @@ public class Server extends Thread{
 	private InetAddress address;
 	private ServerSocket server;
 	private Writer[] writers = new Writer[5];//writer[0] is for the avatar client. 1-4 will be used for plays 1-4
+	private Socket[] sockets = new Socket[5];
 	private boolean exit;
 	private Game game;
 
@@ -125,12 +126,18 @@ public class Server extends Thread{
 	}
 
 	/**
-	 * The following closes the server socket
+	 * The following closes the server socket and all the client sockets connected to it
 	 */
 	public void closeServer(){
 		try {
 			exit = true;
 			server.close();
+			for(int i=0; i<sockets.length; i++){
+				if(sockets[i]!= null){
+					sockets[i].close();
+					sockets[i] = null;
+				}
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -160,22 +167,23 @@ public class Server extends Thread{
 
 				Writer out = new OutputStreamWriter(connection.getOutputStream());
 				writers[id] = out;
+				sockets[id] = connection;
 				if(id != 0){
 					game.getParser().processClientEvent(received, out, id);
 				}
-				System.out.println("Server 163: before sending address");
+				//System.out.println("Server 163: before sending address");
 				out.write("A"+address.getHostAddress().toString()+"X");// 'X' indicates the end of the message
 				out.flush();
 
 				while(true){
 					//handles the disconnection gracefully
-					if(connection.isInputShutdown() || connection.isOutputShutdown()){
+					/*if(connection.isInputShutdown() || connection.isOutputShutdown()){
 						System.out.println("Server 210: close the client");//debug
 						char[] quit = {'Q'};
 						game.getParser().processClientEvent(quit, out, id);
 						writers[id] = null;
 						break;
-					}
+					}*/
 					char[] message = new char[256];
 					in.read(message);
 					if(message[0] == '&'){//turn off the avatar client
