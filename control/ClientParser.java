@@ -18,6 +18,10 @@ public class ClientParser {
 	private Client client;
 	private GameFrame frame;
 
+	/**
+	 * The following constructs a ClientParser for the Client parameter given
+	 * @param c
+	 */
 	public ClientParser(Client c){
 		client = c;
 	}
