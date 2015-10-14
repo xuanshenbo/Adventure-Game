@@ -50,6 +50,7 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 			String command = sc.next(); //should be "open"
 			String filename = sc.next();
 			//notify game passing it the filename
+			sc.close();
 		}
 		else if(text.startsWith("parameters")){
 			Scanner sc = new Scanner(text);
@@ -59,6 +60,8 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 			width = sc.nextInt();
 			difficulty = sc.nextInt();
 			density = sc.nextInt();
+
+			sc.close();
 
 			initialisation.getWelcomePanel().transitionToNewState(InitialisationCommand.CREATE_NEW_PLAYER);
 		}

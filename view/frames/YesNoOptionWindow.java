@@ -25,6 +25,7 @@ public class YesNoOptionWindow extends JFrame{
 
 	private HappinessButton yes;
 	private HappinessButton no;
+
 	private JPanel buttons;
 	private JPanel message;
 

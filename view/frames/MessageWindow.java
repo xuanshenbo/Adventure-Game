@@ -26,13 +26,17 @@ public class MessageWindow extends JFrame {
 
 	private HappinessLabel messageLabel;
 
-	private HappinessButton ok = new HappinessButton("OK");
+	private HappinessButton ok;
+
+	private JPanel messagePanel;
+
+	private String msg;
 
 	private Dialog dialog;
 
 	private static String title = "Happiness Game";
 
-	private JPanel buttonPanel = new JPanel();
+	private JPanel buttonPanel;
 
 	/**
 	 * This constructor creates a message window for use
@@ -43,28 +47,42 @@ public class MessageWindow extends JFrame {
 	public MessageWindow(String msg, Dialog d) {
 		super(title);
 
+		this.msg = msg;
+
 		dialog = d;
 
-		buttonPanel = new JPanel(new BorderLayout());
-
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
-		//getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
-		getContentPane().setLayout(new BorderLayout());
-
-		messageLabel = new HappinessLabel(msg);
-
-		//add(messageLabel, BorderLayout.NORTH);
-		add(messageLabel);
-		//add(buttonPanel, BorderLayout.CENTER);
-		add(buttonPanel, BorderLayout.SOUTH);
-		addOKButton();
+		setUpWindow();
 
 		displayWindow();
 
 	}
 
-/*	*//**
+	private void setUpWindow() {
+		setLayout(new BorderLayout());
+
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		createMessageLabel();
+
+		createOKButton();
+
+		add(messagePanel, BorderLayout.NORTH);
+
+		add(buttonPanel, BorderLayout.CENTER);
+
+	}
+
+	private void createMessageLabel() {
+
+		messagePanel = new JPanel();
+
+		messageLabel = new HappinessLabel(msg);
+
+		messagePanel.add(messageLabel);
+
+	}
+
+	/*	*//**
 	 * This constructor creates a message window for use
 	 * in any circumstance where the user needs to be notified
 	 * of something.
@@ -95,7 +113,9 @@ public class MessageWindow extends JFrame {
 	}
 
 	//add a confirm button
-	private void addOKButton() {
+	private void createOKButton() {
+		buttonPanel = new JPanel();
+
 		ok = new HappinessButton("OK");
 
 		// If this window is being used with the inventory/container dialog
@@ -127,15 +147,16 @@ public class MessageWindow extends JFrame {
 
 		ok.setMnemonic(KeyEvent.VK_ENTER);
 
-		int padding = (messageLabel.getPreferredSize().width - ok.getPreferredSize().width) /2;
-		padding = GameFrame.BUTTON_PADDING_HORIZONTAL;
+		//int padding = (messageLabel.getPreferredSize().width - ok.getPreferredSize().width) /2;
 
-		buttonPanel.add(Box.createRigidArea(new Dimension(padding, 30)));
+		int padding = GameFrame.BUTTON_PADDING_HORIZONTAL;
 
-		ok.setSize(new Dimension(50, 30));
+		buttonPanel.add(Box.createRigidArea(new Dimension(padding, 0)));
+
+		//	ok.setSize(new Dimension(50, 30));
 
 		buttonPanel.add(ok);
-		buttonPanel.add(Box.createRigidArea(new Dimension(padding, 30)));
+		buttonPanel.add(Box.createRigidArea(new Dimension(padding, 0)));
 
 	}
 
