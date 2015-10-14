@@ -101,7 +101,10 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 		}
 	}
 
-	//receive information about the avatar chosen, and select the encoded message to the Model via the network
+	/*
+	 * receive information about the avatar chosen, and select the encoded message to the Model via the network
+	 * @author yanlong, flanagdonn
+	 */
 	private void notifyAvatar(String text) {
 		Avatar a = Avatar.toAvatar(text);
 		int avatarInteger = Avatar.getAvatarAsInteger(a);
