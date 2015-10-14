@@ -65,7 +65,7 @@ public class MenuBar extends JMenuBar {
 
 		menu.add(save);
 		menu.add(saveAs);
-		menu.add(load);
+		//menu.add(load);
 		menu.addSeparator();
 		menu.add(exit);
 

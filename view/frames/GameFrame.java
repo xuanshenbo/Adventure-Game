@@ -520,7 +520,6 @@ private MessageWindow messageWindow;
 	 *            The list of items as lower-case Strings
 	 */
 	public void setInventoryContents(ArrayList<String> inventory) {
-		System.out.println("inventory contents.");
 		inventoryContents = inventory;
 		addInventoryDialog();
 	}
@@ -532,7 +531,6 @@ private MessageWindow messageWindow;
 	 *            The list of items as lower-case Strings
 	 */
 	public void setContainerContents(ArrayList<String> containerItems) {
-		System.out.println("setting container content");// debug
 		containerContents = containerItems;
 		addContainerDialog();
 	}

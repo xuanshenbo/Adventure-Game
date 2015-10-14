@@ -202,9 +202,7 @@ public class ButtonPanel extends JPanel {
 						dialog.setVisible(false);
 
 						//Create and display a message window
-						System.out.println("GF: "+gameFrame);
 						MessageWindow window = new MessageWindow("Now select where to move the item", dialog, gameFrame);
-						System.out.println("DIA: "+dialog);
 						//change button text
 						moveToBag.setText("Move to this slot");
 						movePressed = true;

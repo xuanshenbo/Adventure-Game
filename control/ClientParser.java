@@ -18,6 +18,10 @@ public class ClientParser {
 	private Client client;
 	private GameFrame frame;
 
+	/**
+	 * The following constructs a ClientParser for the given Client.
+	 * @param c The Client.
+	 */
 	public ClientParser(Client c){
 		client = c;
 	}
@@ -32,7 +36,7 @@ public class ClientParser {
 
 	/**
 	 * The following processes the message received from the server
-	 * @param message
+	 * @param message The message read from the server over the socket
 	 */
 	public void processMessage(char[] message){
 		switch(message[0]){
@@ -72,9 +76,8 @@ public class ClientParser {
 		}
 	}
 
-	/**
+	/*
 	 * The following reads a message from the server and then display it on the frame
-	 * @param message
 	 */
 	private void readMessageToDisplay(char[] message) {
 		String messageToDisplay = "";
@@ -86,12 +89,10 @@ public class ClientParser {
 
 	}
 
-	/**
+	/*
 	 * The following parses the available avatars and passes it to the initialisation
-	 * @param message
 	 */
 	private void readAvatar(char[] message) {
-		//System.out.println("Got available avatars");//debug
 		ArrayList<Avatar> avatars = new ArrayList<Avatar>();
 		loop: for(int i=1; i<message.length; i++){
 			switch(message[i]){
@@ -120,9 +121,8 @@ public class ClientParser {
 
 	}
 
-	/**
+	/*
 	 * The following parses the happiness level and passes it to the frame
-	 * @param message
 	 */
 	private void readHappiness(char[] message) {
 		int happiness = (Character.getNumericValue(message[1]))*10;
@@ -131,9 +131,8 @@ public class ClientParser {
 		}
 	}
 
-	/**
+	/*
 	 * The following parses the container information and passes it to the frame
-	 * @param message
 	 */
 	private void readContainer(char[] message) {
 		ArrayList<String> container = new ArrayList<String>();
@@ -163,12 +162,10 @@ public class ClientParser {
 		frame.setContainerContents(container);
 	}
 
-	/**
+	/*
 	 * The following parses the inventory information and passes it to the frame
-	 * @param message
 	 */
 	private void readInventory(char[] message) {
-		System.out.println("inventory reading");//debug
 		ArrayList<String> inventory = new ArrayList<String>();
 		loop: for(int i=1; i<message.length; i++){
 			switch(message[i]){
@@ -192,15 +189,11 @@ public class ClientParser {
 				System.out.println(message[i]);
 			}
 		}
-		System.out.println("inventory size: "+inventory.size());//debug
 		frame.setInventoryContents(inventory);
 	}
 
-	/**
+	/*
 	 * This will separate the messages if more than one messages are read together in the client
-	 * @param message
-	 * @param i
-	 * @return
 	 */
 	private char[] separateMessage(char[] message, int i){
 		if(message[i+1] == '\0') return null;
