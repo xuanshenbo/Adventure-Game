@@ -46,10 +46,16 @@ public class Translator {
 	}
 
 
-
+/**
+ * Encodes the command with the code given in the command constructor
+ * @param command The command to be encoded
+ * @return The String which is this command's unique code
+ */
 	public static String encode(Command command) {
 		return command.code;
 	}
+
+
 
 	public static String encode(InitialisationCommand command) {
 

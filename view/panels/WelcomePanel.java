@@ -27,12 +27,12 @@ import main.Initialisation;
 import main.Main;
 
 /**
- * A subclass of JDialog which welcomes a new player and invites them to choose an avatar
+ * A subclass of JPanel which welcomes a new player and
+ * takes them through the selection of options involved
+ * in setting up a game
  * @author flanagdonn
  */
 public class WelcomePanel extends JPanel{
-
-	private JFrame parentFrame;
 
 	private int heading1Size = 50;
 
@@ -44,8 +44,6 @@ public class WelcomePanel extends JPanel{
 	private Initialisation initialisation;
 
 	private Dimension imageSize = new Dimension(850, 400);
-
-	private JPanel imagePanel;
 
 	//static so as to be used in parent constructor
 	private static String welcome = "Game of Happiness!";
@@ -85,8 +83,6 @@ public class WelcomePanel extends JPanel{
 
 		setLayout(new BorderLayout());
 
-		this.parentFrame = i.getFrame();
-
 		JLabel welcomeMessage = new JLabel(welcome, SwingConstants.CENTER);
 		welcomeMessage.setFont(new Font("Serif", Font.BOLD, heading1Size));
 		welcomeMessage.setForeground(GameFrame.FONT_COLOR);
@@ -119,6 +115,7 @@ public class WelcomePanel extends JPanel{
 	 * @param state The new state
 	 */
 	public void transitionToNewState(InitialisationCommand state){
+		System.out.println(state);
 		bPanel.setVisible(false);
 
 		switch(state){
@@ -174,7 +171,7 @@ public class WelcomePanel extends JPanel{
 	}
 
 	/*
-	 * TODO Do we still need this option?
+	 * Do we still need this option?
 	 */
 	private void displayLoadCreatePlayerOptions() {
 		remove(bPanel);
@@ -222,6 +219,7 @@ public class WelcomePanel extends JPanel{
 		if(iPanel != null){
 			remove(iPanel); //remove old ipanel if need to redisplay it now
 		}
+		System.out.println("display connect called");
 		iPanel = new InputPanel(initialisation, InitialisationCommand.CONNECT_TO_SERVER, validIP);
 		add(iPanel, BorderLayout.SOUTH);
 
