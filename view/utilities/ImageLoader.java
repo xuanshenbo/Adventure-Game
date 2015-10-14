@@ -1,9 +1,11 @@
 package view.utilities;
 
 import javax.imageio.ImageIO;
+
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Used to load images from a file
@@ -16,7 +18,9 @@ public class ImageLoader {
 	 */
 	public static Image loadImage(String filename) {
 		try {
-			Image img = ImageIO.read(new File("src/images/"+filename));
+		    InputStream in = ImageLoader.class.getClassLoader().getResourceAsStream("images/"+filename);
+			Image img = ImageIO.read(in);
+			//Image img = ImageIO.read(new File("src/images/"+filename));
 			return img;
 		} catch (IOException e) {
 			// we've encountered an error loading the image. There's not much we
