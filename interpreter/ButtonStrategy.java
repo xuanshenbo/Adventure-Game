@@ -20,6 +20,10 @@ public class ButtonStrategy implements StrategyInterpreter.Strategy{
 
 	private StrategyInterpreter interpreter;
 
+	/**
+	 * Assigns the button interpreter object as this strategy's interpreter
+	 * @param buttonInterpreter The StrategyInterpreter using this strategy
+	 */
 	public ButtonStrategy(StrategyInterpreter buttonInterpreter) {
 		this.interpreter = buttonInterpreter;
 	}
@@ -30,6 +34,11 @@ public class ButtonStrategy implements StrategyInterpreter.Strategy{
 
 	private boolean isMove;
 
+	/**
+	 * This method performs the logic required after the user presses a button.
+	 * Often this involves sending an appropriately encoded message
+	 * across the network.
+	 */
 	@Override
 	public void notify(String text) {
 		if(Translator.isCommand(text)){

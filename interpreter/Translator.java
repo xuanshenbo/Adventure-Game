@@ -46,11 +46,21 @@ public class Translator {
 	}
 
 
-
+/**
+ * Encodes the command with the code given in the command constructor
+ * @param command The command to be encoded
+ * @return The String which is this command's unique code
+ */
 	public static String encode(Command command) {
 		return command.code;
 	}
 
+
+	/**
+	 * Encodes the command with a pre-decided code
+	 * @param command The command to be encoded
+	 * @return The String which is this command's unique code
+	 */
 	public static String encode(InitialisationCommand command) {
 
 		if(command.equals(InitialisationCommand.SELECTED_AVATAR)){
@@ -62,6 +72,11 @@ public class Translator {
 		return null;
 	}
 
+	/**
+	 * Decides whether this string corresponds to one of the InitialisationCommands
+	 * @param text The text to be checked
+	 * @return True iff the text corresponds to an InitialisationCommand
+	 */
 	public static boolean isInitialisationCommand(String text) {
 
 		//iterate through each value in InitialisationState
@@ -75,6 +90,11 @@ public class Translator {
 		return false;
 	}
 
+	/**
+	 * Decides whether this string corresponds to one of the Commands
+	 * @param text The text to be checked
+	 * @return True iff the text corresponds to an Command
+	 */
 	public static boolean isCommand(String text) {
 		//iterate through each value in Command
 		for(Command c : Command.values()){
@@ -87,6 +107,11 @@ public class Translator {
 		return false;
 	}
 
+	/**
+	 * Takes a String and returns the command associated with it.
+	 * @param text The text to be transformed into a command
+	 * @return The Command corresponding with the text
+	 */
 	public static Command toCommand(String text) {
 		//iterate through each value in Command
 		for(Command c : Command.values()){
@@ -99,6 +124,11 @@ public class Translator {
 		return null;
 	}
 
+	/**
+	 * Takes a String and returns the InitialisationCommand associated with it.
+	 * @param text The text to be transformed into an InitialisationCommand
+	 * @return The InitialisationCommand corresponding with the text
+	 */
 	public static InitialisationCommand toInitState(String text) {
 		//iterate through each value in InitialisationState
 		for(InitialisationCommand s : InitialisationCommand.values()){

@@ -25,14 +25,23 @@ import main.Main;
  * @author  flanagdonn
  */
 public class InitialStrategy implements StrategyInterpreter.Strategy{
-	//private Initialisation s;
+
 	private String ip;
 	private Initialisation initialisation;
 
+	/**
+	 * assigns the initialisation object as this strategy's interpreter
+	 * @param i The initialisation StrategyInterpreter
+	 */
 	public InitialStrategy(Initialisation i){
 		initialisation = i;
 	}
 
+	/**
+	 * This method performs the logic required after user input.
+	 * Often this involves sending an appropriately encoded message
+	 * across the network, and transitioning to a new state.
+	 */
 	@Override
 	public void notify(String text) throws IOException {
 
@@ -44,13 +53,6 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 		}
 		else if(Avatar.isAvatar(text)){
 			notifyAvatar(text);
-		}
-		else if(text.startsWith("open")){
-			Scanner sc = new Scanner(text);
-			String command = sc.next(); //should be "open"
-			String filename = sc.next();
-			//notify game passing it the filename
-			sc.close();
 		}
 		else if(text.startsWith("parameters")){
 			Scanner sc = new Scanner(text);
@@ -77,7 +79,14 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 				//request available avatars from game, as this will be required in the next step
 				Translator.InitialisationCommand cmd = Translator.InitialisationCommand.GET_AVAILABLE_AVATARS;
 				String msg = Translator.encode(cmd);
-				initialisation.getClient().send(msg);
+
+				if(initialisation.getClient() == null){
+					initialisation.getWelcomePanel().setValidIP(false);
+					initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.CONNECT_TO_SERVER);
+				}
+				else{
+					initialisation.getClient().send(msg);
+				}
 
 				//initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.LOAD_SAVED_PLAYER);
 			}

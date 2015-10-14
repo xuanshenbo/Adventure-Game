@@ -49,6 +49,7 @@ public class Client extends Thread {
 		}
 	}
 
+
 	/**
 	 * The following sends the client id to the server and then keep receiving messages from the server
 	 */
