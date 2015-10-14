@@ -1,8 +1,3 @@
-/**
- * This class is a simple wrapper class to hold the position of something
- * in the world.
- */
-
 package model.state;
 
 import java.util.ArrayList;
@@ -15,6 +10,12 @@ import javax.xml.bind.annotation.XmlTransient;
 import com.sun.xml.internal.bind.CycleRecoverable;
 
 import dataStorage.pointers.PositionPointer;
+
+/**
+ * This class is a simple wrapper class to hold the position of something
+ * in the world.
+ * @author tuckergare
+ */
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Position implements CycleRecoverable {

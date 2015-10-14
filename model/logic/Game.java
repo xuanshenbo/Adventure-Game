@@ -1,6 +1,7 @@
 /**
  * The main Game logic class, this holds the game tick and has the logical
  * updates that have to be done every tick
+ * @author tuckergare
  */
 
 package model.logic;
@@ -399,8 +400,9 @@ public class Game {
 		Item toItem = player.getItemFromInventory(toSlot);
 		if(toItem instanceof Bag){
 			Bag bag = (Bag) toItem;
-			boolean notBag = bag.addItem(fromItem);
-			if(!notBag){
+			boolean added = bag.addItem(fromItem);
+			p(added);
+			if(added){
 				player.removeItem(fromSlot);
 			}
 			return;

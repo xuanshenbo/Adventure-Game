@@ -1,3 +1,7 @@
+/**
+ * This represents the key item in the game
+ * @author tuckergare
+ */
 package model.items;
 
 import model.state.Player;

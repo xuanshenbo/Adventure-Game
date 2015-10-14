@@ -1,14 +1,21 @@
-/**
- * This Strategy makes the Zombie run towards the nearest cave
- */
+
 
 package model.npcs;
 
 import model.state.Position;
 import static utilities.PrintTool.p;
 
+/**
+ * This method makes the Zombie run towards the nearest cave. This is 
+ * called when it is day time and the player is out of range
+ * @author tuckergare
+ *
+ */
 public class RunZombie implements ZombieStrategy {
-
+	
+	/**
+	 * this moves the zombie towards the nearest cave in a really dumb way.
+	 */
 	@Override
 	public Position move(Position oldPosition) {
 		Position caveEntrance = oldPosition.getArea().getNearestCaveEntrance(oldPosition);

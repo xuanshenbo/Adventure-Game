@@ -7,6 +7,15 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import model.state.Position;
 
+
+/**
+ * This Class is used by the renderer to locate where the corner of 
+ * the caves are so that it can draw them correctly
+ * @author tuckergare
+ *
+ */
+
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CaveAnchorTile extends CaveTile {

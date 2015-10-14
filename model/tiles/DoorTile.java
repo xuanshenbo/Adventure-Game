@@ -10,6 +10,13 @@ import model.logic.Game.Direction;
 import model.state.Player;
 import model.state.Position;
 
+
+/**
+ * This is the dor tile, it controls when the player moves into the
+ * building and moves it to the position of the exit.
+ * @author tuckergare
+ *
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DoorTile implements Tile {
@@ -38,7 +45,12 @@ public class DoorTile implements Tile {
 	private DoorTile() {
 		this(null, null);
 	}
-
+	
+	
+	/**
+	 * When this is called the player is transported to the entry or exit
+	 * depending on what tile they entered on.
+	 */
 	@Override
 	public void move(Player player, Direction direction) {
 		if(player.getPosition() == exit){

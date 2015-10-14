@@ -16,6 +16,14 @@ import model.state.GameState;
 import model.state.Player;
 import static utilities.PrintTool.p;
 
+/**
+ * This is the parser for the server. It recieves the messages from the client
+ * and parses it into an action. It also takes actions from the game logic and
+ * parses it into messages to be sent to the client
+ * @author tuckergare
+ *
+ */
+
 public class ServerParser {
 	private Game game;
 	private Server server;
@@ -176,11 +184,11 @@ public class ServerParser {
 			message[1] = (char)(happiness +'0');
 
 		}else if(action == 'S'){// container inventory information
+			p("sending container info");
 			message = new char[tempItemArrayStorage.length+2];
 			message[0] = action;
 			for(int i = 0; i< tempItemArrayStorage.length; i++){
 				message[i+1] = tempItemArrayStorage[i];
-				p(tempItemArrayStorage[i]);
 			}
 		}else if(action == 'T'){//time of day update
 			message = new char[4];
@@ -251,7 +259,13 @@ public class ServerParser {
 		sendToServer(player, 'I');
 
 	}
-
+	
+	/**
+	 * This sends a messages to be displayed to the client in a dialog
+	 * box
+	 * @param player
+	 * @param message
+	 */
 	public void sendMessage(Player player, String message){
 		int count = 0;
 		stringMessage = new char[message.length()];
@@ -261,7 +275,13 @@ public class ServerParser {
 		}
 		sendToServer(player, 'm');
 	}
-
+	
+	/**
+	 * This method is called when the server is getting the player list and 
+	 * returns the list of active players
+	 * @param player: the active player
+	 * @param players: the list of other players
+	 */
 	public void sendPlayers(Player player, char[] players) {
 		p(player);
 		playerList = players;

@@ -10,6 +10,13 @@ import model.logic.Game.Direction;
 import model.state.Player;
 import model.state.Position;
 
+
+/**
+ * This is the cave entrance tile, it controls when the player moves into the
+ * cave and moves it to the position of the exit.
+ * @author tuckergare
+ *
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CaveEntranceTile implements Tile {
@@ -37,7 +44,11 @@ public class CaveEntranceTile implements Tile {
 	private CaveEntranceTile() {
 		this(null, null);
 	}
-
+	
+	/**
+	 * When this is called the player is transported to the entry or exit
+	 * depending on what tile they entered on.
+	 */
 	@Override
 	public void move(Player player, Direction direction) {
 		if(player.getPosition() == exit){

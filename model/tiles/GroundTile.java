@@ -12,6 +12,14 @@ import model.state.Player;
 import model.state.Position;
 import static utilities.PrintTool.p;
 
+
+/**
+ * This represents the ground tile of the area. It can be either
+ * Wood grass or rock depending on the area that it is in. We are
+ * able to move onto this type of tile
+ * @author tuckergare
+ *
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GroundTile implements Tile {

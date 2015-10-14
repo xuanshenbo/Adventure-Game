@@ -6,8 +6,7 @@
  * int trees: this is the ratio of trees in the world.
  * int buildings: this is the amount of 5 by 5 buildings
  * int caves: this is the amount of caves that are 5*10 with a 2*2 entrance
- *
- * MAJOR BUG: will infinite loop out if it cannot fit the object in the map
+ *@author tuckergare
  */
 package model.logic;
 

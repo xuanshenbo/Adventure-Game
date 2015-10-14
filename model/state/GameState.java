@@ -1,7 +1,3 @@
-/**
- * The main class that stores the state of the game.
- */
-
 package model.state;
 
 import java.util.ArrayList;
@@ -19,6 +15,12 @@ import model.items.Item;
 import model.npcs.Zombie;
 import model.tiles.Tile;
 import static utilities.PrintTool.p;
+
+/**
+ * The main class that stores the state of the game. It has no real logic
+ * but allows various methods to access parts of the game.
+ * @author tuckergare
+ */
 
 @XmlJavaTypeAdapter(GameStateAdapter.class)
 @XmlRootElement(namespace = "HappinessGame")
@@ -310,8 +312,7 @@ public class GameState {
 
 	//===================================
 	// DEBUGGING AND TESTING METHODS
-	//===================================
-
+	//===================================/**
 	/**
 	 * This method prints out the game state to the console
 	 * used for debugging.

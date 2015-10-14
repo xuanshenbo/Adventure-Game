@@ -10,6 +10,12 @@ import model.logic.Game.Direction;
 import model.state.Player;
 import model.state.Position;
 
+
+/**
+ * This is the building tile in the game, it is not able to be moved on
+ * @author tuckergare
+ *
+ */
 @XmlSeeAlso({BuildingAnchorTile.class})
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

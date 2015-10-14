@@ -5,7 +5,11 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 import model.logic.Game.Direction;
 import model.state.Player;
 import model.state.Position;
-
+/**
+ * This is the tile interface
+ * @author tuckergare
+ *
+ */
 @XmlSeeAlso({ BuildingAnchorTile.class, BuildingTile.class,
 		CaveAnchorTile.class, CaveEntranceTile.class, CaveTile.class,
 		ChestTile.class, DoorTile.class, GroundTile.class, PortalTile.class,

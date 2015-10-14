@@ -1,7 +1,3 @@
-/**
- * The holds the state of the Players in the game.
- */
-
 package model.state;
 
 import java.util.HashSet;
@@ -22,6 +18,11 @@ import model.items.Key;
 import model.tiles.ChestTile;
 import static utilities.PrintTool.p;
 
+
+/**
+ * The holds the state of the Players in the game. It also holds logic
+ * around the players happiness and if they die or not
+ */
 @XmlJavaTypeAdapter(PlayerAdapter.class)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Player {
@@ -37,8 +38,8 @@ public class Player {
 	@XmlTransient
 	private Item selectedItem = null;
 	@XmlTransient
-	private Container openContainer = null;
-	private Position startingPosition;
+	private Container openContainer = null;//this represents the open container that the player has open at the moment
+	private Position startingPosition;//the starting position of the player, they are put here when they die
 	@XmlElementWrapper
 	private Set<ChestTile> openedChests = new HashSet<ChestTile>();
 
@@ -52,17 +53,25 @@ public class Player {
 		this.id = id;
 	}
 
+	/**
+	 * Increases the players happines
+	 */
 	public void increaseHappiness() {
 		happiness++;
 		if (happiness > 9) {
 			happiness = 9;
 		}
 	}
-
+	/**
+	 * decreases the players happiness
+	 */
 	public void loseHappiness() {
 		happiness += -0.5;
 	}
-
+	
+	/**
+	 * called when teh player runs out of happiness
+	 */
 	public void die() {
 		if (happiness < 1) {
 			position = startingPosition;
@@ -85,22 +94,22 @@ public class Player {
 		}
 		return false;
 	}
-
+	/**
+	 * Sets the player to be active in the game, called when the player
+	 * joins the server
+	 */
 	public void makeActive() {
 		inGame = true;
 	}
-
+	
+	/**
+	 * Sets the player to be inactive in the game, called when teh player
+	 * leaves the server
+	 */
 	public void makeInactive() {
 		inGame = false;
 	}
 
-	public Item getSelectedItem() {
-		return selectedItem;
-	}
-
-	public void removeSelectedItem() {
-		selectedItem = null;
-	}
 
 	/**
 	 * Called when a player tries to move an item from the open container to
@@ -271,6 +280,10 @@ public class Player {
 		return startingPosition;
 	}
 
+	public Item getSelectedItem() {
+		return selectedItem;
+	}
+
 	// ================================================
 	// setters from here
 	// ================================================
@@ -301,6 +314,10 @@ public class Player {
 
 	public void setSelectedItem(Item selectedItem) {
 		this.selectedItem = selectedItem;
+	}
+
+	public void removeSelectedItem() {
+		selectedItem = null;
 	}
 
 }

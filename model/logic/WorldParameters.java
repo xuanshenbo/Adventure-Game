@@ -1,11 +1,14 @@
-/**
- * This is a wrapper class to hold the parameters for the random world
- * to be generated with.
- */
+
 
 package model.logic;
 
 import static utilities.PrintTool.p;
+
+/**
+ * This is a wrapper class to hold the parameters for the random world
+ * to be generated with. It is unused now but can be used for testing of the
+ * world
+ */
 
 public class WorldParameters {
 

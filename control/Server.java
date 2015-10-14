@@ -199,14 +199,14 @@ public class Server extends Thread{
 					}
 
 					//The following prints the message received from the client
-					/*String input = "";
+					String input = "";
 					for(int i=0; i<message.length; i++){
 						if(message[i] == '\0' || message[i] == '\r' || message[i] == '\n') break;
 						input += message[i];
 					}
 
 					System.out.println("======================"+input+"====================");//debug
-*/
+
 					game.getParser().processClientEvent(message, out, id);
 				}
 

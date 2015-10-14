@@ -10,6 +10,11 @@ import model.logic.Game.Direction;
 import model.state.Player;
 import model.state.Position;
 
+/**
+ * Not implemented
+ * @author tuckergare
+ *
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PortalTile implements Tile {

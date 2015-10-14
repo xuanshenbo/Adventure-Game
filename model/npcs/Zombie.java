@@ -1,8 +1,4 @@
-/**
- * This is a Zombie that moves around the world independently,
- * create it with a position and a strategy that controls how
- * it moves around.
- */
+
 
 package model.npcs;
 
@@ -12,6 +8,13 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import model.state.Area;
 import model.state.Position;
+
+
+/**
+ * This is a Zombie that moves around the world independently,
+ * create it with a position and a strategy that controls how
+ * it moves around.
+ */
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Zombie {

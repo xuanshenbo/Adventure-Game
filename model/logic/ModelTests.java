@@ -1,3 +1,8 @@
+/**
+ * Testing class
+ * @author tuckergare
+ */
+
 package model.logic;
 
 import static org.junit.Assert.*;

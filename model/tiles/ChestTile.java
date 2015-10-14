@@ -16,6 +16,13 @@ import model.state.Player;
 import model.state.Position;
 import static utilities.PrintTool.p;
 
+
+/**
+ * This is the chest tile in the game. It can be opened with a key
+ * and holds a list of inventory
+ * @author tuckergare
+ *
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ChestTile implements Tile, Container{

@@ -10,6 +10,11 @@ import model.logic.Game.Direction;
 import model.state.Player;
 import model.state.Position;
 
+/**
+ * This represnts a tree in the game, the player cannot move onto a tree
+ * @author tuckergare
+ *
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TreeTile implements Tile {
