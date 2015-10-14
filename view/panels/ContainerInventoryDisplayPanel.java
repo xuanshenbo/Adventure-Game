@@ -83,7 +83,7 @@ public class ContainerInventoryDisplayPanel extends JPanel {
 				ImageIcon icon = new ImageIcon(image);
 				imageLabel.setIcon(icon);
 
-				item = new HappinessRadioButton(contents.get(i));
+				item = new HappinessRadioButton(name);
 
 			}
 			else{

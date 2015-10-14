@@ -97,7 +97,7 @@ public class WelcomePanel extends JPanel{
 		//create the cupcake image and put on jlabel
 		//imagePanel = new JPanel();
 
-		welcomeImage = ImageLoader.loadImage("cupcake.png");
+		welcomeImage = ImageLoader.loadImage("welcomecupcake.png");
 		welcomeImage = welcomeImage.getScaledInstance(imageSize.width, imageSize.height, -1);
 		ImageIcon icon = new ImageIcon(welcomeImage);
 		JLabel thumb = new JLabel();
