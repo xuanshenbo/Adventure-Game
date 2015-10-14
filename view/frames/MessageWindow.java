@@ -112,4 +112,8 @@ public class MessageWindow extends JFrame {
 		add(ok, BorderLayout.CENTER);
 	}
 
+	public static void main(String[] args) {
+		new MessageWindow("Testing", null);
+	}
+
 }

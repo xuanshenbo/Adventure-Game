@@ -16,7 +16,6 @@ import control.Client;
 import control.ClockThread;
 import control.Server;
 import dataStorage.Deserializer;
-import dataStorage.xstream.SerializerXStream;
 import interpreter.ButtonStrategy;
 import interpreter.KeyStrategy;
 import interpreter.MenuStrategy;
@@ -68,7 +67,6 @@ public class Main {
 	 */
 	public static void oldGame(){
 		GameState toLoad = null;
-		//toLoad = SerializerXStream.deserialize("sample.xml");
 		try {
 			toLoad = Deserializer.deserialize();
 			if (toLoad == null) {
