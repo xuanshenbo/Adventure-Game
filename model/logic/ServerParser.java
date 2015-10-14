@@ -9,7 +9,6 @@ import javax.xml.bind.JAXBException;
 import control.Server;
 import dataStorage.Deserializer;
 import dataStorage.Serializer;
-import dataStorage.xstream.SerializerXStream;
 import model.items.Item;
 import model.logic.Game.Direction;
 import model.state.GameState;
@@ -79,12 +78,11 @@ public class ServerParser {
 			}
 			break;
 		case 'Y'://Save As
-/*			try {
+			try {
 				Serializer.serializeAs(game.getGameState());
 			} catch (JAXBException e) {
 				e.printStackTrace();
-			}*/
-			SerializerXStream.serialize(game.getGameState());
+			}
 			break;
 		case 'L'://Loading game
 			try {
