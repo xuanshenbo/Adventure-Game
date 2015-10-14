@@ -18,7 +18,10 @@ public class ClientParser {
 	private Client client;
 	private GameFrame frame;
 
-
+	/**
+	 * The following constructs a ClientParser for the given Client.
+	 * @param c The Client.
+	 */
 	public ClientParser(Client c){
 		client = c;
 	}
@@ -31,8 +34,9 @@ public class ClientParser {
 		this.frame = frame;
 	}
 
-	/*
+	/**
 	 * The following processes the message received from the server
+	 * @param message The message read from the server over the socket
 	 */
 	public void processMessage(char[] message){
 		switch(message[0]){

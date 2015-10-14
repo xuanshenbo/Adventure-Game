@@ -100,8 +100,8 @@ public class Main {
 
 	/**
 	 * Sets up the network for client only mode
-	 * @param adr
-	 * @param port
+	 * @param adr The InetAddress
+	 * @param port The port number
 	 * @throws IOException
 	 */
 	public static void clientMode(InetAddress adr, int port, int uid) throws IOException{
@@ -128,8 +128,8 @@ public class Main {
 
 	/**
 	 * The following creates a client specifically for choosing avatar
-	 * @param adr
-	 * @param port
+	 * @param adr The InetAddress
+	 * @param port The port number
 	 * @throws IOException
 	 */
 	public static void avatarClient(InetAddress adr, int port) throws IOException{
@@ -156,6 +156,10 @@ public class Main {
 
 	}
 
+	/**
+	 * The following creates and displays the main game frame and starts the ticking of the clock
+	 * @throws IOException
+	 */
 	public static void displayMainGameFrame() throws IOException{
 		closeWelcome();
 
@@ -200,13 +204,16 @@ public class Main {
 
 	}
 
+	/**
+	 * The following closes the welcome panel
+	 */
 	public static void closeWelcome() {
 		initial.getFrame().dispose();
 	}
 
 	/**
 	 * A getter for Initialisation
-	 * @return
+	 * @return initial
 	 */
 	public static Initialisation getInitial() {
 		return initial;
@@ -224,7 +231,7 @@ public class Main {
 
 	/**
 	 * A setter for IP address
-	 * @param ip
+	 * @param ip The ip address in String
 	 */
 	public static void setIP(String ip) {
 		ipAddress = ip;
@@ -232,7 +239,7 @@ public class Main {
 
 	/**
 	 * a getter for server
-	 * @return
+	 * @return server
 	 */
 	public static Server getServer() {
 		return server;
@@ -240,7 +247,7 @@ public class Main {
 
 	/**
 	 * set the ip string on the frame
-	 * @param ip
+	 * @param ip The ip address in String
 	 */
 	public static void setFrameIP(String ip){
 		frame.setIP(ipAddress);
@@ -248,7 +255,7 @@ public class Main {
 
 	/**
 	 * Check if the ip address in null at this stage
-	 * @return
+	 * @return true if ipAddress is null; false otherwise
 	 */
 	public static boolean ipIsNull(){
 		return ipAddress == null;

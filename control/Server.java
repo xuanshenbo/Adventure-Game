@@ -39,10 +39,10 @@ public class Server extends Thread{
 
 	/**
 	 * The following is a server constructed by taking all the parameters chosen by the user
-	 * @param height
-	 * @param width
-	 * @param density
-	 * @param difficulty
+	 * @param height The height of the game
+	 * @param width The width of the game
+	 * @param density The density of trees and buildings
+	 * @param difficulty Affects number of zombies and chests
 	 */
 	public Server(int height, int width, int density, String difficulty) {
 
@@ -111,7 +111,7 @@ public class Server extends Thread{
 
 	/**
 	 * a getter for the game
-	 * @return
+	 * @return game
 	 */
 	public Game getGame() {
 		return game;
@@ -143,7 +143,7 @@ public class Server extends Thread{
 		}
 	}
 
-	/**
+	/*
 	 * The following creates a thread that is always listening to the client that establishes the socket connection
 	 * @author yanlong
 	 *
