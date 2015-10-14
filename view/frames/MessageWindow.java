@@ -28,6 +28,8 @@ public class MessageWindow extends JFrame {
 
 	private HappinessButton ok;
 
+	private GameFrame gameFrame;
+
 	private JPanel messagePanel;
 
 	private String msg;
@@ -44,8 +46,10 @@ public class MessageWindow extends JFrame {
 	 * @param msg The message to display
 	 * @param d The dialog displaying the inventory
 	 */
-	public MessageWindow(String msg, Dialog d) {
+	public MessageWindow(String msg, Dialog d, GameFrame g) {
 		super(title);
+
+		this.gameFrame = g;
 
 		this.msg = msg;
 
@@ -84,7 +88,12 @@ public class MessageWindow extends JFrame {
 
 	private void displayWindow() {
 		pack();
-		setLocationRelativeTo(null);
+		if(gameFrame == null){
+			setLocationRelativeTo(dialog);
+		}
+		else{
+			setLocationRelativeTo(gameFrame);
+		}
 		setVisible(true);
 	}
 

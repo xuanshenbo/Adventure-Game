@@ -281,7 +281,7 @@ private MessageWindow messageWindow;
 //		if(messageWindow != null){
 //			messageWindow.setVisible(false);
 //		}
-		MessageWindow m = new MessageWindow(msg, null);
+		MessageWindow m = new MessageWindow(msg, null, this);
 //		messageWindow = new MessageWindow(msg);
 //		messageWindow.setVisible(true);
 	}

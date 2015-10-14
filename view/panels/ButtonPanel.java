@@ -29,7 +29,7 @@ public class ButtonPanel extends JPanel {
 
 	private HappinessButton inventory;
 	private HappinessButton team;
-	private GameFrame containerFrame;
+	private GameFrame gameFrame;
 
 	private HappinessButton loadGame = new HappinessButton("Load saved game");
 	private HappinessButton newGame = new HappinessButton("Start new game");
@@ -56,14 +56,14 @@ public class ButtonPanel extends JPanel {
 	public ButtonPanel(GameFrame container, StrategyInterpreter interpreter,
 			Command state) {
 		buttonInterpreter = interpreter;
-		containerFrame = container;
+		gameFrame = container;
 
 		// make buttons layout top to bottom
 		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.LINE_AXIS);
 		setLayout(boxLayout);
 
 		if (state.equals(Command.MAIN)) {
-			if (containerFrame != null) {
+			if (gameFrame != null) {
 				CreateMainButtons();
 			} else {
 				throw new IllegalArgumentException(
@@ -126,7 +126,9 @@ public class ButtonPanel extends JPanel {
 	 * @param d The dialog on which this panel lies.
 	 */
 	public ButtonPanel(Command state,
-			StrategyInterpreter buttonInterp, Dialog d) {
+			StrategyInterpreter buttonInterp, Dialog d, GameFrame g) {
+		this.gameFrame = g;
+
 		this.dialog = d;
 
 		this.buttonInterpreter = buttonInterp;
@@ -200,9 +202,9 @@ public class ButtonPanel extends JPanel {
 						dialog.setVisible(false);
 
 						//Create and display a message window
-
-						MessageWindow window = new MessageWindow("Now select where to move the item", dialog);
-
+						System.out.println("GF: "+gameFrame);
+						MessageWindow window = new MessageWindow("Now select where to move the item", dialog, gameFrame);
+						System.out.println("DIA: "+dialog);
 						//change button text
 						moveToBag.setText("Move to this slot");
 						movePressed = true;
@@ -418,11 +420,11 @@ public class ButtonPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String teamMember1 = containerFrame.getTeamMember1();
-				String teamMember2 = containerFrame.getTeamMember2();
+				String teamMember1 = gameFrame.getTeamMember1();
+				String teamMember2 = gameFrame.getTeamMember2();
 
 				MessageWindow notifyUser = new MessageWindow("Your team includes " + teamMember1 + " and "
-								+ teamMember2, null);
+						+ teamMember2, null, gameFrame);
 
 			}
 		});

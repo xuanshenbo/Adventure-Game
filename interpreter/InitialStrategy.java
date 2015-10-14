@@ -107,13 +107,7 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 		int avatarInteger = Avatar.getAvatarAsInteger(a);
 		Translator.InitialisationCommand cmd = Translator.InitialisationCommand.SELECTED_AVATAR;
 
-		//The msg contains the code for avatar selection
-		String msg = Translator.encode(cmd);
-		//add to the msg the integer corresponding to which avatar was chosen
-		msg += avatarInteger;
-
 		initialisation.setChosenAvatar(a);
-
 
 		if(Main.getServer() != null){
 			Main.connectClient(avatarInteger);
@@ -168,24 +162,6 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 			//now display the options of loading a game, or starting a new one
 			initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.SHOW_LOAD_OR_NEW_OPTION);
 		}
-
-		/*
-		if(initState.equals(Translator.InitialisationState.SELECTED_CLIENT)){
-			//testing for now to use a fixed IP
-			InetAddress adr = null;
-			try {
-
-				adr = InetAddress.getByName("130.195.6.190");
-				Main.clientMode(adr, 8888);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-		}*/
-
-		/*if(initState.equals(Translator.InitialisationCommand.SELECTED_CLIENT_AND_SERVER)){
-			Main.serverClient();
-		}*/
 
 		else if(initState.equals(Translator.InitialisationCommand.START_GAME)){
 			initialisation.displayMainGameFrame();
