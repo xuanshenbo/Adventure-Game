@@ -46,8 +46,6 @@ public class Player {
 		this.position = p;
 		this.startingPosition = p;
 		this.id = id;
-		// inventory[0] = new Bag();
-		// inventory[1] = new Key();
 	}
 
 	public Player(int id) {
@@ -55,7 +53,7 @@ public class Player {
 	}
 
 	public void increaseHappiness() {
-		happiness += 0.5;
+		happiness++;
 		if (happiness > 9) {
 			happiness = 9;
 		}
@@ -112,7 +110,6 @@ public class Player {
 	 */
 
 	public void moveToInventory(int containerSlot) {
-		p(containerSlot);
 		Item item = openContainer.getItem(containerSlot);
 		boolean added = addItemToInventory(item);
 		if (added) {

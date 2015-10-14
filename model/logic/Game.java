@@ -189,6 +189,7 @@ public class Game {
 						parser.sendMessage(player, "You died! Start again");
 						parser.sendToServer(player, 'H');
 					}
+					p("Happiness:"+player.getHappiness());
 					parser.sendToServer(player, 'H');
 				}
 			}
@@ -290,14 +291,12 @@ public class Game {
 
 		} else if (direction == Direction.RIGHT) {
 			if (x == areaArray[0].length - 1) {
-				p();
 				return null;
 			}
 			return areaArray[y][x + 1];
 
 		} else if (direction == Direction.LEFT) {
 			if (x == 0) {
-				p();
 				return null;
 			}
 			return areaArray[y][x - 1];
@@ -322,7 +321,7 @@ public class Game {
 
 	public void use(Player player, int inventorySlot){
 		Item item = player.getItemFromInventory(inventorySlot);
-		if(item != null){
+		if(item != null && !(item instanceof Bag)){
 			parser.sendMessage(player, "You used "+item);
 		}
 		if(item != null){

@@ -77,7 +77,13 @@ public class YesNoOptionWindow extends JFrame{
 
 	private void displayWindow() {
 		pack();
-		setLocationRelativeTo(null);
+		//set location relative to the window containing this frame
+		if(welcomeFrame == null){
+			setLocationRelativeTo(gameFrame);
+		}
+		else{
+			setLocationRelativeTo(welcomeFrame);
+		}
 		setVisible(true);
 
 	}

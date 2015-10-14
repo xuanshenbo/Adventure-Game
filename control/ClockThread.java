@@ -20,6 +20,11 @@ public class ClockThread extends Thread{
 	final int delay; // the delay between pulses.
 	final GameCanvas canvas;
 
+	/**
+	 * The following constructs a ClockThread with the given delay parameter. It will update the given GameCanvas.
+	 * @param d The delay time of the thread.
+	 * @param canvas The GameCanvas of the game.
+	 */
 	public ClockThread(int d, GameCanvas canvas){
 		this.delay = d;
 		this.canvas = canvas;

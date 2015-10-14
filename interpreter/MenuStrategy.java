@@ -21,11 +21,22 @@ public class MenuStrategy implements StrategyInterpreter.Strategy{
 	private StrategyInterpreter interpreter;
 	private GameFrame gameFrame;
 
+	/**
+	 * Assigns the interpreter, and game frame two fields.
+	 * @param menuInterpreter The interpreter using this strategy
+	 * @param g The GameFrame on which the menu bar lies
+	 */
 	public MenuStrategy(StrategyInterpreter menuInterpreter, GameFrame g) {
 		this.interpreter = menuInterpreter;
 		this.gameFrame = g;
 	}
 
+	/**
+	 * This method performs the logic required after the user chooses a
+	 * menu bar option.
+	 * Often this involves sending an appropriately encoded message
+	 * across the network.
+	 */
 	@Override
 	public void notify(String text) {
 

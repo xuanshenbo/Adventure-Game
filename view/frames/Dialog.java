@@ -31,7 +31,7 @@ import main.Initialisation;
  */
 public class Dialog extends JDialog implements ActionListener {
 
-	private GameFrame parentFrame;
+	private GameFrame gameFrame;
 
 	private Avatar chosenAvatar;
 
@@ -63,7 +63,7 @@ public class Dialog extends JDialog implements ActionListener {
 
 		getContentPane().setLayout( new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
 
-		parentFrame = gameFrame;
+		this.gameFrame = gameFrame;
 
 		messagePane = new JPanel();
 		messageLabel = new HappinessLabel(msg);
@@ -156,10 +156,17 @@ public class Dialog extends JDialog implements ActionListener {
 		add(ok);
 	}
 
+	//display the dialog
 	private void displayDialog() {
-		//display the dialog
 		pack();
-		setLocationRelativeTo(null);
+
+		//make this dialog center in the frame in which it is contained
+		if(gameFrame == null ){
+			setLocationRelativeTo(initialisation.getWelcomePanel());
+		}
+		else{
+			setLocationRelativeTo(gameFrame);
+		}
 		setVisible(true);
 	}
 
@@ -172,7 +179,6 @@ public class Dialog extends JDialog implements ActionListener {
 		ButtonGroup group = new ButtonGroup();
 
 		for(final Avatar a: availAvatars){
-			//System.out.println("Dialog 186: "+a.toString());//debug
 			HappinessRadioButton avatar = new HappinessRadioButton(a.toString());
 
 			ItemListener radioListener = new ItemListener(){
@@ -196,8 +202,8 @@ public class Dialog extends JDialog implements ActionListener {
 	 * Retrieves the inventory from the GameFrame and displays a String description of each item on screen.
 	 */
 	private void displayInventory() {
-		ContainerInventoryDisplayPanel radioPanel = new ContainerInventoryDisplayPanel(parentFrame.getInventoryContents(),
-				parentFrame.getRadioInterpreter(), this, state);
+		ContainerInventoryDisplayPanel radioPanel = new ContainerInventoryDisplayPanel(gameFrame.getInventoryContents(),
+				gameFrame.getRadioInterpreter(), this, state);
 		add(radioPanel);
 		revalidate();
 	}
@@ -206,8 +212,8 @@ public class Dialog extends JDialog implements ActionListener {
 	 * Retrieves the container contents from the GameFrame and displays a String description of each item on screen.
 	 */
 	private void displayContainer() {
-		ContainerInventoryDisplayPanel radioPanel = new ContainerInventoryDisplayPanel(parentFrame.getContainerContents(),
-				parentFrame.getRadioInterpreter(), this, state);
+		ContainerInventoryDisplayPanel radioPanel = new ContainerInventoryDisplayPanel(gameFrame.getContainerContents(),
+				gameFrame.getRadioInterpreter(), this, state);
 		add(radioPanel);
 		revalidate();
 
@@ -239,7 +245,7 @@ public class Dialog extends JDialog implements ActionListener {
 		if(validInput){
 			setVisible(false);
 			dispose();
-			if(parentFrame != null) parentFrame.setVisible(true);
+			if(gameFrame != null) gameFrame.setVisible(true);
 		}
 	}
 
@@ -249,10 +255,10 @@ public class Dialog extends JDialog implements ActionListener {
 	 */
 	public void displayItemOptions(boolean isInventory) {
 		if(isInventory){
-			this.itemOptions = new ButtonPanel(Command.DISPLAY_INVENTORY_ITEM_OPTIONS, parentFrame.getButtonInterpreter(), this);
+			this.itemOptions = new ButtonPanel(Command.DISPLAY_INVENTORY_ITEM_OPTIONS, gameFrame.getButtonInterpreter(), this, gameFrame);
 		}
 		else{
-			this.itemOptions = new ButtonPanel(Command.DISPLAY_CONTAINER_ITEM_OPTIONS, parentFrame.getButtonInterpreter(), this);
+			this.itemOptions = new ButtonPanel(Command.DISPLAY_CONTAINER_ITEM_OPTIONS, gameFrame.getButtonInterpreter(), this, gameFrame);
 		}
 		remove(ok);
 		add(itemOptions);

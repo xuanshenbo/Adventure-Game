@@ -46,7 +46,6 @@ public class ContainerInventoryDisplayPanel extends JPanel {
 	 * @param radioInterp The strategyinterpreter which interprets radio button action events
 	 */
 	public ContainerInventoryDisplayPanel(ArrayList<String> contents, StrategyInterpreter buttonInterp, Dialog d, Command st) {
-		System.out.println(st);
 
 		this.state = st;
 

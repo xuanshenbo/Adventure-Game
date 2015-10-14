@@ -25,14 +25,23 @@ import main.Main;
  * @author  flanagdonn
  */
 public class InitialStrategy implements StrategyInterpreter.Strategy{
-	//private Initialisation s;
+
 	private String ip;
 	private Initialisation initialisation;
 
+	/**
+	 * assigns the initialisation object as this strategy's interpreter
+	 * @param i The initialisation StrategyInterpreter
+	 */
 	public InitialStrategy(Initialisation i){
 		initialisation = i;
 	}
 
+	/**
+	 * This method performs the logic required after user input.
+	 * Often this involves sending an appropriately encoded message
+	 * across the network, and transitioning to a new state.
+	 */
 	@Override
 	public void notify(String text) throws IOException {
 
@@ -44,13 +53,6 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 		}
 		else if(Avatar.isAvatar(text)){
 			notifyAvatar(text);
-		}
-		else if(text.startsWith("open")){
-			Scanner sc = new Scanner(text);
-			String command = sc.next(); //should be "open"
-			String filename = sc.next();
-			//notify game passing it the filename
-			sc.close();
 		}
 		else if(text.startsWith("parameters")){
 			Scanner sc = new Scanner(text);
@@ -77,7 +79,14 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 				//request available avatars from game, as this will be required in the next step
 				Translator.InitialisationCommand cmd = Translator.InitialisationCommand.GET_AVAILABLE_AVATARS;
 				String msg = Translator.encode(cmd);
-				initialisation.getClient().send(msg);
+
+				if(initialisation.getClient() == null){
+					initialisation.getWelcomePanel().setValidIP(false);
+					initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.CONNECT_TO_SERVER);
+				}
+				else{
+					initialisation.getClient().send(msg);
+				}
 
 				//initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.LOAD_SAVED_PLAYER);
 			}
@@ -92,19 +101,16 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 		}
 	}
 
-	//receive information about the avatar chosen, and select the encoded message to the Model via the network
+	/*
+	 * receive information about the avatar chosen, and select the encoded message to the Model via the network
+	 * @author yanlong, flanagdonn
+	 */
 	private void notifyAvatar(String text) {
 		Avatar a = Avatar.toAvatar(text);
 		int avatarInteger = Avatar.getAvatarAsInteger(a);
 		Translator.InitialisationCommand cmd = Translator.InitialisationCommand.SELECTED_AVATAR;
 
-		//The msg contains the code for avatar selection
-		String msg = Translator.encode(cmd);
-		//add to the msg the integer corresponding to which avatar was chosen
-		msg += avatarInteger;
-
 		initialisation.setChosenAvatar(a);
-
 
 		if(Main.getServer() != null){
 			Main.connectClient(avatarInteger);
@@ -159,24 +165,6 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 			//now display the options of loading a game, or starting a new one
 			initialisation.getWelcomePanel().transitionToNewState(Translator.InitialisationCommand.SHOW_LOAD_OR_NEW_OPTION);
 		}
-
-		/*
-		if(initState.equals(Translator.InitialisationState.SELECTED_CLIENT)){
-			//testing for now to use a fixed IP
-			InetAddress adr = null;
-			try {
-
-				adr = InetAddress.getByName("130.195.6.190");
-				Main.clientMode(adr, 8888);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-		}*/
-
-		/*if(initState.equals(Translator.InitialisationCommand.SELECTED_CLIENT_AND_SERVER)){
-			Main.serverClient();
-		}*/
 
 		else if(initState.equals(Translator.InitialisationCommand.START_GAME)){
 			initialisation.displayMainGameFrame();
