@@ -132,12 +132,4 @@ public class MessageWindow extends JFrame {
 
 	}
 
-	public static void main(String[] args){
-		new MessageWindow("Testing", null);
-	}
-
-	public static void main(String[] args) {
-		new MessageWindow("Testing", null);
-	}
-
 }
