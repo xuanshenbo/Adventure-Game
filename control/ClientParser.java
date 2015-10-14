@@ -18,10 +18,6 @@ public class ClientParser {
 	private Client client;
 	private GameFrame frame;
 
-	/**
-	 * The following constructs a ClientParser for the Client parameter given
-	 * @param c
-	 */
 	public ClientParser(Client c){
 		client = c;
 	}
@@ -53,11 +49,9 @@ public class ClientParser {
 			readMap(message);
 			break;
 		case 'I'://inventory information
-			p("received inventory information");
 			readInventory(message);
 			break;
 		case 'S'://container information
-			p("Received S");
 			readContainer(message);
 			break;
 		case 'T'://time of day

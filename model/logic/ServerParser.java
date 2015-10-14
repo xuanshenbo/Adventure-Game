@@ -170,16 +170,15 @@ public class ServerParser {
 
 		}else if(action == 'H'){// player happiness
 			int happiness = player.getHappiness();
+			p("sending Happiness");
 			message = new char[3];
 			message[0] = action;
 			message[1] = (char)(happiness +'0');
 
 		}else if(action == 'S'){// container inventory information
-			p("sending S");
 			message = new char[tempItemArrayStorage.length+2];
 			message[0] = action;
 			for(int i = 0; i< tempItemArrayStorage.length; i++){
-				p(tempItemArrayStorage[i]);
 				message[i+1] = tempItemArrayStorage[i];
 			}
 		}else if(action == 'T'){//time of day update
