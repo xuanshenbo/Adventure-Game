@@ -142,7 +142,7 @@ public class Dialog extends JDialog implements ActionListener {
 
 		messagePane = new JPanel();
 		messageLabel = new HappinessLabel(message);
-
+		messageLabel.createHeader(16);
 		messagePane.add(messageLabel);
 		add(messagePane);
 	}
