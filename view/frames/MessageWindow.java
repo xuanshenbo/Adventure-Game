@@ -82,30 +82,6 @@ public class MessageWindow extends JFrame {
 
 	}
 
-	/*	*//**
-	 * This constructor creates a message window for use
-	 * in any circumstance where the user needs to be notified
-	 * of something.
-	 *  @param msg The message to display to the user
-	 *//*
-	public MessageWindow(String msg) {
-		super(title);
-
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
-		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
-
-		messageLabel = new HappinessLabel(msg);
-
-		//add(messageLabel, BorderLayout.NORTH);
-		add(messageLabel);
-
-		addOKButton();
-
-		displayWindow();
-
-	}*/
-
 	private void displayWindow() {
 		pack();
 		setLocationRelativeTo(null);
@@ -147,13 +123,9 @@ public class MessageWindow extends JFrame {
 
 		ok.setMnemonic(KeyEvent.VK_ENTER);
 
-		//int padding = (messageLabel.getPreferredSize().width - ok.getPreferredSize().width) /2;
-
 		int padding = GameFrame.BUTTON_PADDING_HORIZONTAL;
 
 		buttonPanel.add(Box.createRigidArea(new Dimension(padding, 0)));
-
-		//	ok.setSize(new Dimension(50, 30));
 
 		buttonPanel.add(ok);
 		buttonPanel.add(Box.createRigidArea(new Dimension(padding, 0)));

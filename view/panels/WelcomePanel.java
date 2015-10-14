@@ -16,10 +16,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import dataStorage.Deserializer;
 import view.frames.Dialog;
 import view.frames.GameFrame;
+import view.frames.WelcomeFrame;
 import view.utilities.ImageLoader;
 import main.Initialisation;
 import main.Main;
@@ -42,6 +44,8 @@ public class WelcomePanel extends JPanel{
 	private Initialisation initialisation;
 
 	private Dimension imageSize = new Dimension(850, 400);
+
+	private JPanel imagePanel;
 
 	//static so as to be used in parent constructor
 	private static String welcome = "Game of Happiness!";
@@ -96,14 +100,18 @@ public class WelcomePanel extends JPanel{
 		add(welcomeMessage, BorderLayout.NORTH);
 
 		//create the cupcake image and put on jlabel
+		imagePanel = new JPanel();
+
 		welcomeImage = ImageLoader.loadImage("cupcake.png");
 		welcomeImage = welcomeImage.getScaledInstance(imageSize.width, imageSize.height, -1);
 		ImageIcon icon = new ImageIcon(welcomeImage);
 		JLabel thumb = new JLabel();
 		thumb.setIcon(icon);
 
+		imagePanel.add(thumb);
+
 		//add the cupcake image to panel
-		add(thumb, BorderLayout.CENTER);
+		add(imagePanel, BorderLayout.CENTER);
 
 		//create a button panel and add to this panel
 		bPanel = new ButtonPanel(this, state, initialisation);

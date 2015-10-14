@@ -51,6 +51,10 @@ public class WelcomeFrame extends JFrame {
 		//add a pink border around the whole frame
 		getRootPane().setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.PINK));
 
+		pack();
+		setLocationRelativeTo(null);
+		setVisible(true);
+
 	}
 
 	/**
