@@ -34,16 +34,22 @@ public class Bag extends Item implements Container {
 	}
 
 	/**
-	 *
+	 *This method is called when the bag is first made and fill the bag
+	 *with random objects from the game.
 	 */
 	public void fillBag(){
 		for(int i = 0; i < inventory.length; i++){
 			inventory[i] = Generator.randomItem();
 		}
 	}
-
+	
+	/**
+	 * This is called when the player uses an item, it returns the inventory
+	 * of the bag.
+	 */
 	@Override
 	public Item[] use(Player player) {
+		p();
 		return inventory;
 	}
 
@@ -51,7 +57,12 @@ public class Bag extends Item implements Container {
 	public Item getItem(int containerSlot) {
 		return inventory[containerSlot];
 	}
-
+	
+	/**
+	 * This is when the player tries to add objects to the bag
+	 * @param: the item to be added to the bag
+	 * @return: whether the item was added to the bag successfully
+	 */
 	@Override
 	public boolean addItem(Item item) {
 		for(int i = 0; i<inventory.length; i++){
@@ -62,7 +73,12 @@ public class Bag extends Item implements Container {
 		}
 		return false;
 	}
-
+	
+	/**
+	 * This method removes the Item with the id from the bag
+	 * @param: the id of the item to be removed
+	 * @return: the item being removed
+	 */
 	@Override
 	public Item removeItemId(int id) {
 		for(int i = 0; i<inventory.length; i++){
@@ -74,13 +90,21 @@ public class Bag extends Item implements Container {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * Removes the item from the bag that is in the container slot
+	 * @param: The slot of the bag
+	 */
 	@Override
 	public void removeItemSlot(int containerSlot) {
 		inventory[containerSlot] = null;
 
 	}
-
+	
+	/**
+	 * This method returns the inventory of the bag
+	 * @return: the inventory of the bag
+	 */
 	@Override
 	public Item[] open() {
 

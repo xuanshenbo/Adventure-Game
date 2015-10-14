@@ -118,6 +118,7 @@ public class ButtonStrategy implements StrategyInterpreter.Strategy{
 		//if the player is trying to perform a non-move action on an item
 		else if(cmd.equals(Command.DROP) ||
 				cmd.equals(Command.USE)){
+			p();
 
 			//if they have selected an item
 			if(selectedItem!=-1){

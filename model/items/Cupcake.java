@@ -1,3 +1,9 @@
+/**
+ * This represents the cupcake item in the world that increases happiness
+ * when used.
+ * @author tuckergare
+ */
+
 package model.items;
 
 import javax.xml.bind.annotation.XmlAccessType;

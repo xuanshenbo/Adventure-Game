@@ -1,3 +1,8 @@
+/**
+ * Interface of items that are usable
+ * @author tuckergare
+ */
+
 package model.items;
 
 import javax.xml.bind.annotation.XmlSeeAlso;

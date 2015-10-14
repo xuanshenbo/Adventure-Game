@@ -68,8 +68,6 @@ public class ChestTile implements Tile, Container{
 	 */
 	@Override
 	public Item getItem(int containerSlot) {
-		p("ContainerSlot:"+containerSlot);
-		p("Displaying chest items");
 		for(int i = 0; i< inventory.length; i++){
 			System.out.print(inventory[i]+" ");
 		}

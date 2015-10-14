@@ -1,3 +1,7 @@
+/**
+ * The item interface that holds all the 
+ */
+
 package model.items;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -6,11 +10,6 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 
 import model.state.Player;
 
-/**
- * 0..* of these inside a player inventory
- * @author flanagdonn
- *
- */
 @XmlSeeAlso({ Bag.class, Cupcake.class, Key.class, Pumpkin.class })
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class Item {

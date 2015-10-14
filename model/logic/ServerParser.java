@@ -180,6 +180,7 @@ public class ServerParser {
 			message[0] = action;
 			for(int i = 0; i< tempItemArrayStorage.length; i++){
 				message[i+1] = tempItemArrayStorage[i];
+				p(tempItemArrayStorage[i]);
 			}
 		}else if(action == 'T'){//time of day update
 			message = new char[4];
