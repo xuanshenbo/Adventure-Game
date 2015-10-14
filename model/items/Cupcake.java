@@ -1,13 +1,14 @@
 package model.items;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import model.state.Player;
 
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Cupcake extends Item implements Consumable{
-
-
 
 	public Cupcake() {
 		super('c');

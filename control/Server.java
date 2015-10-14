@@ -30,43 +30,30 @@ import static utilities.PrintTool.p;
  */
 public class Server extends Thread{
 	public final static int PORT = 8888;
-	//private final static Logger auditLogger = Logger.getLogger("requests");
-	//private final static Logger errorLogger = Logger.getLogger("errors");
 	private InetAddress address;
 	private ServerSocket server;
-	private char[] map;
-	private int mapRow;
-	private int mapCol;
-	//private int uid = 1; //uid starts from 1
-	private Writer[] writers = new Writer[5];//writer[0] will be null. only 1-4 will be used
+	private Writer[] writers = new Writer[5];//writer[0] is for the avatar client. 1-4 will be used for plays 1-4
 	private boolean exit;
-
-	//private Queue<char[]> instructions = new ArrayDeque<char[]>();//debug, should be commented out
 	private Game game;
 
-
-
-
+	/**
+	 * The following is a server constructed by taking all the parameters chosen by the user
+	 * @param height
+	 * @param width
+	 * @param density
+	 * @param difficulty
+	 */
 	public Server(int height, int width, int density, String difficulty) {
-		//System.out.println(Server.class.getClassLoader().getResource("requests"));
-/*		WorldParameters world = new WorldParameters(para[0],para[1],para[2],false);
-		world.setTrees(para[3]);
-		world.setBuildings(para[4]);
-		world.setCaves(para[5]);
-		world.setChests(para[6]);
-		world.setLootValue(para[7]);*/
 
-		//game= new Game(this, world, false);
 		game = new Game(this, height, width, difficulty, density);
 
-		//game = new Game(Server server, int height, int width, String difficulty("easy", "medium", "hard", int density(1-100))
 		try{
 			server = new ServerSocket(PORT, 50, InetAddress.getLocalHost());
 			address = server.getInetAddress();
 		} catch (IOException ex) {
-			//errorLogger.log(Level.SEVERE, "Couldn't start server", ex);
+			//ignore
 		} catch (RuntimeException ex) {
-			//errorLogger.log(Level.SEVERE, "Couldn't start server: " + ex.getMessage(), ex);
+			//ignore
 		}
 	}
 
@@ -79,9 +66,9 @@ public class Server extends Thread{
 			server = new ServerSocket(PORT, 50, InetAddress.getLocalHost());
 			address = server.getInetAddress();
 		} catch (IOException ex) {
-			//errorLogger.log(Level.SEVERE, "Couldn't start server", ex);
+			//ignore
 		} catch (RuntimeException ex) {
-			//errorLogger.log(Level.SEVERE, "Couldn't start server: " + ex.getMessage(), ex);
+			//ignore
 		}
 	}
 
@@ -93,27 +80,18 @@ public class Server extends Thread{
 	}
 
 	/**
-	 *
+	 * a getter for the InetAddress
 	 * @return address
 	 */
 	public InetAddress getAddress() {
 		return address;
 	}
 
-	public void updateMap(char[][] m){
-		mapRow = m.length;
-		mapCol = m[0].length;
-		map = new char[mapRow*mapCol];
-		int index = 0;
-		for(int row=0; row<mapRow;row++){
-			for(int col=0; col<mapCol;col++){
-				map[index++] = m[row][col];
-			}
-		}
-	}
-
+	/**
+	 * the following always accept sockets connected from clients. New callable tasks based on the connection will be submited in the
+	 * thread pool.
+	 */
 	public void run(){
-		//System.out.println("Server is stared");//debug
 		ExecutorService pool = Executors.newFixedThreadPool(50);
 		while (!exit) {
 			try {
@@ -121,34 +99,14 @@ public class Server extends Thread{
 				Socket connection = server.accept();
 				Callable<Void> task = new Task(connection);
 				pool.submit(task);
-				//Thread.yield();
 			} catch (IOException ex) {
-				//errorLogger.log(Level.SEVERE, "accept error", ex);
+				//ignore
 			} catch (RuntimeException ex) {
-				//errorLogger.log(Level.SEVERE, "unexpected error " + ex.getMessage(), ex);
+				//ignore
 			}
 		}
 
 	}
-
-	/**
-	 * a getter for uid
-	 * @return
-	 */
-	/*public int getUid() {
-		return uid;
-	}*/
-
-	/**
-	 * a setter for uid
-	 * @param uid	public void notify(String text) throws IOException {
-
-	 */
-	/*public void setUid(int uid) {
-		this.uid = uid;
-	}*/
-
-
 
 	/**
 	 * a getter for the game
@@ -178,6 +136,11 @@ public class Server extends Thread{
 		}
 	}
 
+	/**
+	 * The following creates a thread that is always listening to the client that establishes the socket connection
+	 * @author yanlong
+	 *
+	 */
 	private class Task implements Callable<Void> {
 		private Socket connection;
 		private int id;
@@ -187,49 +150,47 @@ public class Server extends Thread{
 		@Override
 		public Void call() {
 			try {
+				//System.out.println("Server 153: before reading from client");
 				Reader in = new InputStreamReader(connection.getInputStream());
+				//System.out.println("Server 155: after reading from client");
 				char[] received = new char[2];
 				in.read(received);
 				id = Character.getNumericValue(received[1]);
-				//p("id: "+id);//debug
+				//System.out.println("Server 159: Id: "+id);
 
 				Writer out = new OutputStreamWriter(connection.getOutputStream());
 				writers[id] = out;
 				if(id != 0){
 					game.getParser().processClientEvent(received, out, id);
 				}
+				System.out.println("Server 163: before sending address");
 				out.write("A"+address.getHostAddress().toString()+"X");// 'X' indicates the end of the message
 				out.flush();
-				//System.out.println(address.getHostAddress().toString());//debug
-				//out.flush();
-				//System.out.println("No id writing?");//debug
-				//System.out.println("id: "+id);
 
-				//out.write((char)(id+'0'));
-				//out.flush();
-
-				//System.out.println("id flushed");//debug
-
-				//Date now = new Date();
-				// write the log entry first in case the client disconnects
-				//auditLogger.info(now + " " + connection.getRemoteSocketAddress());
 				while(true){
+					//handles the disconnection gracefully
+					if(connection.isInputShutdown() || connection.isOutputShutdown()){
+						System.out.println("Server 210: close the client");//debug
+						char[] quit = {'Q'};
+						game.getParser().processClientEvent(quit, out, id);
+						writers[id] = null;
+						break;
+					}
 					char[] message = new char[256];
-					//System.out.println("Stuck for twice");
 					in.read(message);
 					if(message[0] == '&'){//turn off the avatar client
 						System.out.println("Server 205: close the avatar client");//debug
 						writers[0] = null;
 						break;
 					}
-					else if(message[0] == 'Q'){
+					else if(message[0] == 'Q'){// this will close the socket properly when the user quits
 						System.out.println("Server 210: close the client");//debug
 						game.getParser().processClientEvent(message, out, id);
 						writers[id] = null;
 						break;
 					}
-					/*int counter = 0;
-					System.out.println(counter++);*/
+
+					//The following prints the message received from the client
 					/*String input = "";
 					for(int i=0; i<message.length; i++){
 						if(message[i] == '\0' || message[i] == '\r' || message[i] == '\n') break;
@@ -238,19 +199,7 @@ public class Server extends Thread{
 
 					System.out.println("======================"+input+"====================");//debug
 */
-					//System.out.println("server printed input");//debug
-					//feedback(input, out, id);
 					game.getParser().processClientEvent(message, out, id);
-
-					//p("mapRow"+String.format("%s",mapRow).charAt(0)+String.format("%s",mapRow).charAt(1));
-					//p("colRow"+(char)('0' + mapCol));
-					/*out.write(String.valueOf(mapRow));
-				out.write('x');
-				out.write(String.valueOf(mapCol));
-				out.write('x');
-				out.write(map);*/
-
-
 				}
 
 			} catch (IOException ex) {

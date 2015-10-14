@@ -63,7 +63,6 @@ public class ClientParser {
 				frame.setTime(time);
 				frame.getCanvas().getRenderer().updateDayNight(dayNight);
 			}
-			//			p("time:"+time+" "+dayNight);
 			break;
 		case 'R':
 			readAvatar(message);
@@ -75,6 +74,10 @@ public class ClientParser {
 		}
 	}
 
+	/**
+	 * The following reads a message from the server and then display it on the frame
+	 * @param message
+	 */
 	private void readMessageToDisplay(char[] message) {
 		String messageToDisplay = "";
 		int count = 1;
@@ -214,7 +217,7 @@ public class ClientParser {
 	 * @param message
 	 */
 	public void readIP(char[] message){
-		//System.out.println("IP is being read in the client parser");//debug
+		System.out.println("IP is being read in the client parser");//debug
 		String receive = "";
 		int i = 1;
 		for(; i<message.length; i++){
@@ -258,7 +261,6 @@ public class ClientParser {
 			}
 			System.out.println("");
 		}*/
-		//p("reading map in the client");
 		if(frame != null){
 			frame.updateRenderer(type, map, items);
 		}

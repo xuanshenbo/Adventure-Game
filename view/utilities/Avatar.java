@@ -32,6 +32,11 @@ public enum Avatar{
 		return -1;
 	}
 
+	/**
+	 * Used to easily encode the user's choice of avatar
+	 * @param i The integer which needs to be translated into an avatar
+	 * @return The avatar associated with the integer i
+	 */
 	public static Avatar getAvatarFromInt(int i){
 		switch (i){
 		case 1: return Avatar.DONALD_DUCK;
@@ -78,6 +83,11 @@ public enum Avatar{
 				text.equals(MUFFIN_MACLAY.toString()));
 	}
 
+	/**
+	 * Allows easy translation between Strings and Avatars
+	 * @param text The String needed to be translated into an avatar
+	 * @return The Avatar corresponding to the string
+	 */
 	public static Avatar toAvatar(String text) {
 		//iterate through each value in Avatar
 		for(Avatar a : Avatar.values()){

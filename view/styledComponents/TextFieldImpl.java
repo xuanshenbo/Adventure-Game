@@ -13,11 +13,16 @@ import view.frames.GameFrame;
 
 /**
  * A JTextField which stores the users input for retrieval from the game via the input interpreter
- *
+ * @author flanagdonn
  */
 public class TextFieldImpl extends JTextField {
 	public final StrategyInterpreter inputInterp;
 
+	/**
+	 * This text field allows the user to enter the ip address they wish
+	 * to connect to, and then notifies the interpreter of their input
+	 * @param interp
+	 */
 	public TextFieldImpl(StrategyInterpreter interp){
 
 		this.inputInterp = interp;

@@ -16,6 +16,7 @@ import control.Client;
 import control.ClockThread;
 import control.Server;
 import dataStorage.Deserializer;
+import dataStorage.xstream.SerializerXStream;
 import interpreter.ButtonStrategy;
 import interpreter.KeyStrategy;
 import interpreter.MenuStrategy;
@@ -33,12 +34,9 @@ public class Main {
 	private static Client client;
 	private static Client avatarClient;
 	private static Initialisation initial;
-	private static int uid;
 	private static Game game;
 	private static GameFrame frame;
 
-	private static boolean devMode = false;
-	//private static boolean initialised;
 	private static String ipAddress;
 
 	/**
@@ -66,20 +64,23 @@ public class Main {
 	}
 
 	/**
-	 * The following creates a server for the old game
+	 * The following creates a server for the old game that is ready to be loaded
 	 */
-	public static void oldGame(){
+	public static boolean oldGame(){
 		GameState toLoad = null;
+		//toLoad = SerializerXStream.deserialize("sample.xml");
 		try {
 			toLoad = Deserializer.deserialize();
 			if (toLoad == null) {
-				return;
+				return false;
 			}
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-		Server server = new Server(toLoad);
+		server = new Server(toLoad);
 		server.start();
+
+		return true;
 	}
 
 	/**
@@ -87,15 +88,11 @@ public class Main {
 	 */
 	public static void connectClient(int id){
 		try {
-			//System.out.println(ss.getAddress().toString());//debug
-			//Socket socket = new Socket(InetAddress.getByName( (ss.getAddress().getHostAddress().toString() ) ),ss.PORT);
-			//Socket socket = new Socket(InetAddress.getByName("0.0.0.0"),ss.PORT);
+
 			Socket socket = new Socket(server.getAddress(), server.PORT);
 			client = new Client(socket);
 			client.setUid(id);
-			//Writer output = client.getOutput()repaint;
 			client.start();
-			//System.out.println("The client should be set after ip is read");//debug
 			initial.setClient(client);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -127,7 +124,6 @@ public class Main {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		//displayMainGameFrame();//debug
 	}
 
 	/**
@@ -145,7 +141,8 @@ public class Main {
 			avatarClient.start();
 			initial.setClient(avatarClient);
 			System.out.println("Main 141: avatar client is sending R");//debug
-			//System.out.print("");//debug
+			System.out.println();
+			System.out.println();
 			avatarClient.send("R");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -154,21 +151,16 @@ public class Main {
 
 	public static void displayMainGameFrame() throws IOException{
 		closeWelcome();
-		/*if(!devMode){closeWelcome();}
-		else{
-//			clientMode();
-		}*/
 
 		/*
 		 * Initialise StrategyInterpreters here so as to pass the interpreter to the Strategy constructors
 		 */
-		//System.out.println("main.display is called?");//debug
 		StrategyInterpreter keyInterpreter = null;
 		StrategyInterpreter buttonInterpreter = null;
 		StrategyInterpreter menuInterpreter = null;
 		StrategyInterpreter radioInterpreter = null;
 
-		frame = new GameFrame("Adventure Game");
+		frame = new GameFrame("The Happiness Game");
 		//set the chosen avatar
 		frame.setAvatar(initial.getChosenAvatar());
 
@@ -186,9 +178,9 @@ public class Main {
 		//set the ip address of the client for display
 		ipAddress = client.getIPaddress();
 		//System.out.println("Main 180: This ip is "+ipAddress);//debug
-		while(ipAddress == null){
+		/*while(ipAddress == null){
 			//do nothing and wait for the ip address?
-		}
+		}*/
 		frame.setIP(ipAddress);
 
 		frame.setUpLayoutAndDisplay();
@@ -254,16 +246,6 @@ public class Main {
 	public static boolean ipIsNull(){
 		return ipAddress == null;
 	}
-
-
-	/* A getter for the client
-	 * @return
-	 */
-	/*public static Client getClient() {
-		return client;
-	}*/
-
-
 
 
 }

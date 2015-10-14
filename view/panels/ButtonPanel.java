@@ -422,7 +422,7 @@ public class ButtonPanel extends JPanel {
 				String teamMember2 = containerFrame.getTeamMember2();
 
 				MessageWindow notifyUser = new MessageWindow("Your team includes " + teamMember1 + " and "
-								+ teamMember2);
+								+ teamMember2, null);
 
 			}
 		});

@@ -2,20 +2,12 @@ package view.frames;
 
 
 import interpreter.StrategyInterpreter;
-import interpreter.Translator;
 import interpreter.Translator.Command;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.TitledBorder;
-import javax.xml.bind.JAXBException;
 
-import dataStorage.Serializer;
 import renderer.GameCanvas;
-import renderer.GameRenderer;
 //import renderer.GuiForTest;
-import renderer.testRenderer;
 import view.panels.ButtonPanel;
 import view.panels.PlayerProfilePanel;
 import view.panels.StatusPanel;
@@ -24,42 +16,26 @@ import view.utilities.Avatar;
 import view.utilities.PlayerInfo;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.io.IOException;
-import java.io.Writer;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
-import main.Main;
-import model.items.Item;
-import model.items.Key;
-import model.logic.Game;
-import model.logic.Game.Direction;
-import model.logic.Generator;
-import model.state.Area;
-import model.state.GameState;
-import model.state.Player;
-import model.state.Position;
 import static utilities.PrintTool.p;
 
 /**
  * NEW version of GameFrame doesn't use GridBagLayout, but instead uses a
  * BoxLayout with 3 Jpanels, each of which has its own Layout
  *
- * @author flanagdonn TODO show onscreen what ip address
+ * @author flanagdonn
  */
 public class GameFrame extends JFrame {
-	private int frameWidth = 800;
-	private int frameHeight = 800;
 
 	private int gamePanelWidth = 800;
 	private int gamePanelHeight = 600;
+
+private MessageWindow messageWindow;
 
 	/*
 	 * These constants define the main colour scheme and are used throughout all
@@ -295,15 +271,6 @@ public class GameFrame extends JFrame {
 				Command.DISPLAY_INVENTORY);
 	}
 
-
-
-	/**
-	 * @return true if this player is in server mode
-	 */
-	/*
-	 * public boolean isServerMode() { return isServerMode; }
-	 */
-
 	/**
 	 * Displays a message from the game to the user
 	 *
@@ -311,7 +278,12 @@ public class GameFrame extends JFrame {
 	 *            The message to be displayed
 	 */
 	public void displayMessageFromGame(String msg) {
-		MessageWindow m = new MessageWindow(msg);
+//		if(messageWindow != null){
+//			messageWindow.setVisible(false);
+//		}
+		MessageWindow m = new MessageWindow(msg, null);
+//		messageWindow = new MessageWindow(msg);
+//		messageWindow.setVisible(true);
 	}
 
 	/**
@@ -346,7 +318,6 @@ public class GameFrame extends JFrame {
 		public boolean dispatchKeyEvent(KeyEvent e) {
 
 			String toNotify = "";
-
 			if (e.getID() == KeyEvent.KEY_PRESSED) {
 				canvas.getRenderer().doAnimation();
 				switch (e.getKeyCode()) {

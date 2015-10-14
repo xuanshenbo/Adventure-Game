@@ -12,24 +12,27 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import dataStorage.adapters.GameStateAdapter;
 import model.items.Item;
 import model.npcs.Zombie;
 import model.tiles.Tile;
 import static utilities.PrintTool.p;
 
-@XmlRootElement(namespace = "savedGame")
+@XmlJavaTypeAdapter(GameStateAdapter.class)
+@XmlRootElement(namespace = "HappinessGame")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GameState {
 
+	@XmlElement
+	private Area world; // The game world
 	@XmlElementWrapper
 	@XmlElement(name="player")
 	private ArrayList<Player> playerList = new ArrayList<Player>(); // list of players in the game
 	@XmlElementWrapper
 	@XmlElement(name="zombie")
 	private ArrayList<Zombie> zombieList = new ArrayList<Zombie>(); // list of zombies in the game
-	private Area world; // The game world
 	private int viewPortSize = 31;
 	private int time;
 	private boolean day;
@@ -43,9 +46,7 @@ public class GameState {
 		world.addGameState(this);
 	}
 
-	@SuppressWarnings("unused")
 	private GameState() {
-		this(null, null);
 	}
 
 	/**
@@ -55,11 +56,13 @@ public class GameState {
 	 * that id
 	 */
 	public Player getPlayer(int id) {
+		System.out.println("GameState 61: before getting player");//debug
 		for(Player p: playerList){
 			if(p.getId() == id){
 				return p;
 			}
 		}
+		System.out.println("GameState 67: no available player");//debug
 		return null;
 	}
 
@@ -224,30 +227,18 @@ public class GameState {
 		return worldInfo;
 	}
 
-	public void setLoadedFile(String loadedFile) {
-		this.loadedFile = loadedFile;
-	}
-
-	public void setTime(int time){
-		this.time = time;
-	}
-
-	public void setDay(boolean day){
-		this.day = day;
-	}
-
 	public void addItem(Position playerPosition, Item item) {
 		int col = playerPosition.getX();
 		int row = playerPosition.getY();
 		Area a = playerPosition.getArea();
 		a.getItems()[row][col] = item;
-	}	
+	}
 
 	// ================================================
 	// getters from here
 	// ================================================
 
-	public ArrayList<Player> getPlayerList(){
+	public ArrayList<Player> getAlivePlayerList(){
 		ArrayList<Player> activePlayerList = new ArrayList<Player>();
 		for(Player player: playerList){
 			if(player.isInGame()){
@@ -255,6 +246,10 @@ public class GameState {
 			}
 		}
 		return activePlayerList;
+	}
+
+	public ArrayList<Player> getPlayerList() {
+		return playerList;
 	}
 
 	public Area getWorld() {
@@ -281,10 +276,41 @@ public class GameState {
 		return loadedFile;
 	}
 
+	// ================================================
+	// setters from here
+	// ================================================
+
+	public void setLoadedFile(String loadedFile) {
+		this.loadedFile = loadedFile;
+	}
+
+	public void setTime(int time){
+		this.time = time;
+	}
+
+	public void setDay(boolean day){
+		this.day = day;
+	}
+
+	public void setPlayerList(ArrayList<Player> playerList) {
+		this.playerList = playerList;
+	}
+
+	public void setZombieList(ArrayList<Zombie> zombieList) {
+		this.zombieList = zombieList;
+	}
+
+	public void setWorld(Area world) {
+		this.world = world;
+	}
+
+	public void setViewPortSize(int viewPortSize) {
+		this.viewPortSize = viewPortSize;
+	}
+
 	//===================================
 	// DEBUGGING AND TESTING METHODS
 	//===================================
-
 
 	/**
 	 * This method prints out the game state to the console

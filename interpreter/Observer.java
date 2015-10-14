@@ -10,6 +10,7 @@ public interface Observer {
 	 * Notifies the Model of the user event, or the View of a Game instruction
 	 * @param text
 	 * @throws IOException
+	 * @author flanagdonn, yanlong
 	 */
 	public void notify(String text) throws IOException;
 }

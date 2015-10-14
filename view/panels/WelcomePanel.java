@@ -26,6 +26,7 @@ import main.Main;
 
 /**
  * A subclass of JDialog which welcomes a new player and invites them to choose an avatar
+ * @author flanagdonn
  */
 public class WelcomePanel extends JPanel{
 
@@ -134,8 +135,13 @@ public class WelcomePanel extends JPanel{
 			break;
 
 		case LOAD_GAME:
-			Main.oldGame();
-			displayAvatarOptions(true);
+			boolean isValid = Main.oldGame();
+			if(!isValid){	//if cancel option selected
+				transitionToNewState(InitialisationCommand.SHOW_LOAD_OR_NEW_OPTION);
+			}
+			else{
+				displayAvatarOptions(true);
+			}
 			break;
 
 		case CHOOSE_SLIDER_OPTIONS:

@@ -16,6 +16,10 @@ import view.frames.GameFrame;
  */
 public class HappinessButton extends JButton {
 
+	/**
+	 * This Button is like a JButton but has the theme of the game
+	 * @param message The message to be displayed on the button
+	 */
 	public HappinessButton(String name){
 		super(name);
 

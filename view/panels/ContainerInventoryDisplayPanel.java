@@ -19,6 +19,12 @@ import view.frames.Dialog;
 import view.styledComponents.HappinessRadioButton;
 import view.utilities.ImageLoader;
 
+/**
+ * This panel displays the inventory or general container contents to the user
+ * and presents the user's options for interaction with the items.
+ * @author flanagdonn
+ *
+ */
 public class ContainerInventoryDisplayPanel extends JPanel {
 
 

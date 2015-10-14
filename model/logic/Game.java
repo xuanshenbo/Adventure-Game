@@ -158,12 +158,12 @@ public class Game {
 				gameState.setDay(true);
 			}
 		}
-		for(Player player: gameState.getPlayerList()){
+		for(Player player: gameState.getAlivePlayerList()){
 			parser.sendToServer(player, 'T');
 		}
 		updateZombies();
 		if(frameActivated){
-			for(Player p: gameState.getPlayerList()){
+			for(Player p: gameState.getAlivePlayerList()){
 				parser.sendToServer(p, 'M');
 			}
 		}
@@ -186,7 +186,7 @@ public class Game {
 			} else {
 				zombie.setStrategy(new RandomZombie());
 			}
-			for (Player player : gameState.getPlayerList()) {
+			for (Player player : gameState.getAlivePlayerList()) {
 				if (playerInRange(player, zombie)) {
 					zombie.setStrategy(new ChaseZombie());
 					player.loseHappiness();
@@ -236,7 +236,7 @@ public class Game {
 		if (toTile != null) {
 			toTile.move(player, direction);
 			//check other players are in range and send update to players as needed
-			for(Player otherPlayer: gameState.getPlayerList()){
+			for(Player otherPlayer: gameState.getAlivePlayerList()){
 				if(otherPlayer.isInGame()){
 					int playerX = player.getPosition().getX();
 					int playerY = player.getPosition().getY();
@@ -457,6 +457,7 @@ public class Game {
 
 
 	public void activatePlayer(int id) {
+		//System.out.println("Game 443: activate player");//debug
 		gameState.getPlayer(id).makeActive();
 
 	}
@@ -508,7 +509,7 @@ public class Game {
 	}
 
 	public ArrayList<Player> getPlayerList() {
-		return gameState.getPlayerList();
+		return gameState.getAlivePlayerList();
 	}
 
 	public GameState getGameState() {

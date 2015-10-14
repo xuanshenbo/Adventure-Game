@@ -9,6 +9,7 @@ import javax.xml.bind.JAXBException;
 import control.Server;
 import dataStorage.Deserializer;
 import dataStorage.Serializer;
+import dataStorage.xstream.SerializerXStream;
 import model.items.Item;
 import model.logic.Game.Direction;
 import model.state.GameState;
@@ -16,10 +17,6 @@ import model.state.Player;
 import static utilities.PrintTool.p;
 
 public class ServerParser {
-
-
-
-
 	private Game game;
 	private Server server;
 	private char[] tempItemArrayStorage = null;
@@ -57,7 +54,7 @@ public class ServerParser {
 			game.pickUp(game.getGameState().getPlayer(id));
 			break;
 		case 'C'://Selected [C, int inventorySlot]
-			game.select(game.getGameState().getPlayer(id), Character.getNumericValue(message[1])); 
+			game.select(game.getGameState().getPlayer(id), Character.getNumericValue(message[1]));
 			break;
 		case 'V'://move Item in 1st inventory slot  into a bag in the 2nd inventory slot[m, int inventorySlot, int inventorySlot]
 			game.moveInventory(game.getGameState().getPlayer(id), Character.getNumericValue(message[1]), Character.getNumericValue(message[2]));
@@ -79,11 +76,12 @@ public class ServerParser {
 			}
 			break;
 		case 'Y'://Save As
-			try {
+/*			try {
 				Serializer.serializeAs(game.getGameState());
 			} catch (JAXBException e) {
 				e.printStackTrace();
-			}
+			}*/
+			SerializerXStream.serialize(game.getGameState());
 			break;
 		case 'L'://Loading game
 			try {

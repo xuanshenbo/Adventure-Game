@@ -10,11 +10,14 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import com.sun.xml.internal.bind.CycleRecoverable;
+
+import dataStorage.pointers.PositionPointer;
+
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Position {
+public class Position implements CycleRecoverable {
 
 	private Area a;
 	private int x;
@@ -24,6 +27,9 @@ public class Position {
 		this.x = x;
 		this.y = y;
 		this.a = a;
+	}
+
+	private Position() {
 	}
 
 	/**
@@ -118,5 +124,13 @@ public class Position {
 
 	public void setY(int areaY) {
 		this.y = areaY;
+	}
+
+	@Override
+	public Object onCycleDetected(Context arg0) {
+		PositionPointer positionPointer = new PositionPointer();
+		positionPointer.setX(x);
+		positionPointer.setY(y);
+		return positionPointer;
 	}
 }

@@ -2,7 +2,11 @@ package dataStorage.pointers;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlTransient;
+
+import com.sun.xml.internal.bind.CycleRecoverable;
 
 import model.items.Item;
 import model.state.Area.AreaType;
@@ -18,9 +22,10 @@ import model.tiles.Tile;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AreaPointer {
 
+	@XmlElementWrapper
+	@XmlAnyElement
+	private Tile[] areasSerializable;
 	private AreaType type;
-	@XmlTransient
-	private Tile[][] area;
 	@XmlTransient
 	private Item[][] items;
 
@@ -28,12 +33,11 @@ public class AreaPointer {
 		this.type = type;
 	}
 
-	public void setArea(Tile[][] area) {
-		this.area = area;
+	public void setAreaSerialzable(Tile[] areasSerializable) {
+		this.areasSerializable = areasSerializable;
 	}
 
 	public void setItems(Item[][] items) {
 		this.items = items;
 	}
-
 }

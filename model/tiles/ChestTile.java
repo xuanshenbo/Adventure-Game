@@ -5,6 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlTransient;
 
 import model.items.Item;
 import model.logic.Game.Direction;
@@ -19,14 +21,19 @@ import static utilities.PrintTool.p;
 public class ChestTile implements Tile, Container{
 
 	private char id = 'O';
+	@XmlTransient
 	private Position position;
 	@XmlElementWrapper
 	@XmlElement(name = "inventory")
 	private Item[] inventory = new Item[10];
+	private int x;
+	private int y;
 
 	public ChestTile(Position position, String difficulty){
 		this.position = position;
 		fillChest(difficulty);
+		x = position.getX();
+		y = position.getY();
 	}
 
 	// JAXB needs a no-arg default constructor to instance ChestTile
@@ -118,11 +125,46 @@ public class ChestTile implements Tile, Container{
 	@Override
 	public void removeItemSlot(int containerSlot) {
 		inventory[containerSlot+1] = null;
-
 	}
 
 	public Item[] open(){
 		return inventory;
+	}
+
+	public char getId() {
+		return id;
+	}
+
+	public void setId(char id) {
+		this.id = id;
+	}
+
+	public Item[] getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(Item[] inventory) {
+		this.inventory = inventory;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public void setPosition(Position position) {
+		this.position = position;
 	}
 
 }
