@@ -31,7 +31,7 @@ public class Player {
 	@XmlElementWrapper
 	@XmlAnyElement
 	private Item[] inventory = new Item[6]; // The inventory of the player
-	private int happiness = 5;
+	private double happiness = 5;
 	@XmlTransient
 	private boolean inGame = false;
 	@XmlTransient
@@ -55,14 +55,14 @@ public class Player {
 	}
 
 	public void increaseHappiness() {
-		happiness++;
+		happiness += 0.5;
 		if (happiness > 9) {
 			happiness = 9;
 		}
 	}
 
 	public void loseHappiness() {
-		happiness--;
+		happiness += -0.5;
 	}
 
 	public void die() {
@@ -72,6 +72,12 @@ public class Player {
 		}
 	}
 
+
+	/**
+	 * This tries to add the item to the players inventory
+	 * @param item: the item to be added
+	 * @return: if the item was added or not
+	 */
 	public boolean addItemToInventory(Item item) {
 		for (int i = 0; i < inventory.length; i++) {
 			if (inventory[i] == null) {
@@ -106,13 +112,20 @@ public class Player {
 	 */
 
 	public void moveToInventory(int containerSlot) {
-		boolean added = addItemToInventory(openContainer.getItem(containerSlot));
+		p(containerSlot);
+		Item item = openContainer.getItem(containerSlot);
+		boolean added = addItemToInventory(item);
 		if (added) {
 			openContainer.removeItemSlot(containerSlot);
 		}
 
 	}
 
+	/**
+	 * this returns whether the player has a key or not, called when the player
+	 * tries to open a chest
+	 * @return: if the player has a key or not
+	 */
 	public boolean getKey() {
 		for (int i = 0; i < inventory.length; i++) {
 			if (inventory[i] instanceof Key) {
@@ -246,7 +259,7 @@ public class Player {
 	}
 
 	public int getHappiness() {
-		return happiness;
+		return (int) happiness;
 	}
 
 	public boolean isInGame() {

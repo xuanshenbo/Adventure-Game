@@ -96,8 +96,6 @@ public class Game {
 		this.clock = new Clock(2000, this);
 		Area area = new Area(height, width, AreaType.OUTSIDE, null);
 		Generator g = new Generator(difficulty, density, height, width);
-		p("density:"+density);
-		p("difficulty:"+difficulty);
 		area.generateWorld(g);
 		ArrayList<Player> playerList = placePlayers(4, height, width, area);
 		this.gameState = new GameState(area, playerList);
@@ -127,10 +125,6 @@ public class Game {
 		if(maxZombies == 0){
 			maxZombies = 1;
 		}
-		
-		p(gameState);
-		p(gameState.getZombieList());
-		p(maxZombies);
 		while(gameState.getZombieList().size() < maxZombies) {
 			addZombie();
 		}
@@ -193,6 +187,7 @@ public class Game {
 					if(player.getHappiness() <= 0){
 						player.die();
 						parser.sendMessage(player, "You died! Start again");
+						parser.sendToServer(player, 'H');
 					}
 					parser.sendToServer(player, 'H');
 				}
@@ -419,7 +414,7 @@ public class Game {
 	}
 
 	public void moveFromContainerToInventory(Player player, int containerSlot) {
-		player.moveToInventory(containerSlot+1);
+		player.moveToInventory(containerSlot);
 		parser.sendInventory(player, player.getInventory());
 
 	}

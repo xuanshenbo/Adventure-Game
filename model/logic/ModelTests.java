@@ -268,15 +268,15 @@ public class ModelTests {
 		Area a = player.getPosition().getArea();
 		ChestTile chest = new ChestTile(new Position(x, y-1, a), "easy");
 		Item item = new Key();
-		chest.open()[1] = item;
+		chest.open()[0] = item;
 		assertTrue(chest.getItem(0).equals(item));
 		player.setOpenContainer(chest);
 		
 		char[] message = new char[]{'Z', '0'};
 		game.getParser().processClientEvent(message, null, 1);
-//		
-//		assertTrue(player.getInventory()[0].equals(item));
-//		assertTrue(chest.open()[1] == null);
+		
+		assertTrue(player.getInventory()[0].equals(item));
+		assertTrue(chest.open()[0] == null);
 	}
 	
 	/**

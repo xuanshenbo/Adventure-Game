@@ -59,15 +59,26 @@ public class ChestTile implements Tile, Container{
 			}
 		}
 	}
-
+	
+	
+	/**
+	 * Will return the item in the inventory slot
+	 * @param containerSlot
+	 * @return
+	 */
 	@Override
 	public Item getItem(int containerSlot) {
-		return inventory[containerSlot+1];
+		p("ContainerSlot:"+containerSlot);
+		p("Displaying chest items");
+		for(int i = 0; i< inventory.length; i++){
+			System.out.print(inventory[i]+" ");
+		}
+		System.out.println("");
+		return inventory[containerSlot];
 	}
-
+	
 	@Override
 	public void move(Player player, Direction direction) {
-		//Item[] items = inventory;
 	}
 
 	@Override
@@ -109,7 +120,8 @@ public class ChestTile implements Tile, Container{
 		}
 		return false;
 	}
-
+	
+	
 	@Override
 	public Item removeItemId(int id) {
 		for(int i = 0; i<inventory.length; i++){
@@ -121,10 +133,15 @@ public class ChestTile implements Tile, Container{
 		}
 		return null;
 	}
-
+	
+	/**
+	 * Removes the item in the slot passed in from teh inventory
+	 * @param containerSlot: the slot of the container where the item 
+	 * is
+	 */
 	@Override
 	public void removeItemSlot(int containerSlot) {
-		inventory[containerSlot+1] = null;
+		inventory[containerSlot] = null;
 	}
 
 	public Item[] open(){
