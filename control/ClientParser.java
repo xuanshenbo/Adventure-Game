@@ -143,7 +143,7 @@ public class ClientParser {
 				container.add("key");
 				break;
 			case 'c':
-				container.add("cupcake");
+				container.add("cupcake2");
 				break;
 			case 'b':
 				container.add("bag");

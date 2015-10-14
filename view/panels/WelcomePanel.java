@@ -87,11 +87,6 @@ public class WelcomePanel extends JPanel{
 
 		this.parentFrame = i.getFrame();
 
-		//The message is put in a panel, in case new messages will be added later
-		//		JPanel messagePane = new JPanel();
-		//		messagePane.setLayout(new BoxLayout(messagePane, BoxLayout.PAGE_AXIS));
-
-		//display welcome message in appropriate size, with the text centered
 		JLabel welcomeMessage = new JLabel(welcome, SwingConstants.CENTER);
 		welcomeMessage.setFont(new Font("Serif", Font.BOLD, heading1Size));
 		welcomeMessage.setForeground(GameFrame.FONT_COLOR);
@@ -100,7 +95,7 @@ public class WelcomePanel extends JPanel{
 		add(welcomeMessage, BorderLayout.NORTH);
 
 		//create the cupcake image and put on jlabel
-		imagePanel = new JPanel();
+		//imagePanel = new JPanel();
 
 		welcomeImage = ImageLoader.loadImage("cupcake.png");
 		welcomeImage = welcomeImage.getScaledInstance(imageSize.width, imageSize.height, -1);
@@ -108,10 +103,8 @@ public class WelcomePanel extends JPanel{
 		JLabel thumb = new JLabel();
 		thumb.setIcon(icon);
 
-		imagePanel.add(thumb);
-
 		//add the cupcake image to panel
-		add(imagePanel, BorderLayout.CENTER);
+		add(thumb, BorderLayout.CENTER);
 
 		//create a button panel and add to this panel
 		bPanel = new ButtonPanel(this, state, initialisation);
@@ -263,10 +256,16 @@ public class WelcomePanel extends JPanel{
 
 	}
 
+	/**
+	 * Removes the slider panel from the welcome panel
+	 */
 	public void removeSliderPanel() {
 		remove(sliderPanel);
 	}
 
+	/**
+	 * Notifies the Initialisation of the user's parameter choices
+	 */
 	public void notifyParameters() {
 		try {
 			initialisation.notify("parameters "+gameHeight+" "+gameWidth+" "+difficultyLevel+" "+density);
