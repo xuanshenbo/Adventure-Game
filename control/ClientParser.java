@@ -128,7 +128,9 @@ public class ClientParser {
 	 */
 	private void readHappiness(char[] message) {
 		int happiness = (Character.getNumericValue(message[1]))*10;
-		frame.setHappinessLevel(happiness);
+		if(frame != null){
+			frame.setHappinessLevel(happiness);
+		}
 	}
 
 	/**
@@ -217,7 +219,7 @@ public class ClientParser {
 	 * @param message
 	 */
 	public void readIP(char[] message){
-		System.out.println("IP is being read in the client parser");//debug
+		//System.out.println("IP is being read in the client parser");//debug
 		String receive = "";
 		int i = 1;
 		for(; i<message.length; i++){

@@ -2,6 +2,7 @@ package model.logic;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.net.SocketException;
 import java.util.List;
 
 import javax.xml.bind.JAXBException;
@@ -208,7 +209,11 @@ public class ServerParser {
 				server.getWriters()[player.getId()].write(message);
 				server.getWriters()[player.getId()].flush();
 			}
-		} catch (IOException e) {
+		} catch (SocketException s){//this is handling the unusual disconnection of the client
+			System.out.println("ServerParser 213: the client is disconnected");
+			game.deActivatePlayer(player.getId());
+			server.getWriters()[player.getId()] = null;
+		}catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

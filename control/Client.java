@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,39 +58,12 @@ public class Client extends Thread {
 			//System.out.println("Client 55: after sending id");
 			while(!exit){
 				//handles the disconnection gracefully
-				if(socket.isInputShutdown() || socket.isOutputShutdown()){
+				/*if(socket.isInputShutdown() || socket.isOutputShutdown()){
 					break;
-				}
+				}*/
 				char[] message = new char[3072];
 				input.read(message);
 
-//				if(message[0] == 'M'){
-//					char[][] map = new char[31][31];
-//					int index = 2;
-//					for(int row=0; row < map.length; row++){
-//						for(int col=0; col < map[0].length; col++){
-//							/*if(message[index] == '\0'){
-//								//System.out.println("Client 71: index: "+index);
-//								break;
-//							}*/
-//							map[row][col] = message[index++];
-//							index++;
-//							//items[row][col] = message[index++];
-//						}
-//					}
-//					char[][] playerOneView = map;
-//					System.out.println("\nPlayer 1 view");
-//					for(int row = 0; row<playerOneView.length; row++){
-//						for(int col = 0; col<playerOneView[0].length; col++){
-//							if(playerOneView[row][col] != '\u0000'){
-//								System.out.print(playerOneView[row][col]);
-//							}else{
-//								System.out.print("N");
-//							}
-//						}
-//						System.out.println("");
-//					}
-//				}
 				//The following prints out the map array
 				/*if(message[0] == 'M'){
 					char[][] map = new char[31][31];
@@ -139,12 +113,17 @@ public class Client extends Thread {
 			}
 			socket.close();
 
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (SocketException ex){//handles the exception that the client does not get respond from the server
+			System.out.println("Server is busy! Restart the game!");//debug
+			System.exit(0);
+		}
+		catch (IOException e) {
+			//e.printStackTrace();
 			try {
 				socket.close();
+				System.exit(0);
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				//e1.printStackTrace();
 			}
 		}
 
@@ -164,9 +143,15 @@ public class Client extends Thread {
 	 * @param s
 	 * @throws IOException
 	 */
-	public void send(String s) throws IOException{
-		output.write(s);
-		output.flush();
+	public void send(String s) throws IOException {
+		try {
+			output.write(s);
+			output.flush();
+
+		} catch (SocketException ex){//this handles the disconnection of the server
+			System.out.println("The server is broken");
+			System.exit(0);
+		}
 	}
 
 

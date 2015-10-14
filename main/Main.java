@@ -88,6 +88,7 @@ public class Main {
 		try {
 
 			Socket socket = new Socket(server.getAddress(), server.PORT);
+			//socket.setSoTimeout(3000);
 			client = new Client(socket);
 			client.setUid(id);
 			client.start();
@@ -108,6 +109,7 @@ public class Main {
 			avatarClient.send("&");//this is to close the avatarClient socket
 			avatarClient = null;
 			Socket socket = new Socket(adr, port);
+			//socket.setSoTimeout(3000);
 			client = new Client(socket);
 			client.setUid(uid);//debug
 			client.start();
