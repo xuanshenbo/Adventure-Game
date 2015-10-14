@@ -25,7 +25,7 @@ import main.Initialisation;
  */
 public class SliderPanel extends JPanel {
 
-	private Dimension sliderPaddingVertical= new Dimension(0, 20);
+	private Dimension sliderPaddingVertical= new Dimension(0, 100);
 
 	private WelcomePanel welcome;
 
@@ -42,13 +42,11 @@ public class SliderPanel extends JPanel {
 	private HappinessButton confirm;
 
 	//labels to go with the sliders, indicating what the sliders are for.
+	private HappinessLabel sliderTitle;
 	private HappinessLabel densityLabel;
 	private HappinessLabel difficultyLabel;
 	private HappinessLabel gameHeightLabel;
 	private HappinessLabel gameWidthLabel;
-
-	//The font to be used on the HappinessLabels
-	private Font labelFont = new Font("Serif", Font.BOLD, 12);
 
 	/**
 	 * The constructor sets up all the sliders and labels and adds them to the panel
@@ -93,9 +91,11 @@ public class SliderPanel extends JPanel {
 		//add a button for when the user is finished adjusting levels
 		createConfirmButton();
 		//add HappinessLabels to indicate what each slider is for
-		addHappinessLabelsForSliders();
+		createHappinessLabelsForSliders();
 
 		//add each label and corresponding slider to the panel
+		add(sliderTitle);
+		//add(Box.createRigidArea(new Dimension(0, sliderPaddingVertical.height)));
 		add(densityLabel);
 		add(gameObjectDensity);
 
@@ -111,32 +111,40 @@ public class SliderPanel extends JPanel {
 		//add the confirm button panel to this panel
 		add(buttonPanel);
 
+		revalidate();
+
 	}
 
 	/*
 	 * Create labels for the sliders, and create vertical space to make them more readable
 	 */
-	private void addHappinessLabelsForSliders() {
-		densityLabel = new HappinessLabel("Choose the density of the game ie the number of objects from 0% to 100%");
-		densityLabel.add(Box.createRigidArea(sliderPaddingVertical));
+	private void createHappinessLabelsForSliders() {
+		//add the title
+		sliderTitle = new HappinessLabel("Choose the game settings");
+//		sliderTitle.add(Box.createRigidArea(new Dimension(0, sliderPaddingVertical.height*10 )));
+		sliderTitle.createHeader(16);
+		sliderTitle.setAlignmentX(CENTER_ALIGNMENT);
+
+		densityLabel = new HappinessLabel("Density (from 0% to 100%)");
+//		densityLabel.add(Box.createRigidArea(sliderPaddingVertical));
 		densityLabel.setAlignmentX(CENTER_ALIGNMENT);
 
-		difficultyLabel = new HappinessLabel("Choose the difficulty");
-		difficultyLabel.add(Box.createRigidArea(sliderPaddingVertical));
+		difficultyLabel = new HappinessLabel("Difficulty");
+//		difficultyLabel.add(Box.createRigidArea(sliderPaddingVertical));
 		difficultyLabel.setAlignmentX(CENTER_ALIGNMENT);
 
-		gameHeightLabel = new HappinessLabel("Choose the Game height");
-		gameHeightLabel.add(Box.createRigidArea(sliderPaddingVertical));
+		gameHeightLabel = new HappinessLabel("Game Height");
+//		gameHeightLabel.add(Box.createRigidArea(sliderPaddingVertical));
 		gameHeightLabel.setAlignmentX(CENTER_ALIGNMENT);
 
-		gameWidthLabel = new HappinessLabel("Choose the Game width");
-		gameWidthLabel.add(Box.createRigidArea(sliderPaddingVertical));
+		gameWidthLabel = new HappinessLabel("Game Width");
+//		gameWidthLabel.add(Box.createRigidArea(sliderPaddingVertical));
 		gameWidthLabel.setAlignmentX(CENTER_ALIGNMENT);
 	}
 
 	private void createConfirmButton() {
 		confirm = new HappinessButton("OK");
-		confirm.add(Box.createRigidArea(new Dimension(welcome.getPreferredSize().width,20))); //centre confirm the button
+//		confirm.add(Box.createRigidArea(new Dimension(welcome.getPreferredSize().width,20))); //centre confirm the button
 
 		confirm.addActionListener(new ActionListener(){
 
@@ -150,8 +158,6 @@ public class SliderPanel extends JPanel {
 		});
 
 		confirm.setMnemonic(KeyEvent.VK_ENTER);
-
-		//	int padding = (getPreferredSize().width - confirm.getPreferredSize().width) /2;
 
 		int	padding = GameFrame.BUTTON_PADDING_HORIZONTAL;
 

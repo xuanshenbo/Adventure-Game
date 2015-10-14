@@ -75,7 +75,6 @@ public class Initialisation extends StrategyInterpreter{
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 
-
 	}
 
 /**
