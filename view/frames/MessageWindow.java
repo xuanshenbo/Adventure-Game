@@ -136,4 +136,8 @@ public class MessageWindow extends JFrame {
 		new MessageWindow("Testing", null);
 	}
 
+	public static void main(String[] args) {
+		new MessageWindow("Testing", null);
+	}
+
 }

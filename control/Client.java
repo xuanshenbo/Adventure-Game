@@ -61,6 +61,33 @@ public class Client extends Thread {
 				char[] message = new char[3072];
 				input.read(message);
 
+//				if(message[0] == 'M'){
+//					char[][] map = new char[31][31];
+//					int index = 2;
+//					for(int row=0; row < map.length; row++){
+//						for(int col=0; col < map[0].length; col++){
+//							/*if(message[index] == '\0'){
+//								//System.out.println("Client 71: index: "+index);
+//								break;
+//							}*/
+//							map[row][col] = message[index++];
+//							index++;
+//							//items[row][col] = message[index++];
+//						}
+//					}
+//					char[][] playerOneView = map;
+//					System.out.println("\nPlayer 1 view");
+//					for(int row = 0; row<playerOneView.length; row++){
+//						for(int col = 0; col<playerOneView[0].length; col++){
+//							if(playerOneView[row][col] != '\u0000'){
+//								System.out.print(playerOneView[row][col]);
+//							}else{
+//								System.out.print("N");
+//							}
+//						}
+//						System.out.println("");
+//					}
+//				}
 				//The following prints out the map array
 				/*if(message[0] == 'M'){
 					char[][] map = new char[31][31];

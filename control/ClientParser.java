@@ -127,9 +127,7 @@ public class ClientParser {
 	 * @param message
 	 */
 	private void readHappiness(char[] message) {
-		p(message[1]);
 		int happiness = (Character.getNumericValue(message[1]))*10;
-		p(happiness);
 		frame.setHappinessLevel(happiness);
 	}
 

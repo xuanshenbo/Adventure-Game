@@ -59,7 +59,7 @@ public class Generator {
 		this.trees = trees;
 		this.buildings = buildings;
 		this.caves = caves;
-		this.chests = chests;
+		this.chests = chests; 
 		this.lootValue = lootValue;
 	}
 
@@ -116,7 +116,6 @@ public class Generator {
 				if(area.getArea()[row][col].isGround()){
 					if(Math.random()*5000 < lootValue){
 						area.getItems()[row][col] = randomItem();
-						p(area.getItems()[row][col]);
 					}
 				}
 			}
