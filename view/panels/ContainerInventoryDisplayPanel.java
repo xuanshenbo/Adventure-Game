@@ -56,6 +56,9 @@ public class ContainerInventoryDisplayPanel extends JPanel {
 
 		this.buttonInterpreter = buttonInterp;
 
+		//set the dialog for easy disposal when the user has moved an item
+		buttonInterp.setDialog(containerDialog);
+
 		/*
 		 * Create HappinessLabels for each item in the inventory
 		 */

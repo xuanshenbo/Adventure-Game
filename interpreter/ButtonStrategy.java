@@ -36,25 +36,6 @@ public class ButtonStrategy implements StrategyInterpreter.Strategy{
 			notifyCommand(text);
 		}
 
-		//if this action has been made to an item, work out what the action is
-		if(text.startsWith("item")){
-			Scanner sc = new Scanner(text);
-
-			//this should be 'item'
-			String reference = sc.next();
-
-			//this should be 'drop' 'moveToBag' or 'use'
-			String command = sc.next();
-			p(reference);
-			p(command);
-
-			try {
-				interpreter.getClient().send(Translator.encode(Translator.toCommand(command)));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
 		else if(text.startsWith("selected")){
 			Scanner sc = new Scanner(text);
 
@@ -63,11 +44,9 @@ public class ButtonStrategy implements StrategyInterpreter.Strategy{
 
 			if(isMove){	//this should only be true after selectedItem has already been assigned
 				moveTo = sc.nextInt();
-				System.out.println("move to assigned");
 			}
 			else{
 				this.selectedItem = sc.nextInt();
-				System.out.println("selected item assigned");
 			}
 		}
 
@@ -98,12 +77,22 @@ public class ButtonStrategy implements StrategyInterpreter.Strategy{
 				msg += selectedItem; //add the index of the item being moved
 				msg += moveTo; //add the new index for the item being moved
 
-				p(msg);
-
 				//reset the two indices
 				selectedItem = -1;
 				moveTo = -1;
 				isMove = false;
+
+				//send the encoded message via the network
+				try {
+					interpreter.getClient().send(msg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				//now that move has been completed, close the inventory window
+				if(interpreter.getDialog() != null){
+					interpreter.getDialog().dispose();
+				}
+
 			}
 			else{
 				isMove = true;

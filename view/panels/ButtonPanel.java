@@ -169,7 +169,7 @@ public class ButtonPanel extends JPanel {
 	private void displayInventoryItemOptions() {
 		final HappinessButton drop = new HappinessButton("Drop");
 		final HappinessButton use = new HappinessButton("Use");
-		final HappinessButton moveToBag = new HappinessButton("Move to bag");
+		final HappinessButton moveToBag = new HappinessButton("Move item");
 
 		ActionListener itemActionListener = new ActionListener() {
 			private boolean movePressed = false;

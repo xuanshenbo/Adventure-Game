@@ -4,6 +4,7 @@ import interpreter.Translator.Command;
 import java.io.IOException;
 import java.io.Writer;
 
+import view.frames.Dialog;
 import view.frames.GameFrame;
 import model.logic.Game;
 import control.Client;
@@ -20,6 +21,7 @@ public class StrategyInterpreter implements Observer{
 	private Client client;
 
 	private Game game;
+	private Dialog dialog;
 
 	/**
 	 * Stores the arguments in the fields
@@ -58,18 +60,19 @@ public class StrategyInterpreter implements Observer{
 	}
 
 	/**
-	 * Sets the Strategy
-	 */
-	public void setStrategy(StrategyInterpreter.Strategy s){
-		this.strategy = s;
-	}
-
-	/**
 	 * a getter for the client
 	 * @return client
 	 */
 	public Client getClient() {
 		return client;
+	}
+
+	/**
+	 * Get the game using this interpreter
+	 * @return The game
+	 */
+	public Game getGame(){
+		return this.game;
 	}
 
 	/**
@@ -80,12 +83,35 @@ public class StrategyInterpreter implements Observer{
 		client = c;
 	}
 
+	/**
+	 * Sets the Strategy
+	 */
+	public void setStrategy(StrategyInterpreter.Strategy s){
+		this.strategy = s;
+	}
+
+	/**
+	 * Assign the game to the field
+	 * @param game The game field to be assigned
+	 */
 	public void setGame(Game game) {
 		this.game = game;
-
 	}
-	public Game getGame(){
-		return this.game;
+
+	/**
+	 * Assign the dialog to the field
+	 * @return The dialog to be assigned
+	 */
+	public Dialog getDialog() {
+		return dialog;
+	}
+
+	/**
+	 * Set the containing dialog
+	 * @param containerDialog The dialog which contains the panel using this interpreter
+	 */
+	public void setDialog(Dialog containerDialog) {
+		dialog = containerDialog;
 	}
 
 
