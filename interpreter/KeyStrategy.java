@@ -17,8 +17,12 @@ public class KeyStrategy implements StrategyInterpreter.Strategy{
 
 	private StrategyInterpreter interpreter;
 
+	/**
+	 * Assigns the key interpreter to the strategy interpreter field.
+	 * @param keyInterpreter The Interpreter using this strategy
+	 */
 	public KeyStrategy(StrategyInterpreter keyInterpreter) {
-		// TODO Auto-generated constructor stub
+		interpreter = keyInterpreter;
 	}
 
 	/**
@@ -43,6 +47,10 @@ public class KeyStrategy implements StrategyInterpreter.Strategy{
 
 	}
 
+	/**
+	 * Sets this interpreter
+	 * @param i The interpreter using this strategy
+	 */
 	@Override
 	public void setInterpreter(StrategyInterpreter i) {
 		this.interpreter = i;

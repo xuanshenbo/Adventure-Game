@@ -184,6 +184,10 @@ public class InitialStrategy implements StrategyInterpreter.Strategy{
 
 	}
 
+	/**
+	 * Sets this interpreter
+	 * @param i The interpreter using this strategy
+	 */
 	@Override
 	public void setInterpreter(StrategyInterpreter i) {
 		this.initialisation = (Initialisation) i;
