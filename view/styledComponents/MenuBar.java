@@ -20,6 +20,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import view.frames.GameFrame;
+import view.frames.YesNoOptionWindow;
+
 /**
  * A simple Menubar with an Exit option
  * @author Shenbo Xuan
@@ -31,13 +34,16 @@ public class MenuBar extends JMenuBar {
 	private Action loadAction;
 	private Action exitAction;
 
+	private GameFrame gameFrame;
+
 	private StrategyInterpreter menuInterpreter;
 
 	/**
 	 * Creates a simple Menubar with an Exit option and adds an ActionListener
 	 * which exits the program
 	 */
-	public MenuBar(StrategyInterpreter interp) {
+	public MenuBar(StrategyInterpreter interp, boolean isServer, GameFrame g) {
+		this.gameFrame = g;
 
 		saveAction = new SaveAction();
 		saveAsAction = new SaveAsAction();
@@ -63,22 +69,31 @@ public class MenuBar extends JMenuBar {
 
 		menu.setMnemonic('F');
 
-		menu.add(save);
-		menu.add(saveAs);
-		//menu.add(load);
-		menu.addSeparator();
-		menu.add(exit);
+		if(isServer){
+			menu.add(save);
+			menu.add(saveAs);
+			//menu.add(load);
+			menu.addSeparator();
+			menu.add(exit);
+		}
+
+		else{
+			menu.add(exit);
+		}
 
 		add(menu);
 	}
 
 	// action on exit
 	private void doExit() {
-		try {
-			menuInterpreter.notify(Command.EXIT.toString());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
+		gameFrame.confirmExit();
+
+//		try {
+//			menuInterpreter.notify(Command.EXIT.toString());
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	// action on save
@@ -160,6 +175,8 @@ public class MenuBar extends JMenuBar {
 			doLoad();
 		}
 	}
+
+
 
 }
 

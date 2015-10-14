@@ -37,6 +37,7 @@ public class Main {
 	private static GameFrame frame;
 
 	private static String ipAddress;
+	private static boolean isServer = false;
 
 	/**
 	 * Displays welcome dialog and set up interpreters, before displaying the main GameFrame
@@ -54,12 +55,13 @@ public class Main {
 	/**
 	 * Sets up the network for a server-client mode
 	 */
-	public static void serverClient(int height, int width, int density, String difficulty){
-		int players = 4;
-		//int[] parameters = {height, width, players,trees, buildings, caves, chests, lootValue};
-		server = new Server(height, width, density, difficulty);
-		game = server.getGame();
-		server.start();
+	public static void serverClient(int height, int width, int density, String difficulty){		int players = 4;
+
+	//int[] parameters = {height, width, players,trees, buildings, caves, chests, lootValue};
+	server = new Server(height, width, density, difficulty);
+	game = server.getGame();
+	isServer = true;
+	server.start();
 	}
 
 	/**
@@ -174,6 +176,8 @@ public class Main {
 		frame = new GameFrame("The Happiness Game");
 		//set the chosen avatar
 		frame.setAvatar(initial.getChosenAvatar());
+		//set if the player is in server+client mode or not
+		frame.setIsServer(isServer);
 
 		//create the Strategy Interpreters with different Strategies as appropriate
 		keyInterpreter = new StrategyInterpreter(frame, new KeyStrategy(keyInterpreter),client);

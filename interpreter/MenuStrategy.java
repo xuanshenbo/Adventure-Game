@@ -7,6 +7,7 @@ import java.util.Scanner;
 import javax.xml.bind.JAXBException;
 
 import view.frames.GameFrame;
+import view.frames.YesNoOptionWindow;
 import main.Main;
 import dataStorage.Serializer;
 
@@ -20,6 +21,7 @@ public class MenuStrategy implements StrategyInterpreter.Strategy{
 
 	private StrategyInterpreter interpreter;
 	private GameFrame gameFrame;
+
 
 	/**
 	 * Assigns the interpreter, and game frame two fields.
@@ -48,7 +50,6 @@ public class MenuStrategy implements StrategyInterpreter.Strategy{
 	private void notifyCommand(String text) {
 		Command cmd = Translator.toCommand(text);
 		if(cmd.equals(Command.EXIT)){
-
 			if(Main.getServer() == null){
 
 				Command exit = Command.EXIT_CLIENT;

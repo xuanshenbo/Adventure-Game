@@ -35,7 +35,7 @@ public class GameFrame extends JFrame {
 	private int gamePanelWidth = 800;
 	private int gamePanelHeight = 600;
 
-private MessageWindow messageWindow;
+	private MessageWindow messageWindow;
 
 	/*
 	 * These constants define the main colour scheme and are used throughout all
@@ -77,9 +77,11 @@ private MessageWindow messageWindow;
 	// gap around main buttons/status panel. Public for use in StatusPanel
 	public static int gap = 5;
 
-//	// have to initialise this here for use in WelcomeDialog
-//	private StrategyInterpreter dialogInterpreter = new StrategyInterpreter(
-//			this, new DialogStrategy(), null);
+	private boolean isServer = false;
+
+	//	// have to initialise this here for use in WelcomeDialog
+	//	private StrategyInterpreter dialogInterpreter = new StrategyInterpreter(
+	//			this, new DialogStrategy(), null);
 
 	private PlayerProfilePanel playerProfilePanel;
 
@@ -161,7 +163,7 @@ private MessageWindow messageWindow;
 	public void setUpLayoutAndDisplay() {
 
 		// This just has a file menu, with options to save, exit etc
-		MenuBar bar = new MenuBar(menuInterpreter);
+		MenuBar bar = new MenuBar(menuInterpreter, isServer, this);
 		setJMenuBar(bar);
 
 		// The playerProfilePanel has the game logo, user avatar and name
@@ -173,7 +175,7 @@ private MessageWindow messageWindow;
 
 		pack();
 		setLocationRelativeTo(null); // set the frame at the center of the
-										// screen
+		// screen
 		setVisible(true);
 
 	}
@@ -278,12 +280,12 @@ private MessageWindow messageWindow;
 	 *            The message to be displayed
 	 */
 	public void displayMessageFromGame(String msg) {
-//		if(messageWindow != null){
-//			messageWindow.setVisible(false);
-//		}
+		//		if(messageWindow != null){
+		//			messageWindow.setVisible(false);
+		//		}
 		MessageWindow m = new MessageWindow(msg, null, this);
-//		messageWindow = new MessageWindow(msg);
-//		messageWindow.setVisible(true);
+		//		messageWindow = new MessageWindow(msg);
+		//		messageWindow.setVisible(true);
 	}
 
 	/**
@@ -596,11 +598,13 @@ private MessageWindow messageWindow;
 	}
 
 	/**
-	 * @return true if this player is in server mode
+	 * Sets the isServer field
+	 * @param b True if the player is running in server+client mode
 	 */
-	/*
-	 * public boolean isServerMode() { return isServerMode; }
-	 */
+	public void setIsServer(boolean b){
+		isServer = b;
+	}
+
 
 	/**
 	 *
@@ -622,6 +626,13 @@ private MessageWindow messageWindow;
 	public void setAvatar(Avatar chosenAvatar) {
 		player.setAvatar(chosenAvatar);
 
+	}
+
+	/**
+	 * Open a confirm exit window for the user
+	 */
+	public void confirmExit() {
+		yesno = new YesNoOptionWindow(Command.EXIT, GameFrame.this, "Happiness Game");
 	}
 
 }
