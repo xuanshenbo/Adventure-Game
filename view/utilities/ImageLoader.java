@@ -5,6 +5,11 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Used to load images from a file
+ * @author flanagdonn
+ *
+ */
 public class ImageLoader {
 	/**
 	 * Loads an image from file and handles exceptions

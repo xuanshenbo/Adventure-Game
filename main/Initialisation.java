@@ -31,7 +31,7 @@ import control.Server;
 
 /**
  * The following initialises a game. It asks user to choose from creating a client or a server together with a client.
- * @author yanlong, flanagdonn
+ * @author flanagdonn
  *
  */
 public class Initialisation extends StrategyInterpreter{
@@ -65,10 +65,9 @@ public class Initialisation extends StrategyInterpreter{
 
 		setStrategy(initStrategy);
 
-		frame = new WelcomeFrame("Welcome to Adventure Game", this);
+		frame = new WelcomeFrame("Welcome to the Game of Happiness!", this);
 
 		welcome = new WelcomePanel(this);
-
 
 		frame.add(welcome);
 
@@ -137,6 +136,7 @@ public class Initialisation extends StrategyInterpreter{
 
 	/**
 	 * Close the server so as to not have to manually terminate
+	 * @author yanlong
 	 */
 	public void closeServer() {
 		Main.closeServer();

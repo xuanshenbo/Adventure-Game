@@ -95,11 +95,13 @@ public class Game {
 		this.server = server;
 		this.clock = new Clock(2000, this);
 		Area area = new Area(height, width, AreaType.OUTSIDE, null);
-		maxZombies = getMaxZombies(height*width, difficulty);
 		Generator g = new Generator(difficulty, density, height, width);
+		p("density:"+density);
+		p("difficulty:"+difficulty);
 		area.generateWorld(g);
 		ArrayList<Player> playerList = placePlayers(4, height, width, area);
 		this.gameState = new GameState(area, playerList);
+		maxZombies = getMaxZombies(height*width, difficulty);
 		parser = new ServerParser(this, server, false);
 		clock.start();
 	}
@@ -116,12 +118,23 @@ public class Game {
 		int maxZombies = 0;
 
 		if(difficulty.equals("easy")){
-			maxZombies = totalTiles/100;
+			maxZombies = totalTiles/1000;
 		}else if(difficulty.equals("medium")){
-			maxZombies = totalTiles/70;
+			maxZombies = totalTiles/200;
 		}else{
 			maxZombies = totalTiles/50;
 		}
+		if(maxZombies == 0){
+			maxZombies = 1;
+		}
+		
+		p(gameState);
+		p(gameState.getZombieList());
+		p(maxZombies);
+		while(gameState.getZombieList().size() < maxZombies) {
+			addZombie();
+		}
+		
 		return maxZombies;
 	}
 
@@ -235,13 +248,16 @@ public class Game {
 					}
 				}
 			}
-			//update players view
+			//update players view 
 			parser.sendToServer(player, 'M');
 			//gameState.printView(1);
 		}
 		if (toTile != null && toTile.isContainer()) {
+			System.out.print("");//Do not remove this as it intergral to the smooth running of this game
 			ChestTile container = (ChestTile) toTile;
 			if(player.hasOpenedChest(container) || player.getKey()){
+				System.out.print("");
+				System.out.print("");
 				player.addChest(container);
 				player.setOpenContainer(container);
 				Item[] items = container.open();
@@ -315,9 +331,10 @@ public class Game {
 			parser.sendMessage(player, "You used "+item);
 		}
 		if(item != null){
+			
 			Item[] inventory = player.use(inventorySlot);
-
-			//parser.sendToServer(player, 'I');
+			
+			parser.sendContainer(player, inventory);
 			parser.sendToServer(player, 'H');
 			if(inventory != null){
 				parser.sendContainer(player, inventory);
@@ -402,7 +419,7 @@ public class Game {
 	}
 
 	public void moveFromContainerToInventory(Player player, int containerSlot) {
-		player.moveToInventory(containerSlot);
+		player.moveToInventory(containerSlot+1);
 		parser.sendInventory(player, player.getInventory());
 
 	}

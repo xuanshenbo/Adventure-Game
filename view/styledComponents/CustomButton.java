@@ -10,6 +10,11 @@ import javax.swing.event.ChangeListener;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.metal.MetalButtonUI;
 
+/**
+ * Most of this comes from stack overflow. I use part of it in the Happiness Button
+ * @author flanagdonn
+ *
+ */
 public class CustomButton extends JButton{
     private JButton button;
 

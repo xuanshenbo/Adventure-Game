@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -27,6 +28,9 @@ public class SliderPanel extends JPanel {
 	private Dimension sliderPaddingVertical= new Dimension(0, 20);
 
 	private WelcomePanel welcome;
+
+	//Panel to hold the confirm button
+	private JPanel buttonPanel;
 
 	//The four sliders for changing game parameters
 	private JSlider gameObjectDensity;
@@ -104,8 +108,8 @@ public class SliderPanel extends JPanel {
 		add(gameWidthLabel);
 		add(width);
 
-		//add the confirm button to the panel
-		add(confirm);
+		//add the confirm button panel to this panel
+		add(buttonPanel);
 
 	}
 
@@ -115,25 +119,19 @@ public class SliderPanel extends JPanel {
 	private void addHappinessLabelsForSliders() {
 		densityLabel = new HappinessLabel("Choose the density of the game ie the number of objects from 0% to 100%");
 		densityLabel.add(Box.createRigidArea(sliderPaddingVertical));
-		densityLabel.setFont(labelFont);
-		densityLabel.setForeground(GameFrame.BUTTON_FONT_COLOR);
+		densityLabel.setAlignmentX(CENTER_ALIGNMENT);
 
 		difficultyLabel = new HappinessLabel("Choose the difficulty");
 		difficultyLabel.add(Box.createRigidArea(sliderPaddingVertical));
-		difficultyLabel.setFont(labelFont);
-		difficultyLabel.setForeground(GameFrame.BUTTON_FONT_COLOR);
+		difficultyLabel.setAlignmentX(CENTER_ALIGNMENT);
 
 		gameHeightLabel = new HappinessLabel("Choose the Game height");
 		gameHeightLabel.add(Box.createRigidArea(sliderPaddingVertical));
-		gameHeightLabel.setFont(labelFont);
-		gameHeightLabel.setForeground(GameFrame.BUTTON_FONT_COLOR);
+		gameHeightLabel.setAlignmentX(CENTER_ALIGNMENT);
 
 		gameWidthLabel = new HappinessLabel("Choose the Game width");
 		gameWidthLabel.add(Box.createRigidArea(sliderPaddingVertical));
-		gameWidthLabel.setFont(labelFont);
-		gameWidthLabel.setForeground(GameFrame.BUTTON_FONT_COLOR);
-
-
+		gameWidthLabel.setAlignmentX(CENTER_ALIGNMENT);
 	}
 
 	private void createConfirmButton() {
@@ -150,6 +148,18 @@ public class SliderPanel extends JPanel {
 			}
 
 		});
+
+		confirm.setMnemonic(KeyEvent.VK_ENTER);
+
+		//	int padding = (getPreferredSize().width - confirm.getPreferredSize().width) /2;
+
+		int	padding = GameFrame.BUTTON_PADDING_HORIZONTAL;
+
+		buttonPanel = new JPanel();
+
+		buttonPanel.add(Box.createRigidArea(new Dimension(padding, 0)));
+		buttonPanel.add(confirm);
+		buttonPanel.add(Box.createRigidArea(new Dimension(padding, 0)));
 	}
 
 	/*

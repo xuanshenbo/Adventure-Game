@@ -13,6 +13,10 @@ import view.frames.GameFrame;
  */
 public class HappinessLabel extends JLabel {
 
+	/**
+	 * This Label is like a JLabel but has the theme of the game
+	 * @param message The message to be displayed on the label
+	 */
 	public HappinessLabel(String message){
 		super(message);
 

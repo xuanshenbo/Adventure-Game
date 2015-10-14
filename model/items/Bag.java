@@ -10,6 +10,8 @@ import model.logic.Generator;
 import model.state.Container;
 import model.state.Player;
 
+import static utilities.PrintTool.p;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Bag extends Item implements Container {
@@ -73,6 +75,7 @@ public class Bag extends Item implements Container {
 
 	@Override
 	public Item[] open() {
+		
 		return inventory;
 	}
 
