@@ -111,15 +111,11 @@ public class Client extends Thread {
 			}
 			socket.close();
 
-		} catch (SocketTimeoutException s){
-			System.out.println("Time out!");
-			try {
-				socket.close();
-				System.exit(0);
-			} catch (IOException e1) {
-				//e1.printStackTrace();
-			}
-		} catch (IOException e) {
+		} catch (SocketException ex){//handles the exception that the client does not get respond from the server
+			System.out.println("Server is busy! Restart the game!");//debug
+			System.exit(0);
+		}
+		catch (IOException e) {
 			//e.printStackTrace();
 			try {
 				socket.close();
