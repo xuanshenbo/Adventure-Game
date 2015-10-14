@@ -45,6 +45,7 @@ public class ServerParser {
 			game.move(game.getGameState().getPlayer(id), parseDirection(message[1]));
 			break;
 		case 'U': //use [U, int inventorySlot)
+			p();
 			game.use(game.getGameState().getPlayer(id), Character.getNumericValue(message[1]));
 			break;
 		case 'I': //request Inventory [I]
@@ -66,6 +67,8 @@ public class ServerParser {
 			game.activateFrame();
 			break;
 		case 'Z'://moving item from container to inventory [Z, containerSlot]
+			p(message[0]);
+			p(message[1]);
 			game.moveFromContainerToInventory(game.getGameState().getPlayer(id), Character.getNumericValue(message[1]));
 			break;
 		case 'S'://Saving game
@@ -175,6 +178,7 @@ public class ServerParser {
 			message[1] = (char)(happiness +'0');
 
 		}else if(action == 'S'){// container inventory information
+			p("sending S");
 			message = new char[tempItemArrayStorage.length+2];
 			message[0] = action;
 			for(int i = 1; i< tempItemArrayStorage.length; i++){

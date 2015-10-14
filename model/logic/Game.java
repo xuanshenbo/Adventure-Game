@@ -334,7 +334,7 @@ public class Game {
 			
 			Item[] inventory = player.use(inventorySlot);
 			
-			parser.sendContainer(player, inventory);
+			//parser.sendContainer(player, inventory);
 			parser.sendToServer(player, 'H');
 			if(inventory != null){
 				parser.sendContainer(player, inventory);

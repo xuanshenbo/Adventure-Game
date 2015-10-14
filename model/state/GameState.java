@@ -56,13 +56,13 @@ public class GameState {
 	 * that id
 	 */
 	public Player getPlayer(int id) {
-		System.out.println("GameState 61: before getting player");//debug
+		//System.out.println("GameState 61: before getting player");//debug
 		for(Player p: playerList){
 			if(p.getId() == id){
 				return p;
 			}
 		}
-		System.out.println("GameState 67: no available player");//debug
+		//System.out.println("GameState 67: no available player");//debug
 		return null;
 	}
 
